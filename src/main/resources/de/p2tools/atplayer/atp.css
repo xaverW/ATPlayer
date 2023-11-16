@@ -1,0 +1,18 @@
+.root {
+}
+
+/* ist der Label mit der Anzahl markierter Tabellenzeilen in der Taskbar*/
+.lblSelectedLines {
+    -fx-border-color: -lblSelectedLines-color-1;
+    -fx-border-width: 0 1 0 0;
+}
+
+/* ist der abgesetzte Bereich im Download Dialog*/
+.downloadDialog {
+    /*-fx-background-color: gainsboro;*/
+    -fx-background-color: derive(-fx-control-inner-background, -15%);
+}
+
+.update-grid-cell {
+    -fx-background-color: white ;
+}
