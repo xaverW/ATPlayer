@@ -131,6 +131,7 @@ public class InitPathName {
         // nach dem actFilm setzen, z.B. beim Wechsel
         addDownloadDto.cboPath.setDisable(addDownloadDto.getAct().downloadIsRunning());
         addDownloadDto.txtName.setDisable(addDownloadDto.getAct().downloadIsRunning());
+        addDownloadDto.lblFree.setDisable(addDownloadDto.getAct().downloadIsRunning());
 
         if (!addDownloadDto.cboPath.getItems().contains(addDownloadDto.getAct().download.getDestPath())) {
             addDownloadDto.cboPath.getItems().add(addDownloadDto.getAct().download.getDestPath());

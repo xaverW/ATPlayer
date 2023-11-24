@@ -23,7 +23,7 @@ https://www.p2tools.de
 
 ## Systemvoraussetzungen
 
-Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird OpenJDK11 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird OpenJDK17 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
 <br />
 
 
@@ -41,9 +41,7 @@ ATPlayer-XX__Windows+Java.zip
 
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner “Java” und kommt von jdk.java.net).
 
-Linux:  
-Der VLC-Player muss installiert sein.  
-Windows:  
+Linux / Windows:  
 Der VLC-Player muss installiert sein.  
 
 Weitere Infos zum Programm (Start und Benutzung) sind im Download-Paket enthalten oder auf der Website.
@@ -56,7 +54,8 @@ zum Download:
 
 ## Installation
 
-ATPlayer muss nicht installiert werden, das Entpacken der heruntergeladenen ZIP-Datei ist quasi die Installation. Die heruntergeladene ZIP-Datei entpacken und den entpackten Ordner ATPlayer...” ins Benutzerverzeichnis verschieben. Das Programm kann dann mit Doppelklick auf:  
+ATPlayer muss nicht installiert werden, das Entpacken der heruntergeladenen ZIP-Datei ist quasi die Installation. Die heruntergeladene ZIP-Datei entpacken und den entpackten Ordner ATPlayer ins Benutzerverzeichnis verschieben. Das Programm kann dann mit Doppelklick auf:  
+
 Linux: “ATPlayer__Linux.sh” oder  
 Windows: “ATPlayer__Windows.exe”  
 gestartet werden.
