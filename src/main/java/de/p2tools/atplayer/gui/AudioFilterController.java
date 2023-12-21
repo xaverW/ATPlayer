@@ -226,7 +226,7 @@ public class AudioFilterController extends P2ClosePaneV {
 
     private void addFilter() {
         VBox vBoxAll = new VBox();
-        vBoxAll.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        vBoxAll.setPadding(new Insets(P2LibConst.PADDING));
         vBoxAll.setSpacing(FILTER_SPACING_TEXTFILTER);
 
         scrollPane.setFitToHeight(true);

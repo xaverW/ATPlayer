@@ -17,7 +17,6 @@
 package de.p2tools.atplayer.gui.configdialog.downloadpanes;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
@@ -66,7 +65,7 @@ public class PaneDownload {
     private void make() {
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
-        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         tglFinished.selectedProperty().bindBidirectional(ProgConfig.DOWNLOAD_SHOW_NOTIFICATION);
         final Button btnHelpFinished = P2Button.helpButton(stage, "Download",

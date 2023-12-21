@@ -26,8 +26,8 @@ import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
 import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
-import de.p2tools.p2lib.tools.date.DateFactory;
-import de.p2tools.p2lib.tools.date.PLDateTimeFactory;
+import de.p2tools.p2lib.tools.date.P2DateConst;
+import de.p2tools.p2lib.tools.date.P2LDateTimeFactory;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -104,7 +104,7 @@ public class LoadAudioFactory {
     }
 
     public static boolean isNotFromToday(String strDate) {
-        LocalDateTime listDate = PLDateTimeFactory.fromString(strDate, DateFactory.DT_FORMATTER_dd_MM_yyyy___HH__mm);
+        LocalDateTime listDate = P2LDateTimeFactory.fromString(strDate, P2DateConst.DT_FORMATTER_dd_MM_yyyy___HH__mm);
         LocalDate act = listDate.toLocalDate(); //2015-11-??
         LocalDate today = LocalDate.now(); //2015-11-23
         return !act.equals(today);

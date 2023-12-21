@@ -23,7 +23,7 @@ import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
-import de.p2tools.p2lib.tools.date.PLDateFactory;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.*;
@@ -128,7 +128,7 @@ public class AddDownloadDto {
 
         lblAudioTitle.setText(getAct().download.getChannel()
                 + "  -  " + getAct().download.getTitle());
-        lblAudioDateTime.setText("Datum: " + PLDateFactory.toString(getAct().download.getFilmDate())
+        lblAudioDateTime.setText("Datum: " + P2LDateFactory.toString(getAct().download.getFilmDate())
                 + "       Zeit: " + getAct().download.getFilmTime());
         lblAudioSize.setText("Dauer [min]: " + getAct().download.getDurationMinute()
                 + (getAct().download.getDownloadSize().getTargetSizeMBStr().isEmpty() ?

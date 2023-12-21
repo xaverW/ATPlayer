@@ -77,61 +77,61 @@ public class PaneColor {
     private Callback<TableColumn<PColorData, String>, TableCell<PColorData, String>> cellFactoryReset
             = (final TableColumn<PColorData, String> param) -> new TableCell<>() {
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                        return;
-                    }
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+                setText(null);
+                return;
+            }
 
-                    PColorData pColorData = getTableView().getItems().get(getIndex());
-                    final HBox hbox = new HBox(P2LibConst.DIST_BUTTON);
-                    hbox.setAlignment(Pos.CENTER);
-                    hbox.setPadding(new Insets(0, 2, 0, 2));
+            PColorData pColorData = getTableView().getItems().get(getIndex());
+            final HBox hbox = new HBox(P2LibConst.DIST_BUTTON);
+            hbox.setAlignment(Pos.CENTER);
+            hbox.setPadding(new Insets(0, 2, 0, 2));
 
-                    final Button button = new Button("Reset");
-                    button.setOnAction(a -> {
-                        pColorData.resetColor();
-                    });
+            final Button button = new Button("Reset");
+            button.setOnAction(a -> {
+                pColorData.resetColor();
+            });
 
-                    hbox.getChildren().add(button);
-                    setGraphic(hbox);
-                }
-            };
+            hbox.getChildren().add(button);
+            setGraphic(hbox);
+        }
+    };
     private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColor
             = (final TableColumn<PColorData, Color> param) -> new TableCell<>() {
 
-                @Override
-                public void updateItem(Color item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                        return;
-                    }
-                    PColorData pColorData = getTableView().getItems().get(getIndex());
-                    setStyle("-fx-background-color:" + pColorData.getColorSelectedToWeb());
-                }
+        @Override
+        public void updateItem(Color item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+                setText(null);
+                return;
+            }
+            PColorData pColorData = getTableView().getItems().get(getIndex());
+            setStyle("-fx-background-color:" + pColorData.getColorSelectedToWeb());
+        }
 
-            };
+    };
     private Callback<TableColumn<PColorData, Color>, TableCell<PColorData, Color>> cellFactoryColorReset
             = (final TableColumn<PColorData, Color> param) -> new TableCell<>() {
 
-                @Override
-                public void updateItem(Color item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                        return;
-                    }
-                    PColorData pColorData = getTableView().getItems().get(getIndex());
-                    setStyle("-fx-background-color:" + PColorFactory.getColorToWeb(pColorData.getResetColor()));
-                }
+        @Override
+        public void updateItem(Color item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+                setText(null);
+                return;
+            }
+            PColorData pColorData = getTableView().getItems().get(getIndex());
+            setStyle("-fx-background-color:" + PColorFactory.getColorToWeb(pColorData.getResetColor()));
+        }
 
-            };
+    };
 
     public PaneColor(Stage stage) {
         this.stage = stage;
@@ -160,7 +160,7 @@ public class PaneColor {
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
-        gridPane.setPadding(new Insets(P2LibConst.DIST_EDGE));
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         gridPane.add(tglDarkTheme, 0, row);
         gridPane.add(btnHelpTheme, 1, row);

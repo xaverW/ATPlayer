@@ -22,7 +22,7 @@ import de.p2tools.p2lib.atdata.AudioListFactory;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadNotifier;
-import de.p2tools.p2lib.tools.date.PLDateFactory;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.duration.PDuration;
 import de.p2tools.p2lib.tools.log.PLog;
 import javafx.application.Platform;
@@ -214,7 +214,7 @@ public class LoadAudioList {
     // #######################################
     private void afterLoading(List<String> logList) {
         logList.add("##");
-        logList.add("## Jetzige Liste erstellt am: " + PLDateFactory.getNowString());
+        logList.add("## Jetzige Liste erstellt am: " + P2LDateFactory.getNowString());
         logList.add("##   Anzahl Audios: " + LoadAudioFactoryDto.audioListNew.size());
         logList.add("##");
         logList.add("## " + PLog.LILNE2);
