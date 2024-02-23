@@ -24,7 +24,7 @@ import de.p2tools.atplayer.controller.data.download.DownloadTools;
 import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
 import de.p2tools.p2lib.tools.PSystemUtils;
 import de.p2tools.p2lib.tools.date.P2DateConst;
-import de.p2tools.p2lib.tools.file.PFileUtils;
+import de.p2tools.p2lib.tools.file.P2FileUtils;
 import de.p2tools.p2lib.tools.log.PLog;
 import de.p2tools.p2lib.tools.net.PUrlTools;
 import org.apache.commons.lang3.SystemUtils;
@@ -84,7 +84,7 @@ public class DownloadFileNameFactory {
         // Kürzen
         if (ProgConfig.SYSTEM_SAVE_MAX_SIZE.getValue() > 0) {
             int length = ProgConfig.SYSTEM_SAVE_MAX_SIZE.getValue();
-            name = PFileUtils.cutName(name, length);
+            name = P2FileUtils.cutName(name, length);
         }
 
         // ##############################################
@@ -108,7 +108,7 @@ public class DownloadFileNameFactory {
         // in Win dürfen die Pfade nicht länger als 255 Zeichen haben (für die Infodatei kommen noch
         // ".txt" dazu)
         final String[] pathName = {path, name};
-        PFileUtils.checkLengthPath(pathName);
+        P2FileUtils.checkLengthPath(pathName);
 
         downloadData.setDestFileName(pathName[1]);
         downloadData.setDestPath(pathName[0]);
@@ -163,9 +163,9 @@ public class DownloadFileNameFactory {
         replStr = replStr.replace("%q", res); // %q Qualität des Films ("HD", "H", "L")
 
         replStr = replStr.replace("%S", PUrlTools.getSuffixFromUrl(downloadData.getUrl()));
-        replStr = replStr.replace("%Z", PFileUtils.getHash(downloadData.getUrl()));
+        replStr = replStr.replace("%Z", P2FileUtils.getHash(downloadData.getUrl()));
         replStr = replStr.replace("%z",
-                PFileUtils.getHash(downloadData.getUrl()) + "."
+                P2FileUtils.getHash(downloadData.getUrl()) + "."
                         + PUrlTools.getSuffixFromUrl(downloadData.getUrl()));
 
         return replStr;

@@ -16,7 +16,6 @@
 package de.p2tools.atplayer;
 
 import de.p2tools.p2lib.guitools.P2LinuxJavaFx;
-import de.p2tools.p2lib.tools.net.Proxy;
 import javafx.application.Platform;
 import org.apache.commons.io.FileUtils;
 
@@ -45,8 +44,6 @@ public class Main {
 
     private void start(String... args) {
         if (P2LinuxJavaFx.hasJavaFx()) {
-
-            Proxy.proxyAuthentication();
             new AppParameter().processArgs(args);
             startGuiFxMode(args);
         }
