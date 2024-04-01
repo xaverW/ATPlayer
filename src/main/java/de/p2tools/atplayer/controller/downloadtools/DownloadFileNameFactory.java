@@ -20,7 +20,7 @@ package de.p2tools.atplayer.controller.downloadtools;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.data.download.DownloadTools;
+import de.p2tools.atplayer.controller.data.download.DownloadFactory;
 import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
 import de.p2tools.p2lib.tools.PSystemUtils;
 import de.p2tools.p2lib.tools.date.P2DateConst;
@@ -271,7 +271,7 @@ public class DownloadFileNameFactory {
     }
 
     private static String getField(String name, int length) {
-        name = DownloadTools.replaceEmptyFileName(name,
+        name = DownloadFactory.replaceEmptyFileName(name,
                 ProgConfig.SYSTEM_USE_REPLACETABLE.getValue(),
                 ProgConfig.SYSTEM_ONLY_ASCII.getValue());
 

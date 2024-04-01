@@ -16,18 +16,15 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.data.download.DownloadFactory;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.tools.table.TableDownload;
-import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
 import de.p2tools.p2lib.tools.PSystemUtils;
-import javafx.beans.property.IntegerProperty;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.util.StringConverter;
 
 public class DownloadTableContextMenu {
 
@@ -36,7 +33,6 @@ public class DownloadTableContextMenu {
     private final TableDownload tableView;
     private final Slider sliderBandwidth = new Slider();
     private final Label lblBandwidth = new Label();
-    IntegerProperty bandwidthValue = ProgConfig.DOWNLOAD_MAX_BANDWIDTH_KBYTE;
 
     public DownloadTableContextMenu(final ProgData progData, final DownloadInfoController downloadInfoController, final TableDownload tableView) {
         this.progData = progData;
@@ -165,55 +161,13 @@ public class DownloadTableContextMenu {
     }
 
     private void initBandwidth() {
-        Label lblText = new Label("max. Bandbreite: ");
+        DownloadFactory.initBandwidth(sliderBandwidth, lblBandwidth);
+
+        Label lblText = new Label("Max. Bandbreite: ");
         lblText.setMinWidth(0);
-        lblText.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Dowload beanspruchen darf \n" +
+        lblText.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Download beanspruchen darf \n" +
                 "oder unbegrenzt wenn \"aus\""));
-        sliderBandwidth.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Dowload beanspruchen darf \n" +
+        sliderBandwidth.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Download beanspruchen darf \n" +
                 "oder unbegrenzt wenn \"aus\""));
-
-        sliderBandwidth.setMin(50);
-        sliderBandwidth.setMax(MLBandwidthTokenBucket.BANDWIDTH_MAX_KBYTE);
-        sliderBandwidth.setShowTickLabels(true);
-        sliderBandwidth.setMinorTickCount(9);
-        sliderBandwidth.setMajorTickUnit(250);
-        sliderBandwidth.setBlockIncrement(25);
-        sliderBandwidth.setSnapToTicks(true);
-
-        sliderBandwidth.setLabelFormatter(new StringConverter<>() {
-            @Override
-            public String toString(Double x) {
-                if (x == MLBandwidthTokenBucket.BANDWIDTH_MAX_KBYTE) {
-                    return "alles";
-                }
-
-                return x.intValue() + "";
-            }
-
-            @Override
-            public Double fromString(String string) {
-                return null;
-            }
-        });
-
-        sliderBandwidth.valueProperty().bindBidirectional(bandwidthValue);
-        setTextBandwidth();
-
-        sliderBandwidth.valueProperty().addListener((obs, oldValue, newValue) -> {
-            ProgData.AUDIOLIST_IS_DOWNLOADING.setValue(false); // vorsichtshalber
-            setTextBandwidth();
-        });
-    }
-
-    private void setTextBandwidth() {
-        int bandwidthKByte;
-        String ret;
-        bandwidthKByte = ProgConfig.DOWNLOAD_MAX_BANDWIDTH_KBYTE.getValue();
-        if (bandwidthKByte == MLBandwidthTokenBucket.BANDWIDTH_MAX_KBYTE) {
-            ret = "alles";
-        } else {
-            ret = bandwidthKByte + " kB/s";
-        }
-        lblBandwidth.setText(ret);
     }
 }
