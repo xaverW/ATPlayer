@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.startdialog;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.gui.configdialog.configpanes.PaneAudioFilter;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2Button;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +33,7 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
 
-public class StartDialogController extends PDialogExtra {
+public class StartDialogController extends P2DialogExtra {
 
     private static final String STR_START_1 = "Infos";
     private static final String STR_START_2 = "Infos";

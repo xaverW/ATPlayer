@@ -25,7 +25,7 @@ import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
 import de.p2tools.p2lib.tools.PSystemUtils;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.file.P2FileUtils;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.net.PUrlTools;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -206,7 +206,7 @@ public class DownloadFileNameFactory {
                     }
                 }
             } catch (final Exception ex) {
-                PLog.errorLog(775421006, ex, zeit);
+                P2Log.errorLog(775421006, ex, zeit);
             }
         }
         return ret;
@@ -235,7 +235,7 @@ public class DownloadFileNameFactory {
                     }
                 }
             } catch (final Exception ex) {
-                PLog.errorLog(775421006, ex, datum);
+                P2Log.errorLog(775421006, ex, datum);
             }
         }
         return ret;
@@ -264,7 +264,7 @@ public class DownloadFileNameFactory {
                     ret = tmp;
                 }
             } catch (final Exception ex) {
-                PLog.errorLog(775421006, ex, date);
+                P2Log.errorLog(775421006, ex, date);
             }
         }
         return ret;

@@ -24,8 +24,8 @@ import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.dialogs.PDirFileChooser;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.P2DirFileChooser;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DownloadAddDialogController extends PDialogExtra {
+public class DownloadAddDialogController extends P2DialogExtra {
 
     private final ProgData progData;
     private final Button btnOk = new Button("_Ok");
@@ -86,7 +86,7 @@ public class DownloadAddDialogController extends PDialogExtra {
     private void initButton() {
         addDownloadDto.btnDest.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
         addDownloadDto.btnDest.setTooltip(new Tooltip("Einen Pfad zum Speichern auswählen."));
-        addDownloadDto.btnDest.setOnAction(event -> PDirFileChooser.DirChooser(ProgData.getInstance().primaryStage, addDownloadDto.cboPath));
+        addDownloadDto.btnDest.setOnAction(event -> P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, addDownloadDto.cboPath));
 
         addDownloadDto.btnPropose.setGraphic(ProgIcons.ICON_BUTTON_PROPOSE.getImageView());
         addDownloadDto.btnPropose.setTooltip(new Tooltip("Einen Pfad zum Speichern vorschlagen lassen."));

@@ -23,7 +23,7 @@ import de.p2tools.atplayer.gui.AudioGuiPack;
 import de.p2tools.atplayer.gui.ProgMenu;
 import de.p2tools.atplayer.gui.StatusBarController;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -68,7 +68,7 @@ public class ATPlayerController extends StackPane {
             this.getChildren().addAll(borderPane, progData.maskerPane);
             initMaskerPane();
         } catch (Exception ex) {
-            PLog.errorLog(597841023, ex);
+            P2Log.errorLog(597841023, ex);
         }
     }
 

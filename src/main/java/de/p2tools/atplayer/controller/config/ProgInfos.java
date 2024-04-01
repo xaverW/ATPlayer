@@ -20,7 +20,7 @@ import de.p2tools.atplayer.Main;
 import de.p2tools.p2lib.atdata.AudioFactory;
 import de.p2tools.p2lib.configfile.SettingsDirectory;
 import de.p2tools.p2lib.tools.PException;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -80,7 +80,7 @@ public class ProgInfos {
                 urlPath = Files.createFile(urlPath);
             }
         } catch (final IOException ex) {
-            PLog.errorLog(914579541, ex);
+            P2Log.errorLog(914579541, ex);
         }
         return urlPath;
     }

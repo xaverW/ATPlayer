@@ -24,7 +24,7 @@ import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadNotifier;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.duration.PDuration;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -98,7 +98,7 @@ public class LoadAudioList {
 
             //damit wird eine neue Liste (Web) geladen UND auch gleich im Config-Ordner gespeichert
             logList.add("");
-            logList.add("## " + PLog.LILNE1);
+            logList.add("## " + P2Log.LILNE1);
             logList.add("## Audioliste aus dem Web laden - start");
             logList.add("## Alte Liste erstellt  am: " + LoadAudioFactoryDto.audioListDate);
             logList.add("##            Anzahl Beiträge: " + LoadAudioFactoryDto.audioListAkt.size());
@@ -109,9 +109,9 @@ public class LoadAudioList {
             afterLoading(logList);
 
             logList.add("## Audioliste aus dem Web laden - ende");
-            logList.add("## " + PLog.LILNE1);
+            logList.add("## " + P2Log.LILNE1);
             logList.add("");
-            PLog.sysLog(logList);
+            P2Log.sysLog(logList);
 
             setPropLoadAudiolist(false);
             PDuration.counterStop("loadNewListFromWeb");
@@ -132,16 +132,16 @@ public class LoadAudioList {
             PDuration.counterStart("loadAudioListProgStart");
 
             logList.add("");
-            logList.add("## " + PLog.LILNE1);
+            logList.add("## " + P2Log.LILNE1);
             logList.add("## Audioliste beim **Programmstart** laden - start");
 
             loadAtProgStart(logList);
             afterLoading(logList);
 
             logList.add("## Audioliste beim Programmstart laden - ende");
-            logList.add("## " + PLog.LILNE1);
+            logList.add("## " + P2Log.LILNE1);
             logList.add("");
-            PLog.sysLog(logList);
+            P2Log.sysLog(logList);
 
             setPropLoadAudiolist(false);
             PDuration.counterStop("loadAudioListProgStart");
@@ -183,7 +183,7 @@ public class LoadAudioList {
                 if (LoadAudioFactoryDto.audioListNew.isEmpty()) {
                     //dann ist sie leer
                     logList.add("## Gespeicherte Audioliste ist leer, neue Audioliste aus dem Web laden");
-                    logList.add("## " + PLog.LILNE3);
+                    logList.add("## " + P2Log.LILNE3);
                 }
 
                 if (audioListTooOld || LoadAudioFactoryDto.audioListNew.isEmpty()) {
@@ -217,7 +217,7 @@ public class LoadAudioList {
         logList.add("## Jetzige Liste erstellt am: " + P2LDateFactory.getNowString());
         logList.add("##   Anzahl Audios: " + LoadAudioFactoryDto.audioListNew.size());
         logList.add("##");
-        logList.add("## " + PLog.LILNE2);
+        logList.add("## " + P2Log.LILNE2);
         logList.add("##");
 
         setLoaded(new P2LoadEvent("Audios markieren, Themen suchen",

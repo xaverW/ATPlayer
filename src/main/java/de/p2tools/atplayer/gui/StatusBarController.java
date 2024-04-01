@@ -23,7 +23,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -93,7 +93,7 @@ public class StatusBarController extends AnchorPane {
                         setStatusbarIndex();
                     }
                 } catch (final Exception ex) {
-                    PLog.errorLog(936251087, ex);
+                    P2Log.errorLog(936251087, ex);
                 }
             }
         });

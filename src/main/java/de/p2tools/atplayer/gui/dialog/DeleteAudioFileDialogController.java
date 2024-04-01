@@ -19,9 +19,9 @@ package de.p2tools.atplayer.gui.dialog;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -31,7 +31,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 
-public class DeleteAudioFileDialogController extends PDialogExtra {
+public class DeleteAudioFileDialogController extends P2DialogExtra {
 
     private final CheckBox chkFilm = new CheckBox("Film löschen");
     private final CheckBox chkInfo = new CheckBox("Infodatei löschen");
@@ -120,7 +120,7 @@ public class DeleteAudioFileDialogController extends PDialogExtra {
 
             if (chkFilm.isSelected()) {
                 delFile = audoFile.getAbsolutePath();
-                PLog.sysLog(new String[]{"Datei löschen: ", delFile});
+                P2Log.sysLog(new String[]{"Datei löschen: ", delFile});
 
                 if (!audoFile.delete()) {
                     throw new Exception();
@@ -129,7 +129,7 @@ public class DeleteAudioFileDialogController extends PDialogExtra {
 
             if (chkInfo.isSelected()) {
                 delFile = infoFile.getAbsolutePath();
-                PLog.sysLog(new String[]{"Datei löschen: ", delFile});
+                P2Log.sysLog(new String[]{"Datei löschen: ", delFile});
 
                 if (!infoFile.delete()) {
                     throw new Exception();
@@ -140,7 +140,7 @@ public class DeleteAudioFileDialogController extends PDialogExtra {
             PAlert.showErrorAlert("Datei löschen",
                     "Konnte die Datei nicht löschen!",
                     "Fehler beim löschen von:" + P2LibConst.LINE_SEPARATORx2 + delFile);
-            PLog.errorLog(302020149, "Fehler beim löschen: " + delFile);
+            P2Log.errorLog(302020149, "Fehler beim löschen: " + delFile);
         }
 
         return ret;

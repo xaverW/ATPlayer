@@ -18,7 +18,7 @@
 package de.p2tools.atplayer.controller.history;
 
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -43,7 +43,7 @@ public class HistoryFactory {
                 urlPath = Files.createFile(urlPath);
             }
         } catch (final IOException ex) {
-            PLog.errorLog(915478960, ex);
+            P2Log.errorLog(915478960, ex);
         }
         return urlPath;
     }
@@ -77,7 +77,7 @@ public class HistoryFactory {
                 dataList.add(historyData);
             }
         } catch (final Exception ex) {
-            PLog.errorLog(926362547, ex);
+            P2Log.errorLog(926362547, ex);
         }
     }
 
@@ -140,7 +140,7 @@ public class HistoryFactory {
                 url = line;
             }
         } catch (final Exception ex) {
-            PLog.errorLog(398853224, ex);
+            P2Log.errorLog(398853224, ex);
         }
         return new HistoryData(date, theme, title, url);
     }

@@ -23,7 +23,7 @@ import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutKey;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -50,72 +50,72 @@ public class PaneShortcut {
     private Callback<TableColumn<P2ShortcutKey, String>, TableCell<P2ShortcutKey, String>> cellFactoryChange
             = (final TableColumn<P2ShortcutKey, String> param) -> new TableCell<>() {
 
-                @Override
-                public void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                        return;
-                    }
+        @Override
+        public void updateItem(String item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+                setText(null);
+                return;
+            }
 
-                    P2ShortcutKey pShortcutKey = getTableView().getItems().get(getIndex());
-                    newShortcutValue = pShortcutKey.getActShortcut();
+            P2ShortcutKey pShortcutKey = getTableView().getItems().get(getIndex());
+            newShortcutValue = pShortcutKey.getActShortcut();
 
-                    final Button btnChange = new Button("Ändern");
-                    btnChange.setTooltip(new Tooltip("Button klicken und dann das neue Tastenkürzel eingeben"));
-                    btnChange.setOnAction(a -> getTableView().getSelectionModel().select(getIndex()));
-                    btnChange.addEventFilter(KeyEvent.KEY_RELEASED, ke -> {
-                        released = true;
-                        if (newShortcutValue.isEmpty()) {
-                            PLog.sysLog("Shortcut: nicht ändern");
-                            return;
-                        }
-
-                        //neu setzen
-                        PLog.sysLog("Shortcut: " + pShortcutKey.getDescription() + " ändern von: " + pShortcutKey.getActShortcut() + " nach: " + newShortcutValue);
-                        pShortcutKey.setActShortcut(newShortcutValue);
-
-                        //Prüfen auf Doppelte
-                        if (PShortcut.checkDoubleShortcutList()) {
-                            PAlert.showErrorAlert("Tastenkürzel", "das angegebene Tastenkürzel " +
-                                    "wird zweimal verwendet.");
-                        }
-                    });
-                    btnChange.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
-                        if (released) {
-                            released = false;
-                            newShortcutValue = "";
-                        }
-
-                        if (newShortcutValue.isEmpty() &&
-                                !ke.getCode().equals(KeyCode.ALT) &&
-                                !ke.getCode().equals(KeyCode.ALT_GRAPH) &&
-                                !ke.getCode().equals(KeyCode.CONTROL) &&
-                                !ke.getCode().equals(KeyCode.META) &&
-                                !ke.getCode().equals(KeyCode.SHIFT) &&
-                                !ke.getCode().equals(KeyCode.WINDOWS)) {
-                            // dann ist ein neuer Versuch und muss ein Steuerzeichen enthalten
-                            newShortcutValue = "";
-
-                        } else {
-                            if (newShortcutValue.isEmpty()) {
-                                newShortcutValue = ke.getCode().getName();
-                            } else {
-                                newShortcutValue = newShortcutValue + "+" + ke.getCode().getName();
-                            }
-                        }
-                        ke.consume();
-                    });
-
-                    final HBox hbox = new HBox();
-                    hbox.setSpacing(P2LibConst.DIST_BUTTON);
-                    hbox.setAlignment(Pos.CENTER);
-                    hbox.setPadding(new Insets(0, 2, 0, 2));
-                    hbox.getChildren().addAll(btnChange);
-                    setGraphic(hbox);
+            final Button btnChange = new Button("Ändern");
+            btnChange.setTooltip(new Tooltip("Button klicken und dann das neue Tastenkürzel eingeben"));
+            btnChange.setOnAction(a -> getTableView().getSelectionModel().select(getIndex()));
+            btnChange.addEventFilter(KeyEvent.KEY_RELEASED, ke -> {
+                released = true;
+                if (newShortcutValue.isEmpty()) {
+                    P2Log.sysLog("Shortcut: nicht ändern");
+                    return;
                 }
-            };
+
+                //neu setzen
+                P2Log.sysLog("Shortcut: " + pShortcutKey.getDescription() + " ändern von: " + pShortcutKey.getActShortcut() + " nach: " + newShortcutValue);
+                pShortcutKey.setActShortcut(newShortcutValue);
+
+                //Prüfen auf Doppelte
+                if (PShortcut.checkDoubleShortcutList()) {
+                    PAlert.showErrorAlert("Tastenkürzel", "das angegebene Tastenkürzel " +
+                            "wird zweimal verwendet.");
+                }
+            });
+            btnChange.addEventFilter(KeyEvent.KEY_PRESSED, ke -> {
+                if (released) {
+                    released = false;
+                    newShortcutValue = "";
+                }
+
+                if (newShortcutValue.isEmpty() &&
+                        !ke.getCode().equals(KeyCode.ALT) &&
+                        !ke.getCode().equals(KeyCode.ALT_GRAPH) &&
+                        !ke.getCode().equals(KeyCode.CONTROL) &&
+                        !ke.getCode().equals(KeyCode.META) &&
+                        !ke.getCode().equals(KeyCode.SHIFT) &&
+                        !ke.getCode().equals(KeyCode.WINDOWS)) {
+                    // dann ist ein neuer Versuch und muss ein Steuerzeichen enthalten
+                    newShortcutValue = "";
+
+                } else {
+                    if (newShortcutValue.isEmpty()) {
+                        newShortcutValue = ke.getCode().getName();
+                    } else {
+                        newShortcutValue = newShortcutValue + "+" + ke.getCode().getName();
+                    }
+                }
+                ke.consume();
+            });
+
+            final HBox hbox = new HBox();
+            hbox.setSpacing(P2LibConst.DIST_BUTTON);
+            hbox.setAlignment(Pos.CENTER);
+            hbox.setPadding(new Insets(0, 2, 0, 2));
+            hbox.getChildren().addAll(btnChange);
+            setGraphic(hbox);
+        }
+    };
     private Callback<TableColumn<P2ShortcutKey, String>, TableCell<P2ShortcutKey, String>> cellFactoryReset
             = (final TableColumn<P2ShortcutKey, String> param) -> new TableCell<>() {
 

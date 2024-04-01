@@ -23,7 +23,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.dialogs.PDirFileChooser;
+import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.tools.PSystemUtils;
@@ -66,7 +66,7 @@ public class PaneDestination {
         final Button btnFileDest = new Button();
         btnFileDest.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnFileDest.setTooltip(new Tooltip("Einen Ordner zum Speichern der Audios auswählen"));
-        btnFileDest.setOnAction(event -> PDirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDestPath));
+        btnFileDest.setOnAction(event -> P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDestPath));
 
         final Button btnDestPathReset = new Button();
         btnDestPathReset.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());

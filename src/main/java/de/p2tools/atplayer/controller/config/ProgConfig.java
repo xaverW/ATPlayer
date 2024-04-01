@@ -28,7 +28,7 @@ import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
 import de.p2tools.p2lib.tools.PStringUtils;
 import de.p2tools.p2lib.tools.PSystemUtils;
 import de.p2tools.p2lib.tools.ProgramToolsFactory;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.*;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -124,7 +124,7 @@ public class ProgConfig extends PDataProgConfig {
 
     //Download
     public static StringProperty DOWNLOAD_DIALOG_PATH_SAVING = addStrProp("download-dialog-path-saving"); // gesammelten Downloadpfade im Downloaddialog
-    public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_KBYTE = addIntProp("download-max-bandwidth-kilobyte", MLBandwidthTokenBucket.BANDWIDTH_MAX_KBYTE);
+    public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_KBYTE = addIntProp("download-max-bandwidth", MLBandwidthTokenBucket.BANDWIDTH_MAX_BYTE);
     public static StringProperty DOWNLOAD_DIALOG_ERROR_SIZE = addStrProp("download-dialog-error-size", "");
     public static IntegerProperty DOWNLOAD_MAX_DOWNLOADS = addIntProp("download-max-downloads", 1);
     public static IntegerProperty DOWNLOAD_CONTINUE = addIntProp("download-contineu", DownloadState.DOWNLOAD_RESTART__ASK);
@@ -296,7 +296,7 @@ public class ProgConfig extends PDataProgConfig {
 
         list.add(PARAMETER_INFO);
 
-        list.add(PLog.LILNE2);
+        list.add(P2Log.LILNE2);
         list.add("Programmeinstellungen");
         list.add("===========================");
         Arrays.stream(ProgConfig.getInstance().getConfigsArr()).forEach(c -> {
@@ -313,11 +313,11 @@ public class ProgConfig extends PDataProgConfig {
 
             list.add(s + "  " + c.getActValueString());
         });
-        list.add(PLog.LILNE2);
+        list.add(P2Log.LILNE2);
         PStringUtils.appendString(list, "|  ", "=");
 
-        list.add(PLog.LILNE1);
-        PLog.debugLog(list);
+        list.add(P2Log.LILNE1);
+        P2Log.debugLog(list);
     }
 
     private static synchronized void check(IntegerProperty mlConfigs, int init, int min, int max) {

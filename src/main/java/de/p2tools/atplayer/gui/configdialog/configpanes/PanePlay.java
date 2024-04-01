@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.dialogs.PDirFileChooser;
+import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.mtdownload.GetProgramStandardPath;
@@ -80,7 +80,7 @@ public class PanePlay {
 
         final Button btnFile = new Button();
         btnFile.setOnAction(event -> {
-            PDirFileChooser.FileChooserOpenFile(ProgData.getInstance().primaryStage, txtPlay);
+            P2DirFileChooser.FileChooserOpenFile(ProgData.getInstance().primaryStage, txtPlay);
         });
         btnFile.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
         btnFile.setTooltip(new Tooltip("Einen Videoplayer zum Abspielen der Beiträge auswählen"));

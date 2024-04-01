@@ -20,8 +20,8 @@ package de.p2tools.atplayer;
 import de.p2tools.atplayer.controller.ProgStartBeforeGui;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.tools.log.LogMessage;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.log.P2LogMessage;
 import org.apache.commons.cli.*;
 
 import java.awt.*;
@@ -79,7 +79,7 @@ public class AppParameter {
             if (hasOption(line, ProgParameter.VERSION)) {
                 EventQueue.invokeLater(() -> {
                     ProgStartBeforeGui.shortStartMsg();
-                    LogMessage.endMsg();
+                    P2LogMessage.endMsg();
                     System.exit(0);
                 });
             }
@@ -97,7 +97,7 @@ public class AppParameter {
                 setConfigDir(path);
             }
         } catch (Exception ex) {
-            PLog.errorLog(941237890, ex);
+            P2Log.errorLog(941237890, ex);
         }
     }
 
@@ -130,9 +130,9 @@ public class AppParameter {
         }
         list.add(TEXT_LINE);
 
-        PLog.emptyLine();
-        PLog.sysLog(list);
-        PLog.emptyLine();
+        P2Log.emptyLine();
+        P2Log.sysLog(list);
+        P2Log.emptyLine();
     }
 
     private static boolean hasOption(final CommandLine line, final ProgParameter parameter) {

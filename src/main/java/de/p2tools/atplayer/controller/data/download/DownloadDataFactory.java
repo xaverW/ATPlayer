@@ -23,7 +23,7 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.mtdownload.MTInfoFile;
 import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -73,7 +73,7 @@ public class DownloadDataFactory {
         } catch (Exception ex) {
             PAlert.showErrorAlert("Audio löschen", "Konnte die Datei nicht löschen!", "Fehler beim löschen von:" + P2LibConst.LINE_SEPARATORx2 +
                     download.getDestPathFile());
-            PLog.errorLog(915236547, "Fehler beim löschen: " + download.getDestPathFile());
+            P2Log.errorLog(915236547, "Fehler beim löschen: " + download.getDestPathFile());
         }
     }
 

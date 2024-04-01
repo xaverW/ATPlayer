@@ -21,10 +21,10 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
-import de.p2tools.p2lib.dialogs.dialog.PDialogExtra;
+import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -36,7 +36,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 
-public class ConfigDialogController extends PDialogExtra {
+public class ConfigDialogController extends P2DialogExtra {
 
     private final ProgData progData;
     IntegerProperty propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_TAB;
@@ -179,7 +179,7 @@ public class ConfigDialogController extends PDialogExtra {
             });
 
         } catch (final Exception ex) {
-            PLog.errorLog(784459510, ex);
+            P2Log.errorLog(784459510, ex);
         }
     }
 }

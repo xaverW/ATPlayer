@@ -20,7 +20,7 @@ package de.p2tools.atplayer.controller.filter;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.tools.duration.PDuration;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -68,9 +68,9 @@ public class AudioFilterRunner {
             research.set(false);
             try {
                 Platform.runLater(() -> {
-                    PLog.debugLog("========================================");
-                    PLog.debugLog("         === Filter: " + count++ + " ===");
-                    PLog.debugLog("========================================");
+                    P2Log.debugLog("========================================");
+                    P2Log.debugLog("         === Filter: " + count++ + " ===");
+                    P2Log.debugLog("========================================");
 
                     PDuration.counterStart("AudioFilterRunner.filterList");
                     progData.audioList.filteredListSetPred(

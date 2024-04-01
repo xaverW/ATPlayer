@@ -21,7 +21,7 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.PAlert;
 import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.atdata.WriteAudioListJson;
-import de.p2tools.p2lib.tools.log.PLog;
+import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 
 import java.io.File;
@@ -44,7 +44,7 @@ public class WriteAudioList {
             final File file = path.toFile();
             final File dir = new File(file.getParent());
             if (!dir.exists() && !dir.mkdirs()) {
-                PLog.errorLog(932102478, "Kann den Pfad nicht anlegen: " + dir.toString());
+                P2Log.errorLog(932102478, "Kann den Pfad nicht anlegen: " + dir.toString());
                 Platform.runLater(() -> PAlert.showErrorAlert("Fehler beim Schreiben",
                         "Der Pfad zum Schreiben der Audioliste kann nicht angelegt werden: " +
                                 P2LibConst.LINE_SEPARATOR + path));
@@ -59,12 +59,12 @@ public class WriteAudioList {
             logList.add("   --> geschrieben!");
         } catch (final Exception ex) {
             logList.add("   --> Fehler, nicht geschrieben!");
-            PLog.errorLog(931201478, ex, "nach: " + path);
+            P2Log.errorLog(931201478, ex, "nach: " + path);
             Platform.runLater(() -> PAlert.showErrorAlert("Fehler beim Schreiben",
                     "Die Audioliste konnte nicht geschrieben werden:" + P2LibConst.LINE_SEPARATOR + path));
         }
 
-        PLog.sysLog(logList);
+        P2Log.sysLog(logList);
     }
 
     private boolean write(String file, AudioList audioList, ArrayList<String> logList) {
@@ -74,7 +74,7 @@ public class WriteAudioList {
             return true;
         } catch (Exception ex) {
             logList.add("Schreiben der Datei fehlgeschlagen: " + ex.getLocalizedMessage());
-            PLog.errorLog(846930145, ex, "nach: " + file);
+            P2Log.errorLog(846930145, ex, "nach: " + file);
         }
         return false;
     }
