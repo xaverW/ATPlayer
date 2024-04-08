@@ -19,14 +19,14 @@ package de.p2tools.atplayer.gui.configdialog;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.gui.configdialog.configpanes.PaneEditFilter;
 import de.p2tools.atplayer.gui.configdialog.configpanes.PanePlay;
-import de.p2tools.p2lib.dialogs.accordion.PAccordionPane;
+import de.p2tools.p2lib.dialogs.accordion.P2AccordionPane;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ControllerPlay extends PAccordionPane {
+public class ControllerPlay extends P2AccordionPane {
 
     private final Stage stage;
     private PanePlay panePlay;

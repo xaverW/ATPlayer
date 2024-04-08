@@ -20,13 +20,13 @@ import de.p2tools.p2lib.configfile.config.Config;
 import de.p2tools.p2lib.configfile.config.Config_boolProp;
 import de.p2tools.p2lib.configfile.config.Config_intProp;
 import de.p2tools.p2lib.configfile.config.Config_stringProp;
-import de.p2tools.p2lib.configfile.pdata.PDataSample;
+import de.p2tools.p2lib.configfile.pdata.P2DataSample;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import javafx.beans.property.*;
 
 import java.util.ArrayList;
 
-public class AudioFilterProps extends PDataSample<AudioFilter> implements Comparable<AudioFilter> {
+public class AudioFilterProps extends P2DataSample<AudioFilter> implements Comparable<AudioFilter> {
 
     public static String TAG = "SelectedFilter";
 

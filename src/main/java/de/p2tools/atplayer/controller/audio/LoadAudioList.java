@@ -23,7 +23,7 @@ import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadNotifier;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -94,7 +94,7 @@ public class LoadAudioList {
 
         new Thread(() -> {
             final List<String> logList = new ArrayList<>();
-            PDuration.counterStart("loadNewListFromWeb");
+            P2Duration.counterStart("loadNewListFromWeb");
 
             //damit wird eine neue Liste (Web) geladen UND auch gleich im Config-Ordner gespeichert
             logList.add("");
@@ -114,7 +114,7 @@ public class LoadAudioList {
             P2Log.sysLog(logList);
 
             setPropLoadAudiolist(false);
-            PDuration.counterStop("loadNewListFromWeb");
+            P2Duration.counterStop("loadNewListFromWeb");
         }).start();
     }
 
@@ -129,7 +129,7 @@ public class LoadAudioList {
 
         new Thread(() -> {
             final List<String> logList = new ArrayList<>();
-            PDuration.counterStart("loadAudioListProgStart");
+            P2Duration.counterStart("loadAudioListProgStart");
 
             logList.add("");
             logList.add("## " + P2Log.LILNE1);
@@ -144,7 +144,7 @@ public class LoadAudioList {
             P2Log.sysLog(logList);
 
             setPropLoadAudiolist(false);
-            PDuration.counterStop("loadAudioListProgStart");
+            P2Duration.counterStop("loadAudioListProgStart");
         }).start();
     }
 
@@ -160,7 +160,7 @@ public class LoadAudioList {
             // gespeicherte Audioliste laden, macht beim ersten Programmstart keinen Sinn
             logList.add("## Erster Programmstart -> Liste aus dem Web laden");
             new ReadAudioList().readDb(false, ProgInfos.getAndMakeAudioListFile());
-            PDuration.onlyPing("Erster Programmstart: Neu Audioliste aus dem Web geladen");
+            P2Duration.onlyPing("Erster Programmstart: Neu Audioliste aus dem Web geladen");
 
         } else {
             // dann ist ein normaler Start mit vorhandener Audioliste, muss auf jeden Fall geladen werden > Hash
@@ -193,7 +193,7 @@ public class LoadAudioList {
 
                     logList.add("## Programmstart: Neue Liste aus dem Web laden");
                     new ReadAudioList().readDb(false, ProgInfos.getAndMakeAudioListFile());
-                    PDuration.onlyPing("Programmstart: Neu Audioliste aus dem Web geladen");
+                    P2Duration.onlyPing("Programmstart: Neu Audioliste aus dem Web geladen");
                 }
             }
 

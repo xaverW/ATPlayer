@@ -18,8 +18,8 @@ package de.p2tools.atplayer.controller.data.download;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.PAlert;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.alert.P2Alert;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,7 +55,7 @@ public class DownloadListStartStop {
      */
 
     public synchronized boolean delDownloads(List<DownloadData> list) {
-        PDuration.counterStart("DownloadListStartStop.delDownloads");
+        P2Duration.counterStart("DownloadListStartStop.delDownloads");
         if (list == null || list.isEmpty()) {
             return false;
         }
@@ -66,7 +66,7 @@ public class DownloadListStartStop {
         list.stream().filter(download -> download.isStateStartedRun()).forEach(download -> download.stopDownload());
         boolean found = downloadList.removeAll(list);
 
-        PDuration.counterStop("DownloadListStartStop.delDownloads");
+        P2Duration.counterStop("DownloadListStartStop.delDownloads");
         return found;
     }
 
@@ -121,8 +121,8 @@ public class DownloadListStartStop {
     }
 
 
-    private PAlert.BUTTON restartDownload(int size, String title, PAlert.BUTTON answer) {
-        if (answer.equals(PAlert.BUTTON.UNKNOWN)) {
+    private P2Alert.BUTTON restartDownload(int size, String title, P2Alert.BUTTON answer) {
+        if (answer.equals(P2Alert.BUTTON.UNKNOWN)) {
             // nur einmal fragen
             String text;
             if (size > 1) {
@@ -130,7 +130,7 @@ public class DownloadListStartStop {
             } else {
                 text = "Audio nochmal starten?  ==> " + title;
             }
-            answer = new PAlert().showAlert_yes_no_cancel("Download", "Fehlerhafte Downloads", text);
+            answer = new P2Alert().showAlert_yes_no_cancel("Download", "Fehlerhafte Downloads", text);
         }
         return answer;
     }
@@ -165,7 +165,7 @@ public class DownloadListStartStop {
             return false;
         }
 
-        PDuration.counterStart("DownloadListStartStop.startDownloads");
+        P2Duration.counterStart("DownloadListStartStop.startDownloads");
         final ArrayList<DownloadData> listStartDownloads = new ArrayList<>();
 
         // das Starten von neuen Downloads etwas Pausieren
@@ -183,13 +183,13 @@ public class DownloadListStartStop {
 
         // alle Downloads starten/wiederstarten
         start(listStartDownloads);
-        PDuration.counterStop("DownloadListStartStop.startDownloads");
+        P2Duration.counterStop("DownloadListStartStop.startDownloads");
         return true;
     }
 
     private boolean startAlsoFinishedDownloads(Collection<DownloadData> list, ArrayList<DownloadData> listStartDownloads) {
 
-        PAlert.BUTTON answer = PAlert.BUTTON.UNKNOWN;
+        P2Alert.BUTTON answer = P2Alert.BUTTON.UNKNOWN;
         final ArrayList<DownloadData> listDelDownloads = new ArrayList<>();
         final ArrayList<DownloadData> listDownloadsRemoveAboHistory = new ArrayList<>();
 
@@ -205,7 +205,7 @@ public class DownloadListStartStop {
 
             //fehlerhaft, nur wenn gewollt wieder starten
             if (download.isStateError()) {
-                if (answer.equals(PAlert.BUTTON.UNKNOWN)) {
+                if (answer.equals(P2Alert.BUTTON.UNKNOWN)) {
                     answer = restartDownload(list.size(), download.getTitle(), answer);
                 }
 
@@ -223,7 +223,7 @@ public class DownloadListStartStop {
             }
         }
 
-        if (answer.equals(PAlert.BUTTON.CANCEL)) {
+        if (answer.equals(P2Alert.BUTTON.CANCEL)) {
             // dann machmer nix
             return false;
         }

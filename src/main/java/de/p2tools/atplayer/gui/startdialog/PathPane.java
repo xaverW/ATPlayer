@@ -24,7 +24,7 @@ import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mtdownload.GetProgramStandardPath;
-import de.p2tools.p2lib.tools.PSystemUtils;
+import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
@@ -78,7 +78,7 @@ public class PathPane {
         text = new Text("Pfad für Downloads auswählen");
         btnFind.setOnAction(event -> {
             ProgConfig.DOWNLOAD_FILE_PATH.setValue("");
-            txtDownloadPath.setText(PSystemUtils.getStandardDownloadPath());
+            txtDownloadPath.setText(P2SystemUtils.getStandardDownloadPath());
         });
 
         text.setStyle("-fx-font-weight: bold");
@@ -90,7 +90,7 @@ public class PathPane {
             ProgConfig.DOWNLOAD_FILE_PATH.setValue("/tmp/Download");
         }
         if (txtDownloadPath.getText().isEmpty()) {
-            txtDownloadPath.setText(PSystemUtils.getStandardDownloadPath());
+            txtDownloadPath.setText(P2SystemUtils.getStandardDownloadPath());
         }
 
         final Button btnFile = new Button();

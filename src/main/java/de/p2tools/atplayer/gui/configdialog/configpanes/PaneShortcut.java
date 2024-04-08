@@ -21,7 +21,7 @@ import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutKey;
@@ -78,7 +78,7 @@ public class PaneShortcut {
 
                 //Prüfen auf Doppelte
                 if (PShortcut.checkDoubleShortcutList()) {
-                    PAlert.showErrorAlert("Tastenkürzel", "das angegebene Tastenkürzel " +
+                    P2Alert.showErrorAlert("Tastenkürzel", "das angegebene Tastenkürzel " +
                             "wird zweimal verwendet.");
                 }
             });

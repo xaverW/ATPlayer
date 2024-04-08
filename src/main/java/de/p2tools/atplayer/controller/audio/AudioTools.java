@@ -25,7 +25,7 @@ import de.p2tools.atplayer.controller.downloadtools.RuntimeExec;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.atdata.AudioDataXml;
 import de.p2tools.p2lib.atdata.AudioList;
@@ -193,7 +193,7 @@ public class AudioTools {
         DownloadData download = progData.downloadList.getDownloadUrlFilm(audioData.arr[AudioDataXml.AUDIO_URL]);
         if (download != null) {
             // dann ist der Film schon in der Downloadliste
-            PAlert.BUTTON answer = PAlert.showAlert_yes_no("Anlegen?", "Nochmal anlegen?",
+            P2Alert.BUTTON answer = P2Alert.showAlert_yes_no("Anlegen?", "Nochmal anlegen?",
                     "Download für den Film existiert bereits:" + P2LibConst.LINE_SEPARATORx2 +
                             audioData.getTitle() + P2LibConst.LINE_SEPARATORx2 +
                             "Nochmal anlegen?");
@@ -225,7 +225,7 @@ public class AudioTools {
             } else {
                 // dann ist der Film schon in der Downloadliste
                 if (list.size() <= 1) {
-                    PAlert.BUTTON answer = PAlert.showAlert_yes_no("Anlegen?", "Nochmal anlegen?",
+                    P2Alert.BUTTON answer = P2Alert.showAlert_yes_no("Anlegen?", "Nochmal anlegen?",
                             "Download für den Film existiert bereits:" + P2LibConst.LINE_SEPARATORx2 +
                                     audioData.getTitle() + P2LibConst.LINE_SEPARATORx2 +
                                     "Nochmal anlegen?");
@@ -239,7 +239,7 @@ public class AudioTools {
                     }
 
                 } else {
-                    PAlert.BUTTON answer = PAlert.showAlert_yes_no_cancel("Anlegen?", "Nochmal anlegen?",
+                    P2Alert.BUTTON answer = P2Alert.showAlert_yes_no_cancel("Anlegen?", "Nochmal anlegen?",
                             "Download für den Film existiert bereits:" + P2LibConst.LINE_SEPARATORx2 +
                                     audioData.getTitle() + P2LibConst.LINE_SEPARATORx2 +
                                     "Nochmal anlegen (Ja / Nein)?" + P2LibConst.LINE_SEPARATOR +

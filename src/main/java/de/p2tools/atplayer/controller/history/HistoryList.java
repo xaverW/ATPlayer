@@ -20,11 +20,11 @@ import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
 import de.p2tools.p2lib.tools.date.P2DateConst;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -60,10 +60,10 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
 
     public void loadList() {
         // beim Programmstart laden
-        PDuration.counterStart("loadList");
+        P2Duration.counterStart("loadList");
         HistoryFactory.readHistoryDataFromFile(settingsDir, fileName, this);
         fillUrlHash();
-        PDuration.counterStop("loadList");
+        P2Duration.counterStop("loadList");
     }
 
     public SortedList<HistoryData> getSortedList() {
@@ -103,7 +103,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             title = "Filme";
         }
 
-        if (size <= 1 || PAlert.showAlertOkCancel(stage, "Löschen", title + " löschen",
+        if (size <= 1 || P2Alert.showAlertOkCancel(stage, "Löschen", title + " löschen",
                 "Soll die gesamte Liste " +
                         "(" + size + " " + title + ")" +
                         " gelöscht werden?")) {
@@ -132,7 +132,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             return;
         }
 
-        PDuration.counterStart("addHistoryDataToHistory");
+        P2Duration.counterStart("addHistoryDataToHistory");
         final ArrayList<HistoryData> list = new ArrayList<>();
         final String datum = P2DateConst.F_FORMAT_dd_MM_yyyy.format(new Date());
         HistoryData historyData = new HistoryData(datum, theme, title, url);
@@ -140,7 +140,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         list.add(historyData);
 
         writeToFile(list, true);
-        PDuration.counterStop("addHistoryDataToHistory");
+        P2Duration.counterStop("addHistoryDataToHistory");
     }
 
     public synchronized void addFilmDataListToHistory(List<AudioData> filmList) {
@@ -152,7 +152,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         final ArrayList<HistoryData> list = new ArrayList<>(filmList.size());
         final String datum = P2DateConst.F_FORMAT_dd_MM_yyyy.format(new Date());
 
-        PDuration.counterStart("addFilmDataToHistory");
+        P2Duration.counterStart("addFilmDataToHistory");
         for (final AudioData film : filmList) {
             if (bookmark) {
                 film.setBookmark(true);
@@ -171,7 +171,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         }
 
         writeToFile(list, true);
-        PDuration.counterStop("addFilmDataToHistory");
+        P2Duration.counterStop("addFilmDataToHistory");
     }
 
     public synchronized void addDownloadDataListToHistory(List<DownloadData> downloadList) {
@@ -183,7 +183,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         final ArrayList<HistoryData> list = new ArrayList<>(downloadList.size());
         final String datum = P2DateConst.F_FORMAT_dd_MM_yyyy.format(new Date());
 
-        PDuration.counterStart("addDownloadDataListToHistory");
+        P2Duration.counterStart("addDownloadDataListToHistory");
         for (final DownloadData download : downloadList) {
             // auch wenn schon in der History, dann doch den Film als gesehen markieren
             if (bookmark && download.getFilm() != null) {
@@ -203,7 +203,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         }
 
         writeToFile(list, true);
-        PDuration.counterStop("addDownloadDataListToHistory");
+        P2Duration.counterStop("addDownloadDataListToHistory");
     }
 
 
@@ -216,7 +216,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             return;
         }
 
-        PDuration.counterStart("History: removeDataFromHistory");
+        P2Duration.counterStart("History: removeDataFromHistory");
         final HashSet<String> hash = new HashSet<>(historyDataList.size() + 1, 0.75F);
         for (HistoryData historyData : historyDataList) {
             hash.add(historyData.getUrl());
@@ -231,7 +231,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
 
         removeFromHistory(hash);
         hash.clear();
-        PDuration.counterStop("History: removeDataFromHistory");
+        P2Duration.counterStop("History: removeDataFromHistory");
     }
 
     public synchronized void removeFilmDataFromHistory(ArrayList<AudioData> filmList) {
@@ -240,7 +240,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             return;
         }
 
-        PDuration.counterStart("History: removeDataFromHistory");
+        P2Duration.counterStart("History: removeDataFromHistory");
         final HashSet<String> hash = new HashSet<>(filmList.size() + 1, 0.75F);
         filmList.forEach(film -> {
             if (bookmark) {
@@ -255,7 +255,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
 
         removeFromHistory(hash);
         hash.clear();
-        PDuration.counterStop("History: removeDataFromHistory");
+        P2Duration.counterStop("History: removeDataFromHistory");
     }
 
     public synchronized void removeDownloadDataFromHistory(List<DownloadData> downloadList) {
@@ -264,7 +264,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             return;
         }
 
-        PDuration.counterStart("History: removeDataFromHistory");
+        P2Duration.counterStart("History: removeDataFromHistory");
         final HashSet<String> hash = new HashSet<>(downloadList.size() + 1, 0.75F);
         downloadList.forEach(download -> {
             if (bookmark && download.getFilm() != null) {
@@ -279,13 +279,13 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
 
         removeFromHistory(hash);
         hash.clear();
-        PDuration.counterStop("History: removeDataFromHistory");
+        P2Duration.counterStop("History: removeDataFromHistory");
     }
 
     private void removeFromHistory(HashSet<String> removeUrlHash) {
         final ArrayList<HistoryData> newHistoryList = new ArrayList<>();
         found = false;
-        PDuration.counterStart("History: removeFromHistory");
+        P2Duration.counterStart("History: removeFromHistory");
         P2Log.sysLog("Aus Historyliste löschen: " + removeUrlHash.size() + ", löschen aus: " + fileName);
 
         waitWhileWorking(); // wird diese Liste abgesucht
@@ -306,7 +306,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             writeToFile(newHistoryList, false);
         }
 
-        PDuration.counterStop("History: removeFromHistory");
+        P2Duration.counterStop("History: removeFromHistory");
     }
 
     //===============

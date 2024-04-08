@@ -24,7 +24,7 @@ import de.p2tools.atplayer.gui.dialog.AboutDialogController;
 import de.p2tools.atplayer.gui.dialog.ResetDialogController;
 import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
 import de.p2tools.p2lib.guitools.P2Open;
-import de.p2tools.p2lib.tools.shortcut.PShortcutWorker;
+import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 
@@ -81,7 +81,7 @@ public class ProgMenu extends MenuButton {
         //Quitt
         final MenuItem miQuit = new MenuItem("Beenden");
         miQuit.setOnAction(e -> ProgQuit.quit(false));
-        PShortcutWorker.addShortCut(miQuit, PShortcut.SHORTCUT_QUIT_PROGRAM);
+        P2ShortcutWorker.addShortCut(miQuit, PShortcut.SHORTCUT_QUIT_PROGRAM);
 
         getItems().addAll(miQuit);
     }

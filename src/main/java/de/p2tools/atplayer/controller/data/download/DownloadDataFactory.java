@@ -20,7 +20,7 @@ package de.p2tools.atplayer.controller.data.download;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.DeleteAudioFileDialogController;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.mtdownload.MTInfoFile;
 import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -45,7 +45,7 @@ public class DownloadDataFactory {
         }
 
         if (download.isStateStartedRun()) {
-            PAlert.showErrorAlert("Audio löschen", "Download läuft noch", "Download erst stoppen!");
+            P2Alert.showErrorAlert("Audio löschen", "Download läuft noch", "Download erst stoppen!");
         }
 
 
@@ -53,7 +53,7 @@ public class DownloadDataFactory {
             // Film
             File filmFile = new File(download.getDestPathFile());
             if (!filmFile.exists()) {
-                PAlert.showErrorAlert("Audio löschen", "", "Die Datei existiert nicht!");
+                P2Alert.showErrorAlert("Audio löschen", "", "Die Datei existiert nicht!");
                 return;
             }
 
@@ -71,7 +71,7 @@ public class DownloadDataFactory {
 
 
         } catch (Exception ex) {
-            PAlert.showErrorAlert("Audio löschen", "Konnte die Datei nicht löschen!", "Fehler beim löschen von:" + P2LibConst.LINE_SEPARATORx2 +
+            P2Alert.showErrorAlert("Audio löschen", "Konnte die Datei nicht löschen!", "Fehler beim löschen von:" + P2LibConst.LINE_SEPARATORx2 +
                     download.getDestPathFile());
             P2Log.errorLog(915236547, "Fehler beim löschen: " + download.getDestPathFile());
         }

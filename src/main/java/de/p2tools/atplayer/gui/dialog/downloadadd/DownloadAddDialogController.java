@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.alert.PAlert;
+import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
@@ -120,18 +120,18 @@ public class DownloadAddDialogController extends P2DialogExtra {
         ok = false;
         for (AddDownloadData d : addDownloadDto.addDownloadData) {
             if (d.download == null) {
-                PAlert.showErrorAlert("Fehlerhafter Download!", "Fehlerhafter Download!",
+                P2Alert.showErrorAlert("Fehlerhafter Download!", "Fehlerhafter Download!",
                         "Download konnte nicht erstellt werden.");
 
             } else if (d.download.getDestPath().isEmpty() || d.download.getDestFileName().isEmpty()) {
-                PAlert.showErrorAlert("Fehlerhafter Pfad/Name!", "Fehlerhafter Pfad/Name!",
+                P2Alert.showErrorAlert("Fehlerhafter Pfad/Name!", "Fehlerhafter Pfad/Name!",
                         "Pfad oder Name ist leer.");
 
             } else {
                 if (DownloadAddDialogFactory.checkPathWritable(d.download.getDestPath())) {
                     ok = true;
                 } else {
-                    PAlert.showErrorAlert("Fehlerhafter Pfad/Name!", "Fehlerhafter Pfad/Name!",
+                    P2Alert.showErrorAlert("Fehlerhafter Pfad/Name!", "Fehlerhafter Pfad/Name!",
                             "Pfad ist nicht beschreibbar.");
                 }
             }

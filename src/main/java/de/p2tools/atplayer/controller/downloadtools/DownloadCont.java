@@ -21,7 +21,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
 import de.p2tools.p2lib.mtdownload.MTInfoFile;
-import de.p2tools.p2lib.tools.PSystemUtils;
+import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import javafx.beans.property.LongProperty;
 
@@ -42,7 +42,7 @@ public class DownloadCont {
                                 File file, LongProperty downloaded) throws Exception {
 
         if (download.getDestPath().isEmpty()) {
-            download.setDestPath(PSystemUtils.getStandardDownloadPath());
+            download.setDestPath(P2SystemUtils.getStandardDownloadPath());
         }
         if (download.getDestFileName().isEmpty()) {
             download.setDestFileName(P2DateConst.F_FORMAT_yyyyMMdd.format(new Date())

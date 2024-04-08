@@ -20,7 +20,7 @@ import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.tools.PSystemUtils;
+import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -67,11 +67,11 @@ public class AudioTableContextMenu {
 
         final MenuItem miCopyName = new MenuItem("Titel in die Zwischenablage kopieren");
         miCopyName.setOnAction(a -> {
-            PSystemUtils.copyToClipboard(audioData.getTitle());
+            P2SystemUtils.copyToClipboard(audioData.getTitle());
         });
         final MenuItem miCopyTheme = new MenuItem("Thema in die Zwischenablage kopieren");
         miCopyTheme.setOnAction(a -> {
-            PSystemUtils.copyToClipboard(audioData.getTheme());
+            P2SystemUtils.copyToClipboard(audioData.getTheme());
         });
 
         contextMenu.getItems().add(new SeparatorMenuItem());
@@ -125,7 +125,7 @@ public class AudioTableContextMenu {
 
         MenuItem item;
         item = new MenuItem("Audio-URL kopieren");
-        item.setOnAction(a -> PSystemUtils.copyToClipboard(filmData.getUrl()));
+        item.setOnAction(a -> P2SystemUtils.copyToClipboard(filmData.getUrl()));
         subMenuURL.getItems().add(item);
         return subMenuURL;
     }

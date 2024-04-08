@@ -20,7 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.configdialog.configpanes.PaneAudioFilter;
 import de.p2tools.atplayer.gui.configdialog.configpanes.PaneAudioLoad;
-import de.p2tools.p2lib.dialogs.accordion.PAccordionPane;
+import de.p2tools.p2lib.dialogs.accordion.P2AccordionPane;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ControllerAudio extends PAccordionPane {
+public class ControllerAudio extends P2AccordionPane {
 
     private final ProgData progData;
     private final Stage stage;

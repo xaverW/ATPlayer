@@ -19,8 +19,8 @@ package de.p2tools.atplayer.controller.data.download;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.atdata.AudioList;
-import de.p2tools.p2lib.configfile.pdata.PDataList;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.configfile.pdata.P2DataList;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -29,7 +29,7 @@ import javafx.collections.ObservableList;
 
 import java.util.*;
 
-public class DownloadList extends SimpleListProperty<DownloadData> implements PDataList<DownloadData> {
+public class DownloadList extends SimpleListProperty<DownloadData> implements P2DataList<DownloadData> {
 
     public static final String TAG = "DownloadList";
     private final ProgData progData;
@@ -132,7 +132,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements PD
     public synchronized void addAudioInList(AudioList filmlist) {
         // bei einmal Downloads nach einem Programmstart/Neuladen der Audioliste
         // den Film wieder eintragen
-        PDuration.counterStart("addAudioInList");
+        P2Duration.counterStart("addAudioInList");
         int counter = 50;
         for (DownloadData d : this) {
             --counter;
@@ -141,7 +141,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements PD
             }
             d.setFilm(filmlist.getAudioByUrl(d.getUrl()));
         }
-        PDuration.counterStop("addAudioInList");
+        P2Duration.counterStop("addAudioInList");
     }
 
     public synchronized void preferDownloads(ArrayList<DownloadData> prefDownList) {

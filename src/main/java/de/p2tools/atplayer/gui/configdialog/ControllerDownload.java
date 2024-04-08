@@ -17,18 +17,17 @@
 package de.p2tools.atplayer.gui.configdialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneDestination;
 import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneDownload;
 import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneReplace;
-import de.p2tools.p2lib.dialogs.accordion.PAccordionPane;
+import de.p2tools.p2lib.dialogs.accordion.P2AccordionPane;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ControllerDownload extends PAccordionPane {
+public class ControllerDownload extends P2AccordionPane {
     private final Stage stage;
     private PaneDownload paneDownload;
     private PaneDestination paneDestination;

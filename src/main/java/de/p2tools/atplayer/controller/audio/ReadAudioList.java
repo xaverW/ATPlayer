@@ -30,7 +30,7 @@ import de.p2tools.p2lib.mtfilm.tools.ProgressMonitorInputStream;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.date.P2DateGmtFactory;
 import de.p2tools.p2lib.tools.date.P2LDateTimeFactory;
-import de.p2tools.p2lib.tools.duration.PDuration;
+import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -57,7 +57,7 @@ public class ReadAudioList {
 
     public boolean readDb(boolean localList, Path path) {
         boolean ret;
-        PDuration.counterStart("readDb");
+        P2Duration.counterStart("readDb");
 
         try {
             if (localList) {
@@ -115,7 +115,7 @@ public class ReadAudioList {
         }
 
         P2Log.sysLog(logList);
-        PDuration.counterStop("readDb");
+        P2Duration.counterStop("readDb");
         return ret;
     }
 
