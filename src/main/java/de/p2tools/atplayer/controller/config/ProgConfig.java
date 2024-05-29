@@ -96,14 +96,16 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date", P2ToolsFactory.getCompileDate());//z.B.: 27.07.2
 
 
+    // Configs zum Aktualisieren beim Programmupdate
+    public static BooleanProperty SYSTEM_CHANGE_LOG_DIR = addBoolProp("system-change-log-dir", Boolean.FALSE);
+
+
     //Configs zur Anzeige der Diacritics in der Audioliste
     //TRUE: dann werden Diacritics entfernt
     public static BooleanProperty SYSTEM_REMOVE_DIACRITICS = addBoolProp("system-remove-diacritics", Boolean.FALSE);
 
-    // Configs zum Aktualisieren beim Programmupdate
-    public static BooleanProperty SYSTEM_AFTER_UPDATE_FILTER = addBoolProp("system-after-update-filter", Boolean.FALSE);
-
     // Configs zur Programmupdatesuche
+    public static BooleanProperty SYSTEM_AFTER_UPDATE_FILTER = addBoolProp("system-after-update-filter", Boolean.FALSE);
     public static StringProperty SYSTEM_UPDATE_DATE = addStrProp("system-update-date"); // Datum der letzten Prüfung
 
     public static BooleanProperty SYSTEM_UPDATE_SEARCH_ACT = addBoolProp("system-update-search-act", Boolean.TRUE); //Infos und Programm

@@ -66,13 +66,13 @@ public class ProgIcons {
     public static PIcon ICON_BUTTON_DOWNLOAD_DEL = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-del.png", 16, 16);
     public static PIcon ICON_BUTTON_DOWNLOAD_EDIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-edit.png", 16, 16);
 
-    public static PIcon ICON_TOOLBAR_AUDIO_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-start.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_AUDIO_ALL_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-all-start.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_AUDIO_REC = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-rec.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-filter.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_INFO = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-info.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_AUDIO_BOOKMARK_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-bookmark-filter.png", 32, 32);
-    public static PIcon ICON_TOOLBAR_AUDIO_DEL_ALL_BOOKMARK = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-del-all-bookmark.png", 32, 32);
+    public static PIcon ICON_TOOLBAR_AUDIO_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-start.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_AUDIO_ALL_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-all-start.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_AUDIO_REC = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-rec.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-filter.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_INFO = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-info.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_AUDIO_BOOKMARK_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-bookmark-filter.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_AUDIO_DEL_ALL_BOOKMARK = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-del-all-bookmark.png", 26, 26);
 
 
     public static PIcon FX_ICON_TOOLBAR_MENU = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-menu.png", 18, 15);

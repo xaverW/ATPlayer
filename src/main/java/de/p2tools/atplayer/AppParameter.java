@@ -78,7 +78,7 @@ public class AppParameter {
 
             if (hasOption(line, ProgParameter.VERSION)) {
                 EventQueue.invokeLater(() -> {
-                    ProgStartBeforeGui.shortStartMsg();
+                    ProgStartBeforeGui.startMsg(false);
                     P2LogMessage.endMsg();
                     System.exit(0);
                 });

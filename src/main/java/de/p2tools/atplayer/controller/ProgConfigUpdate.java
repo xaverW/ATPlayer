@@ -1,5 +1,5 @@
 /*
- * P2Tools Copyright (C) 2023 W. Xaver W.Xaver[at]googlemail.com
+ * P2tools Copyright (C) 2019 W. Xaver W.Xaver[at]googlemail.com
  * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
@@ -15,17 +15,22 @@
  */
 
 
-package de.p2tools.atplayer.controller.config;
+package de.p2tools.atplayer.controller;
 
+
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 
-public class UpdateConfig {
-
-    private UpdateConfig() {
+public class ProgConfigUpdate {
+    // hier werden geänderte Programmeinstellungen/Funktionen angepasst,
+    // muss immer nur einmal laufen!!
+    private ProgConfigUpdate() {
     }
 
     public static void setUpdateDone() {
-        ProgConfig.SYSTEM_AFTER_UPDATE_FILTER.setValue(true);
+        ProgConfig.SYSTEM_CHANGE_LOG_DIR.setValue(true);
     }
 
     public static void update() {
@@ -37,6 +42,17 @@ public class UpdateConfig {
                 ProgData.getInstance().actFilterWorker.getActFilterSettings().setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
             }
         }
+
+        if (!ProgConfig.SYSTEM_CHANGE_LOG_DIR.getValue()) {
+            // dann sind noch alte LogDir Einstellungen gespeichert
+            final String logDir = ProgConfig.SYSTEM_LOG_DIR.getValueSafe();
+            final String standardDir = ProgInfos.getStandardLogDirectory_String();
+            if (logDir.equals(standardDir)) {
+                // wenn eh der StandardPfad drin steht, dann löschen
+                ProgConfig.SYSTEM_LOG_DIR.setValue("");
+            }
+        }
+
         setUpdateDone();
     }
 }
