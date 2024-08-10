@@ -17,10 +17,9 @@
 
 package de.p2tools.atplayer.gui.dialog.downloadadd;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
@@ -62,7 +61,7 @@ public class AddDownloadDto {
 
     // URL
     public final P2Hyperlink p2HyperlinkUrlDownload = new P2Hyperlink("",
-            ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+            ProgConfig.SYSTEM_PROG_OPEN_URL);
 
     // Path / Name
     public final ComboBox<String> cboPath = new ComboBox<>();

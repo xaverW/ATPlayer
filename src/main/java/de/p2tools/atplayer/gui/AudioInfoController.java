@@ -16,10 +16,9 @@
 
 package de.p2tools.atplayer.gui;
 
+import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
-import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
@@ -135,7 +134,7 @@ public class AudioInfoController extends VBox {
 
         if (!audioData.arr[AudioDataXml.AUDIO_WEBSITE].isEmpty()) {
             P2Hyperlink hyperlink = new P2Hyperlink(audioData.arr[AudioDataXml.AUDIO_WEBSITE],
-                    ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                    ProgConfig.SYSTEM_PROG_OPEN_URL);
             hBoxUrl.getChildren().addAll(lblUrl, hyperlink);
         }
 

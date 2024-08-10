@@ -16,11 +16,11 @@
 
 package de.p2tools.atplayer.gui.dialog;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
@@ -49,9 +49,9 @@ public class AudioInfoDialogController extends P2DialogExtra {
 
     private final ImageView ivNew = new ImageView();
     private final P2Hyperlink p2HyperlinkUrl = new P2Hyperlink("",
-            ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+            ProgConfig.SYSTEM_PROG_OPEN_URL);
     private final P2Hyperlink p2HyperlinkWebsite = new P2Hyperlink("",
-            ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+            ProgConfig.SYSTEM_PROG_OPEN_URL);
 
     private AudioInfoDialogController() {
         super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_SIZE_DIALOG_AUDIO_INFO,

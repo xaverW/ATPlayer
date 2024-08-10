@@ -142,10 +142,8 @@ public class ConfigDialogController extends P2DialogExtra {
     private void onlyApply() {
         if (!LoadAudioFactory.getInstance().loadAudioList.getPropLoadAudiolist()) {
             //dann wird die Blacklist immer neu gemacht, sonst wirds dann eh gemacht
-            new Thread(() -> {
-                BlacklistFilterFactory.markBlack(true);
-                blackChanged.setValue(false);
-            }).start();
+            BlacklistFilterFactory.markBlack(true);
+            blackChanged.setValue(false);
         }
     }
 
@@ -153,7 +151,7 @@ public class ConfigDialogController extends P2DialogExtra {
     public void close() {
         if (blackChanged.get()) {
             // sonst hat sich nichts geändert oder wird dann eh gemacht
-            new Thread(() -> BlacklistFilterFactory.markBlack(true)).start();
+            BlacklistFilterFactory.markBlack(true);
         }
 
         if (diacriticChanged.getValue() && ProgConfig.SYSTEM_REMOVE_DIACRITICS.getValue()) {
