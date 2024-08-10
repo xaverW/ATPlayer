@@ -39,7 +39,7 @@ public class MTNotification {
         Button btnAudioStart = new Button();
         btnAudioStart.getStyleClass().addAll("btnFunction", "btnFuncTable");
         btnAudioStart.setTooltip(new Tooltip("Gespeichertes Audio abspielen"));
-        btnAudioStart.setGraphic(ProgIcons.IMAGE_TABLE_FILM_PLAY.getImageView());
+        btnAudioStart.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
         btnAudioStart.setOnAction((ActionEvent event) -> {
             P2Open.playStoredFilm(download.getDestPathFile(),
                     ProgConfig.SYSTEM_PROG_PLAY, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -48,7 +48,7 @@ public class MTNotification {
         Button btnOpenDirectory = new Button();
         btnOpenDirectory.getStyleClass().addAll("btnFunction", "btnFuncTable");
         btnOpenDirectory.setTooltip(new Tooltip("Ordner mit gespeichertem Audio öffnen"));
-        btnOpenDirectory.setGraphic(ProgIcons.IMAGE_TABLE_DOWNLOAD_OPEN_DIR.getImageView());
+        btnOpenDirectory.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_OPEN_DIR.getImageView());
         btnOpenDirectory.setOnAction((ActionEvent event) -> {
             P2Open.openDir(download.getDestPath(),
                     ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());

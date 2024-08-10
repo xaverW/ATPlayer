@@ -45,7 +45,7 @@ public class ProgMenu extends MenuButton {
         });
 
         setTooltip(new Tooltip("Filmmenü anzeigen"));
-        setGraphic(ProgIcons.FX_ICON_TOOLBAR_MENU.getImageView());
+        setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
         getStyleClass().addAll("btnFunction", "btnFunc-1");
 
         //=========================

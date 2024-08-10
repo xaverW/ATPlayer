@@ -20,14 +20,6 @@ package de.p2tools.atplayer.controller.config;
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.icons.P2Icon;
-import javafx.scene.CacheHint;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.ColorInput;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -39,54 +31,52 @@ public class ProgIcons {
 
     private static final List<PIcon> iconList = new ArrayList<>();
 
-    public static PIcon ICON_DIALOG_ON = new PIcon(ICON_PATH_LONG, ICON_PATH, "dialog-ein.png", 16, 16);
-    public static PIcon IMAGE_ACHTUNG_64 = new PIcon(ICON_PATH_LONG, ICON_PATH, "achtung_64.png", 64, 64);
-
-    public static PIcon ICON_BUTTON_EDIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-edit.png", 16, 16);
-    public static PIcon ICON_BUTTON_RESET = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-reset.png", 16, 16);
-    public static PIcon ICON_BUTTON_PROPOSE = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-propose.png", 16, 16);
-    public static PIcon ICON_BUTTON_BACKWARD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-backward.png", 16, 16);
-    public static PIcon ICON_BUTTON_FORWARD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-forward.png", 16, 16);
-    public static PIcon ICON_BUTTON_QUIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-quit.png", 16, 16);
-    public static PIcon ICON_BUTTON_FILE_OPEN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-file-open.png", 16, 16);
+    public static PIcon ICON_BOOLEAN_IS_ON = new PIcon(ICON_PATH_LONG, ICON_PATH, "boolean-is-on.png", 16, 16);
+    public static PIcon ICON_ATTENTION_64 = new PIcon(ICON_PATH_LONG, ICON_PATH, "attention-64.png", 64, 64);
     public static PIcon ICON_DIALOG_QUIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "dialog-quit.png", 64, 64);
-    public static PIcon IMAGE_TABLE_FILM_PLAY = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-play.png", 14, 14);
-    public static PIcon IMAGE_TABLE_FILM_SAVE = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-save.png", 14, 14);
-    public static PIcon IMAGE_TABLE_FILM_BOOKMARK = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-bookmark.png", 14, 14);
-    public static PIcon IMAGE_TABLE_DOWNLOAD_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-start.png", 14, 14);
-    public static PIcon IMAGE_TABLE_DOWNLOAD_DEL = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-del.png", 14, 14);
-    public static PIcon IMAGE_TABLE_DOWNLOAD_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-stop.png", 14, 14);
-    public static PIcon IMAGE_TABLE_DOWNLOAD_OPEN_DIR = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-open-dir.png", 14, 14);
-    public static PIcon ICON_BUTTON_WORKER_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-worker-stop.png", 12, 12);
-    public static PIcon ICON_BUTTON_CLEAR = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-clear.png", 16, 16);
 
-    public static PIcon ICON_BUTTON_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-stop.png", 16, 16);
-    public static PIcon ICON_BUTTON_NEXT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-next.png", 16, 16);
-    public static PIcon ICON_BUTTON_PREV = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-prev.png", 16, 16);
-    public static PIcon ICON_BUTTON_REMOVE = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-remove.png", 16, 16);
     public static PIcon ICON_BUTTON_ADD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-add.png", 16, 16);
-    public static PIcon ICON_BUTTON_MOVE_DOWN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-down.png", 16, 16);
-    public static PIcon ICON_BUTTON_MOVE_UP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-up.png", 16, 16);
-    public static PIcon ICON_BUTTON_MOVE_TOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-top.png", 16, 16);
-    public static PIcon ICON_BUTTON_MOVE_BOTTOM = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-bottom.png", 16, 16);
-    public static PIcon ICON_BUTTON_CLEAN = new PIcon(ICON_PATH_LONG, ICON_PATH, "clean_16.png", 16, 16);
+    public static PIcon ICON_BUTTON_BACKWARD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-backward.png", 16, 16);
+    public static PIcon ICON_BUTTON_CLEAN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-clean.png", 16, 16);
+    public static PIcon ICON_BUTTON_CLEAR = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-clear.png", 16, 16);
     public static PIcon ICON_BUTTON_DOWNLOAD_CLEAN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-clean.png", 16, 16);
-    public static PIcon ICON_BUTTON_DOWNLOAD_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-start.png", 16, 16);
-    public static PIcon ICON_BUTTON_DOWNLOAD_START_ALL = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-start-all.png", 16, 16);
-    public static PIcon ICON_BUTTON_DOWNLOAD_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-stop.png", 16, 16);
     public static PIcon ICON_BUTTON_DOWNLOAD_DEL = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-del.png", 16, 16);
     public static PIcon ICON_BUTTON_DOWNLOAD_EDIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-edit.png", 16, 16);
+    public static PIcon ICON_BUTTON_DOWNLOAD_START_ALL = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-start-all.png", 16, 16);
+    public static PIcon ICON_BUTTON_DOWNLOAD_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-start.png", 16, 16);
+    public static PIcon ICON_BUTTON_DOWNLOAD_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-download-stop.png", 16, 16);
+    public static PIcon ICON_BUTTON_EDIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-edit.png", 16, 16);
+    public static PIcon ICON_BUTTON_FILE_OPEN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-file-open.png", 16, 16);
+    public static PIcon ICON_BUTTON_FORWARD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-forward.png", 16, 16);
+    public static PIcon ICON_BUTTON_MOVE_BOTTOM = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-bottom.png", 16, 16);
+    public static PIcon ICON_BUTTON_MOVE_DOWN = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-down.png", 16, 16);
+    public static PIcon ICON_BUTTON_MOVE_TOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-top.png", 16, 16);
+    public static PIcon ICON_BUTTON_MOVE_UP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-move-up.png", 16, 16);
+    public static PIcon ICON_BUTTON_NEXT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-next.png", 16, 16);
+    public static PIcon ICON_BUTTON_PREV = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-prev.png", 16, 16);
+    public static PIcon ICON_BUTTON_PROPOSE = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-propose.png", 16, 16);
+    public static PIcon ICON_BUTTON_QUIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-quit.png", 16, 16);
+    public static PIcon ICON_BUTTON_REMOVE = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-remove.png", 16, 16);
+    public static PIcon ICON_BUTTON_RESET = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-reset.png", 16, 16);
+    public static PIcon ICON_BUTTON_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-stop.png", 16, 16);
+    public static PIcon ICON_BUTTON_WORKER_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-worker-stop.png", 12, 12);
 
-    public static PIcon ICON_TOOLBAR_AUDIO_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-start.png", 26, 26);
+    public static PIcon ICON_TABLE_DOWNLOAD_DEL = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-del.png", 14, 14);
+    public static PIcon ICON_TABLE_DOWNLOAD_OPEN_DIR = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-open-dir.png", 14, 14);
+    public static PIcon ICON_TABLE_DOWNLOAD_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-start.png", 14, 14);
+    public static PIcon ICON_TABLE_DOWNLOAD_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-stop.png", 14, 14);
+    public static PIcon ICON_TABLE_FILM_BOOKMARK = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-bookmark.png", 14, 14);
+    public static PIcon ICON_TABLE_FILM_PLAY = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-play.png", 14, 14);
+    public static PIcon ICON_TABLE_FILM_SAVE = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-film-save.png", 14, 14);
+
     public static PIcon ICON_TOOLBAR_AUDIO_ALL_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-all-start.png", 26, 26);
-    public static PIcon ICON_TOOLBAR_AUDIO_REC = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-rec.png", 26, 26);
-    public static PIcon ICON_TOOLBAR_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-filter.png", 26, 26);
-    public static PIcon ICON_TOOLBAR_INFO = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-info.png", 26, 26);
     public static PIcon ICON_TOOLBAR_AUDIO_BOOKMARK_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-bookmark-filter.png", 26, 26);
     public static PIcon ICON_TOOLBAR_AUDIO_DEL_ALL_BOOKMARK = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-del-all-bookmark.png", 26, 26);
-
-
-    public static PIcon FX_ICON_TOOLBAR_MENU = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-menu.png", 18, 15);
+    public static PIcon ICON_TOOLBAR_AUDIO_REC = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-rec.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_AUDIO_START = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-audio-start.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_FILTER = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-filter.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_INFO = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-info.png", 26, 26);
+    public static PIcon ICON_TOOLBAR_MENU = new PIcon(ICON_PATH_LONG, ICON_PATH, "toolbar-menu.png", 18, 15);
 
     public static void initIcons() {
         iconList.forEach(p -> {
@@ -102,38 +92,6 @@ public class ProgIcons {
         public PIcon(String longPath, String path, String fileName, int w, int h) {
             super(longPath, path, fileName, w, h);
             iconList.add(this);
-        }
-
-        public ImageView getImageView() {
-            Image img = getImage();
-            if (img == null) {
-                return new ImageView();
-            }
-
-            ImageView imageView = new ImageView(img);
-            imageView.setClip(new ImageView(img));
-
-            if (ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
-                ColorAdjust monochrome = new ColorAdjust();
-                monochrome.setSaturation(-1.0);
-
-                Blend blush = new Blend(
-                        BlendMode.MULTIPLY,
-                        monochrome,
-                        new ColorInput(
-                                0,
-                                0,
-                                imageView.getImage().getWidth(),
-                                imageView.getImage().getHeight(),
-                                Color.DARKGRAY
-                        )
-                );
-                imageView.setEffect(blush);
-                imageView.setCache(true);
-                imageView.setCacheHint(CacheHint.SPEED);
-            }
-
-            return imageView;
         }
 
         public boolean searchUrl(String p, Class<?>... clazzAr) {

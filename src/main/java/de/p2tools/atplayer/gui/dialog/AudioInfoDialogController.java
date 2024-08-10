@@ -93,7 +93,7 @@ public class AudioInfoDialogController extends P2DialogExtra {
                             break;
                         case AudioDataXml.AUDIO_NEW:
                             if (audioData.isNewAudio()) {
-                                ivNew.setImage(ProgIcons.ICON_DIALOG_ON.getImage());
+                                ivNew.setImage(ProgIcons.ICON_BOOLEAN_IS_ON.getImage());
                             } else {
                                 ivNew.setImage(null);
                             }

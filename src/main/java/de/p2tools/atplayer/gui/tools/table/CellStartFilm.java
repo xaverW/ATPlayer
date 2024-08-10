@@ -17,9 +17,9 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -53,7 +53,7 @@ public class CellStartFilm<S, T> extends TableCell<S, T> {
             final Button btnPlay;
             btnPlay = new Button("");
             btnPlay.getStyleClass().addAll("btnFunction", "btnFuncTable");
-            btnPlay.setGraphic(ProgIcons.IMAGE_TABLE_FILM_PLAY.getImageView());
+            btnPlay.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
             btnPlay.setOnAction((ActionEvent event) -> {
                 int col = getIndex();
                 AudioData film = getTableView().getItems().get(col);
@@ -64,7 +64,7 @@ public class CellStartFilm<S, T> extends TableCell<S, T> {
             final Button btnSave;
             btnSave = new Button("");
             btnSave.getStyleClass().addAll("btnFunction", "btnFuncTable");
-            btnSave.setGraphic(ProgIcons.IMAGE_TABLE_FILM_SAVE.getImageView());
+            btnSave.setGraphic(ProgIcons.ICON_TABLE_FILM_SAVE.getImageView());
             btnSave.setOnAction(event -> {
                 int col = getIndex();
                 AudioData audioData = getTableView().getItems().get(col);
@@ -75,7 +75,7 @@ public class CellStartFilm<S, T> extends TableCell<S, T> {
             final Button btnBookmark;
             btnBookmark = new Button("");
             btnBookmark.getStyleClass().addAll("btnFunction", "btnFuncTable");
-            btnBookmark.setGraphic(ProgIcons.IMAGE_TABLE_FILM_BOOKMARK.getImageView());
+            btnBookmark.setGraphic(ProgIcons.ICON_TABLE_FILM_BOOKMARK.getImageView());
             btnBookmark.setOnAction(e -> {
                 AudioData film = getTableView().getItems().get(getIndex());
                 AudioTools.changeBookmarkFilm(film);
