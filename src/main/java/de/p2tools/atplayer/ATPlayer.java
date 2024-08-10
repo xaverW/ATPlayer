@@ -64,7 +64,7 @@ public class ATPlayer extends Application {
         ProgIcons.initIcons();
         P2ProgIcons.initIcons();
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
-                "", ProgConfig.SYSTEM_DARK_THEME,
+                "", ProgConfig.SYSTEM_DARK_THEME, ProgConfig.SYSTEM_BLACK_WHITE_ICON,
                 ProgData.debug, ProgData.duration);
         P2LibInit.addCssFile(ProgConst.CSS_FILE);
     }
@@ -86,10 +86,11 @@ public class ATPlayer extends Application {
             }
 
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
-                addThemeCss();
-                //erst css ändern, dann
-                ProgColorList.setColorTheme();
-                ProgConfig.SYSTEM_THEME_CHANGED.setValue(!ProgConfig.SYSTEM_THEME_CHANGED.getValue());
+                changeTheme();
+            });
+
+            ProgConfig.SYSTEM_BLACK_WHITE_ICON.addListener((u, o, n) -> {
+                changeTheme();
             });
 
             primaryStage.setScene(scene);
@@ -112,6 +113,13 @@ public class ATPlayer extends Application {
         } catch (final Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void changeTheme() {
+        addThemeCss();
+        //erst css ändern, dann
+        ProgColorList.setColorTheme();
+        ProgConfig.SYSTEM_THEME_CHANGED.setValue(!ProgConfig.SYSTEM_THEME_CHANGED.getValue());
     }
 
     private void addThemeCss() {

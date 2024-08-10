@@ -28,7 +28,7 @@ public class AboutDialogController extends AboutDialog {
 
     public AboutDialogController(ProgData progData) {
         super(progData.primaryStage, ProgConst.PROGRAM_NAME, ProgConst.URL_WEBSITE_ATPLAYER, ProgConst.URL_WEBSITE_HELP,
-                ProgConst.FILE_PROG_ICON, ProgConfig.SYSTEM_PROG_OPEN_URL,
+                ProgConfig.SYSTEM_PROG_OPEN_URL,
                 ProgConfig.SYSTEM_DARK_THEME.getValue(),
                 new String[]{"Audioliste:", "Einstellungen:"},
                 new String[]{ProgInfos.getAudioListFile(), ProgInfos.getSettingsFile().toAbsolutePath().toString()},

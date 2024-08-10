@@ -53,10 +53,7 @@ public class ProgConst {
     // ProgrammUrls
     public static final String ADRESSE_WEBSITE_VLC = "https://www.videolan.org";
 
-    public static final String FILE_PROG_ICON = "/de/p2tools/atplayer/res/P2.png";
-
     // Dateien/Verzeichnisse
-
     public static final double GUI_AUDIO_DIVIDER_LOCATION = 0.7;
     public static final double GUI_FILTER_DIVIDER_LOCATION = 0.3;
 
@@ -72,8 +69,6 @@ public class ProgConst {
     public static final int LAENGE_DATEINAME_MAX = 200; // Standardwert für die Länge des Zieldateinamens
     public static final int LAENGE_FELD_MAX = 100; // Standardwert für die Länge des Feldes des
 
-    public static int DOWNLOAD_ADD_DIALOG_MAX_LOOK_FILE_SIZE = 5;
-
-    //Startnummer/Filmnummer/... wenn nicht vorhanden
+    // Startnummer/Filmnummer/... wenn nicht vorhanden
     public static final int NUMBER_NOT_EXISTS = Integer.MAX_VALUE;
 }

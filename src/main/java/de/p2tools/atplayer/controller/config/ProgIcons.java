@@ -113,23 +113,25 @@ public class ProgIcons {
             ImageView imageView = new ImageView(img);
             imageView.setClip(new ImageView(img));
 
-            ColorAdjust monochrome = new ColorAdjust();
-            monochrome.setSaturation(-1.0);
+            if (ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
+                ColorAdjust monochrome = new ColorAdjust();
+                monochrome.setSaturation(-1.0);
 
-            Blend blush = new Blend(
-                    BlendMode.MULTIPLY,
-                    monochrome,
-                    new ColorInput(
-                            0,
-                            0,
-                            imageView.getImage().getWidth(),
-                            imageView.getImage().getHeight(),
-                            Color.DARKGRAY
-                    )
-            );
-            imageView.setEffect(blush);
-            imageView.setCache(true);
-            imageView.setCacheHint(CacheHint.SPEED);
+                Blend blush = new Blend(
+                        BlendMode.MULTIPLY,
+                        monochrome,
+                        new ColorInput(
+                                0,
+                                0,
+                                imageView.getImage().getWidth(),
+                                imageView.getImage().getHeight(),
+                                Color.DARKGRAY
+                        )
+                );
+                imageView.setEffect(blush);
+                imageView.setCache(true);
+                imageView.setCacheHint(CacheHint.SPEED);
+            }
 
             return imageView;
         }

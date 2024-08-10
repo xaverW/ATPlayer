@@ -12,7 +12,3 @@
     /*-fx-background-color: gainsboro;*/
     -fx-background-color: derive(-fx-control-inner-background, -15%);
 }
-
-.update-grid-cell {
-    -fx-background-color: white ;
-}

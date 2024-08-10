@@ -49,7 +49,7 @@ public class SearchProgramUpdate {
     /**
      * @return
      */
-    public void searchNewProgramVersion(final boolean showAllways) {
+    public void searchNewProgramVersion(final boolean showAlways) {
         final String SEARCH_URL;
         final String SEARCH_URL_DOWNLOAD;
         if (ProgData.debug) {
@@ -84,7 +84,7 @@ public class SearchProgramUpdate {
                 P2ToolsFactory.getBuild(),
                 buildDate,
                 ProgConfig.SYSTEM_DOWNLOAD_DIR_NEW_VERSION,
-                showAllways
+                showAlways
         );
 
         new Thread(() -> {
