@@ -47,6 +47,9 @@ public class ProgConst {
     public static final String URL_WEBSITE_DOWNLOAD = "https://www.p2tools.de/atplayer/download.html";
     public static final String URL_WEBSITE_HELP = "https://www.p2tools.de/atplayer/manual/";
 
+    public static final int SYSTEM_BLACKLIST_MAX_FILM_DAYS = 300; // Filter Blacklist: nur Filme der letzten xx Tage laden
+    public static final int SYSTEM_BLACKLIST_MIN_FILM_DURATION = 100; // Filter Blacklist: nur Filme mit mind. xx Minuten länge laden
+
     // ProgrammUrls
     public static final String ADRESSE_WEBSITE_VLC = "https://www.videolan.org";
 

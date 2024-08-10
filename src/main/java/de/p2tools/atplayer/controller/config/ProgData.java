@@ -19,17 +19,20 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.data.ReplaceList;
+import de.p2tools.atplayer.controller.data.audiodata.AudioList;
+import de.p2tools.atplayer.controller.data.blackdata.BlackList;
+import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
 import de.p2tools.atplayer.controller.data.download.DownloadInfos;
 import de.p2tools.atplayer.controller.data.download.DownloadList;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.controller.starter.StarterClass;
+import de.p2tools.atplayer.controller.worker.Busy;
 import de.p2tools.atplayer.controller.worker.CheckForNewFilmlist;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
-import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.animation.Animation;
@@ -42,6 +45,7 @@ import javafx.util.Duration;
 
 public class ProgData {
     private static ProgData instance;
+    public static Busy busy;
 
     // flags
     public static boolean debug = false; // Debugmodus
@@ -72,25 +76,32 @@ public class ProgData {
 
     // Programmdaten
     public AudioList audioList; // ist die komplette Audioliste
+    public AudioList audioListFiltered; // nach der Blacklist
 
     public DownloadInfos downloadInfos;
     public ReplaceList replaceList;
     public HistoryList historyList; // alle angesehenen Filme
     public HistoryList historyListBookmarks; // markierte Filme
+    public BlackList blackList;
+    public final BlackListFilter blackListFilterBlackList;
 
     boolean oneSecond = false;
 
     private ProgData() {
+        busy = new Busy();
         pShortcut = new PShortcut();
         replaceList = new ReplaceList();
 
-        actFilterWorker = new ActFilterWorker(this);
+        actFilterWorker = new ActFilterWorker();
         audioList = new AudioList();
+        audioListFiltered = new AudioList();
 
         historyList = new HistoryList(ProgConst.FILE_HISTORY,
                 ProgInfos.getSettingsDirectory_String(), false);
         historyListBookmarks = new HistoryList(ProgConst.FILE_BOOKMARKS,
                 ProgInfos.getSettingsDirectory_String(), true);
+        blackList = new BlackList(this);
+        blackListFilterBlackList = new BlackListFilter();
         downloadList = new DownloadList(this);
         starterClass = new StarterClass(this);
         downloadInfos = new DownloadInfos(this);

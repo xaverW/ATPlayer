@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.atplayer.gui.configdialog.downloadpanes;
+package de.p2tools.atplayer.gui.configdialog.panedownload;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;

@@ -17,9 +17,9 @@
 package de.p2tools.atplayer.gui.configdialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneDestination;
-import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneDownload;
-import de.p2tools.atplayer.gui.configdialog.downloadpanes.PaneReplace;
+import de.p2tools.atplayer.gui.configdialog.panedownload.PaneDestination;
+import de.p2tools.atplayer.gui.configdialog.panedownload.PaneDownload;
+import de.p2tools.atplayer.gui.configdialog.panedownload.PaneReplace;
 import de.p2tools.p2lib.dialogs.accordion.P2AccordionPane;
 import javafx.scene.control.TitledPane;
 import javafx.stage.Stage;

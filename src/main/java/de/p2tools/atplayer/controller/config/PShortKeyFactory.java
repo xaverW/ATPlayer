@@ -19,6 +19,7 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.controller.ProgQuit;
 import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutKey;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCodeCombination;
@@ -39,7 +40,6 @@ public class PShortKeyFactory {
 
     private static void playAudio() {
         AudioTools.playAudio();
-        ;
     }
 
     private static void saveAudio() {
@@ -72,6 +72,10 @@ public class PShortKeyFactory {
 
     private static void showAudioInfos() {
         ProgData.getInstance().audioGuiController.showAudioInfo();
+    }
+
+    private static void addBlackList() {
+        new ConfigDialogController(ProgData.getInstance(), true);
     }
 
     public static void addShortKey(Scene scene) {
@@ -149,6 +153,12 @@ public class PShortKeyFactory {
         pShortcutKey = PShortcut.SHORTCUT_AUDIO_NOT_BOOKMARK;
         kc = KeyCodeCombination.keyCombination(pShortcutKey.getActShortcut());
         rn = PShortKeyFactory::unsetBookmark;
+        scene.getAccelerators().put(kc, rn);
+
+        // set blacklist
+        pShortcutKey = PShortcut.SHORTCUT_ADD_BLACKLIST;
+        kc = KeyCodeCombination.keyCombination(pShortcutKey.getActShortcut());
+        rn = PShortKeyFactory::addBlackList;
         scene.getAccelerators().put(kc, rn);
     }
 }

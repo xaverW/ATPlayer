@@ -16,12 +16,12 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioSize;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioSize;
 import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
 import de.p2tools.p2lib.mtfilm.tools.FilmDate;

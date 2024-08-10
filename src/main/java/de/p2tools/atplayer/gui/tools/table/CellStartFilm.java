@@ -17,9 +17,9 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgIcons;
-import de.p2tools.p2lib.atdata.AudioData;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

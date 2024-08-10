@@ -16,13 +16,13 @@
 
 package de.p2tools.atplayer.controller.data.download;
 
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.downloadtools.DownloadFileNameFactory;
 import de.p2tools.atplayer.controller.starter.Start;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioDataXml;
 import de.p2tools.p2lib.mtdownload.DownloadSize;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;

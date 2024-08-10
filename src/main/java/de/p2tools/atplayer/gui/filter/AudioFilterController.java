@@ -14,7 +14,7 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.atplayer.gui;
+package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -62,6 +62,7 @@ public class AudioFilterController extends P2ClosePaneV {
     private final Button btnGoBack = new Button("");
     private final Button btnGoForward = new Button("");
     private final ProgData progData;
+    private AudioFilterControllerBlacklist audioFilterControllerBlacklist;
 
     public AudioFilterController() {
         super(ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON, true);
@@ -70,6 +71,7 @@ public class AudioFilterController extends P2ClosePaneV {
                 progData.worker.getAllChannelList());
         this.mbGenre = new P2MenuButton(progData.actFilterWorker.getActFilterSettings().genreProperty(),
                 progData.worker.getAllGenreList());
+        audioFilterControllerBlacklist = new AudioFilterControllerBlacklist();
 
         // Sender, Thema, ..
         initButton();
@@ -77,6 +79,17 @@ public class AudioFilterController extends P2ClosePaneV {
         initDurFilter();
         initStringFilter();
         addFilter();
+        getVBoxBottom().getChildren().add(audioFilterControllerBlacklist);
+    }
+
+    public VBox getVBoxBottom() {
+        VBox vBox = new VBox();
+        vBox.getStyleClass().add("extra-pane-filter");
+        vBox.setPadding(new Insets(P2LibConst.PADDING));
+        vBox.setSpacing(FILTER_SPACING_TEXTFILTER);
+        vBox.setMaxWidth(Double.MAX_VALUE);
+        super.getVBoxAll().getChildren().addAll(vBox);
+        return vBox;
     }
 
     private void initButton() {

@@ -17,6 +17,7 @@
 
 package de.p2tools.atplayer.controller.config;
 
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
@@ -160,6 +161,20 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_SAVE_MAX_SIZE = addIntProp("system-save-max-size", 150);
     public static IntegerProperty SYSTEM_SAVE_MAX_FIELD = addIntProp("system-save-max-field", 50);
 
+    // Blacklist
+    public static IntegerProperty SYSTEM_BLACKLIST_MAX_FILM_DAYS = addIntProp("system-blacklist-max-film-days", 0);
+    public static IntegerProperty SYSTEM_BLACKLIST_MIN_FILM_DURATION = addIntProp("system-blacklist-min-film-duration", 0); // Minuten
+    public static DoubleProperty CONFIG_DIALOG_BLACKLIST_SPLITPANE = addDoubleProp("config-dialog-blacklist-splitpane", 0.7);
+    public static DoubleProperty CONFIG_DIALOG_FILMLIST_FILTER_SPLITPANE = addDoubleProp("config-dialog-filmlist-filter-splitpane", 0.7);
+    public static IntegerProperty SYSTEM_FILMLIST_FILTER = addIntProp("system-filmlist-filter", BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
+    public static StringProperty ADD_BLACK_DIALOG_SIZE = addStrProp("add-black-dialog-size", "600:400");
+
+    public static StringProperty BLACKLIST_TABLE_WIDTH = addStrProp("blacklist-table-width");
+    public static StringProperty BLACKLIST_TABLE_SORT = addStrProp("blacklist-table-sort");
+    public static StringProperty BLACKLIST_TABLE_UP_DOWN = addStrProp("blacklist-table-up-down");
+    public static StringProperty BLACKLIST_TABLE_VIS = addStrProp("blacklist-table-vis");
+    public static StringProperty BLACKLIST_TABLE_ORDER = addStrProp("blacklist-table-order");
+
     // AudioInfoDialog
     public static BooleanProperty AUDIO_INFO_DIALOG_SHOW_URL = addBoolProp("audio-info-dialog-show-url", Boolean.FALSE);
     public static BooleanProperty AUDIO_INFO_DIALOG_SHOW_WEBSITE_URL = addBoolProp("audio-info-dialog-show-website-url", Boolean.FALSE);
@@ -210,6 +225,8 @@ public class ProgConfig extends P2DataProgConfig {
     // ConfigDialog
     public static StringProperty CONFIG_DIALOG_SIZE = addStrProp("config-dialog-size", "900:700");
     public static BooleanProperty CONFIG_DIALOG_ACCORDION = addBoolProp("config_dialog-accordion", Boolean.TRUE);
+    public static IntegerProperty SYSTEM_CONFIG_DIALOG_BLACKLIST_TAB = new SimpleIntegerProperty(0);
+    public static IntegerProperty SYSTEM_CONFIG_DIALOG_BLACKLIST = new SimpleIntegerProperty(-1);
 
     // StartDialog
     public static StringProperty START_DIALOG_DOWNLOAD_PATH = addStrProp("start-dialog-download-path", P2SystemUtils.getStandardDownloadPath());
@@ -255,6 +272,9 @@ public class ProgConfig extends P2DataProgConfig {
     public static String SHORTCUT_SAVE_INIT = "Ctrl+S";
     public static StringProperty SHORTCUT_SAVE = addStrProp("SHORTCUT_SAVE", SHORTCUT_SAVE_INIT);
 
+    public static String SHORTCUT_ADD_BLACKLIST_INIT = "Alt+B";
+    public static StringProperty SHORTCUT_ADD_BLACKLIST = addStrProp("SHORTCUT_ADD_BLACKLIST_THEME", SHORTCUT_ADD_BLACKLIST_INIT);
+
     private static ProgConfig instance;
 
     static {
@@ -291,6 +311,7 @@ public class ProgConfig extends P2DataProgConfig {
 
         configFile.addConfigs(progData.replaceList);
         configFile.addConfigs(progData.downloadList);
+        configFile.addConfigs(progData.blackList);
     }
 
     public static void logAllConfigs() {

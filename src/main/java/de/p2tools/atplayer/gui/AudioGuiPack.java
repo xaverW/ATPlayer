@@ -18,6 +18,7 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.gui.filter.AudioFilterController;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;

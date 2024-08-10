@@ -33,23 +33,23 @@ import javafx.scene.layout.Priority;
 
 public class StatusBarController extends AnchorPane {
 
-    private final Label lblSelFilm = new Label();
-    private final Label lblLeftFilm = new Label();
-    private final Label lblRightFilm = new Label();
+    private final Label lblSel = new Label();
+    private final Label lblLeft = new Label();
+    private final Label lblRight = new Label();
 
-    private final HBox filmPane;
+    private final HBox hBox;
     private final ProgData progData;
     private boolean stopTimer = false;
 
     public StatusBarController(ProgData progData) {
         this.progData = progData;
 
-        filmPane = getHbox(lblSelFilm, lblLeftFilm, lblRightFilm);
-        getChildren().addAll(filmPane);
-        AnchorPane.setLeftAnchor(filmPane, 0.0);
-        AnchorPane.setBottomAnchor(filmPane, 0.0);
-        AnchorPane.setRightAnchor(filmPane, 0.0);
-        AnchorPane.setTopAnchor(filmPane, 0.0);
+        hBox = getHbox(lblSel, lblLeft, lblRight);
+        getChildren().addAll(hBox);
+        AnchorPane.setLeftAnchor(hBox, 0.0);
+        AnchorPane.setBottomAnchor(hBox, 0.0);
+        AnchorPane.setRightAnchor(hBox, 0.0);
+        AnchorPane.setTopAnchor(hBox, 0.0);
         make();
     }
 
@@ -71,7 +71,7 @@ public class StatusBarController extends AnchorPane {
     }
 
     private void make() {
-        setInfoFilm();
+        setInfoAudio();
         setTextForRightDisplay();
         LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
             @Override
@@ -99,22 +99,22 @@ public class StatusBarController extends AnchorPane {
         });
         progData.checkForNewFilmlist.foundNewListProperty().addListener((u, o, n) -> {
             if (progData.checkForNewFilmlist.isFoundNewList()) {
-                lblRightFilm.setStyle("-fx-underline: true;");
+                lblRight.setStyle("-fx-underline: true;");
             } else {
-                lblRightFilm.setStyle("-fx-underline: false;");
+                lblRight.setStyle("-fx-underline: false;");
             }
         });
     }
 
     public void setStatusbarIndex() {
-        setInfoFilm();
+        setInfoAudio();
         setTextForRightDisplay();
     }
 
-    private void setInfoFilm() {
-        lblLeftFilm.setText(AudioTools.getStatusInfosAudio());
+    private void setInfoAudio() {
+        lblLeft.setText(AudioTools.getStatusInfosAudio());
         final int selCount = progData.audioGuiController.getSelCount();
-        lblSelFilm.setText(selCount > 0 ? selCount + "" : " ");
+        lblSel.setText(selCount > 0 ? selCount + "" : " ");
     }
 
     private void setTextForRightDisplay() {
@@ -142,6 +142,6 @@ public class StatusBarController extends AnchorPane {
 //        }
 
         // Infopanel setzen
-        lblRightFilm.setText(strText);
+        lblRight.setText(strText);
     }
 }

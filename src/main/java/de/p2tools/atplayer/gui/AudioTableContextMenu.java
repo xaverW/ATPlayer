@@ -18,8 +18,9 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
-import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
@@ -46,20 +47,22 @@ public class AudioTableContextMenu {
 
     private void getMenu(ContextMenu contextMenu, AudioData audioData) {
         // Start/Save
-        MenuItem miStart = new MenuItem("Film abspielen");
+        MenuItem miStart = new MenuItem("Abspielen");
         miStart.setOnAction(a -> AudioTools.playAudio(audioData));
         miStart.setDisable(audioData == null);
-        MenuItem miSave = new MenuItem("Film speichern");
+        MenuItem miSave = new MenuItem("Speichern");
         miSave.setOnAction(a -> AudioTools.saveAudio(audioData));
         miSave.setDisable(audioData == null);
         contextMenu.getItems().addAll(miStart, miSave);
 
-        Menu mFilter = addFilter(audioData);// Filter
         contextMenu.getItems().add(new SeparatorMenuItem());
+
+        Menu mFilter = addFilter(audioData);// Filter
         contextMenu.getItems().addAll(mFilter);
+        Menu mBlack = addBlacklist(audioData);
+        contextMenu.getItems().addAll(mBlack);
 
         Menu mCopyUrl = copyUrl(audioData);// URL kopieren
-        contextMenu.getItems().addAll(mCopyUrl);
 
         MenuItem miFilmInfo = new MenuItem("Filminformation anzeigen");
         miFilmInfo.setOnAction(a -> audioGuiController.showAudioInfo());
@@ -74,14 +77,11 @@ public class AudioTableContextMenu {
             P2SystemUtils.copyToClipboard(audioData.getTheme());
         });
 
-        contextMenu.getItems().add(new SeparatorMenuItem());
-        contextMenu.getItems().addAll(/*miFilmsSetShown,*/ miFilmInfo, miCopyName, miCopyTheme);
-
+        contextMenu.getItems().addAll(new SeparatorMenuItem(), mCopyUrl, miFilmInfo, miCopyName, miCopyTheme);
 
         MenuItem resetTable = new MenuItem("Tabelle zurücksetzen");
         resetTable.setOnAction(a -> tableView.resetTable());
-        contextMenu.getItems().add(new SeparatorMenuItem());
-        contextMenu.getItems().addAll(resetTable);
+        contextMenu.getItems().addAll(new SeparatorMenuItem(), resetTable);
     }
 
     private Menu addFilter(AudioData film) {
@@ -93,6 +93,9 @@ public class AudioTableContextMenu {
 
         final MenuItem miFilterChannel = new MenuItem("nach Sender filtern");
         miFilterChannel.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setChannel(film.getChannel()));
+
+        final MenuItem miFilterGenre = new MenuItem("nach Genre filtern");
+        miFilterGenre.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setGenre(film.getGenre()));
 
         final MenuItem miFilterTheme = new MenuItem("nach Thema filtern");
         miFilterTheme.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTheme(film.getTheme()));
@@ -112,8 +115,38 @@ public class AudioTableContextMenu {
             progData.actFilterWorker.getActFilterSettings().setTitle(film.getTitle());
         });
 
-        submenuFilter.getItems().addAll(miFilterChannel, miFilterTheme, miFilterTitle, miFilterChannelTheme, miFilterChannelThemeTitle);
+        submenuFilter.getItems().addAll(miFilterChannel, miFilterGenre, miFilterTheme, miFilterTitle, miFilterChannelTheme, miFilterChannelThemeTitle);
         return submenuFilter;
+    }
+
+    private Menu addBlacklist(AudioData audioData) {
+        Menu submenuBlacklist = new Menu("Blacklist");
+
+        final MenuItem miBlack = new MenuItem("Blacklist-Eintrag für das Audio erstellen");
+        miBlack.setOnAction(event -> BlacklistFactory.addBlack());
+
+        final MenuItem miBlackSenderGenre = new MenuItem("Sender und Genre direkt in die Blacklist einfügen");
+        miBlackSenderGenre.setOnAction(event -> BlacklistFactory.addBlack(audioData.getChannel(), audioData.getGenre(),
+                audioData.getTheme(), ""));
+        final MenuItem miBlackSenderTheme = new MenuItem("Sender und Thema direkt in die Blacklist einfügen");
+        miBlackSenderTheme.setOnAction(event -> BlacklistFactory.addBlack(audioData.getChannel(), "",
+                audioData.getTheme(), ""));
+
+        final MenuItem miBlackTheme = new MenuItem("Thema direkt in die Blacklist einfügen");
+        miBlackTheme.setOnAction(event -> BlacklistFactory.addBlack("", "",
+                audioData.getTheme(), ""));
+
+        final MenuItem miBlackTitle = new MenuItem("Titel direkt in die Blacklist einfügen");
+        miBlackTitle.setOnAction(event -> BlacklistFactory.addBlack("", "",
+                "", audioData.getTitle()));
+
+        miBlack.setDisable(audioData == null);
+        miBlackSenderGenre.setDisable(audioData == null);
+        miBlackSenderTheme.setDisable(audioData == null);
+        miBlackTheme.setDisable(audioData == null);
+        miBlackTitle.setDisable(audioData == null);
+        submenuBlacklist.getItems().addAll(miBlack, miBlackSenderGenre, miBlackSenderTheme, miBlackTheme, miBlackTitle);
+        return submenuBlacklist;
     }
 
     private Menu copyUrl(AudioData filmData) {

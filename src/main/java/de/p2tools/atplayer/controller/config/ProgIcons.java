@@ -20,6 +20,14 @@ package de.p2tools.atplayer.controller.config;
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.icons.P2Icon;
+import javafx.scene.CacheHint;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -34,6 +42,7 @@ public class ProgIcons {
     public static PIcon ICON_DIALOG_ON = new PIcon(ICON_PATH_LONG, ICON_PATH, "dialog-ein.png", 16, 16);
     public static PIcon IMAGE_ACHTUNG_64 = new PIcon(ICON_PATH_LONG, ICON_PATH, "achtung_64.png", 64, 64);
 
+    public static PIcon ICON_BUTTON_EDIT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-edit.png", 16, 16);
     public static PIcon ICON_BUTTON_RESET = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-reset.png", 16, 16);
     public static PIcon ICON_BUTTON_PROPOSE = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-propose.png", 16, 16);
     public static PIcon ICON_BUTTON_BACKWARD = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-backward.png", 16, 16);
@@ -48,6 +57,8 @@ public class ProgIcons {
     public static PIcon IMAGE_TABLE_DOWNLOAD_DEL = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-del.png", 14, 14);
     public static PIcon IMAGE_TABLE_DOWNLOAD_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-stop.png", 14, 14);
     public static PIcon IMAGE_TABLE_DOWNLOAD_OPEN_DIR = new PIcon(ICON_PATH_LONG, ICON_PATH, "table-download-open-dir.png", 14, 14);
+    public static PIcon ICON_BUTTON_WORKER_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-worker-stop.png", 12, 12);
+    public static PIcon ICON_BUTTON_CLEAR = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-clear.png", 16, 16);
 
     public static PIcon ICON_BUTTON_STOP = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-stop.png", 16, 16);
     public static PIcon ICON_BUTTON_NEXT = new PIcon(ICON_PATH_LONG, ICON_PATH, "button-next.png", 16, 16);
@@ -91,6 +102,36 @@ public class ProgIcons {
         public PIcon(String longPath, String path, String fileName, int w, int h) {
             super(longPath, path, fileName, w, h);
             iconList.add(this);
+        }
+
+        public ImageView getImageView() {
+            Image img = getImage();
+            if (img == null) {
+                return new ImageView();
+            }
+
+            ImageView imageView = new ImageView(img);
+            imageView.setClip(new ImageView(img));
+
+            ColorAdjust monochrome = new ColorAdjust();
+            monochrome.setSaturation(-1.0);
+
+            Blend blush = new Blend(
+                    BlendMode.MULTIPLY,
+                    monochrome,
+                    new ColorInput(
+                            0,
+                            0,
+                            imageView.getImage().getWidth(),
+                            imageView.getImage().getHeight(),
+                            Color.DARKGRAY
+                    )
+            );
+            imageView.setEffect(blush);
+            imageView.setCache(true);
+            imageView.setCacheHint(CacheHint.SPEED);
+
+            return imageView;
         }
 
         public boolean searchUrl(String p, Class<?>... clazzAr) {

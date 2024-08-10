@@ -16,6 +16,9 @@
 
 package de.p2tools.atplayer.controller.audio;
 
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
+import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
@@ -26,9 +29,6 @@ import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioDataXml;
-import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.guitools.P2Open;
 
 import java.text.NumberFormat;
@@ -36,8 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
-
-import static de.p2tools.atplayer.controller.downloadtools.RuntimeExec.TRENNER_PROG_ARRAY;
 
 public class AudioTools {
 
@@ -59,7 +57,7 @@ public class AudioTools {
         final String url = audioData.getUrl();
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(url);
-        String[] arrProgCallArray = strProgCallArray.split(TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 url, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -78,7 +76,7 @@ public class AudioTools {
         final String url = buildUrl(audioDataList);
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(url);
-        String[] arrProgCallArray = strProgCallArray.split(TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 url, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -109,7 +107,7 @@ public class AudioTools {
     public static void playAudio(DownloadData downloadData) {
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(downloadData.getDestPathFile());
-        String[] arrProgCallArray = strProgCallArray.split(TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 downloadData.getDestPathFile(), ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());

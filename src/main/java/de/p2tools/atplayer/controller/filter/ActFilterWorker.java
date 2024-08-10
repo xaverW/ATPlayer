@@ -16,12 +16,12 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -34,10 +34,11 @@ public final class ActFilterWorker {
     public static final String SELECTED_FILTER_NAME = "aktuelle Einstellung"; // dient nur der Info im Config-File
     final int MAX_FILTER_HISTORY = 10;
     final int MAX_FILTER_GO_BACK = 5;
-    private final ProgData progData;
+
     private final BooleanProperty filterChange = new SimpleBooleanProperty(true);
     private final BooleanProperty backwardPossible = new SimpleBooleanProperty(false);
     private final BooleanProperty forwardPossible = new SimpleBooleanProperty(false);
+    public BooleanProperty blacklistOnOffProperty = new SimpleBooleanProperty(false);
 
     // ist die Liste der zuletzt verwendeten Filter
     private final ObservableList<AudioFilter> audioFilterListBackward =
@@ -65,19 +66,12 @@ public final class ActFilterWorker {
     private final ObservableList<String> lastThemaTitleFilter = FXCollections.observableArrayList("");
     private final ObservableList<String> lastTitleFilter = FXCollections.observableArrayList("");
     private final ObservableList<String> lastSomewhereFilter = FXCollections.observableArrayList("");
-    private final ChangeListener<Boolean> filterChangeListener;
-    private AudioFilter actAudioFilterSettings = new AudioFilter(SELECTED_FILTER_NAME); // ist der "aktuelle" Filter im Programm
-    private AudioFilter oldActAudioFilterSettings = new AudioFilter(SELECTED_FILTER_NAME); // ist der "aktuelle" Filter im Programm
+
+    private AudioFilter actFilterSettings = new AudioFilter(SELECTED_FILTER_NAME); // ist der "aktuelle" Filter im Programm
 
     private boolean theme = false, themeTitle = false, title = false, somewhere = false;
 
-    public ActFilterWorker(ProgData progData) {
-        this.progData = progData;
-
-        filterChangeListener = (observable, oldValue, newValue) -> {
-            postFilterChange();
-        };
-        actAudioFilterSettings.filterChangeProperty().addListener(filterChangeListener); // wenn der User den Filter ändert
+    public ActFilterWorker() {
         audioFilterListBackward.addListener((ListChangeListener<AudioFilter>) c -> {
             if (audioFilterListBackward.size() > 1) {
                 backwardPossible.setValue(true);
@@ -116,7 +110,7 @@ public final class ActFilterWorker {
      * @return
      */
     public AudioFilter getActFilterSettings() {
-        return actAudioFilterSettings;
+        return actFilterSettings;
     }
 
     /**
@@ -125,23 +119,33 @@ public final class ActFilterWorker {
      * @param sf
      */
     public synchronized void setActFilterSettings(AudioFilter sf) {
+        // da wird ein gespeicherter Filter / Forward / Backward gesetzt
         if (sf == null) {
             return;
         }
-        actAudioFilterSettings.filterChangeProperty().removeListener(filterChangeListener);
-        sf.copyTo(actAudioFilterSettings);
-        postFilterChange();
-        actAudioFilterSettings.filterChangeProperty().addListener(filterChangeListener);
+
+        actFilterSettings.switchFilterOff(true);
+        int black = actFilterSettings.blacklistOnOffProperty().getValue();
+        sf.copyTo(actFilterSettings);
+        actFilterSettings.switchFilterOff(false);
+
+        if (actFilterSettings.blacklistOnOffProperty().getValue() == black) {
+            // Black hat sich nicht geändert
+            postFilterChange();
+        } else {
+            postBlacklistChange();
+        }
     }
 
     public synchronized void clearFilter() {
-        actAudioFilterSettings.filterChangeProperty().removeListener(filterChangeListener);
-        actAudioFilterSettings.clearFilter();
-        audioFilterListForward.clear();
-        audioFilterListBackward.clear();
+        actFilterSettings.switchFilterOff(true);
 
+        actFilterSettings.clearFilter();
+//        audioFilterListForward.clear();
+//        audioFilterListBackward.clear();
+
+        actFilterSettings.switchFilterOff(false);
         postFilterChange();
-        actAudioFilterSettings.filterChangeProperty().addListener(filterChangeListener);
     }
 
     public void goBackward() {
@@ -207,21 +211,21 @@ public final class ActFilterWorker {
         }
     }
 
-    private void setFilterChange() {
-        addLastThemeTitleFilter(progData.actFilterWorker.getActFilterSettings().getTheme());
-        addLastTitleFilter(progData.actFilterWorker.getActFilterSettings().getTitle());
-        addLastSomewhereFilter(progData.actFilterWorker.getActFilterSettings().getSomewhere());
+//    private void setFilterChange() {
+//        addLastThemeTitleFilter(progData.actFilterWorker.getActFilterSettings().getTheme());
+//        addLastTitleFilter(progData.actFilterWorker.getActFilterSettings().getTitle());
+//        addLastSomewhereFilter(progData.actFilterWorker.getActFilterSettings().getSomewhere());
+//
+//        //hier erst mal die actFilter vergleichen, ob geändert
+//        if (!oldFilterSettings.isSame(actFilterSettings, true)) {
+//            actFilterSettings.copyTo(oldFilterSettings);
+//            this.filterChange.set(!filterChange.get());
+//        }
+//    }
 
-        //hier erst mal die actFilter vergleichen, ob geändert
-        if (!oldActAudioFilterSettings.isSame(actAudioFilterSettings, true)) {
-            actAudioFilterSettings.copyTo(oldActAudioFilterSettings);
-            this.filterChange.set(!filterChange.get());
-        }
-    }
-
-    private void addBackward() {
+    public void addBackward() {
         final AudioFilter sf = new AudioFilter();
-        actAudioFilterSettings.copyTo(sf);
+        actFilterSettings.copyTo(sf);
         if (audioFilterListBackward.isEmpty()) {
             audioFilterListBackward.add(sf);
             return;
@@ -283,6 +287,12 @@ public final class ActFilterWorker {
 
     private void postFilterChange() {
         addBackward();
-        setFilterChange();
+        PListener.notify(PListener.EVENT_FILTER_CHANGED, ActFilterWorker.class.getSimpleName());
+    }
+
+    private void postBlacklistChange() {
+        // dann hat sich auch Blacklist-ein/aus geändert
+        BlacklistFilterFactory.makeBlackFiltered();
+        PListener.notify(PListener.EVENT_FILTER_CHANGED, ActFilterWorker.class.getSimpleName());
     }
 }

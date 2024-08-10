@@ -54,7 +54,8 @@ public class ProgMenu extends MenuButton {
         miDarkMode.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
 
         final MenuItem miConfig = new MenuItem("Einstellungen");
-        miConfig.setOnAction(e -> new ConfigDialogController(ProgData.getInstance()).showDialog());
+        miConfig.setOnAction(e -> new ConfigDialogController(ProgData.getInstance()));
+        miConfig.disableProperty().bind(ConfigDialogController.dialogIsRunning);
         getItems().addAll(miDarkMode, miConfig, new SeparatorMenuItem());
 
         //=========================

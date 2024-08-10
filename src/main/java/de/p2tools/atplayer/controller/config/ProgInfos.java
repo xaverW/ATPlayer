@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.Main;
-import de.p2tools.p2lib.atdata.AudioFactory;
+import de.p2tools.atplayer.controller.data.audiodata.AudioFactory;
 import de.p2tools.p2lib.configfile.SettingsDirectory;
 import de.p2tools.p2lib.tools.P2Exception;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -35,7 +35,6 @@ public class ProgInfos {
     public static String getUserAgent() {
         return ProgConfig.SYSTEM_USERAGENT.get();
     }
-
 
     /**
      * Retrieve the path to the program jar file.
@@ -61,7 +60,6 @@ public class ProgInfos {
         }
         return s;
     }
-
 
     /**
      * Liefert den Pfad zur Audioliste

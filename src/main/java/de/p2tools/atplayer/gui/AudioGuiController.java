@@ -16,6 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
@@ -25,7 +26,6 @@ import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -63,7 +63,7 @@ public class AudioGuiController extends AnchorPane {
 
     public AudioGuiController() {
         progData = ProgData.getInstance();
-        sortedList = progData.audioList.getSortedList();
+        sortedList = progData.audioListFiltered.getSortedList();
         pClosePaneHInfo = new P2ClosePaneH(ProgConfig.AUDIO_GUI_DIVIDER_ON, true);
         tabPaneInfo = new TabPane();
         tableView = new TableAudio(Table.TABLE_ENUM.FILM, progData);

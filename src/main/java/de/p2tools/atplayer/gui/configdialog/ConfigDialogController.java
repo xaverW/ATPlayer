@@ -21,6 +21,7 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
@@ -40,21 +41,44 @@ public class ConfigDialogController extends P2DialogExtra {
 
     private final ProgData progData;
     IntegerProperty propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_TAB;
-    ControllerConfig controllerConfig;
-    ControllerPlay controllerPlay;
-    ControllerAudio controllerAudio;
-    ControllerDownload controllerDownload;
+    private ControllerConfig controllerConfig;
+    private ControllerPlay controllerPlay;
+    private ControllerAudio controllerAudio;
+    private ControllerBlackList controllerBlackList;
+    private ControllerDownload controllerDownload;
+    private final BooleanProperty blackChanged = new SimpleBooleanProperty(false);
+
     private P2LoadListener listener;
     private TabPane tabPane = new TabPane();
     private Button btnOk = new Button("_Ok");
     private BooleanProperty diacriticChanged = new SimpleBooleanProperty(false);
+    private boolean blackListDialog = false;
+    private final Button btnApply = new Button("_Anwenden");
+    public static BooleanProperty dialogIsRunning = new SimpleBooleanProperty(false);
 
     public ConfigDialogController(ProgData progData) {
         super(progData.primaryStage, ProgConfig.CONFIG_DIALOG_SIZE, "Einstellungen",
                 true, false, DECO.NO_BORDER, true);
 
         this.progData = progData;
-        init(false);
+        dialogIsRunning.setValue(true);
+        btnApply.setVisible(false);
+        init(true);
+    }
+
+    public ConfigDialogController(ProgData progData, boolean blackListDialog) {
+        super(progData.primaryStage, ProgConfig.CONFIG_DIALOG_SIZE, "Einstellungen",
+                true, false, DECO.NO_BORDER, true);
+
+        this.progData = progData;
+        this.blackListDialog = blackListDialog;
+        dialogIsRunning.setValue(true);
+        if (blackListDialog) {
+            propSelectedTab = ProgConfig.SYSTEM_CONFIG_DIALOG_BLACKLIST_TAB;
+        } else {
+            btnApply.setVisible(false);
+        }
+        init(true);
     }
 
     @Override
@@ -101,19 +125,36 @@ public class ConfigDialogController extends P2DialogExtra {
         getVBoxCont().getChildren().add(tabPane);
         getVBoxCont().setPadding(new Insets(0));
 
-        addOkButton(btnOk);
+        if (btnApply.isVisible()) {
+            // nur dann einfügen
+            addOkCancelApplyButtons(btnOk, null, btnApply);
+            btnApply.setOnAction(a -> onlyApply());
+
+        } else {
+            addOkButton(btnOk);
+        }
         btnOk.setOnAction(a -> close());
 
         ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
         initPanel();
     }
 
+    private void onlyApply() {
+        if (!LoadAudioFactory.getInstance().loadAudioList.getPropLoadAudiolist()) {
+            //dann wird die Blacklist immer neu gemacht, sonst wirds dann eh gemacht
+            new Thread(() -> {
+                BlacklistFilterFactory.markBlack(true);
+                blackChanged.setValue(false);
+            }).start();
+        }
+    }
+
     @Override
     public void close() {
-//        if (!geo.equals(ProgConfig.SYSTEM_GEO_HOME_PLACE.get())) {
-//            // dann hat sich der Geo-Standort geändert
-//            progData.filmlist.markGeoBlocked();
-//        }
+        if (blackChanged.get()) {
+            // sonst hat sich nichts geändert oder wird dann eh gemacht
+            new Thread(() -> BlacklistFilterFactory.markBlack(true)).start();
+        }
 
         if (diacriticChanged.getValue() && ProgConfig.SYSTEM_REMOVE_DIACRITICS.getValue()) {
             //hat sich geändert UND ist eingeschaltet
@@ -131,10 +172,13 @@ public class ConfigDialogController extends P2DialogExtra {
         controllerConfig.close();
         controllerPlay.close();
         controllerAudio.close();
+        controllerBlackList.close();
         controllerDownload.close();
 
         LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.removeListenerLoadFilmlist(listener);
         PListener.notify(PListener.EVEMT_SETDATA_CHANGED, ConfigDialogController.class.getSimpleName());
+
+        dialogIsRunning.setValue(false);
         super.close();
     }
 
@@ -152,25 +196,38 @@ public class ConfigDialogController extends P2DialogExtra {
             Tab tab = new Tab("Allgemein");
             tab.setClosable(false);
             tab.setContent(controllerConfig);
-            tabPane.getTabs().add(tab);
-
+            if (!blackListDialog) {
+                tabPane.getTabs().add(tab);
+            }
             controllerPlay = new ControllerPlay(getStage());
             tab = new Tab("Audios");
             tab.setClosable(false);
             tab.setContent(controllerPlay);
-            tabPane.getTabs().add(tab);
+            if (!blackListDialog) {
+                tabPane.getTabs().add(tab);
+            }
 
             controllerAudio = new ControllerAudio(getStage(), diacriticChanged);
             tab = new Tab("Audioliste laden");
             tab.setClosable(false);
             tab.setContent(controllerAudio);
+            if (!blackListDialog) {
+                tabPane.getTabs().add(tab);
+            }
+
+            controllerBlackList = new ControllerBlackList(this.getStage(), blackChanged);
+            tab = new Tab("Blacklist");
+            tab.setClosable(false);
+            tab.setContent(controllerBlackList);
             tabPane.getTabs().add(tab);
 
             controllerDownload = new ControllerDownload(getStage());
             tab = new Tab("Download");
             tab.setClosable(false);
             tab.setContent(controllerDownload);
-            tabPane.getTabs().add(tab);
+            if (!blackListDialog) {
+                tabPane.getTabs().add(tab);
+            }
 
             tabPane.getSelectionModel().select(propSelectedTab.get());
             tabPane.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {

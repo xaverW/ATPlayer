@@ -16,20 +16,19 @@
 
 package de.p2tools.atplayer.controller.filter;
 
+import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.animation.PauseTransition;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.util.Duration;
 
 public final class AudioFilter extends AudioFilterProps {
 
-    private final BooleanProperty filterChange = new SimpleBooleanProperty(false);
     private final PauseTransition pause = new PauseTransition(Duration.millis(200));
-    private boolean reportChange = true;
-
+    private boolean filterIsOff = false; // Filter ist EIN - meldet Änderungen
 
     public AudioFilter() {
         initFilter();
@@ -41,68 +40,68 @@ public final class AudioFilter extends AudioFilterProps {
         setName(name);
     }
 
-    public boolean isReportChange() {
-        return reportChange;
-    }
-
-    public void setReportChange(boolean reportChange) {
-        this.reportChange = reportChange;
-    }
-
-    public BooleanProperty filterChangeProperty() {
-        return filterChange;
-    }
-
     public void reportFilterReturn() {
+        // sind die ComboBoxen wenn return gedrückt wird
         P2Log.debugLog("reportFilterReturn");
         pause.stop();
-        filterChange.setValue(!filterChange.getValue());
+        ProgData.getInstance().actFilterWorker.addBackward();
+        PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+    }
+
+    private void reportFilterChange() {
+        // sind die anderen Filter (ändern, ein-ausschalten), wenn Pause abgelaufen ist / gestoppt ist
+        if (!filterIsOff) {
+            ProgData.getInstance().actFilterWorker.addBackward();
+            PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+        }
+    }
+
+    public void switchFilterOff(boolean switchOff) {
+        pause.stop();
+        this.filterIsOff = switchOff;
     }
 
     private void initFilter() {
         pause.setOnFinished(event -> reportFilterChange());
         pause.setDuration(Duration.millis(ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue()));
+        pause.setOnFinished(event -> PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName()));
         ProgConfig.SYSTEM_FILTER_WAIT_TIME.addListener((observable, oldValue, newValue) -> {
             P2Log.debugLog("SYSTEM_FILTER_WAIT_TIME: " + ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue());
             pause.setDuration(Duration.millis(ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue()));
         });
 
         clearFilter();
-        nameProperty().addListener(l -> setFilterChange());
-        channelProperty().addListener(l -> setFilterChange());
-        genreProperty().addListener(l -> setTxtFilterChange());
-        themeProperty().addListener(l -> setTxtFilterChange());
-        titleProperty().addListener(l -> setTxtFilterChange());
-        somewhereProperty().addListener(l -> setTxtFilterChange());
-        timeRangeProperty().addListener(l -> setFilterChange());
-        minDurProperty().addListener(l -> setFilterChange());
-        maxDurProperty().addListener(l -> setFilterChange());
-        onlyNewProperty().addListener(l -> setFilterChange());
-        onlyBookmarkProperty().addListener(l -> setFilterChange());
-        noHistoryProperty().addListener(l -> setFilterChange());
+        nameProperty().addListener(l -> setFilterChange(false));
+        channelProperty().addListener(l -> setFilterChange(true));
+        genreProperty().addListener(l -> setFilterChange(true));
+        themeProperty().addListener(l -> setFilterChange(false));
+        titleProperty().addListener(l -> setFilterChange(false));
+        somewhereProperty().addListener(l -> setFilterChange(false));
+        timeRangeProperty().addListener(l -> setFilterChange(true));
+        minDurProperty().addListener(l -> setFilterChange(true));
+        maxDurProperty().addListener(l -> setFilterChange(true));
+        onlyNewProperty().addListener(l -> setFilterChange(true));
+        onlyBookmarkProperty().addListener(l -> setFilterChange(true));
+        noHistoryProperty().addListener(l -> setFilterChange(true));
+        blacklistOnOffProperty().addListener(l -> reportBlacklistChange());
     }
 
-    private void setTxtFilterChange() {
-        //wird auch ausgelöst durch Eintrag in die FilterHistory, da wird ein neuer SelectedFilter angelegt
-        P2Log.debugLog("setTxtFilterChange");
-        if (ProgConfig.SYSTEM_FILTER_RETURN.getValue()) {
+    private void reportBlacklistChange() {
+        if (!filterIsOff) { // todo ??
+            BlacklistFilterFactory.makeBlackFiltered();
+            PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+        }
+    }
+
+    private void setFilterChange(boolean startNow) {
+        // wird ausgelöst, wenn ein Filter ein/ausgeschaltet wird oder was eingetragen wird
+        if (!startNow && ProgConfig.SYSTEM_FILTER_RETURN.getValue()) {
             //dann wird erst nach "RETURN" gestartet
             pause.stop();
 
         } else {
+            // dann wird sofort gestartet (nach Pause)
             pause.playFromStart();
-        }
-    }
-
-    private void setFilterChange() {
-        //wird auch ausgelöst durch Eintrag in die FilterHistory, da wird ein neuer SelectedFilter angelegt
-        P2Log.debugLog("setFilterChange");
-        pause.playFromStart();
-    }
-
-    private void reportFilterChange() {
-        if (reportChange) {
-            filterChange.setValue(!filterChange.getValue());
         }
     }
 

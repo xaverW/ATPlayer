@@ -32,6 +32,9 @@ public class PListener implements EventListener {
     public static final int EVENT_GUI_HISTORY_CHANGED = count++;
     public static final int EVENT_HISTORY_CHANGED = count++;
     public static final int EVEMT_SETDATA_CHANGED = count++;
+    public static final int EVENT_FILTER_CHANGED = count++;
+    public static final int EVENT_BLACKLIST_CHANGED = count++;
+
     public int[] event = {-1};
     public String eventClass = "";
 

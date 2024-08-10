@@ -42,6 +42,10 @@ public class Table {
     private static StringProperty confVis; //Spalte ist sichtbar
     private static StringProperty confOrder; //"Reihenfolge" der Spalten
 
+    public enum TABLE_ENUM {
+        FILM, DOWNLOAD, BLACKLIST
+    }
+
     public static void setTable(PTable table) {
         // Tabelle setzen
         try {
@@ -153,6 +157,14 @@ public class Table {
                 confUpDown = ProgConfig.DOWNLOAD_GUI_TABLE_UP_DOWN;
                 confVis = ProgConfig.DOWNLOAD_GUI_TABLE_VIS;
                 confOrder = ProgConfig.DOWNLOAD_GUI_TABLE_ORDER;
+                break;
+
+            case BLACKLIST:
+                confWidth = ProgConfig.BLACKLIST_TABLE_WIDTH;
+                confSort = ProgConfig.BLACKLIST_TABLE_SORT;
+                confUpDown = ProgConfig.BLACKLIST_TABLE_UP_DOWN;
+                confVis = ProgConfig.BLACKLIST_TABLE_VIS;
+                confOrder = ProgConfig.BLACKLIST_TABLE_ORDER;
                 break;
         }
     }
@@ -267,9 +279,5 @@ public class Table {
             arr[i] = true;
         }
         return arr;
-    }
-
-    public enum TABLE_ENUM {
-        FILM, DOWNLOAD
     }
 }

@@ -87,13 +87,18 @@ public class PShortcut {
 
     public static final P2ShortcutKey SHORTCUT_AUDIO_BOOKMARK =
             new P2ShortcutKey(ProgConfig.SHORTCUT_AUDION_BOOKMARK, ProgConfig.SHORTCUT_AUDIO_BOOKMARK_INIT,
-                    "Audio als gesehen markieren",
-                    "Der Beitrag wird zur Liste der gehörten Audios hinzugefügt.");
+                    "Bookmark für das Audio anlegen",
+                    "Der Beitrag wird zur Liste der Bookmarks hinzugefügt.");
 
     public static final P2ShortcutKey SHORTCUT_AUDIO_NOT_BOOKMARK =
             new P2ShortcutKey(ProgConfig.SHORTCUT_AUDIO_NOT_BOOKMARK, ProgConfig.SHORTCUT_AUDIO_NOT_BOOKMARK_INIT,
-                    "Audio als ungesehen markieren",
-                    "Der Beitrag wird aus der Liste der gehörten Audios gelöscht.");
+                    "Bookmark des Audios löschen",
+                    "Der Beitrag wird aus der Liste der Bookmarks gelöscht.");
+
+    public static final P2ShortcutKey SHORTCUT_ADD_BLACKLIST =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_ADD_BLACKLIST, ProgConfig.SHORTCUT_ADD_BLACKLIST_INIT,
+                    "Blacklist-Dialog öffnen",
+                    "Den Blacklist-Dialog zum Ändern der Blacklist, öffnen");
 
     private static final ObservableList<P2ShortcutKey> shortcutList = FXCollections.observableArrayList();
 
@@ -103,7 +108,6 @@ public class PShortcut {
         shortcutList.add(SHORTCUT_CENTER_GUI);
         shortcutList.add(SHORTCUT_QUIT_PROGRAM);
 
-
         shortcutList.add(SHORTCUT_INFO_AUDIO);
         shortcutList.add(SHORTCUT_PLAY);
         shortcutList.add(SHORTCUT_PLAY_ALL);
@@ -111,6 +115,10 @@ public class PShortcut {
 
         shortcutList.add(SHORTCUT_AUDIO_SHOWN);
         shortcutList.add(SHORTCUT_AUDIO_NOT_SHOWN);
+
+        shortcutList.add(SHORTCUT_AUDIO_BOOKMARK);
+        shortcutList.add(SHORTCUT_AUDIO_NOT_BOOKMARK);
+        shortcutList.add(SHORTCUT_ADD_BLACKLIST);
     }
 
     public static synchronized ObservableList<P2ShortcutKey> getShortcutList() {

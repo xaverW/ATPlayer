@@ -39,9 +39,21 @@ public class AudioFilterRunner {
     public AudioFilterRunner(ProgData progData) {
         this.progData = progData;
         progData.actFilterWorker.filterChangeProperty().addListener((observable, oldValue, newValue) -> filter()); // Filmfilter (User) haben sich geändert
+        PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+            @Override
+            public void ping() {
+                filterList();
+            }
+        });
+        PListener.addListener(new PListener(PListener.EVENT_FILTER_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+            @Override
+            public void ping() {
+                filterList();
+            }
+        });
         PListener.addListener(new PListener(PListener.EVENT_DIACRITIC_CHANGED, AudioFilterRunner.class.getSimpleName()) {
             @Override
-            public void pingFx() {
+            public void ping() {
                 filterList();
             }
         });
@@ -59,7 +71,7 @@ public class AudioFilterRunner {
     }
 
     public void filter() {
-        Platform.runLater(() -> filterList());
+        Platform.runLater(this::filterList);
     }
 
     private void filterList() {
@@ -73,7 +85,7 @@ public class AudioFilterRunner {
                     P2Log.debugLog("========================================");
 
                     P2Duration.counterStart("AudioFilterRunner.filterList");
-                    progData.audioList.filteredListSetPred(
+                    progData.audioListFiltered.filteredListSetPred(
                             AudioPredicateFactory.getPredicate(progData.actFilterWorker.getActFilterSettings()));
                     P2Duration.counterStop("AudioFilterRunner.filterList");
 

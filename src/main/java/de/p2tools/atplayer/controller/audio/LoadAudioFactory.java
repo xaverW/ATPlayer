@@ -19,11 +19,12 @@ package de.p2tools.atplayer.controller.audio;
 
 import de.p2tools.atplayer.controller.ProgSave;
 import de.p2tools.atplayer.controller.UpdateCheckFactory;
+import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
-import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.tools.date.P2DateConst;
@@ -73,7 +74,8 @@ public class LoadAudioFactory {
                 if (ProgData.firstProgramStart) {
                     ProgSave.saveAll(); // damit nichts verloren geht
                 }
-
+                ProgData.getInstance().maskerPane.setMaskerText("Blacklist filtern");
+                BlacklistFilterFactory.markBlack(false);
                 AudioTools.markShownAndBookmarks();
 
                 // activate the saved filter

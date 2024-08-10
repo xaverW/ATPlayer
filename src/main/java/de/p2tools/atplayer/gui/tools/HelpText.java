@@ -498,4 +498,140 @@ public class HelpText {
                     "Downloaddatei resultiert:\n" +
                     "'Volumes/Pfad/Thema-Titel.mp4' bzw. 'C:\\Pfad\\Thema-Titel.mp4'.\n";
 
+    public static final String BLACKLIST_SIZE =
+            "Filme ohne Längenangabe werden immer angezeigt und ggf. von Abos als Download angelegt.\n" +
+                    "\n" +
+                    "Kurze Filme sind oft nur Trailer.\n" +
+                    "\n" +
+                    "Wenn die Filmliste hiermit verkürzt wird kann das Arbeiten mit den Filmen schneller werden." +
+                    "\n";
+
+    public static final String BLACKLIST_DAYS =
+            "Filme ohne Datum werden immer angezeigt und ggf. von Abos als Download angelegt.\n" +
+                    "\n" +
+                    "Wenn die Filmliste hiermit verkürzt wird kann das Arbeiten mit den Filmen schneller werden." +
+                    "\n";
+
+    public static final String SEARCH_SPECIAL =
+            "-- Besonderheiten --" +
+                    "\n" +
+                    "Wenn bei \"Thema\" der Schalter \"Exakt\" eingeschaltet ist, darf der Suchtext " +
+                    "nicht \"an beliebiger Stelle darin enthalten\" sein, sondern muss das gesamte " +
+                    "Feld darstellen.\n" +
+                    "Beispiele:\n" +
+                    "\"Exakt\" eingeschaltet: 'Dokumentation' erfasst nur 'Dokumentation' oder " +
+                    "'dokumentation', nichts sonst.\n" +
+                    "\"Exakt\" ausgeschaltet: 'Dokumentation' erfasst u.a. 'Dokumentationen und Reportagen', " +
+                    "'Reportage & Dokumentation', 'Geschichtsdokumentationen'.\n" +
+                    "\n" +
+                    "[Thema-Titel] durchsucht in der Filmliste THEMA und TITEL.\n" +
+                    "Bei einer Suche nach mehreren Suchbegriffen müssen hier alle Suchbegriffe im selben Bereich " +
+                    "vorkommen. Ein Film mit 'Sport' in THEMA und 'Fussball' in TITEL wird von " +
+                    "'Sport:Fussball' nicht erfasst." +
+                    "\n";
+
+    public static final String FILTER_FIELD =
+            "Mit den Textfeldern kann nach einem wörtlichen Suchtext (Suchtext muss enthalten sein/" +
+                    "oder darf nicht enthalten sein) " +
+                    "oder nach " +
+                    "regulären Ausdrücken (RegExp) gesucht werden.\n" +
+                    "\n" +
+                    "Groß- und Kleinschreibung wird bei beiden Arten der Suche nicht unterschieden.\n" +
+                    "\n" +
+
+                    "-- Wörtlicher Suchtext muss enthalten sein --\n" +
+                    "Ein wörtlicher Suchtext findet alle Dateien bei denen der Suchtext an beliebiger " +
+                    "Stelle im durchsuchten Bereich enthalten ist." +
+                    "\n" +
+                    "\n" +
+                    "Wörtlicher Suchtext muss in \" angegeben werden. Dann wird alles gefunden, was im durchsuchten " +
+                    "Bereich den Inhalt zwischen den \" enthält. Hier sind auch \",\" und \":\" erlaubt. Der gesamte Suchtext " +
+                    "muss aber in \" eingeschlossen werden, z.B." +
+                    "\n" +
+                    "\"das, das und das wird gesucht\"" +
+                    "\n" +
+                    "Dann muss der durchsuchte " +
+                    "Bereich genau das \"das, das und das wird gesucht\" enthalten (ohne die \")." +
+                    "\n" +
+                    "Eine Suche mit RegEx, z.B. \"#:.*pass,+.*\" kann damit verkürzt werden: \"pass,\". " +
+                    "Das ist kürzer und läuft im Programm auch schneller." +
+                    "\n\n" +
+
+                    "Um mehrere Begriffe zu suchen müssen diese durch Komma oder Doppelpunkt " +
+                    "getrennt werden. Das Komma verknüpft die Begriffe mit ODER (=> mindestens einer der Begriffe " +
+                    "muss vorkommen), der Doppelpunkt mit UND (=> alle Begriffe müssen vorkommen).\n" +
+                    "\n" +
+                    "\n" +
+
+                    "-- Wörtlicher Suchtext darf nicht enthalten sein --\n" +
+                    "Der Suchtext muss mit '!:' (ohne die ' ') beginnen.\n" +
+                    "Ein wörtlicher Suchtext schließt alle Dateien aus, bei denen der Suchtext an beliebiger " +
+                    "Stelle im durchsuchten Bereich enthalten ist.\n" +
+                    "\n" +
+                    "Um mehrere Begriffe auszuschließen, müssen diese durch Komma oder Doppelpunkt " +
+                    "getrennt werden. Das Komma verknüpft die Begriffe mit ODER (=> mindestens einer der Begriffe " +
+                    "muss enthalten sein) und der Doppelpunkt verknüpft die Begriffe mit UND " +
+                    "(=> alle Begriffe müssen enthalten sein, damit der Beitrag ausgeschlossen wird).\n" +
+                    "\n" +
+                    "\n" +
+
+                    "Suchtext und Suchbegriffe dürfen Leerzeichen enthalten, aber kein Komma und keinen Doppelpunkt " +
+                    "(wenn der gesamte Suchtext nicht in \" eingeschlossen ist.)" +
+                    "\n" +
+                    "\n" +
+                    "Beispiele:" +
+                    "\n" +
+                    "'Tagesschau' findet u.a. 'Tagesschau, 12:00 Uhr', 'ARD Tagesschau Livestream', 'Bei Logo und der Tagesschau'.\n" +
+                    "'Sport,Fussball' (Komma-getrennt) findet Filme bei denen 'Sport' oder 'Fussball' " +
+                    "oder beides vorkommt, u.a. 'Wintersport im Mumintal' und 'Wie wird man Fussballprofi?'.\n" +
+                    "'Sport:Fussball' (Doppelpunkt-getrennt) findet nur Dateien bei denen " +
+                    "beides ('Sport' und 'Fussball') vorkommt, z.B. 'Wintersport, Fussball und Formel 1'.\n" +
+                    "\n" +
+                    "'!:Auto,Motorrad', es werden nur Beiträge gefunden, die weder \"Auto\" noch \"Motorrad\" " +
+                    "enthalten.\n" +
+                    "'!:Auto:Motorrad', es werden Beiträge gefunden, die \"Auto\" *und* \"Motorrad\" " +
+                    "*nicht* enthalten.\n" +
+
+                    "\n" +
+                    "-- Reguläre Ausdrücke --\n" +
+                    "Ein Suchtext aus regulären Ausdrücken (RegExp) muss mit '#:' (ohne die ' ') beginnen.\n" +
+                    "\n" +
+                    "Beliebige Zeichen mit in die Suche aufnehmen (als '.+', '.*' oder '.?'') macht einen Unterschied!\n" +
+                    "\n" +
+                    "Beispiele:\n" +
+                    "'#:Burger' oder '#:^burger$' -- beide finden 'Burger' und 'burger' und nichts sonst.\n" +
+                    "'#:Burger.+' findet nicht 'Burger', aber alles was nach 'Burger' noch Zeichen " +
+                    "enthält (z.B. 'Burger für die Straubing Tigers').\n" +
+                    "'#:.+burger' findet alles was auf 'burger' oder 'Burger' " +
+                    "endet (z.B. 'Der Hamburger' und '1. Burger').\n" +
+                    "\n" +
+                    "Mehr zu regulären Ausdrücken:\n" +
+                    "https://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck" +
+                    "\n";
+
+    public static final String BLACKLIST_WHITELIST =
+            "Die Funktion \"Blacklist\" blendet alle Filme aus, die den Angaben in mindestens einer Zeile " +
+                    "in der Tabelle entsprechen. " +
+                    "Bei der \"Whitelist\" ist es umgekehrt, es werden nur Filme angezeigt, die den " +
+                    "Angaben in mindestens einer Zeile entsprechen. " +
+                    "Beim Umschalten zwischen Blacklist und Whitelist wird also die Auswahl der angezeigten Filme invertiert.\n" +
+                    "\n" +
+                    FILTER_FIELD + "\n" +
+                    "\n" +
+                    SEARCH_SPECIAL +
+                    "\n";
+
+    public static final String BLACKLIST_MOVE =
+            "Beim \"Kopieren\" oder \"Verschieben\" werden die markierten Filter in den anderen Filmfilter " +
+                    "\"Filme laden\" oder \"Blacklist\" kopiert oder verschoben.";
+
+    public static final String BLACKLIST_COUNT =
+            "Beim \"Treffer zählen\" wird jeder Film gegen alle Filter geprüft und jeder Treffer " +
+                    "wird gezählt.\n" +
+                    "Anders beim Filtern der Filmliste: " +
+                    "Dort wird nach dem ersten Treffer die weitere Suche abgebrochen. Das ist " +
+                    "dadurch also etwas schneller." +
+                    "\n\n" +
+                    "\"Putzen\" entfernt doppelte und leere Blacklist-Einträge. Das wird auch automatisch " +
+                    "beim Programmstart gemacht.";
 }
