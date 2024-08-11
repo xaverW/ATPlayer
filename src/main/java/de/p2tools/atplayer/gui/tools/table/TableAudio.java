@@ -16,15 +16,14 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioSize;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioSize;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.p2lib.guitools.P2TableFactory;
-import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
-import de.p2tools.p2lib.mtfilm.tools.FilmDate;
+import de.p2tools.p2lib.tools.date.P2Date;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -63,52 +62,64 @@ public class TableAudio extends PTable<AudioData> {
         final TableColumn<AudioData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));
         nrColumn.getStyleClass().add("alignCenterRightPadding_10");
+        TableAudioFactory.columnFactoryInteger(nrColumn);
 
         final TableColumn<AudioData, String> senderColumn = new TableColumn<>("Sender");
         senderColumn.setCellValueFactory(new PropertyValueFactory<>("channel"));
         senderColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryString(senderColumn);
 
         final TableColumn<AudioData, String> genreColumn = new TableColumn<>("Genre");
         genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
         genreColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryString(genreColumn);
 
         final TableColumn<AudioData, String> themeColumn = new TableColumn<>("Thema");
         themeColumn.setCellValueFactory(new PropertyValueFactory<>("theme"));
         themeColumn.getStyleClass().add("alignCenterLeft");
+        TableAudioFactory.columnFactoryString(themeColumn);
 
         final TableColumn<AudioData, String> titleColumn = new TableColumn<>("Titel");
         titleColumn.setCellValueFactory(new PropertyValueFactory<>("title"));
         titleColumn.getStyleClass().add("alignCenterLeft");
+        TableAudioFactory.columnFactoryString(titleColumn);
 
         final TableColumn<AudioData, String> startColumn = new TableColumn<>("");
         startColumn.setCellFactory(new CellStartFilm<>().cellFactory);
         startColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryButton(startColumn);
 
-        final TableColumn<AudioData, FilmDate> dateColumn = new TableColumn<>("Datum");
+        final TableColumn<AudioData, P2Date> dateColumn = new TableColumn<>("Datum");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         dateColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryP2Date(dateColumn);
 
         final TableColumn<AudioData, String> timeColumn = new TableColumn<>("Zeit");
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         timeColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryString(timeColumn);
 
         final TableColumn<AudioData, Integer> durationColumn = new TableColumn<>("Dauer [min]");
-        durationColumn.setCellFactory(new CellDuration<AudioData, Integer>().cellFactory);
+//        durationColumn.setCellFactory(new CellDuration<AudioData, Integer>().cellFactory);
         durationColumn.setCellValueFactory(new PropertyValueFactory<>("durationMinute"));
         durationColumn.getStyleClass().add("alignCenterRightPadding_25");
+        TableAudioFactory.columnFactoryInteger(durationColumn);
 
         final TableColumn<AudioData, AudioSize> sizeColumn = new TableColumn<>("Größe [MB]");
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("audioSize"));
         sizeColumn.getStyleClass().add("alignCenterRightPadding_25");
+        TableAudioFactory.columnFactoryFilmSize(sizeColumn);
 
         final TableColumn<AudioData, Boolean> newAudioColumn = new TableColumn<>("Neu");
         newAudioColumn.setCellValueFactory(new PropertyValueFactory<>("newAudio"));
-        newAudioColumn.setCellFactory(new P2CellCheckBox().cellFactory);
+//        newAudioColumn.setCellFactory(new P2CellCheckBox().cellFactory);
         newAudioColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryBoolean(newAudioColumn);
 
         final TableColumn<AudioData, String> urlColumn = new TableColumn<>("URL");
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         urlColumn.getStyleClass().add("alignCenterLeft");
+        TableAudioFactory.columnFactoryString(urlColumn);
 
         nrColumn.setPrefWidth(50);
         startColumn.setPrefWidth(125);

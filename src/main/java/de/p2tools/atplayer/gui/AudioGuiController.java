@@ -16,11 +16,11 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
@@ -164,6 +164,12 @@ public class AudioGuiController extends AnchorPane {
         });
         PListener.addListener(new PListener(new int[]{PListener.EVENT_HISTORY_CHANGED},
                 AudioGuiController.class.getSimpleName()) {
+            @Override
+            public void pingFx() {
+                P2TableFactory.refreshTable(tableView);
+            }
+        });
+        PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, this.getClass().getSimpleName()) {
             @Override
             public void pingFx() {
                 P2TableFactory.refreshTable(tableView);

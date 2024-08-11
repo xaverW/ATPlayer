@@ -17,39 +17,40 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.config.ProgColorList;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import javafx.scene.control.TableRow;
 
 
-public class TableRowAudio<T> extends TableRow {
+public class TableRowAudio<T> extends TableRow<T> {
 
     public TableRowAudio() {
     }
 
     @Override
-    public void updateItem(Object f, boolean empty) {
-        super.updateItem(f, empty);
+    public void updateItem(T item, boolean empty) {
+        super.updateItem(item, empty);
 
-        AudioData film = (AudioData) f;
-        if (film == null || empty) {
+        if (item == null || empty) {
             setStyle("");
+            setTooltip(null);
 
         } else {
-            if (film.isNewAudio()) {
-                for (int i = 0; i < getChildren().size(); i++) {
-                    getChildren().get(i).setStyle(ProgColorList.AUDIO_NEW.getCssFont());
-                }
-
-            } else {
-                for (int i = 0; i < getChildren().size(); i++) {
-                    getChildren().get(i).setStyle("");
-                }
-            }
-            if (film.isBookmark()) {
+            AudioData audioData = (AudioData) item;
+//            if (film.isNewAudio()) {
+//                for (int i = 0; i < getChildren().size(); i++) {
+//                    getChildren().get(i).setStyle(ProgColorList.AUDIO_NEW.getCssFont());
+//                }
+//
+//            } else {
+//                for (int i = 0; i < getChildren().size(); i++) {
+//                    getChildren().get(i).setStyle("");
+//                }
+//            }
+            if (audioData.isBookmark()) {
                 setStyle(ProgColorList.AUDIO_BOOKMARK.getCssBackground());
 
-            } else if (film.isShown()) {
+            } else if (audioData.isShown()) {
                 setStyle(ProgColorList.AUDIO_HISTORY.getCssBackground());
 
             } else {

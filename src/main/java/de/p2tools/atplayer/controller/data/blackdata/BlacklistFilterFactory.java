@@ -22,7 +22,6 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
-import de.p2tools.atplayer.controller.worker.Busy;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 
@@ -43,13 +42,13 @@ public class BlacklistFilterFactory {
     private BlacklistFilterFactory() {
     }
 
-    public static void markBlackThread(boolean notify) {
-        ProgData.busy.busyOnFx(Busy.BUSY_SRC.GUI, "Blacklist", -1, false);
-        new Thread(() -> {
-            BlacklistFilterFactory.markBlack(notify);
-            ProgData.busy.busyOffFx();
-        }).start();
-    }
+//    public static void markBlackThread(boolean notify) {
+//        ProgData.busy.busyOnFx(Busy.BUSY_SRC.GUI, "Blacklist", -1, false);
+//        new Thread(() -> {
+//            BlacklistFilterFactory.markBlack(notify);
+//            ProgData.busy.busyOffFx();
+//        }).start();
+//    }
 
     public static synchronized void markBlack(boolean notify) {
         // Filmliste geladen, Button/Menü, ConfigDialog, Filter blkBtn
