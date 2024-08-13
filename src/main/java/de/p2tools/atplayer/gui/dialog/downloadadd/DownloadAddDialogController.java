@@ -18,10 +18,10 @@ package de.p2tools.atplayer.gui.dialog.downloadadd;
 
 
 import de.p2tools.atplayer.controller.ProgSave;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
@@ -88,7 +88,7 @@ public class DownloadAddDialogController extends P2DialogExtra {
         addDownloadDto.btnDest.setTooltip(new Tooltip("Einen Pfad zum Speichern auswählen."));
         addDownloadDto.btnDest.setOnAction(event -> P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, addDownloadDto.cboPath));
 
-        addDownloadDto.btnPropose.setGraphic(ProgIcons.ICON_BUTTON_PROPOSE.getImageView());
+        addDownloadDto.btnPropose.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
         addDownloadDto.btnPropose.setTooltip(new Tooltip("Einen Pfad zum Speichern vorschlagen lassen."));
         addDownloadDto.btnPropose.setOnAction(event ->
                 addDownloadDto.initPathName.proposeDestination());

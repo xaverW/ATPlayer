@@ -89,7 +89,7 @@ public class ConfigDialogController extends P2DialogExtra {
         });
         Button btnStop = getMaskerPane().getButton();
         getMaskerPane().setButtonText("");
-        btnStop.setGraphic(ProgIcons.ICON_BUTTON_STOP.getImageView());
+        btnStop.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
         btnStop.setOnAction(a -> LoadAudioFactory.getInstance().loadAudioList.setStop(true));
         listener = new P2LoadListener() {
             @Override

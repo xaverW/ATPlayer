@@ -63,11 +63,11 @@ public class AudioMenu extends VBox {
         this.getChildren().add(vBoxSpace);
 
         final ToolBarButton btnPlay = new ToolBarButton(this,
-                "Abspielen", "Markiertes Audio abspielen", ProgIcons.ICON_TOOLBAR_AUDIO_START.getImageView());
+                "Abspielen", "Markiertes Audio abspielen", ProgIcons.ICON_TOOLBAR_START.getImageView());
         final ToolBarButton btnPlayAll = new ToolBarButton(this,
-                "Abspielen", "Markierte Audios abspielen", ProgIcons.ICON_TOOLBAR_AUDIO_ALL_START.getImageView());
+                "Abspielen", "Markierte Audios abspielen", ProgIcons.ICON_TOOLBAR_START_ALL.getImageView());
         final ToolBarButton btnSave = new ToolBarButton(this,
-                "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_AUDIO_REC.getImageView());
+                "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_REC.getImageView());
 
         btnPlay.setOnAction(a -> AudioTools.playAudio());
         btnPlayAll.setOnAction(a -> AudioTools.playAllAudios());
@@ -79,9 +79,9 @@ public class AudioMenu extends VBox {
         this.getChildren().add(vBoxSpace);
 
         final ToolBarButton btDelAllBookmark = new ToolBarButton(this,
-                "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen", ProgIcons.ICON_TOOLBAR_AUDIO_DEL_ALL_BOOKMARK.getImageView());
+                "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen", ProgIcons.ICON_TOOLBAR_DEL_ALL_BOOKMARK.getImageView());
         final ToolBarButton btFilterBookmark = new ToolBarButton(this,
-                "Bookmarks anzeigen", AUDIO_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_AUDIO_BOOKMARK_FILTER.getImageView());
+                "Bookmarks anzeigen", AUDIO_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_BOOKMARK_FILTER.getImageView());
 
         btDelAllBookmark.setOnAction(a -> ProgData.getInstance().historyListBookmarks.clearAll(ProgData.getInstance().primaryStage));
         btFilterBookmark.setOnAction(a -> {

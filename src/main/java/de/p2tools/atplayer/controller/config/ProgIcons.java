@@ -22,6 +22,7 @@ import de.p2tools.p2lib.icons.P2Image;
 public class ProgIcons {
 
     public static String ICON_PATH_LONG = "/de/p2tools/atplayer/res/program/";
+    // public static String ICON_PATH_LONG = "de/p2tools/p2lib/progicons/";
 
     public static P2Image ICON_BOOLEAN_IS_ON = new P2Image(ICON_PATH_LONG, "boolean-is-on.png", 16, 16);
     public static P2Image ICON_ATTENTION_64 = new P2Image(ICON_PATH_LONG, "attention-64.png", 64, 64);
@@ -30,7 +31,6 @@ public class ProgIcons {
     public static P2Image ICON_BUTTON_BACKWARD = new P2Image(ICON_PATH_LONG, "button-backward.png", 16, 16);
     public static P2Image ICON_BUTTON_CLEAN = new P2Image(ICON_PATH_LONG, "button-clean.png", 16, 16);
     public static P2Image ICON_BUTTON_CLEAR = new P2Image(ICON_PATH_LONG, "button-clear.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_CLEAN = new P2Image(ICON_PATH_LONG, "button-download-clean.png", 16, 16);
     public static P2Image ICON_BUTTON_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "button-download-del.png", 16, 16);
     public static P2Image ICON_BUTTON_DOWNLOAD_EDIT = new P2Image(ICON_PATH_LONG, "button-download-edit.png", 16, 16);
     public static P2Image ICON_BUTTON_DOWNLOAD_START_ALL = new P2Image(ICON_PATH_LONG, "button-download-start-all.png", 16, 16);
@@ -45,11 +45,9 @@ public class ProgIcons {
     public static P2Image ICON_BUTTON_MOVE_UP = new P2Image(ICON_PATH_LONG, "button-move-up.png", 16, 16);
     public static P2Image ICON_BUTTON_NEXT = new P2Image(ICON_PATH_LONG, "button-next.png", 16, 16);
     public static P2Image ICON_BUTTON_PREV = new P2Image(ICON_PATH_LONG, "button-prev.png", 16, 16);
-    public static P2Image ICON_BUTTON_PROPOSE = new P2Image(ICON_PATH_LONG, "button-propose.png", 16, 16);
     public static P2Image ICON_BUTTON_QUIT = new P2Image(ICON_PATH_LONG, "button-quit.png", 16, 16);
     public static P2Image ICON_BUTTON_REMOVE = new P2Image(ICON_PATH_LONG, "button-remove.png", 16, 16);
     public static P2Image ICON_BUTTON_RESET = new P2Image(ICON_PATH_LONG, "button-reset.png", 16, 16);
-    public static P2Image ICON_BUTTON_STOP = new P2Image(ICON_PATH_LONG, "button-stop.png", 16, 16);
     public static P2Image ICON_BUTTON_WORKER_STOP = new P2Image(ICON_PATH_LONG, "button-worker-stop.png", 12, 12);
 
     public static P2Image ICON_TABLE_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "table-download-del.png", 14, 14);
@@ -60,11 +58,11 @@ public class ProgIcons {
     public static P2Image ICON_TABLE_FILM_PLAY = new P2Image(ICON_PATH_LONG, "table-film-play.png", 14, 14);
     public static P2Image ICON_TABLE_FILM_SAVE = new P2Image(ICON_PATH_LONG, "table-film-save.png", 14, 14);
 
-    public static P2Image ICON_TOOLBAR_AUDIO_ALL_START = new P2Image(ICON_PATH_LONG, "toolbar-audio-all-start.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_AUDIO_BOOKMARK_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-audio-bookmark-filter.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_AUDIO_DEL_ALL_BOOKMARK = new P2Image(ICON_PATH_LONG, "toolbar-audio-del-all-bookmark.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_AUDIO_REC = new P2Image(ICON_PATH_LONG, "toolbar-audio-rec.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_AUDIO_START = new P2Image(ICON_PATH_LONG, "toolbar-audio-start.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_START_ALL = new P2Image(ICON_PATH_LONG, "toolbar-start-all.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_BOOKMARK_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-bookmark-filter.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DEL_ALL_BOOKMARK = new P2Image(ICON_PATH_LONG, "toolbar-del-all-bookmark.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_REC = new P2Image(ICON_PATH_LONG, "toolbar-rec.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_START = new P2Image(ICON_PATH_LONG, "toolbar-start.png", 26, 26);
     public static P2Image ICON_TOOLBAR_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-filter.png", 26, 26);
     public static P2Image ICON_TOOLBAR_INFO = new P2Image(ICON_PATH_LONG, "toolbar-info.png", 26, 26);
     public static P2Image ICON_TOOLBAR_MENU = new P2Image(ICON_PATH_LONG, "toolbar-menu.png", 18, 15);

@@ -140,14 +140,6 @@ public class PaneColor {
         tglDarkTheme.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
         final Button btnHelpTheme = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.DARK_THEME);
-        tglDarkTheme.selectedProperty().addListener((u, o, n) -> {
-            if (!tglDarkTheme.isSelected()) {
-                tglBlackWhiteIcon.setSelected(false);
-                tglBlackWhiteIcon.setDisable(true);
-            } else {
-                tglBlackWhiteIcon.setDisable(false);
-            }
-        });
         tglBlackWhiteIcon.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_BLACK_WHITE_ICON);
         final Button btnHelpIcon = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.BLACK_WHITE_ICON);

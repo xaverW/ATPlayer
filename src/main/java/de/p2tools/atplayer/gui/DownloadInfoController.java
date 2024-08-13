@@ -223,7 +223,7 @@ public class DownloadInfoController extends AnchorPane {
         btnEdit.getStyleClass().add("buttonSmall");
         btnEdit.setOnAction(a -> editDownloads());
 
-        btnClearFilter.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_CLEAN.getImageView());
+        btnClearFilter.setGraphic(ProgIcons.ICON_BUTTON_CLEAN.getImageView());
         btnClearFilter.setTooltip(new Tooltip("Tabelle aufräumen"));
         btnClearFilter.getStyleClass().add("buttonSmall");
         btnClearFilter.setOnAction(a -> progData.downloadList.cleanUpList());

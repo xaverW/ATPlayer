@@ -20,7 +20,6 @@ import de.p2tools.atplayer.controller.ProgStartAfterGui;
 import de.p2tools.atplayer.controller.ProgStartBeforeGui;
 import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.p2lib.P2LibInit;
-import de.p2tools.p2lib.P2ProgIcons;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.IoReadWriteStyle;
 import de.p2tools.p2lib.tools.duration.P2Duration;
@@ -62,7 +61,7 @@ public class ATPlayer extends Application {
 
     private void initP2lib() {
 //        ProgIcons.initIcons();
-        P2ProgIcons.initIcons();
+//        P2ProgIcons.initIcons();
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
                 "", ProgConfig.SYSTEM_DARK_THEME, ProgConfig.SYSTEM_BLACK_WHITE_ICON,
                 ProgData.debug, ProgData.duration);
