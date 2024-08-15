@@ -120,6 +120,8 @@ public class DownloadFileNameFactory {
         // Felder mit variabler Länge, evtl. vorher kürzen
 
         int length = ProgConfig.SYSTEM_SAVE_MAX_FIELD.getValue();
+
+        replStr = replStr.replace("%g", getField(downloadData.getGenre(), length));
         replStr = replStr.replace("%t", getField(downloadData.getTheme(), length));
         replStr = replStr.replace("%T", getField(downloadData.getTitle(), length));
         replStr = replStr.replace("%s", getField(downloadData.getChannel(), length));
@@ -149,8 +151,8 @@ public class DownloadFileNameFactory {
         replStr = replStr.replace("%6",
                 getHMS("%6", downloadData.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : downloadData.getFilmTime()));
 
-        if (downloadData.getFilm() != null) {
-            replStr = replStr.replace("%i", String.valueOf(downloadData.getFilm().no));
+        if (downloadData.getAudioData() != null) {
+            replStr = replStr.replace("%i", String.valueOf(downloadData.getAudioData().no));
         }
         String res = "";
 //        if (downloadData.getUrl().equals(film.getUrlForResolution(FilmData.RESOLUTION_NORMAL))) {

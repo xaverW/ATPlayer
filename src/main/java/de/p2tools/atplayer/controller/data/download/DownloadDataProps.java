@@ -20,6 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.p2lib.configfile.config.*;
 import de.p2tools.p2lib.configfile.pdata.P2DataSample;
 import de.p2tools.p2lib.mtdownload.DownloadSize;
+import de.p2tools.p2lib.mtfilm.film.Data;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.date.P2LDateProperty;
 import de.p2tools.p2lib.tools.file.P2FileUtils;
@@ -35,6 +36,7 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     private final IntegerProperty no = new SimpleIntegerProperty(ProgConst.NUMBER_NOT_EXISTS);
     private final IntegerProperty filmNr = new SimpleIntegerProperty(ProgConst.NUMBER_NOT_EXISTS);
     private final StringProperty channel = new SimpleStringProperty("");
+    private final StringProperty genre = new SimpleStringProperty("");
     private final StringProperty theme = new SimpleStringProperty("");
     private final StringProperty title = new SimpleStringProperty("");
     private final StringProperty description = new SimpleStringProperty("");
@@ -57,7 +59,7 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     private final BooleanProperty placedBack = new SimpleBooleanProperty(false);
     private final BooleanProperty infoFile = new SimpleBooleanProperty(false);
     private final BooleanProperty subtitle = new SimpleBooleanProperty(false);
-    public final Property[] properties = {no, filmNr, channel, theme, title, description,
+    public final Property[] properties = {no, filmNr, channel, genre, theme, title, description,
             state, progress, remaining, bandwidth, downloadSize,
             filmDate, filmTime, durationMinute,
             geoBlocked, filmUrl, url, urlWebsite,
@@ -83,6 +85,7 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         list.add(new Config_intProp("no", DownloadFieldNames.DOWNLOAD_NO, no));
         list.add(new Config_intProp("filmNr", DownloadFieldNames.DOWNLOAD_FILM_NO, filmNr));
         list.add(new Config_stringProp("channel", DownloadFieldNames.DOWNLOAD_CHANNEL, channel));
+        list.add(new Config_stringProp(DownloadFieldNames.DOWNLOAD_GENRE, "genre", genre));
         list.add(new Config_stringProp(DownloadFieldNames.DOWNLOAD_THEME, "theme", theme));
         list.add(new Config_stringProp("title", DownloadFieldNames.DOWNLOAD_TITLE, title));
         list.add(new Config_stringProp("description", DownloadFieldNames.DOWNLOAD_DESCRIPTION, description));
@@ -109,9 +112,12 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     @Override
     public int compareTo(DownloadData arg0) {
         int ret;
-        if ((ret = sorter.compare(getChannel(), arg0.getChannel())) == 0) {
-            return sorter.compare(getTheme(), arg0.getTheme());
+        if (((ret = Data.sorter.compare(getChannel(), arg0.getChannel())) == 0)) {
+            if ((ret = Data.sorter.compare(getGenre(), arg0.getGenre())) == 0) {
+                return Data.sorter.compare(getTheme(), arg0.getTheme());
+            }
         }
+
         return ret;
     }
 
@@ -195,6 +201,18 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
 
     public StringProperty channelProperty() {
         return channel;
+    }
+
+    public String getGenre() {
+        return genre.get();
+    }
+
+    public void setGenre(String genre) {
+        this.genre.set(genre);
+    }
+
+    public StringProperty genreProperty() {
+        return genre;
     }
 
     public String getTheme() {

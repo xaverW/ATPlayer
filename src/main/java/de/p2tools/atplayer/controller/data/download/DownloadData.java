@@ -36,14 +36,14 @@ import java.time.LocalDate;
 public final class DownloadData extends DownloadDataProps {
 
     private Start start = new Start(this);
-    private AudioData film = null;
+    private AudioData audioData = null;
     private String errorMessage = "";
 
     public DownloadData() {
     }
 
-    public DownloadData(AudioData film) {
-        setFilm(film);
+    public DownloadData(AudioData audioData) {
+        setAudioData(audioData);
         // und endlich Aufruf bauen :)
         DownloadFileNameFactory.buildFileNamePath(this);
     }
@@ -164,31 +164,32 @@ public final class DownloadData extends DownloadDataProps {
         this.start = start;
     }
 
-    public AudioData getFilm() {
-        return film;
+    public AudioData getAudioData() {
+        return audioData;
     }
 
-    public void setFilm(AudioData film) {
-        if (film == null) {
+    public void setAudioData(AudioData audioData) {
+        if (audioData == null) {
             // bei gespeicherten Downloads kann es den Film nicht mehr geben
             setFilmNr(ProgConst.NUMBER_NOT_EXISTS);
             return;
         }
 
-        this.film = film;
-        setFilmNr(film.getNo());
-        setUrl(film.getUrl());
-        setChannel(film.getChannel());
-        setTheme(film.getTheme());
-        setTitle(film.getTitle());
-        setFilmUrl(film.getUrl());
-        setUrlWebsite(film.getWebsite());
-        setDescription(film.getDescription());
-        getDownloadSize().setTargetSize(film.arr[AudioData.AUDIO_SIZE_MB]);
+        this.audioData = audioData;
+        setFilmNr(audioData.getNo());
+        setUrl(audioData.getUrl());
+        setChannel(audioData.getChannel());
+        setGenre(audioData.getGenre());
+        setTheme(audioData.getTheme());
+        setTitle(audioData.getTitle());
+        setFilmUrl(audioData.getUrl());
+        setUrlWebsite(audioData.getWebsite());
+        setDescription(audioData.getDescription());
+        getDownloadSize().setTargetSize(audioData.arr[AudioData.AUDIO_SIZE_MB]);
 
-        setFilmDate(film.arr[AudioDataXml.AUDIO_DATE]);
-        setFilmTime(film.getTime());
-        setDurationMinute(film.getDurationMinute());
+        setFilmDate(audioData.arr[AudioDataXml.AUDIO_DATE]);
+        setFilmTime(audioData.getTime());
+        setDurationMinute(audioData.getDurationMinute());
     }
 
     public void setPathName(String path, String name) {
@@ -235,7 +236,7 @@ public final class DownloadData extends DownloadDataProps {
         for (int i = 0; i < properties.length; ++i) {
             ret.properties[i].setValue(this.properties[i].getValue());
         }
-        ret.film = film;
+        ret.audioData = audioData;
         ret.setStart(getStart());
 
         return ret;
@@ -245,7 +246,7 @@ public final class DownloadData extends DownloadDataProps {
         for (int i = 0; i < properties.length; ++i) {
             properties[i].setValue(download.properties[i].getValue());
         }
-        film = download.film;
+        audioData = download.audioData;
         getDownloadSize().setTargetSize(download.getDownloadSize().getTargetSize());// die Auflösung des Films kann sich ändern
         setStart(download.getStart());
     }

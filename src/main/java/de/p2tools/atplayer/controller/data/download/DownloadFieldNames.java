@@ -23,6 +23,7 @@ public class DownloadFieldNames {
     public static final String DOWNLOAD_FILM_NO = "Filmnr";
 
     public static final String DOWNLOAD_CHANNEL = "Sender";
+    public static final String DOWNLOAD_GENRE = "Genre";
     public static final String DOWNLOAD_THEME = "Thema";
     public static final String DOWNLOAD_TITLE = "Titel";
     public static final String DOWNLOAD_DESCRIPTION = "Beschreibung";

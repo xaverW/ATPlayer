@@ -127,23 +127,27 @@ public class DownloadTableContextMenu {
         miCopyUrl.setOnAction(a -> downloadInfoController.copyUrl());
 
 
-        final MenuItem miCopyName = new MenuItem("Titel in die Zwischenablage kopieren");
-        miCopyName.setOnAction(a -> {
-            P2SystemUtils.copyToClipboard(download.getTitle());
+        final MenuItem miCopyGenre = new MenuItem("Genre in die Zwischenablage kopieren");
+        miCopyGenre.setOnAction(a -> {
+            P2SystemUtils.copyToClipboard(download.getGenre());
         });
         final MenuItem miCopyTheme = new MenuItem("Thema in die Zwischenablage kopieren");
         miCopyTheme.setOnAction(a -> {
             P2SystemUtils.copyToClipboard(download.getTheme());
         });
-
+        final MenuItem miCopyName = new MenuItem("Titel in die Zwischenablage kopieren");
+        miCopyName.setOnAction(a -> {
+            P2SystemUtils.copyToClipboard(download.getTitle());
+        });
         miFilmInfo.setDisable(download == null);
         miPlayUrl.setDisable(download == null);
         miCopyUrl.setDisable(download == null);
-        miCopyName.setDisable(download == null);
+        miCopyGenre.setDisable(download == null);
         miCopyTheme.setDisable(download == null);
+        miCopyName.setDisable(download == null);
 
         contextMenu.getItems().add(new SeparatorMenuItem());
-        contextMenu.getItems().addAll(miFilmInfo, miPlayUrl, miCopyUrl, miCopyName, miCopyTheme);
+        contextMenu.getItems().addAll(miFilmInfo, miPlayUrl, miCopyUrl, miCopyGenre, miCopyTheme, miCopyName);
 
 
         final MenuItem miSelectAll = new MenuItem("Alles auswählen");

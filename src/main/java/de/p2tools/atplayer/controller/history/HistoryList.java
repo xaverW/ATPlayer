@@ -186,18 +186,19 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         P2Duration.counterStart("addDownloadDataListToHistory");
         for (final DownloadData download : downloadList) {
             // auch wenn schon in der History, dann doch den Film als gesehen markieren
-            if (bookmark && download.getFilm() != null) {
-                download.getFilm().setBookmark(true);
+            if (bookmark && download.getAudioData() != null) {
+                download.getAudioData().setBookmark(true);
 
-            } else if (download.getFilm() != null) {
-                download.getFilm().setShown(true);
+            } else if (download.getAudioData() != null) {
+                download.getAudioData().setShown(true);
             }
 
             if (checkIfUrlAlreadyIn(download.getFilmUrl())) {
                 continue;
             }
 
-            HistoryData historyData = new HistoryData(datum, download.getTheme(), download.getTitle(), download.getFilmUrl());
+            HistoryData historyData = new HistoryData(datum,
+                    download.getTheme(), download.getTitle(), download.getFilmUrl());
             addToThisList(historyData);
             list.add(historyData);
         }
@@ -267,11 +268,11 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
         P2Duration.counterStart("History: removeDataFromHistory");
         final HashSet<String> hash = new HashSet<>(downloadList.size() + 1, 0.75F);
         downloadList.forEach(download -> {
-            if (bookmark && download.getFilm() != null) {
-                download.getFilm().setBookmark(false);
+            if (bookmark && download.getAudioData() != null) {
+                download.getAudioData().setBookmark(false);
 
-            } else if (download.getFilm() != null) {
-                download.getFilm().setShown(false);
+            } else if (download.getAudioData() != null) {
+                download.getAudioData().setShown(false);
             }
 
             hash.add(download.getFilmUrl());

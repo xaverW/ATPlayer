@@ -139,7 +139,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
             if (counter < 0) {
                 break;
             }
-            d.setFilm(filmlist.getAudioByUrl(d.getUrl()));
+            d.setAudioData(filmlist.getAudioByUrl(d.getUrl()));
         }
         P2Duration.counterStop("addAudioInList");
     }
