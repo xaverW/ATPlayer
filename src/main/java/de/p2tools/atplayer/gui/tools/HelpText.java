@@ -425,8 +425,9 @@ public class HelpText {
                     "%6   Sekunde, ebenso\n" +
                     "\n" +
                     "%s   Sender des Audios\n" +
-                    "%T   Titel des Audios\n" +
+                    "%g   Genre des Audios\n" +
                     "%t   Thema des Audios\n" +
+                    "%T   Titel des Audios\n" +
                     "\n" +
                     "%N   Originaldateiname des Audios (der kann sehr kryptisch und lang sein)\n" +
                     "%S   Suffix des Originaldateinamens des Audios (z.B. 'mp4')\n" +

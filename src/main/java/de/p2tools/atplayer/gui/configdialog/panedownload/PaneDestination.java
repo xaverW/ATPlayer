@@ -97,7 +97,7 @@ public class PaneDestination {
         gridPane.add(new Label("Zieldateiname:"), 0, ++row);
         gridPane.add(txtDestName, 1, row);
         gridPane.add(btnDestReset, 2, row);
-        gridPane.add(btnHelpDestName, 4, row);
+        gridPane.add(btnHelpDestName, 3, row);
 
         gridPane.add(new Label(), 1, ++row);
 
