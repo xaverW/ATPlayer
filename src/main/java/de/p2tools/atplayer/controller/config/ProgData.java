@@ -19,7 +19,6 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.data.ReplaceList;
-import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.data.blackdata.BlackList;
 import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
 import de.p2tools.atplayer.controller.data.download.DownloadInfos;
@@ -33,6 +32,7 @@ import de.p2tools.atplayer.controller.worker.CheckForNewFilmlist;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
+import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.animation.Animation;

@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.Main;
-import de.p2tools.atplayer.controller.data.audiodata.AudioFactory;
+import de.p2tools.p2lib.atdate.AudioFactory;
 import de.p2tools.p2lib.configfile.SettingsDirectory;
 import de.p2tools.p2lib.tools.P2Exception;
 import de.p2tools.p2lib.tools.log.P2Log;

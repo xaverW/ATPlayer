@@ -18,8 +18,8 @@
 package de.p2tools.atplayer.controller.data.blackdata;
 
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.gui.dialog.AddBlackListDialogController;
+import de.p2tools.p2lib.atdate.AudioData;
 
 import java.util.List;
 import java.util.Optional;

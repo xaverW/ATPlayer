@@ -17,9 +17,9 @@
 package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioDataXml;
 import de.p2tools.p2lib.P2LibConst;
+import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdate.AudioDataXml;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mtfilm.film.FilmDataXml;

@@ -17,10 +17,10 @@
 package de.p2tools.atplayer.controller.audio;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import de.p2tools.atplayer.controller.data.audiodata.AudioList;
-import de.p2tools.atplayer.controller.data.audiodata.WriteAudioListJson;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
+import de.p2tools.p2lib.atdate.AudioList;
+import de.p2tools.p2lib.atdate.WriteAudioListJson;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 

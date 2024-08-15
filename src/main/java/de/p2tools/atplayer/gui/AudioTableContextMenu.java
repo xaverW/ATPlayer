@@ -18,9 +18,9 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
+import de.p2tools.p2lib.atdate.AudioData;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;

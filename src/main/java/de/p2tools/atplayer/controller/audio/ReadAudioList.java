@@ -18,11 +18,11 @@ package de.p2tools.atplayer.controller.audio;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioFactory;
-import de.p2tools.atplayer.controller.data.audiodata.AudioList;
-import de.p2tools.atplayer.controller.data.audiodata.ReadAudioListJson;
 import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdate.AudioFactory;
+import de.p2tools.p2lib.atdate.AudioList;
+import de.p2tools.p2lib.atdate.ReadAudioListJson;
 import de.p2tools.p2lib.mtdownload.MLHttpClient;
 import de.p2tools.p2lib.mtfilm.tools.InputStreamProgressMonitor;
 import de.p2tools.p2lib.mtfilm.tools.LoadFactoryConst;

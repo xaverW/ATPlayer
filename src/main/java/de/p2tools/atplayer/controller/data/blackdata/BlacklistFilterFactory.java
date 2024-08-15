@@ -19,9 +19,9 @@ package de.p2tools.atplayer.controller.data.blackdata;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioData;
-import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
+import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 

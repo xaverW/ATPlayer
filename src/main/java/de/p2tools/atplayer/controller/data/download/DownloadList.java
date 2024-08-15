@@ -16,9 +16,9 @@
 
 package de.p2tools.atplayer.controller.data.download;
 
-import de.p2tools.atplayer.controller.data.audiodata.AudioList;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.configfile.pdata.P2DataList;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.beans.property.BooleanProperty;
