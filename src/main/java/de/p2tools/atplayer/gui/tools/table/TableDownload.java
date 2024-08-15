@@ -74,6 +74,10 @@ public class TableDownload extends PTable<DownloadData> {
         senderColumn.setCellValueFactory(new PropertyValueFactory<>("channel"));
         senderColumn.getStyleClass().add("alignCenter");
 
+        final TableColumn<DownloadData, String> genreColumn = new TableColumn<>("Genre");
+        genreColumn.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        genreColumn.getStyleClass().add("alignCenter");
+
         final TableColumn<DownloadData, String> themeColumn = new TableColumn<>("Thema");
         themeColumn.setCellValueFactory(new PropertyValueFactory<>("theme"));
         themeColumn.getStyleClass().add("alignCenterLeft");
@@ -143,7 +147,7 @@ public class TableDownload extends PTable<DownloadData> {
 
         getColumns().addAll(
                 nrColumn, filmNrColumn,
-                senderColumn, themeColumn, titleColumn, startColumn,
+                senderColumn, genreColumn, themeColumn, titleColumn, startColumn,
                 progressColumn, remainingColumn, speedColumn, sizeColumn,
                 datumColumn, timeColumn, durationColumn,
                 urlColumn, fileNameColumn, pathColumn);
