@@ -48,6 +48,7 @@ public class AudioInfoDialogController extends P2DialogExtra {
     private final Button btnOk = new Button("_Ok");
 
     private final ImageView ivNew = new ImageView();
+    private final ImageView ivPodcast = new ImageView();
     private final P2Hyperlink p2HyperlinkUrl = new P2Hyperlink("",
             ProgConfig.SYSTEM_PROG_OPEN_URL);
     private final P2Hyperlink p2HyperlinkWebsite = new P2Hyperlink("",
@@ -72,6 +73,7 @@ public class AudioInfoDialogController extends P2DialogExtra {
                     lblCont[i].setText("");
                     textArea.setText("");
                     ivNew.setImage(null);
+                    ivPodcast.setImage(null);
                     p2HyperlinkUrl.setUrl("");
                     p2HyperlinkWebsite.setUrl("");
                 } else {
@@ -96,6 +98,13 @@ public class AudioInfoDialogController extends P2DialogExtra {
                                 ivNew.setImage(ProgIcons.ICON_BOOLEAN_IS_ON.getImage());
                             } else {
                                 ivNew.setImage(null);
+                            }
+                            break;
+                        case AudioDataXml.AUDIO_PODCAST:
+                            if (audioData.isPodcast()) {
+                                ivPodcast.setImage(ProgIcons.ICON_BOOLEAN_IS_ON.getImage());
+                            } else {
+                                ivPodcast.setImage(null);
                             }
                             break;
 
@@ -143,6 +152,10 @@ public class AudioInfoDialogController extends P2DialogExtra {
                 case AudioDataXml.AUDIO_NEW:
                     gridPane.add(textTitle[i], 0, row);
                     gridPane.add(ivNew, 1, row++);
+                    break;
+                case AudioDataXml.AUDIO_PODCAST:
+                    gridPane.add(textTitle[i], 0, row);
+                    gridPane.add(ivPodcast, 1, row++);
                     break;
                 case AudioDataXml.AUDIO_URL:
                     p2HyperlinkUrl.setWrapText(true);

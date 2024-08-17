@@ -23,6 +23,7 @@ import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -41,6 +42,7 @@ import java.util.Collection;
 public class PaneBlack {
 
     private final ProgData progData;
+    private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Keine Podcasts anzeigen");
     private final Slider slSize = new Slider();
     private final Label lblSize = new Label("");
     private final Slider slDays = new Slider();
@@ -56,6 +58,7 @@ public class PaneBlack {
     }
 
     public void close() {
+        tglPodcast.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST);
         slDays.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_MAX_FILM_DAYS);
         slSize.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_MIN_FILM_DURATION);
     }
@@ -76,7 +79,10 @@ public class PaneBlack {
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
 
 
-        initDays();
+        init();
+
+        final Button btnHelpPodcast = P2Button.helpButton(stage, "Blacklist",
+                HelpText.BLACKLIST_PODCAST);
 
         final Button btnHelpSize = P2Button.helpButton(stage, "Blacklist",
                 HelpText.BLACKLIST_SIZE);
@@ -88,8 +94,11 @@ public class PaneBlack {
         lblSize.setMinWidth(Region.USE_PREF_SIZE);
 
         int row = 0;
-        gridPane.add(new Label("Nur Filme der letzten Tage anzeigen:"), 0, ++row, 2, 1);
+        gridPane.add(tglPodcast, 0, ++row, 3, 1);
+        gridPane.add(btnHelpPodcast, 3, row);
 
+        gridPane.add(new Label(" "), 0, ++row);
+        gridPane.add(new Label("Nur Filme der letzten Tage anzeigen:"), 0, ++row, 2, 1);
         Label lbl = new Label("Filme anzeigen:");
         gridPane.add(lbl, 0, ++row);
         gridPane.add(slDays, 1, row);
@@ -115,13 +124,21 @@ public class PaneBlack {
         GridPane.setValignment(btnHelpSize, VPos.TOP);
 
         gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
+//                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
                 P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow());
+                P2ColumnConstraints.getCcPrefSize(),
+                P2ColumnConstraints.getCcPrefSize()
+        );
 
         vBox.getChildren().add(gridPane);
     }
 
-    private void initDays() {
+    private void init() {
+        tglPodcast.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST);
+        tglPodcast.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            blackChanged.set(true);
+        });
+
         slDays.setMin(0);
         slDays.setMax(ProgConst.SYSTEM_BLACKLIST_MAX_FILM_DAYS);
 

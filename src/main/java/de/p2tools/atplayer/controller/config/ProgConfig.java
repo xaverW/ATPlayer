@@ -162,6 +162,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_SAVE_MAX_FIELD = addIntProp("system-save-max-field", 50);
 
     // Blacklist
+    public static BooleanProperty SYSTEM_BLACKLIST_SHOW_NO_PODCAST = addBoolProp("system-blacklist-show-no-podcast", Boolean.FALSE);
     public static IntegerProperty SYSTEM_BLACKLIST_MAX_FILM_DAYS = addIntProp("system-blacklist-max-film-days", 0);
     public static IntegerProperty SYSTEM_BLACKLIST_MIN_FILM_DURATION = addIntProp("system-blacklist-min-film-duration", 0); // Minuten
     public static DoubleProperty CONFIG_DIALOG_BLACKLIST_SPLITPANE = addDoubleProp("config-dialog-blacklist-splitpane", 0.7);

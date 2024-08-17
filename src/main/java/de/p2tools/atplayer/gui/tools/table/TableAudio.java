@@ -116,6 +116,11 @@ public class TableAudio extends PTable<AudioData> {
         newAudioColumn.getStyleClass().add("alignCenter");
         TableAudioFactory.columnFactoryBoolean(newAudioColumn);
 
+        final TableColumn<AudioData, Boolean> podcastAudioColumn = new TableColumn<>("Podcast");
+        podcastAudioColumn.setCellValueFactory(new PropertyValueFactory<>("podcast"));
+        podcastAudioColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryBoolean(podcastAudioColumn);
+
         final TableColumn<AudioData, String> urlColumn = new TableColumn<>("URL");
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         urlColumn.getStyleClass().add("alignCenterLeft");
@@ -143,6 +148,6 @@ public class TableAudio extends PTable<AudioData> {
                 senderColumn, genreColumn, themeColumn, titleColumn,
                 startColumn,
                 dateColumn, timeColumn, durationColumn, sizeColumn,
-                newAudioColumn, urlColumn);
+                newAudioColumn, podcastAudioColumn, urlColumn);
     }
 }

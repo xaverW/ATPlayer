@@ -504,6 +504,10 @@ public class HelpText {
                     "Downloaddatei resultiert:\n" +
                     "'Volumes/Pfad/Thema-Titel.mp4' bzw. 'C:\\Pfad\\Thema-Titel.mp4'.\n";
 
+    public static final String BLACKLIST_PODCAST =
+            "Audios die aus Podcasts stammen, werden ausgeblendet. " +
+                    "\n";
+
     public static final String BLACKLIST_SIZE =
             "Filme ohne Längenangabe werden immer angezeigt und ggf. von Abos als Download angelegt.\n" +
                     "\n" +
