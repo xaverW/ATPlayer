@@ -17,26 +17,42 @@
 package de.p2tools.atplayer;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
+import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
-import de.p2tools.atplayer.gui.AudioGuiPack;
+import de.p2tools.atplayer.controller.worker.Busy;
+import de.p2tools.atplayer.gui.AudioGui;
+import de.p2tools.atplayer.gui.DownloadGui;
 import de.p2tools.atplayer.gui.ProgMenu;
 import de.p2tools.atplayer.gui.StatusBarController;
-import de.p2tools.p2lib.guitools.P2GuiTools;
+import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.*;
 
 public class ATPlayerController extends StackPane {
 
     private final ProgData progData;
     private final BorderPane borderPane = new BorderPane();
+    private final Button btnFilmlist = new Button("Audioliste");
+    private final Button btnAudio = new Button("Audios");
+    private final Button btnDownload = new Button("Downloads");
+    private final P2MaskerPane maskerPane = new P2MaskerPane();
+
+    public enum PANE_SHOWN {AUDIO, DOWNLOAD}
+
+    public static PANE_SHOWN paneShown = null;
+
+    private final AudioGui audioGui = new AudioGui();
+    private final DownloadGui downloadGui = new DownloadGui();
+    private HBox splitPaneAudio;
+    private HBox splitPaneDownload;
+    private final StackPane stackPaneCont = new StackPane();
+    private StatusBarController statusBarController;
 
     public ATPlayerController() {
         progData = ProgData.getInstance();
@@ -46,43 +62,148 @@ public class ATPlayerController extends StackPane {
     private void init() {
         try {
             // Toolbar
-            final Button btnFilmlist = new Button("Audioliste");
-            btnFilmlist.setMinWidth(Region.USE_PREF_SIZE);
-            btnFilmlist.getStyleClass().addAll("btnFunction", "btnFunc-4");
-            btnFilmlist.setTooltip(new Tooltip("Eine neue Audioliste laden."));
-            btnFilmlist.setOnAction(e -> {
-                LoadAudioFactory.getInstance().loadListButton();
-            });
+            TilePane tilePane = new TilePane();
+            tilePane.setPrefColumns(2);
+            tilePane.setHgap(15);
+            tilePane.setPadding(new Insets(0));
+            tilePane.setAlignment(Pos.CENTER);
+            tilePane.getChildren().addAll(btnAudio, btnDownload);
 
             HBox hBoxTop = new HBox();
-            hBoxTop.setPadding(new Insets(10));
+            hBoxTop.setPadding(new Insets(4, 10, 4, 10));
             hBoxTop.setSpacing(10);
-            hBoxTop.getChildren().addAll(btnFilmlist, P2GuiTools.getHBoxGrower(), new ProgMenu());
+            hBoxTop.setAlignment(Pos.CENTER);
+            HBox.setHgrow(tilePane, Priority.ALWAYS);
+            hBoxTop.getChildren().addAll(btnFilmlist, tilePane, new ProgMenu());
+
+            // Center
+            splitPaneAudio = audioGui.pack();
+            splitPaneDownload = downloadGui.pack();
+            stackPaneCont.getChildren().addAll(splitPaneAudio, splitPaneDownload);
+
+            VBox vBox = new VBox();
+            vBox.getChildren().addAll(stackPaneCont, ProgData.busy.getBusyHbox(Busy.BUSY_SRC.GUI));
+            VBox.setVgrow(stackPaneCont, Priority.ALWAYS);
+
+            // Statusbar
+            statusBarController = new StatusBarController(progData);
 
             // Gui zusammenbauen
             borderPane.setTop(hBoxTop);
-            borderPane.setCenter(new AudioGuiPack().pack());
-            borderPane.setBottom(new StatusBarController(progData));
+            borderPane.setCenter(vBox);
+            borderPane.setBottom(statusBarController);
 
             this.setPadding(new Insets(0));
             this.getChildren().addAll(borderPane, progData.maskerPane);
+
             initMaskerPane();
+            initButton();
+            selPanelAudio();
         } catch (Exception ex) {
             P2Log.errorLog(597841023, ex);
         }
     }
 
     private void initMaskerPane() {
-        StackPane.setAlignment(progData.maskerPane, Pos.CENTER);
-        progData.maskerPane.setPadding(new Insets(4, 1, 1, 1));
-        progData.maskerPane.toFront();
-        Button btnStop = progData.maskerPane.getButton();
-        progData.maskerPane.setButtonText("");
+        StackPane.setAlignment(maskerPane, Pos.CENTER);
+        progData.maskerPane = maskerPane;
+        maskerPane.setPadding(new Insets(4, 1, 1, 1));
+        maskerPane.toFront();
+        Button btnStop = maskerPane.getButton();
+        maskerPane.setButtonText("");
         btnStop.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
         btnStop.setOnAction(a -> LoadAudioFactory.getInstance().loadAudioList.setStop(true));
     }
 
-    public void setFocus() {
+    private void initButton() {
+        btnFilmlist.setMinWidth(Region.USE_PREF_SIZE);
+        btnFilmlist.getStyleClass().addAll("btnFunction", "btnFunc-4");
+        btnFilmlist.setTooltip(new Tooltip("Eine neue Audioliste laden."));
+        btnFilmlist.setOnAction(e -> {
+            LoadAudioFactory.getInstance().loadListButton();
+        });
+
+        btnAudio.setTooltip(new Tooltip("Filme anzeigen"));
+        btnAudio.setOnAction(e -> selPanelAudio());
+        btnAudio.setMaxWidth(Double.MAX_VALUE);
+
+        btnDownload.setTooltip(new Tooltip("Downloads anzeigen"));
+        btnDownload.setOnAction(e -> selPanelDownload());
+        btnDownload.setMaxWidth(Double.MAX_VALUE);
+
+        btnAudio.setOnMouseClicked(mouseEvent -> {
+            if (maskerPane.isVisible() || paneShown != PANE_SHOWN.AUDIO) {
+                return;
+            }
+            if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                ProgConfig.AUDIO_GUI_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue());
+            }
+        });
+        btnDownload.setOnMouseClicked(mouseEvent -> {
+            if (maskerPane.isVisible() || paneShown != PANE_SHOWN.DOWNLOAD) {
+                return;
+            }
+            if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.setValue(!ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.getValue());
+            }
+        });
+    }
+
+    private void selPanelAudio() {
+        if (paneShown == PANE_SHOWN.AUDIO) {
+            // dann ist der 2. Klick
+            audioGui.closeSplit();
+            return;
+        }
+
+        paneShown = PANE_SHOWN.AUDIO;
+        setButtonStyle();
+        splitPaneAudio.toFront();
         progData.audioGuiController.isShown();
+        statusBarController.setStatusbarIndex();
+        ProgData.AUDIO_TAB_ON.setValue(Boolean.TRUE);
+        ProgData.DOWNLOAD_TAB_ON.setValue(Boolean.FALSE);
+    }
+
+    private void selPanelDownload() {
+        if (paneShown == PANE_SHOWN.DOWNLOAD) {
+            // dann ist der 2. Klick
+            downloadGui.closeSplit();
+            return;
+        }
+
+        paneShown = PANE_SHOWN.DOWNLOAD;
+        setButtonStyle();
+        splitPaneDownload.toFront();
+        progData.downloadGuiController.isShown();
+        statusBarController.setStatusbarIndex();
+        ProgData.AUDIO_TAB_ON.setValue(Boolean.FALSE);
+        ProgData.DOWNLOAD_TAB_ON.setValue(Boolean.TRUE);
+    }
+
+    private void setButtonStyle() {
+        btnAudio.getStyleClass().clear();
+        btnDownload.getStyleClass().clear();
+
+        if (paneShown == PANE_SHOWN.AUDIO) {
+            btnAudio.getStyleClass().add("btnTabTop-sel");
+        } else {
+            btnAudio.getStyleClass().add("btnTabTop");
+        }
+
+        if (paneShown == PANE_SHOWN.DOWNLOAD) {
+            btnDownload.getStyleClass().add("btnTabTop-sel");
+        } else {
+            btnDownload.getStyleClass().add("btnTabTop");
+        }
+    }
+
+    public void setFocus() {
+        if (paneShown == PANE_SHOWN.AUDIO) {
+            progData.audioGuiController.isShown();
+        }
+        if (paneShown == PANE_SHOWN.DOWNLOAD) {
+            progData.downloadGuiController.isShown();
+        }
     }
 }

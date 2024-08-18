@@ -55,7 +55,7 @@ public final class DownloadData extends DownloadDataProps {
         return getState() == DownloadConstants.STATE_INIT;
     }
 
-    public boolean isStateStoped() {
+    public boolean isStateStopped() {
         return getState() == DownloadConstants.STATE_STOPPED;
     }
 
@@ -97,7 +97,7 @@ public final class DownloadData extends DownloadDataProps {
     }
 
     public boolean isNotStartedOrFinished() {
-        return isStateInit() || isStateStoped();
+        return isStateInit() || isStateStopped();
     }
 
     public boolean isFinishedOrError() {

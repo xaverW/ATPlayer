@@ -46,12 +46,17 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
     private final BooleanProperty onlyBookmark = new SimpleBooleanProperty(false);
     private final BooleanProperty noHistory = new SimpleBooleanProperty(false);
 
+    public static final int PODCAST_FILTER_OFF = 0;
+    public static final int PODCAST_FILTER_ON = 1;
+    public static final int PODCAST_FILTER_INVERS = 2;
+    private final IntegerProperty podcastOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
+
     private final IntegerProperty blacklistOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
 
     public BooleanProperty[] sfBooleanPropArr = {onlyNew, onlyBookmark, noHistory};
 
     public StringProperty[] sfStringPropArr = {name, channel, genre, theme, title, somewhere};
-    public IntegerProperty[] sfIntegerPropArr = {timeRange, minDur, maxDur, blacklistOnOff};
+    public IntegerProperty[] sfIntegerPropArr = {timeRange, minDur, maxDur, podcastOnOff, blacklistOnOff};
 
     @Override
     public Config[] getConfigsArr() {
@@ -68,6 +73,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         list.add(new Config_boolProp("onlyNew", onlyNew));
         list.add(new Config_boolProp("onlyBookmark", onlyBookmark));
         list.add(new Config_boolProp("noHistory", noHistory));
+        list.add(new Config_intProp("podcastOnOff", podcastOnOff));
         list.add(new Config_intProp("blacklistOnOff", blacklistOnOff));
 
         return list.toArray(new Config[]{});
@@ -264,6 +270,18 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public void setNoHistory(boolean noHistory) {
         this.noHistory.set(noHistory);
+    }
+
+    public int getPodcastOnOff() {
+        return podcastOnOff.get();
+    }
+
+    public IntegerProperty podcastOnOffProperty() {
+        return podcastOnOff;
+    }
+
+    public void setPodcastOnOff(int podcastOnOff) {
+        this.podcastOnOff.set(podcastOnOff);
     }
 
     public int getBlacklistOnOff() {

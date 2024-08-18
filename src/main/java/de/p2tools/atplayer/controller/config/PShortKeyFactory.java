@@ -17,6 +17,7 @@
 
 package de.p2tools.atplayer.controller.config;
 
+import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.ProgQuit;
 import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
@@ -26,16 +27,17 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
 public class PShortKeyFactory {
+    public static String SHORT_CUT_LEER = "              ";
 
     private PShortKeyFactory() {
     }
 
     private static void setInfo() {
-        ProgConfig.AUDIO_GUI_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue());
+        ATPlayerFactory.setInfos();
     }
 
     private static void setFilter() {
-        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.getValue());
+        ATPlayerFactory.setFilter();
     }
 
     private static void playAudio() {

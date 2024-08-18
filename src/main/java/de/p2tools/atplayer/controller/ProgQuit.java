@@ -90,7 +90,7 @@ public class ProgQuit {
 
         //unterbrochene werden gespeichert, dass die Info "Interrupt" erhalten bleibt
         ProgData.getInstance().downloadList.removeIf(download ->
-                (!download.isStateStoped() && download.isStateFinished()));
+                (!download.isStateStopped() && download.isStateFinished()));
     }
 
     private static void writeTabSettings() {

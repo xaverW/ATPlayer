@@ -49,6 +49,7 @@ public class ProgIcons {
     public static P2Image ICON_BUTTON_REMOVE = new P2Image(ICON_PATH_LONG, "button-remove.png", 16, 16);
     public static P2Image ICON_BUTTON_RESET = new P2Image(ICON_PATH_LONG, "button-reset.png", 16, 16);
     public static P2Image ICON_BUTTON_WORKER_STOP = new P2Image(ICON_PATH_LONG, "button-worker-stop.png", 12, 12);
+    public static P2Image ICON_BUTTON_DEL_SW = new P2Image(ICON_PATH_LONG, "button-del-sw.png", 12, 12);
 
     public static P2Image ICON_TABLE_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "table-download-del.png", 14, 14);
     public static P2Image ICON_TABLE_DOWNLOAD_OPEN_DIR = new P2Image(ICON_PATH_LONG, "table-download-open-dir.png", 14, 14);
@@ -66,4 +67,15 @@ public class ProgIcons {
     public static P2Image ICON_TOOLBAR_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-filter.png", 26, 26);
     public static P2Image ICON_TOOLBAR_INFO = new P2Image(ICON_PATH_LONG, "toolbar-info.png", 26, 26);
     public static P2Image ICON_TOOLBAR_MENU = new P2Image(ICON_PATH_LONG, "toolbar-menu.png", 18, 15);
+
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_CLEAN = new P2Image(ICON_PATH_LONG, "toolbar-download-clean.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_START = new P2Image(ICON_PATH_LONG, "toolbar-download-start.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "toolbar-download-del.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_UNDO = new P2Image(ICON_PATH_LONG, "toolbar-download-undo.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_REFRESH = new P2Image(ICON_PATH_LONG, "toolbar-download-refresh.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_START_ALL = new P2Image(ICON_PATH_LONG, "toolbar-download-start-all.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_DOWNLOAD_START_ALL_TIME = new P2Image(ICON_PATH_LONG, "toolbar-download-start-time.png", 26, 26);
+
+    public static P2Image ICON_TOOLBAR_CONFIG = new P2Image(ICON_PATH_LONG, "toolbar-config.png", 26, 26);
+
 }

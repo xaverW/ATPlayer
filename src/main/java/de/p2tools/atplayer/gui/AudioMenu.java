@@ -17,29 +17,40 @@
 package de.p2tools.atplayer.gui;
 
 
+import de.p2tools.atplayer.ATPlayerController;
+import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.audio.AudioTools;
-import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.PShortKeyFactory;
+import de.p2tools.atplayer.controller.config.PShortcut;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.AudioFilterSample;
-import javafx.geometry.Pos;
+import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-public class AudioMenu extends VBox {
+import java.util.Optional;
+
+public class AudioMenu {
     private static final String AUDIO_FILTER_BOOKMARK_TEXT = "Alle angelegte Bookmarks anzeigen\n" +
             "der zweite Klick stellt den\n" +
             "eingestellten Filter wieder her";
     private AudioFilter storedActFilterSettings = null;
+    final private ProgData progData;
+    final private VBox vBox;
 
-    public AudioMenu() {
-        init();
+    public AudioMenu(VBox vBox) {
+        this.vBox = vBox;
+        progData = ProgData.getInstance();
     }
 
-    private void init() {
-        getStyleClass().add("button-menu");
-        setSpacing(15);
-        setAlignment(Pos.TOP_CENTER);
+    public void init() {
+        vBox.getChildren().clear();
+
+        initFilmMenu();
         initButton();
     }
 
@@ -48,25 +59,13 @@ public class AudioMenu extends VBox {
         VBox vBoxSpace = new VBox();
         vBoxSpace.setMaxHeight(0);
         vBoxSpace.setMinHeight(0);
-        getChildren().add(vBoxSpace);
+        vBox.getChildren().add(vBoxSpace);
 
-        final ToolBarButton btnFilter = new ToolBarButton(this,
-                "Filter anzeigen", "Filter anzeigen", ProgIcons.ICON_TOOLBAR_FILTER.getImageView());
-        final ToolBarButton btnInfo = new ToolBarButton(this,
-                "Infos Anzeigen", "Infos anzeigen", ProgIcons.ICON_TOOLBAR_INFO.getImageView());
-        btnFilter.setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.getValue()));
-        btnInfo.setOnAction(a -> ProgConfig.AUDIO_GUI_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue()));
-
-        vBoxSpace = new VBox();
-        vBoxSpace.setMaxHeight(10);
-        vBoxSpace.setMinHeight(10);
-        this.getChildren().add(vBoxSpace);
-
-        final ToolBarButton btnPlay = new ToolBarButton(this,
+        final ToolBarButton btnPlay = new ToolBarButton(vBox,
                 "Abspielen", "Markiertes Audio abspielen", ProgIcons.ICON_TOOLBAR_START.getImageView());
-        final ToolBarButton btnPlayAll = new ToolBarButton(this,
+        final ToolBarButton btnPlayAll = new ToolBarButton(vBox,
                 "Abspielen", "Markierte Audios abspielen", ProgIcons.ICON_TOOLBAR_START_ALL.getImageView());
-        final ToolBarButton btnSave = new ToolBarButton(this,
+        final ToolBarButton btnSave = new ToolBarButton(vBox,
                 "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_REC.getImageView());
 
         btnPlay.setOnAction(a -> AudioTools.playAudio());
@@ -76,11 +75,11 @@ public class AudioMenu extends VBox {
         vBoxSpace = new VBox();
         vBoxSpace.setMaxHeight(10);
         vBoxSpace.setMinHeight(10);
-        this.getChildren().add(vBoxSpace);
+        vBox.getChildren().add(vBoxSpace);
 
-        final ToolBarButton btDelAllBookmark = new ToolBarButton(this,
+        final ToolBarButton btDelAllBookmark = new ToolBarButton(vBox,
                 "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen", ProgIcons.ICON_TOOLBAR_DEL_ALL_BOOKMARK.getImageView());
-        final ToolBarButton btFilterBookmark = new ToolBarButton(this,
+        final ToolBarButton btFilterBookmark = new ToolBarButton(vBox,
                 "Bookmarks anzeigen", AUDIO_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_BOOKMARK_FILTER.getImageView());
 
         btDelAllBookmark.setOnAction(a -> ProgData.getInstance().historyListBookmarks.clearAll(ProgData.getInstance().primaryStage));
@@ -104,5 +103,115 @@ public class AudioMenu extends VBox {
                 ProgData.getInstance().actFilterWorker.setActFilterSettings(filter);
             }
         });
+    }
+
+    private void initFilmMenu() {
+        final MenuButton mb = new MenuButton("");
+        mb.setTooltip(new Tooltip("Filmmenü anzeigen"));
+        mb.setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
+        mb.getStyleClass().addAll("btnFunction", "btnFunc-0");
+
+        final MenuItem mbPlay = new MenuItem("Film abspielen");
+        mbPlay.setOnAction(a -> {
+            if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
+                return;
+            }
+            final Optional<AudioData> filmSelection = ProgData.getInstance().audioGuiController.getSel(true);
+            filmSelection.ifPresent(AudioTools::playAudio);
+        });
+        P2ShortcutWorker.addShortCut(mbPlay, PShortcut.SHORTCUT_PLAY_FILM);
+
+        final MenuItem mbPlayAll = new MenuItem("Alle markierten Audios abspielen");
+        mbPlayAll.setOnAction(a -> {
+            if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
+                return;
+            }
+            AudioTools.playAllAudios();
+        });
+        P2ShortcutWorker.addShortCut(mbPlayAll, PShortcut.SHORTCUT_PLAY_FILM_ALL);
+
+        final MenuItem mbSave = new MenuItem("Film speichern");
+        mbSave.setOnAction(e -> {
+            if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
+                return;
+            }
+            AudioTools.saveAudio();
+        });
+        P2ShortcutWorker.addShortCut(mbSave, PShortcut.SHORTCUT_SAVE_FILM);
+
+        mb.getItems().addAll(mbPlay, mbPlayAll, mbSave);
+
+        final MenuItem miFilmShown = new MenuItem("Filme als gesehen markieren");
+        miFilmShown.setOnAction(a -> {
+            if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
+                return;
+            }
+            progData.audioGuiController.setShown(true);
+        });
+        P2ShortcutWorker.addShortCut(miFilmShown, PShortcut.SHORTCUT_FILM_SHOWN);
+
+        final MenuItem miFilmNotShown = new MenuItem("Filme als ungesehen markieren");
+        miFilmNotShown.setOnAction(a -> {
+            if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
+                return;
+            }
+            progData.audioGuiController.setShown(false);
+        });
+        P2ShortcutWorker.addShortCut(miFilmNotShown, PShortcut.SHORTCUT_FILM_NOT_SHOWN);
+
+        final MenuItem miFilmInfo = new MenuItem("Filminformation anzeigen" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_INFO_FILM.getActShortcut());
+        miFilmInfo.setOnAction(a -> {
+            progData.audioGuiController.showAudioInfo();
+        });
+
+        final MenuItem miCopyTheme = new MenuItem("Thema in die Zwischenablage kopieren" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD.getActShortcut());
+        miCopyTheme.setOnAction(a -> progData.audioGuiController.copyFilmThemeTitle(true));
+
+        final MenuItem miCopyTitle = new MenuItem("Titel in die Zwischenablage kopieren" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD.getActShortcut());
+        miCopyTitle.setOnAction(a -> progData.audioGuiController.copyFilmThemeTitle(false));
+
+        //Blacklist
+        Menu submenuBlacklist = new Menu("Blacklist");
+        final MenuItem miBlack = new MenuItem("Blacklist-Eintrag für den Film erstellen" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_ADD_BLACKLIST.getActShortcut());
+        miBlack.setOnAction(event -> BlacklistFactory.addBlackFilm(true));
+
+        final MenuItem miBlackTheme = new MenuItem("Thema direkt in die Blacklist einfügen" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_ADD_BLACKLIST_THEME.getActShortcut());
+        miBlackTheme.setOnAction(event -> {
+            BlacklistFactory.addBlackThemeFilm();
+        });
+        submenuBlacklist.getItems().addAll(miBlack, miBlackTheme);
+
+        mb.getItems().add(new SeparatorMenuItem());
+        mb.getItems().addAll(miFilmShown, miFilmNotShown, miFilmInfo,
+                miCopyTheme, miCopyTitle, submenuBlacklist);
+
+        // Bookmarks
+        Menu submenuBookmark = new Menu("Bookmarks");
+        final MenuItem miBookmarkAdd = new MenuItem("Neue Bookmarks anlegen");
+        miBookmarkAdd.setOnAction(a -> progData.audioGuiController.setBookmark(true));
+        final MenuItem miBookmarkDel = new MenuItem("Bookmarks löschen");
+        miBookmarkDel.setOnAction(a -> progData.audioGuiController.setBookmark(false));
+        final MenuItem miBookmarkDelAll = new MenuItem("Alle angelegten Bookmarks löschen");
+        miBookmarkDelAll.setOnAction(a -> progData.historyListBookmarks.clearAll(progData.primaryStage));
+
+        submenuBookmark.getItems().addAll(miBookmarkAdd, miBookmarkDel, miBookmarkDelAll);
+        mb.getItems().add(submenuBookmark);
+
+        final MenuItem miShowFilter = new MenuItem("Filter ein-/ausblenden" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_FILTER.getActShortcut());
+        miShowFilter.setOnAction(a -> ATPlayerFactory.setFilter());
+
+        final MenuItem miShowInfo = new MenuItem("Infos ein-/ausblenden" +
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_INFOS.getActShortcut());
+        miShowInfo.setOnAction(a -> ATPlayerFactory.setInfos());
+
+        mb.getItems().add(new SeparatorMenuItem());
+        mb.getItems().addAll(miShowFilter, miShowInfo);
+        vBox.getChildren().add(mb);
     }
 }

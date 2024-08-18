@@ -18,6 +18,7 @@
 package de.p2tools.atplayer.controller.data.blackdata;
 
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.gui.dialog.AddBlackListDialogController;
 import de.p2tools.p2lib.atdate.AudioData;
 
@@ -26,6 +27,56 @@ import java.util.Optional;
 
 public class BlacklistFactory {
     private BlacklistFactory() {
+    }
+
+    public static void addBlackFilm(boolean film) {
+        // aus dem Menü: mit markiertem Film ein Black erstellen
+        // Dialog anzeigen
+        BlackData blackData;
+        if (film) {
+            final Optional<AudioData> audioData = ProgData.getInstance().audioGuiController.getSel(true);
+            if (audioData.isEmpty()) {
+                return;
+            }
+            blackData = new BlackData(audioData.get().getChannel(), audioData.get().getGenre(),
+                    audioData.get().getTheme(), audioData.get().getTitle(), "");
+
+        } else {
+            final Optional<DownloadData> downloadData = ProgData.getInstance().downloadGuiController.getSel(true);
+            if (downloadData.isEmpty()) {
+                return;
+            }
+            blackData = new BlackData(downloadData.get().getChannel(), downloadData.get().getGenre(),
+                    downloadData.get().getTheme(), downloadData.get().getTitle(), "");
+        }
+
+        AddBlackListDialogController addBlacklistDialogController =
+                new AddBlackListDialogController(blackData);
+        if (!addBlacklistDialogController.isOk()) {
+            //dann doch nicht
+            return;
+        }
+        ProgData.getInstance().blackList.addAndNotify(blackData);
+    }
+
+    public static void addBlackThemeFilm() {
+        // aus dem Menü: mit markiertem Film ein Black erstellen
+        // Dialog anzeigen
+        final Optional<AudioData> filmSelection = ProgData.getInstance().audioGuiController.getSel(true);
+        if (filmSelection.isEmpty()) {
+            return;
+        }
+        addBlack("", "", filmSelection.get().getTheme(), "");
+    }
+
+    public static void addBlackThemeDownload() {
+        // aus dem Menü: mit markiertem Film ein Black erstellen
+        // Dialog anzeigen
+        final Optional<DownloadData> downloadData = ProgData.getInstance().downloadGuiController.getSel(true);
+        if (downloadData.isEmpty()) {
+            return;
+        }
+        addBlack("", "", downloadData.get().getTheme(), "");
     }
 
     public static void addBlack() {

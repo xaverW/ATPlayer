@@ -58,6 +58,8 @@ public class ProgMenu extends MenuButton {
         miConfig.disableProperty().bind(ConfigDialogController.dialogIsRunning);
         getItems().addAll(miDarkMode, miConfig, new SeparatorMenuItem());
 
+        addMenuButton();
+
         //=========================
         //Hilfe
         final MenuItem miUrlHelp = new MenuItem("Anleitung im Web");
@@ -85,5 +87,17 @@ public class ProgMenu extends MenuButton {
         P2ShortcutWorker.addShortCut(miQuit, PShortcut.SHORTCUT_QUIT_PROGRAM);
 
         getItems().addAll(miQuit);
+    }
+
+    private void addMenuButton() {
+        final CheckMenuItem miAudio = new CheckMenuItem("Rechte Menüleiste");
+        miAudio.visibleProperty().bind(ProgData.AUDIO_TAB_ON);
+        miAudio.selectedProperty().bindBidirectional(ProgConfig.AUDIO_GUI_SHOW_MENU);
+
+        final CheckMenuItem miDownload = new CheckMenuItem("Rechte Menüleiste");
+        miDownload.visibleProperty().bind(ProgData.DOWNLOAD_TAB_ON);
+        miDownload.selectedProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_SHOW_MENU);
+
+        getItems().addAll(miAudio, miDownload);
     }
 }

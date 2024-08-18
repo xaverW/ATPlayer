@@ -53,7 +53,7 @@ public class PShortcut {
     public static final P2ShortcutKey SHORTCUT_SHOW_INFOS =
             new P2ShortcutKey(ProgConfig.SHORTCUT_SHOW_INFOS, ProgConfig.SHORTCUT_SHOW_INFOS_INIT,
                     "Infos anzeigen",
-                    "Unter der Tabelle \"Audios\" werden die Infos anzeigen.");
+                    "Unter der Tabelle werden die Infos anzeigen.");
 
     public static final P2ShortcutKey SHORTCUT_INFO_AUDIO =
             new P2ShortcutKey(ProgConfig.SHORTCUT_INFO_AUDIO, ProgConfig.SHORTCUT_INFO_AUDIO_INIT,
@@ -99,6 +99,74 @@ public class PShortcut {
             new P2ShortcutKey(ProgConfig.SHORTCUT_ADD_BLACKLIST, ProgConfig.SHORTCUT_ADD_BLACKLIST_INIT,
                     "Blacklist-Dialog öffnen",
                     "Den Blacklist-Dialog zum Ändern der Blacklist, öffnen");
+    public static final P2ShortcutKey SHORTCUT_ADD_BLACKLIST_THEME =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_ADD_BLACKLIST_THEME, ProgConfig.SHORTCUT_ADD_BLACKLIST_THEME_INIT,
+                    "Thema direkt in die Blacklist einfügen",
+                    "Einen neuen Eintrag mit dem exakten Thema in der Blacklist erstellen, " +
+                            "der markierte Film dient dabei Vorlage.");
+
+    // Tabelle Filme
+    public static final P2ShortcutKey SHORTCUT_PLAY_FILM =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_PLAY_FILM, ProgConfig.SHORTCUT_PLAY_FILM_INIT,
+                    "Film abspielen",
+                    "Der markierte Film in der Tabelle \"Filme\" wird abgespielt.");
+    public static final P2ShortcutKey SHORTCUT_PLAY_FILM_ALL =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_PLAY_FILM_ALL, ProgConfig.SHORTCUT_PLAY_FILM_ALL_INIT,
+                    "Alle markierten Filme abspielen",
+                    "Alle markierten Filme in der Tabelle \"Filme\" werden abgespielt.");
+    public static final P2ShortcutKey SHORTCUT_SAVE_FILM =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_SAVE_FILM, ProgConfig.SHORTCUT_SAVE_FILM_INIT,
+                    "Film speichern",
+                    "Der markierte Film in der Tabelle \"Filme\" wird aufgezeichnet.");
+    public static final P2ShortcutKey SHORTCUT_FILM_SHOWN =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_FILM_SHOWN, ProgConfig.SHORTCUT_FILM_SHOWN_INIT,
+                    "Film als gesehen markieren",
+                    "Der Film wird zur Liste der gesehenen Filme hinzugefügt.");
+    public static final P2ShortcutKey SHORTCUT_FILM_NOT_SHOWN =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_FILM_NOT_SHOWN, ProgConfig.SHORTCUT_FILM_NOT_SHOWN_INIT,
+                    "Film als ungesehen markieren",
+                    "Der Film wird aus der Liste der gesehenen Filme gelöscht.");
+    public static final P2ShortcutKey SHORTCUT_INFO_FILM =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_INFO_FILM, ProgConfig.SHORTCUT_INFO_FILM_INIT,
+                    "Filminformation anzeigen",
+                    "In der Tabelle \"Filme\" und \"Downloads\" die Infos des markierten Films anzeigen.");
+    public static final P2ShortcutKey SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD, ProgConfig.SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD_INIT,
+                    "Filmthema in die Zwischenablage Kopieren",
+                    "Das Thema des markierten Films/Downloads in der " +
+                            "Tabelle \"Filme\" und \"Downloads\" wird in die Zwischenablage kopiert.");
+    public static final P2ShortcutKey SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD, ProgConfig.SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD_INIT,
+                    "Filmtitel in die Zwischenablage Kopieren",
+                    "Der Titel des markierten Films/Downloads in der " +
+                            "Tabelle \"Filme\" und \"Downloads\" wird in die Zwischenablage kopiert.");
+
+    // Tabelle Download
+    public static final P2ShortcutKey SHORTCUT_DOWNLOAD_START =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_DOWNLOAD_START, ProgConfig.SHORTCUT_DOWNLOAD_START_INIT,
+                    "Download starten",
+                    "Der markierte Download in der Tabelle \"Downloads\" wird gestartet.");
+
+    public static final P2ShortcutKey SHORTCUT_DOWNLOAD_STOP =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_DOWNLOAD_STOP, ProgConfig.SHORTCUT_DOWNLOAD_STOP_INIT,
+                    "Download stoppen",
+                    "Der markierte Download in der Tabelle \"Downloads\" wird gestoppt.");
+
+    public static final P2ShortcutKey SHORTCUT_DOWNLOAD_CHANGE =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_DOWNLOAD_CHANGE, ProgConfig.SHORTCUT_DOWNLOAD_CHANGE_INIT,
+                    "Download ändern",
+                    "Der markierte Download in der Tabelle \"Downloads\" kann geändert werden.");
+
+    public static final P2ShortcutKey SHORTCUT_UNDO_DELETE =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_UNDO_DELETE, ProgConfig.SHORTCUT_UNDO_DELETE_INIT,
+                    "Gelöschte Downloads oder Abos wieder anlegen",
+                    "Die zuletzt gelöschten Downloads in der Tabelle \"Downloads\" oder " +
+                            "die zuletzt gelöschten Abos in der Tabelle \"Abos\" können wieder angelegt werden.");
+
+    public static final P2ShortcutKey SHORTCUT_DOWNLOADS_CLEAN_UP =
+            new P2ShortcutKey(ProgConfig.SHORTCUT_DOWNLOAD_CLEAN_UP, ProgConfig.SHORTCUT_DOWNLOAD_CLEAN_UP_INIT,
+                    "Downloads aufräumen",
+                    "Die Liste der Downloads in der Tabelle \"Downloads\" wird aufgeräumt.");
 
     private static final ObservableList<P2ShortcutKey> shortcutList = FXCollections.observableArrayList();
 

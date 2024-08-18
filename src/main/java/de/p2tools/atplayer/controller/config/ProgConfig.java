@@ -96,10 +96,8 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_PROG_BUILD_NO = addStrProp("system-prog-build-no", P2ToolsFactory.getBuild());
     public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date", P2ToolsFactory.getCompileDate());//z.B.: 27.07.2
 
-
     // Configs zum Aktualisieren beim Programmupdate
     public static BooleanProperty SYSTEM_CHANGE_LOG_DIR = addBoolProp("system-change-log-dir", Boolean.FALSE);
-
 
     //Configs zur Anzeige der Diacritics in der Audioliste
     //TRUE: dann werden Diacritics entfernt
@@ -136,7 +134,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty DOWNLOAD_DIALOG_START_DOWNLOAD_NOW = addBoolProp("download-dialog-start-download-now", Boolean.TRUE);
     public static BooleanProperty DOWNLOAD_DIALOG_START_DOWNLOAD_NOT = addBoolProp("download-dialog-start-download-not", Boolean.FALSE);
     public static IntegerProperty DOWNLOAD_BANDWIDTH_KBYTE = addIntProp("download-bandwidth-byte"); // da wird die genutzte Bandbreite gespeichert
-    public static DoubleProperty DOWNLOAD_GUI_FILTER_DIVIDER = addDoubleProp("download-gui-filter-divider", ProgConst.GUI_DOWNLOAD_FILTER_DIVIDER_LOCATION);
     public static StringProperty DOWNLOAD_GUI_TABLE_WIDTH = addStrProp("download-gui-table-width");
     public static StringProperty DOWNLOAD_GUI_TABLE_SORT = addStrProp("download-gui-table-sort");
     public static StringProperty DOWNLOAD_GUI_TABLE_UP_DOWN = addStrProp("download-gui-table-up-down");
@@ -211,6 +208,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_LOAD_FILMLIST_MIN_DURATION = addIntProp("system-load-filmlist-min-duration", 0); //es werden nur Audios mit mind. x Minuten geladen
 
     // Gui Audios
+    public static BooleanProperty AUDIO_GUI_SHOW_MENU = addBoolProp("audio-gui-show-menu", Boolean.TRUE);
     public static DoubleProperty AUDIO_GUI_DIVIDER = addDoubleProp("audio-gui-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
     public static BooleanProperty AUDIO_GUI_DIVIDER_ON = addBoolProp("audio-gui-divider-on", Boolean.TRUE);
     public static StringProperty AUDIO_GUI_TABLE_WIDTH = addStrProp("audio-gui-table-width");
@@ -220,9 +218,23 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty AUDIO_GUI_TABLE_ORDER = addStrProp("audio-gui-table-order");
     public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", 0.7);
 
+    // Gui Download
+    public static BooleanProperty DOWNLOAD_GUI_SHOW_MENU = addBoolProp("download-gui-show-menu", Boolean.TRUE);
+    public static BooleanProperty DOWNLOAD_GUI_DIVIDER_ON = addBoolProp("download-gui-divider-on", Boolean.TRUE);
+    public static DoubleProperty DOWNLOAD_GUI_INFO_DIVIDER = addDoubleProp("download-gui-info-divider", 0.7);
+
     // Gui Filter
     public static BooleanProperty AUDIO_GUI_FILTER_DIVIDER_ON = addBoolProp("film-gui-filter-divider-on", Boolean.TRUE);
     public static DoubleProperty AUDIO_GUI_FILTER_DIVIDER = addDoubleProp("film-gui-filter-divider", ProgConst.GUI_FILTER_DIVIDER_LOCATION);
+    public static BooleanProperty DOWNLOAD_GUI_FILTER_DIVIDER_ON = addBoolProp("download-gui-filter-divider-on", Boolean.TRUE);
+    public static DoubleProperty DOWNLOAD_GUI_FILTER_DIVIDER = addDoubleProp("download-gui-filter-divider", ProgConst.GUI_DOWNLOAD_FILTER_DIVIDER_LOCATION);
+
+    // Filter
+    public static StringProperty FILTER_DOWNLOAD_STATE = addStrProp("filter-download-state");
+    public static StringProperty FILTER_DOWNLOAD_CHANNEL = addStrProp("filter-download-channel");
+    public static StringProperty FILTER_DOWNLOAD_GENRE = addStrProp("filter-download-genre");
+    public static StringProperty FILTER_DOWNLOAD_THEME = addStrProp("filter-download-theme");
+    public static StringProperty FILTER_DOWNLOAD_TITLE = addStrProp("filter-download-title");
 
     // ConfigDialog
     public static StringProperty CONFIG_DIALOG_SIZE = addStrProp("config-dialog-size", "900:700");
@@ -243,7 +255,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static String SHORTCUT_CENTER_INIT = "Ctrl+W";
     public static StringProperty SHORTCUT_CENTER_GUI = addStrProp("SHORTCUT_CENTER_GUI", SHORTCUT_CENTER_INIT);
 
-    // Shortcuts Filmmenü
     public static String SHORTCUT_SHOW_INFOS_INIT = "Alt+I";
     public static StringProperty SHORTCUT_SHOW_INFOS = addStrProp("SHORTCUT_SHOW_INFO", SHORTCUT_SHOW_INFOS_INIT);
 
@@ -276,6 +287,48 @@ public class ProgConfig extends P2DataProgConfig {
 
     public static String SHORTCUT_ADD_BLACKLIST_INIT = "Alt+B";
     public static StringProperty SHORTCUT_ADD_BLACKLIST = addStrProp("SHORTCUT_ADD_BLACKLIST_THEME", SHORTCUT_ADD_BLACKLIST_INIT);
+
+    public static String SHORTCUT_ADD_BLACKLIST_THEME_INIT = "Ctrl+Shift+B";
+    public static StringProperty SHORTCUT_ADD_BLACKLIST_THEME = addStrProp("SHORTCUT_ADD_BLACKLIST_THEME", SHORTCUT_ADD_BLACKLIST_THEME_INIT);
+
+    public static String SHORTCUT_PLAY_FILM_INIT = "Ctrl+P";
+    public static StringProperty SHORTCUT_PLAY_FILM = addStrProp("SHORTCUT_PLAY_FILM", SHORTCUT_PLAY_FILM_INIT);
+
+    public static String SHORTCUT_PLAY_FILM_ALL_INIT = "Ctrl+Shift+P";
+    public static StringProperty SHORTCUT_PLAY_FILM_ALL = addStrProp("SHORTCUT_PLAY_FILM_ALL", SHORTCUT_PLAY_FILM_ALL_INIT);
+
+    public static String SHORTCUT_SAVE_FILM_INIT = "Ctrl+S";
+    public static StringProperty SHORTCUT_SAVE_FILM = addStrProp("SHORTCUT_SAVE_FILM", SHORTCUT_SAVE_FILM_INIT);
+
+    public static String SHORTCUT_FILM_SHOWN_INIT = "Ctrl+G";
+    public static StringProperty SHORTCUT_FILM_SHOWN = addStrProp("SHORTCUT_FILM_SHOWN", SHORTCUT_FILM_SHOWN_INIT);
+
+    public static String SHORTCUT_FILM_NOT_SHOWN_INIT = "Ctrl+Shift+G";
+    public static StringProperty SHORTCUT_FILM_NOT_SHOWN = addStrProp("SHORTCUT_FILM_NOT_SHOWN", SHORTCUT_FILM_NOT_SHOWN_INIT);
+
+    public static String SHORTCUT_INFO_FILM_INIT = "Ctrl+I";
+    public static StringProperty SHORTCUT_INFO_FILM = addStrProp("SHORTCUT_INFO_FILM", SHORTCUT_INFO_FILM_INIT);
+
+    public static String SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD_INIT = "Alt+H";
+    public static StringProperty SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD = addStrProp("SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD", SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD_INIT);
+
+    public static String SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD_INIT = "Alt+T";
+    public static StringProperty SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD = addStrProp("SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD", SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD_INIT);
+
+    public static String SHORTCUT_DOWNLOAD_START_INIT = "Ctrl+D";
+    public static StringProperty SHORTCUT_DOWNLOAD_START = addStrProp("SHORTCUT_DOWNLOAD_START", SHORTCUT_DOWNLOAD_START_INIT);
+
+    public static String SHORTCUT_DOWNLOAD_STOP_INIT = "Ctrl+T";
+    public static StringProperty SHORTCUT_DOWNLOAD_STOP = addStrProp("SHORTCUT_DOWNLOAD_STOP", SHORTCUT_DOWNLOAD_STOP_INIT);
+
+    public static String SHORTCUT_DOWNLOAD_CHANGE_INIT = "Ctrl+C";
+    public static StringProperty SHORTCUT_DOWNLOAD_CHANGE = addStrProp("SHORTCUT_DOWNLOAD_CHANGE", SHORTCUT_DOWNLOAD_CHANGE_INIT);
+
+    public static String SHORTCUT_UNDO_DELETE_INIT = "Ctrl+Z";
+    public static StringProperty SHORTCUT_UNDO_DELETE = addStrProp("SHORTCUT_DOWNLOAD_UNDO_DELETE", SHORTCUT_UNDO_DELETE_INIT);
+
+    public static String SHORTCUT_DOWNLOAD_CLEAN_UP_INIT = "CTRL+O";
+    public static StringProperty SHORTCUT_DOWNLOAD_CLEAN_UP = addStrProp("SHORTCUT_DOWNLOAD_CLEAN_UP", SHORTCUT_DOWNLOAD_CLEAN_UP_INIT);
 
     private static ProgConfig instance;
 
@@ -314,6 +367,7 @@ public class ProgConfig extends P2DataProgConfig {
         configFile.addConfigs(progData.replaceList);
         configFile.addConfigs(progData.downloadList);
         configFile.addConfigs(progData.blackList);
+        configFile.addConfigs(progData.stringFilterLists); // sind die Textfilter in den CBO's
     }
 
     public static void logAllConfigs() {

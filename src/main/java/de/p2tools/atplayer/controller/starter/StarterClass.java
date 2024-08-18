@@ -130,7 +130,7 @@ public class StarterClass {
         final Start start = download.getStart();
         final ArrayList<String> list = new ArrayList<>();
         list.add(P2Log.LILNE3);
-        if (download.isStateStoped()) {
+        if (download.isStateStopped()) {
             list.add("Download wurde abgebrochen");
 
         } else {
@@ -167,7 +167,7 @@ public class StarterClass {
         list.add(P2Log.LILNE_EMPTY);
         P2Log.sysLog(list);
 
-        if (!download.isStateStoped()) {
+        if (!download.isStateStopped()) {
             //war ein Abo und wurde nicht abgebrochen
 //            addNotification(download);
             MTNotification.addNotification(download, download.isStateError());
@@ -193,7 +193,7 @@ public class StarterClass {
 
         if (download.isStateError()) {
             download.setProgress(DownloadConstants.PROGRESS_NOT_STARTED);
-        } else if (!download.isStateStoped()) {
+        } else if (!download.isStateStopped()) {
             //dann ist er gelaufen
             start.setTimeLeftSeconds(0);
             download.setProgress(DownloadConstants.PROGRESS_FINISHED);

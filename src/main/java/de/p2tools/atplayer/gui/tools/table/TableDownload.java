@@ -17,6 +17,7 @@
 package de.p2tools.atplayer.gui.tools.table;
 
 import de.p2tools.atplayer.controller.config.ProgColorList;
+import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.mtdownload.DownloadSize;
 import de.p2tools.p2lib.tools.GermanStringIntSorter;
@@ -30,7 +31,7 @@ import java.util.Comparator;
 
 public class TableDownload extends PTable<DownloadData> {
 
-    public TableDownload(Table.TABLE_ENUM table_enum) {
+    public TableDownload(Table.TABLE_ENUM table_enum, ProgData progData) {
         super(table_enum);
         this.table_enum = table_enum;
         initFileRunnerColumn();

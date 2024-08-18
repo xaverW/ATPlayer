@@ -28,6 +28,7 @@ import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdate.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
+import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -59,7 +60,6 @@ public class AudioGuiController extends AnchorPane {
     private boolean boundSplitPaneDivPos = false;
 
     private AudioInfoController audioInfoController;
-    private final DownloadInfoController downloadInfoController;
 
     public AudioGuiController() {
         progData = ProgData.getInstance();
@@ -67,8 +67,6 @@ public class AudioGuiController extends AnchorPane {
         pClosePaneHInfo = new P2ClosePaneH(ProgConfig.AUDIO_GUI_DIVIDER_ON, true);
         tabPaneInfo = new TabPane();
         tableView = new TableAudio(Table.TABLE_ENUM.FILM, progData);
-
-        downloadInfoController = new DownloadInfoController();
 
         AnchorPane.setLeftAnchor(splitPane, 0.0);
         AnchorPane.setBottomAnchor(splitPane, 0.0);
@@ -106,7 +104,6 @@ public class AudioGuiController extends AnchorPane {
 
     public void saveTable() {
         Table.saveTable(tableView, Table.TABLE_ENUM.FILM);
-        downloadInfoController.saveTable();
     }
 
     public void setShown(boolean set) {
@@ -259,6 +256,11 @@ public class AudioGuiController extends AnchorPane {
         });
     }
 
+    public void copyFilmThemeTitle(boolean theme) {
+        final Optional<AudioData> filmSelection = getSel(false);
+        filmSelection.ifPresent(mtp -> P2SystemUtils.copyToClipboard(theme ? mtp.getTheme() : mtp.getTitle()));
+    }
+
     private void setAudioInfos() {
         setAudioInfos(tableView.getSelectionModel().getSelectedItem());
     }
@@ -304,12 +306,8 @@ public class AudioGuiController extends AnchorPane {
         tabInfo.setClosable(false);
         tabInfo.setContent(audioInfoController);
 
-        Tab tabDownloads = new Tab("Downloads");
-        tabDownloads.setClosable(false);
-        tabDownloads.setContent(downloadInfoController);
-
         tabPaneInfo.getTabs().clear();
-        tabPaneInfo.getTabs().addAll(tabInfo, tabDownloads);
+        tabPaneInfo.getTabs().addAll(tabInfo);
 
         pClosePaneHInfo.getVBoxAll().getChildren().clear();
         pClosePaneHInfo.getVBoxAll().getChildren().add(tabPaneInfo);

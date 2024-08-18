@@ -83,6 +83,7 @@ public final class AudioFilter extends AudioFilterProps {
         onlyNewProperty().addListener(l -> setFilterChange(true));
         onlyBookmarkProperty().addListener(l -> setFilterChange(true));
         noHistoryProperty().addListener(l -> setFilterChange(true));
+        podcastOnOffProperty().addListener(l -> setFilterChange(true));
         blacklistOnOffProperty().addListener(l -> reportBlacklistChange());
     }
 
@@ -118,5 +119,6 @@ public final class AudioFilter extends AudioFilterProps {
         setOnlyNew(false);
         setOnlyBookmark(false);
         setNoHistory(false);
+        setPodcastOnOff(AudioFilter.PODCAST_FILTER_ON);
     }
 }

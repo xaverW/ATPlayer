@@ -25,12 +25,14 @@ import de.p2tools.atplayer.controller.data.download.DownloadInfos;
 import de.p2tools.atplayer.controller.data.download.DownloadList;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
+import de.p2tools.atplayer.controller.filter.StringFilter;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.controller.starter.StarterClass;
 import de.p2tools.atplayer.controller.worker.Busy;
 import de.p2tools.atplayer.controller.worker.CheckForNewFilmlist;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
+import de.p2tools.atplayer.gui.DownloadGuiController;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
 import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
@@ -63,11 +65,15 @@ public class ProgData {
     public DownloadList downloadList; // Filme die als "Download" geladen werden sollen
     public StarterClass starterClass; // Klasse zum Ausführen der Programme (für die Downloads): VLC, flvstreamer, ...
 
+    public static BooleanProperty AUDIO_TAB_ON = new SimpleBooleanProperty(Boolean.FALSE);
+    public static BooleanProperty DOWNLOAD_TAB_ON = new SimpleBooleanProperty(Boolean.FALSE);
+
     // Gui
     public Stage primaryStage = null;
     public P2MaskerPane maskerPane = new P2MaskerPane();
     public ATPlayerController ATPlayerController = null;
     public AudioGuiController audioGuiController = null; // Tab mit den Audios
+    public DownloadGuiController downloadGuiController = null; // Tab mit den Audios
     public QuitDialogController quitDialogController = null;
 
     // Worker
@@ -77,6 +83,7 @@ public class ProgData {
     // Programmdaten
     public AudioList audioList; // ist die komplette Audioliste
     public AudioList audioListFiltered; // nach der Blacklist
+    public StringFilter stringFilterLists; // sind die Text-Filter in den CBO's
 
     public DownloadInfos downloadInfos;
     public ReplaceList replaceList;
@@ -95,6 +102,7 @@ public class ProgData {
         actFilterWorker = new ActFilterWorker();
         audioList = new AudioList();
         audioListFiltered = new AudioList();
+        stringFilterLists = new StringFilter();
 
         historyList = new HistoryList(ProgConst.FILE_HISTORY,
                 ProgInfos.getSettingsDirectory_String(), false);

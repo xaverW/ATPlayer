@@ -17,7 +17,6 @@
 
 package de.p2tools.atplayer.controller.downloadtools;
 
-import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
@@ -25,6 +24,7 @@ import de.p2tools.atplayer.controller.starter.StarterClass;
 import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
 import de.p2tools.p2lib.mtdownload.MLInputStream;
 import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -47,7 +47,7 @@ public class DownloadMp4 {
 
         downloadData.getStart().setInputStream(new MLInputStream(conn.getInputStream(),
                 bandwidthCalculationTimer,
-                ProgConfig.DOWNLOAD_MAX_BANDWIDTH_BYTE,
+                new SimpleIntegerProperty(MLBandwidthTokenBucket.BANDWIDTH_RUN_FREE)/* ProgConfig.DOWNLOAD_MAX_BANDWIDTH_BYTE*/,
                 ProgData.AUDIOLIST_IS_DOWNLOADING));
 
         FileOutputStream fos = new FileOutputStream(file, (downloaded.get() != 0));
@@ -57,7 +57,7 @@ public class DownloadMp4 {
         int len;
         long aktBandwidth = 0, aktSize = 0;
 
-        while ((len = downloadData.getStart().getInputStream().read(buffer)) != -1 && (!downloadData.isStateStoped())) {
+        while ((len = downloadData.getStart().getInputStream().read(buffer)) != -1 && (!downloadData.isStateStopped())) {
             downloaded.set(downloaded.get() + len);
             fos.write(buffer, 0, len);
             downloadData.getDownloadSize().addActFileSize(len);
@@ -106,7 +106,7 @@ public class DownloadMp4 {
             }
         }
 
-        if (!downloadData.isStateStoped()) {
+        if (!downloadData.isStateStopped()) {
             if (StarterClass.check(progData, downloadData)) {
                 // Anzeige ändern - fertig
                 downloadData.setStateFinished();

@@ -22,34 +22,23 @@ import de.p2tools.atplayer.gui.filter.AudioFilterController;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 
-public class AudioGuiPack {
+public class AudioGui {
 
     final AudioFilterController audioFilterController;
     final AudioGuiController audioGuiController;
     private final SplitPane splitPane = new SplitPane();
     private boolean bound = false;
 
-    public AudioGuiPack() {
+    public AudioGui() {
         audioFilterController = new AudioFilterController();
         audioGuiController = new AudioGuiController();
         ProgData.getInstance().audioGuiController = audioGuiController;
     }
 
-    public HBox pack() {
-        final AudioMenu menuController = new AudioMenu();
-        menuController.setId("film-menu-pane");
-
-        HBox hBox = new HBox();
-        HBox.setHgrow(splitPane, Priority.ALWAYS);
-        hBox.getChildren().addAll(splitPane, menuController);
-
-        splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        SplitPane.setResizableWithParent(audioFilterController, Boolean.FALSE);
-        splitPane.getItems().addAll(audioFilterController, audioGuiController);
-        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setSplit());
-        setSplit();
-        return hBox;
+    public void closeSplit() {
+        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.get());
     }
 
     private void setSplit() {
@@ -65,5 +54,23 @@ public class AudioGuiPack {
             splitPane.getItems().clear();
             splitPane.getItems().addAll(audioGuiController);
         }
+    }
+
+    public HBox pack() {
+        final MenuController menuController = new MenuController(MenuController.StartupMode.AUDIO);
+
+        HBox hBox = new HBox();
+        hBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        hBox.setMinSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        hBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox.setHgrow(splitPane, Priority.ALWAYS);
+        hBox.getChildren().addAll(splitPane, menuController);
+
+        splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        SplitPane.setResizableWithParent(audioFilterController, Boolean.FALSE);
+
+        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setSplit());
+        setSplit();
+        return hBox;
     }
 }

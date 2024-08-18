@@ -134,7 +134,7 @@ public class ExternalProgramDownload {
         // hier läuft der Download bis zum Abbruch oder Ende
         int retStatus = stat_running;
         try {
-            if (download.isStateStoped()) {
+            if (download.isStateStopped()) {
                 // abbrechen
                 retStatus = stat_finished_abort;
                 if (download.getStart().getProcess() != null) {

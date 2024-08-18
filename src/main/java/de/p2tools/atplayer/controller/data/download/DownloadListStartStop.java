@@ -47,7 +47,6 @@ public class DownloadListStartStop {
         delDownloads(list);
     }
 
-
     /**
      * eine Liste Downloads aus der "Dwonloadliste"  stoppen und dann entfernen
      *
@@ -85,7 +84,7 @@ public class DownloadListStartStop {
         // das Starten von neuen Downloads etwas Pausieren
         progData.starterClass.setPaused();
         for (final DownloadData download : list) {
-            if (download.isStateInit() || download.isStateStoped()) {
+            if (download.isStateInit() || download.isStateStopped()) {
                 download.putBack();
                 found = true;
             }
@@ -198,7 +197,7 @@ public class DownloadListStartStop {
         for (DownloadData download : list) {
 
             // abgebrochene starten
-            if (download.isStateStoped()) {
+            if (download.isStateStopped()) {
                 listDelDownloads.add(download);
                 listStartDownloads.add(download);
             }

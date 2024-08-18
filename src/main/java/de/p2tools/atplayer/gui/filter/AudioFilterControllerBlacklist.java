@@ -25,7 +25,6 @@ import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -47,7 +46,6 @@ public class AudioFilterControllerBlacklist extends HBox {
         btnBlack.setTooltip(new Tooltip("Blacklist-Einstellungen anzeigen - " +
                 PShortcut.SHORTCUT_ADD_BLACKLIST.getActShortcut()));
 
-        Label lblRight = new Label();
         tglBlacklist.setAllowIndeterminate(true);
         tglBlacklist.setLabelLeft("Blacklist [ein]:", "Blacklist [aus]:", "Blacklist [invers]:");
         tglBlacklist.setTooltip(new Tooltip("Blacklist aus: Alle Filme werden angezeigt.\n" +
@@ -69,7 +67,7 @@ public class AudioFilterControllerBlacklist extends HBox {
         setSpacing(5);
         setAlignment(Pos.CENTER_RIGHT);
         HBox.setHgrow(tglBlacklist, Priority.ALWAYS);
-        getChildren().addAll(tglBlacklist, lblRight, btnBlack);
+        getChildren().addAll(tglBlacklist, btnBlack);
     }
 
     private void setTglBlacklist() {

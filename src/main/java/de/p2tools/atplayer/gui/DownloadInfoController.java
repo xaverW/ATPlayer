@@ -16,289 +16,119 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
-import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
-import de.p2tools.atplayer.gui.tools.table.Table;
-import de.p2tools.atplayer.gui.tools.table.TableDownload;
-import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.guitools.P2Open;
-import de.p2tools.p2lib.guitools.P2TableFactory;
-import de.p2tools.p2lib.tools.P2SystemUtils;
-import javafx.beans.property.DoubleProperty;
-import javafx.collections.ListChangeListener;
-import javafx.collections.transformation.SortedList;
+import de.p2tools.p2lib.guitools.P2ColumnConstraints;
+import de.p2tools.p2lib.guitools.P2Hyperlink;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+public class DownloadInfoController extends VBox {
+    private final SplitPane splitPane = new SplitPane();
+    private final VBox vBoxLeft = new VBox();
 
-public class DownloadInfoController extends AnchorPane {
+    private final TextArea textArea = new TextArea();
+    private final Label lblTheme = new Label("");
+    private final Label lblTitle = new Label("");
+    private final HBox hBoxUrl = new HBox(10);
+    private final Label lblUrl = new Label("zur Website: ");
 
-    private final HBox hBoxAll = new HBox();
-    private final VBox vBoxTable = new VBox();
-    private final TableDownload tableView;
-    private final ScrollPane scrollPane = new ScrollPane();
-    private final ProgData progData;
-    private final SortedList<DownloadData> sortedDownloads;
+    private final Label lblDate = new Label();
+    private final Label lblTime = new Label();
+    private final Label lblDuration = new Label();
+    private final Label lblSize = new Label();
 
-    DoubleProperty doubleProperty; //sonst geht die Ref verloren
+    private DownloadData downloadData = null;
 
     public DownloadInfoController() {
-        progData = ProgData.getInstance();
-        tableView = new TableDownload(Table.TABLE_ENUM.DOWNLOAD);
-        this.doubleProperty = ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER;
-        sortedDownloads = new SortedList<>(progData.downloadList);
+        setSpacing(10);
+        setPadding(new Insets(10));
 
-        AnchorPane.setLeftAnchor(hBoxAll, 0.0);
-        AnchorPane.setBottomAnchor(hBoxAll, 0.0);
-        AnchorPane.setRightAnchor(hBoxAll, 0.0);
-        AnchorPane.setTopAnchor(hBoxAll, 0.0);
-        getChildren().add(hBoxAll);
-        make();
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(textArea);
+        stackPane.setMaxHeight(Double.MAX_VALUE);
+        VBox.setVgrow(stackPane, Priority.ALWAYS);
+
+        lblTheme.setFont(Font.font(null, FontWeight.BOLD, -1));
+        hBoxUrl.setAlignment(Pos.CENTER_LEFT);
+        lblUrl.setMinWidth(Region.USE_PREF_SIZE);
+
+        textArea.setWrapText(true);
+        textArea.setPrefRowCount(4);
+
+        VBox v = new VBox();
+        v.setSpacing(0);
+        v.getChildren().addAll(lblTheme, lblTitle);
+        vBoxLeft.setSpacing(2);
+        vBoxLeft.setPadding(new Insets(P2LibConst.PADDING));
+        vBoxLeft.getChildren().addAll(v, stackPane, hBoxUrl);
+
+        final GridPane gridPane = new GridPane();
+        gridPane.getStyleClass().add("extra-pane-info");
+        gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
+        gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
+        gridPane.setPadding(new Insets(P2LibConst.PADDING));
+        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(), P2ColumnConstraints.getCcComputedSizeAndHgrow());
+
+        int row = 0;
+        gridPane.add(new Label("Datum: "), 0, row);
+        gridPane.add(lblDate, 1, row);
+        gridPane.add(new Label("Zeit: "), 0, ++row);
+        gridPane.add(lblTime, 1, row);
+        gridPane.add(new Label("Dauer: "), 0, ++row);
+        gridPane.add(lblDuration, 1, row);
+        gridPane.add(new Label("Größe: "), 0, ++row);
+        gridPane.add(lblSize, 1, row);
+
+        splitPane.getItems().addAll(vBoxLeft, gridPane);
+        splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_INFO_DIVIDER);
+        SplitPane.setResizableWithParent(gridPane, false);
+
+        setSpacing(0);
+        setPadding(new Insets(0));
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
+        getChildren().add(splitPane);
     }
 
-    public void tableRefresh() {
-        tableView.refresh();
-    }
+    public void setDownloadData(DownloadData downloadData) {
+        hBoxUrl.getChildren().clear();
 
-    public void startDownloads(boolean all) {
-        // bezieht sich auf "alle" oder nur die markierten Audios
-        final ArrayList<DownloadData> startDownloadsList =
-                new ArrayList<>(all ? tableView.getItems() : getSelList());
-        progData.downloadList.startDownloads(startDownloadsList, true);
-    }
+        if (downloadData == null) {
+            this.downloadData = null;
+            lblTheme.setText("");
+            lblTitle.setText("");
+            textArea.clear();
 
-    public void startDownloads(DownloadData downloadData) {
-        progData.downloadList.startDownloads(downloadData);
-    }
-
-    public void stopDownloads(boolean all) {
-        // bezieht sich auf "alle" oder nur die markierten Audios
-        final ArrayList<DownloadData> data =
-                new ArrayList<>(all ? tableView.getItems() : getSelList());
-        progData.downloadList.stopDownloads(data);
-    }
-
-    public void stopDownloads(DownloadData downloadData) {
-        progData.downloadList.stopDownloads(downloadData);
-    }
-
-    public void editDownloads() {
-        List<DownloadData> list = getSelList();
-        if (!list.isEmpty()) {
-            new DownloadAddDialogController(progData, null, list);
-        }
-    }
-
-    public void editDownloads(DownloadData downloadData) {
-        List<DownloadData> list = new ArrayList<>();
-        list.add(downloadData);
-        new DownloadAddDialogController(progData, null, list);
-    }
-
-    public void deleteDownloads() {
-        progData.downloadList.delDownloads(getSelList());
-    }
-
-    public void deleteDownloads(DownloadData downloadData) {
-        progData.downloadList.delDownloads(downloadData);
-    }
-
-    public void preferDownload() {
-        progData.downloadList.preferDownloads(getSelList());
-    }
-
-    public void moveDownloadBack() {
-        progData.downloadList.putBackDownloads(getSelList());
-    }
-
-    public void deleteAudioFile() {
-        // Download nur löschen wenn er nicht läuft
-        final Optional<DownloadData> download = getSel();
-        if (!download.isPresent()) {
+            lblDate.setText("");
+            lblTime.setText("");
+            lblDuration.setText("");
+            lblSize.setText("");
             return;
         }
-        DownloadDataFactory.deleteAudioFile(download.get());
-    }
 
-    public void openDestinationDir() {
-        final Optional<DownloadData> download = getSel();
-        if (download.isEmpty()) {
-            return;
+        this.downloadData = downloadData;
+
+        lblTheme.setText(downloadData.getChannel() + "  -  " + downloadData.getTheme());
+        lblTitle.setText(downloadData.getTitle());
+        textArea.setText(downloadData.getDescription());
+
+        if (!downloadData.getUrlWebsite().isEmpty()) {
+            P2Hyperlink hyperlink = new P2Hyperlink(downloadData.getUrlWebsite(),
+                    ProgConfig.SYSTEM_PROG_OPEN_URL);
+            hBoxUrl.getChildren().addAll(lblUrl, hyperlink);
         }
-        String s = download.get().getDestPath();
-        P2Open.openDir(s, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
-    }
 
-    public void playUrl() {
-        final Optional<DownloadData> download = getSel();
-        if (download.isEmpty()) {
-            return;
-        }
-        // und starten
-        AudioTools.playAudio(download.get());
-    }
-
-    public void copyUrl() {
-        final Optional<DownloadData> download = getSel();
-        if (download.isEmpty()) {
-            return;
-        }
-        P2SystemUtils.copyToClipboard(download.get().getUrl());
-    }
-
-    public void invertSelection() {
-        P2TableFactory.invertSelection(tableView);
-    }
-
-    public void playAudio() {
-        final Optional<DownloadData> download = getSel();
-        download.ifPresent(AudioTools::playAudio);
-    }
-
-    private void make() {
-        hBoxAll.setSpacing(P2LibConst.DIST_BUTTON);
-        hBoxAll.setPadding(new Insets(P2LibConst.PADDING));
-
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
-        scrollPane.setContent(tableView);
-        vBoxTable.getChildren().add(scrollPane);
-        VBox.setVgrow(scrollPane, Priority.ALWAYS);
-
-        Button btnStart = new Button();
-        Button btnStartAll = new Button();
-        Button btnStop = new Button();
-        Button btnDel = new Button();
-        Button btnEdit = new Button();
-        Button btnClearFilter = new Button();
-
-        VBox vBoxButton = new VBox(P2LibConst.DIST_BUTTON);
-        vBoxButton.setAlignment(Pos.TOP_CENTER);
-        vBoxButton.getChildren().addAll(btnStart, btnStartAll, btnStop, btnDel, btnEdit, btnClearFilter);
-
-        hBoxAll.getChildren().addAll(vBoxTable, vBoxButton);
-
-        btnStart.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_START.getImageView());
-        btnStart.setTooltip(new Tooltip("Markierte Downloads starten"));
-        btnStart.getStyleClass().add("buttonSmall");
-        btnStart.setOnAction(a -> startDownloads(false /* alle */));
-
-        btnStartAll.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_START_ALL.getImageView());
-        btnStartAll.setTooltip(new Tooltip("Alle Downloads starten"));
-        btnStartAll.getStyleClass().add("buttonSmall");
-        btnStartAll.setOnAction(a -> startDownloads(true /* alle */));
-
-        btnStop.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_STOP.getImageView());
-        btnStop.setTooltip(new Tooltip("Markierte Downloads stoppen"));
-        btnStop.getStyleClass().add("buttonSmall");
-        btnStop.setOnAction(a -> stopDownloads(false /* alle */));
-
-        btnDel.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_DEL.getImageView());
-        btnDel.setTooltip(new Tooltip("Markierte Downloads löschen"));
-        btnDel.getStyleClass().add("buttonSmall");
-        btnDel.setOnAction(a -> ProgData.getInstance().downloadList.delDownloads(getSelList()));
-
-        btnEdit.setGraphic(ProgIcons.ICON_BUTTON_DOWNLOAD_EDIT.getImageView());
-        btnEdit.setTooltip(new Tooltip("Markierte Downloads ändern"));
-        btnEdit.getStyleClass().add("buttonSmall");
-        btnEdit.setOnAction(a -> editDownloads());
-
-        btnClearFilter.setGraphic(ProgIcons.ICON_BUTTON_CLEAN.getImageView());
-        btnClearFilter.setTooltip(new Tooltip("Tabelle aufräumen"));
-        btnClearFilter.getStyleClass().add("buttonSmall");
-        btnClearFilter.setOnAction(a -> progData.downloadList.cleanUpList());
-
-        initTable();
-    }
-
-    public void saveTable() {
-        Table.saveTable(tableView, Table.TABLE_ENUM.DOWNLOAD);
-    }
-
-    private void initTable() {
-        Table.setTable(tableView);
-
-        tableView.setItems(sortedDownloads);
-        sortedDownloads.comparatorProperty().bind(tableView.comparatorProperty());
-
-        tableView.setRowFactory(tv -> {
-            TableRowDownload<DownloadData> row = new TableRowDownload<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getButton().equals(MouseButton.PRIMARY) && event.getClickCount() == 2) {
-                    editDownloads();
-                }
-            });
-            return row;
-        });
-        tableView.setOnMousePressed(m -> {
-            if (m.getButton().equals(MouseButton.SECONDARY)) {
-                final Optional<DownloadData> optionalDownload = getSel(false);
-                DownloadData download = optionalDownload.orElse(null);
-                ContextMenu contextMenu = new DownloadTableContextMenu(progData, this, tableView).
-                        getContextMenu(download);
-                tableView.setContextMenu(contextMenu);
-            }
-        });
-        tableView.getItems().addListener((ListChangeListener<DownloadData>) c -> {
-            if (tableView.getItems().size() == 1) {
-                // wenns nur eine Zeile gibt, dann gleich selektieren
-                tableView.getSelectionModel().select(0);
-            }
-        });
-        tableView.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (P2TableFactory.SPACE.match(event)) {
-                P2TableFactory.scrollVisibleRangeDown(tableView);
-                event.consume();
-            }
-            if (P2TableFactory.SPACE_SHIFT.match(event)) {
-                P2TableFactory.scrollVisibleRangeUp(tableView);
-                event.consume();
-            }
-        });
-    }
-
-    private Optional<DownloadData> getSel() {
-        return getSel(true);
-    }
-
-    private Optional<DownloadData> getSel(boolean show) {
-        final int selectedTableRow = tableView.getSelectionModel().getSelectedIndex();
-        if (selectedTableRow >= 0) {
-            return Optional.of(tableView.getSelectionModel().getSelectedItem());
-        } else {
-            if (show) {
-                P2Alert.showInfoNoSelection();
-            }
-            return Optional.empty();
-        }
-    }
-
-    private ArrayList<DownloadData> getSelList() {
-        final ArrayList<DownloadData> ret = new ArrayList<>();
-        ret.addAll(tableView.getSelectionModel().getSelectedItems());
-        if (ret.isEmpty()) {
-            P2Alert.showInfoNoSelection();
-        }
-        return ret;
+        lblDate.setText(P2LDateFactory.toString(downloadData.getFilmDate()));
+        lblDuration.setText(downloadData.getDurationMinute() == 0 ? "" : (downloadData.getDurationMinute() + " [min]"));
+        lblSize.setText(downloadData.getDownloadSize().getTargetSizeMBStr().isEmpty() ? "" :
+                (downloadData.getDownloadSize().getTargetSizeMBStr() + " [MB]"));
     }
 }

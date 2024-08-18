@@ -18,27 +18,24 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.data.download.DownloadFactory;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.tools.table.TableDownload;
 import de.p2tools.p2lib.tools.P2SystemUtils;
-import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
 
 public class DownloadTableContextMenu {
 
     private final ProgData progData;
-    private final DownloadInfoController downloadInfoController;
+    private final DownloadGuiController downloadInfoController;
     private final TableDownload tableView;
-    private final Slider sliderBandwidth = new Slider();
-    private final Label lblBandwidth = new Label();
 
-    public DownloadTableContextMenu(final ProgData progData, final DownloadInfoController downloadInfoController, final TableDownload tableView) {
+    public DownloadTableContextMenu(final ProgData progData, final DownloadGuiController downloadInfoController, final TableDownload tableView) {
         this.progData = progData;
         this.downloadInfoController = downloadInfoController;
         this.tableView = tableView;
-        initBandwidth();
     }
 
     public ContextMenu getContextMenu(final DownloadData download) {
@@ -48,15 +45,6 @@ public class DownloadTableContextMenu {
     }
 
     private void getMenu(final ContextMenu contextMenu, final DownloadData download) {
-        //erst mal die Einstellung der Bandbreite
-        HBox hBox = new HBox(10);
-        hBox.getChildren().addAll(sliderBandwidth, lblBandwidth);
-        VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(new Label("max. Bandbreite:"), hBox);
-        CustomMenuItem customMenuItem = new CustomMenuItem(vBox);
-        customMenuItem.setHideOnClick(false);
-        contextMenu.getItems().addAll(customMenuItem, /*new SeparatorMenuItem(), miCleanUp,*/ new SeparatorMenuItem());
-
         //dann die "echten" Menüpunkte
         final MenuItem miStart = new MenuItem("Download starten");
         miStart.setOnAction(a -> downloadInfoController.startDownloads(false));
@@ -162,16 +150,5 @@ public class DownloadTableContextMenu {
 
         contextMenu.getItems().add(new SeparatorMenuItem());
         contextMenu.getItems().addAll(miSelectAll, miSelection, resetTable);
-    }
-
-    private void initBandwidth() {
-        DownloadFactory.initBandwidth(sliderBandwidth, lblBandwidth);
-
-        Label lblText = new Label("Max. Bandbreite: ");
-        lblText.setMinWidth(0);
-        lblText.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Download beanspruchen darf \n" +
-                "oder unbegrenzt wenn \"aus\""));
-        sliderBandwidth.setTooltip(new Tooltip("Maximale Bandbreite die ein einzelner Download beanspruchen darf \n" +
-                "oder unbegrenzt wenn \"aus\""));
     }
 }

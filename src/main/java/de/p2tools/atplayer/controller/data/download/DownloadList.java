@@ -26,6 +26,8 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 
 import java.util.*;
 
@@ -37,6 +39,8 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     private final DownloadListStartStop downloadListStartStop;
     private final ObservableList<DownloadData> undoList = FXCollections.observableArrayList();
     private BooleanProperty downloadsChanged = new SimpleBooleanProperty(true);
+    FilteredList<DownloadData> filteredList = null;
+    SortedList<DownloadData> sortedList = null;
 
     public DownloadList(ProgData progData) {
         super(FXCollections.observableArrayList());
@@ -67,6 +71,23 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         }
     }
 
+    public SortedList<DownloadData> getSortedList() {
+        initFilterdList();
+        return sortedList;
+    }
+
+    public FilteredList<DownloadData> getFilteredList() {
+        initFilterdList();
+        return filteredList;
+    }
+
+    private void initFilterdList() {
+        if (sortedList == null || filteredList == null) {
+            filteredList = new FilteredList<>(this, p -> true);
+            sortedList = new SortedList<>(filteredList);
+        }
+    }
+
     public ObservableList<DownloadData> getUndoList() {
         return undoList;
     }
@@ -74,6 +95,15 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     public synchronized void addDownloadUndoList(List<DownloadData> list) {
         undoList.clear();
         undoList.addAll(list);
+    }
+
+    public synchronized void undoDownloads() {
+        if (undoList.isEmpty()) {
+            return;
+        }
+        //aus der Abo-History löschen
+        addAll(undoList);
+        undoList.clear();
     }
 
     public boolean getDownloadsChanged() {
@@ -203,7 +233,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         while (it.hasNext()) {
             DownloadData download = it.next();
             if (download.isStateInit() ||
-                    download.isStateStoped()) {
+                    download.isStateStopped()) {
                 continue;
             }
             if (download.isStateFinished()) {
