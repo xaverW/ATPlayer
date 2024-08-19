@@ -155,15 +155,14 @@ public class DownloadMenu {
         });
         P2ShortcutWorker.addShortCut(miChange, PShortcut.SHORTCUT_DOWNLOAD_CHANGE);
 
-        final MenuItem miUndo = new MenuItem("Gelöschte wieder anlegen" + PShortKeyFactory.SHORT_CUT_LEER +
-                PShortcut.SHORTCUT_UNDO_DELETE.getActShortcut());
+        final MenuItem miUndo = new MenuItem("Gelöschte wieder anlegen");
         miUndo.setOnAction(a -> {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.DOWNLOAD) {
                 return;
             }
             progData.downloadList.undoDownloads();
         });
-//        PShortcutWorker.addShortCut(miUndo, ProgShortcut.SHORTCUT_DOWNLOAD_UNDO_DELETE);
+        P2ShortcutWorker.addShortCut(miUndo, PShortcut.SHORTCUT_UNDO_DELETE);
         miUndo.disableProperty().bind(Bindings.isEmpty(progData.downloadList.getUndoList()));
 
         mb.getItems().addAll(miDownloadStart, miDownloadStop, miChange, miUndo);

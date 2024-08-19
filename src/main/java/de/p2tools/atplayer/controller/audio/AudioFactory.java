@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-public class AudioTools {
+public class AudioFactory {
 
     private static final NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMANY);
 

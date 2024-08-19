@@ -1,6 +1,6 @@
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.p2lib.atdate.AudioData;
@@ -168,7 +168,7 @@ public class TableAudioFactory {
                     getTableView().getSelectionModel().select(getIndex());
 
                     AudioData audioData = getTableView().getItems().get(getIndex());
-                    AudioTools.playAudio(audioData);
+                    AudioFactory.playAudio(audioData);
 
                     getTableView().refresh();
                     getTableView().requestFocus();
@@ -178,7 +178,7 @@ public class TableAudioFactory {
                     getTableView().getSelectionModel().select(getIndex());
 
                     AudioData audioData = getTableView().getItems().get(getIndex());
-                    AudioTools.saveAudio(audioData);
+                    AudioFactory.saveAudio(audioData);
 
                     getTableView().refresh();
                     getTableView().requestFocus();
@@ -188,7 +188,7 @@ public class TableAudioFactory {
                     getTableView().getSelectionModel().select(getIndex());
 
                     AudioData audioData = getTableView().getItems().get(getIndex());
-                    AudioTools.changeBookmarkFilm(audioData);
+                    AudioFactory.changeBookmarkFilm(audioData);
 
                     getTableView().refresh();
                     getTableView().requestFocus();

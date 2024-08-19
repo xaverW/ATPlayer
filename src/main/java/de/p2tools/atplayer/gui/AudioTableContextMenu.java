@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
@@ -48,10 +48,10 @@ public class AudioTableContextMenu {
     private void getMenu(ContextMenu contextMenu, AudioData audioData) {
         // Start/Save
         MenuItem miStart = new MenuItem("Abspielen");
-        miStart.setOnAction(a -> AudioTools.playAudio(audioData));
+        miStart.setOnAction(a -> AudioFactory.playAudio(audioData));
         miStart.setDisable(audioData == null);
         MenuItem miSave = new MenuItem("Speichern");
-        miSave.setOnAction(a -> AudioTools.saveAudio(audioData));
+        miSave.setOnAction(a -> AudioFactory.saveAudio(audioData));
         miSave.setDisable(audioData == null);
         contextMenu.getItems().addAll(miStart, miSave);
 

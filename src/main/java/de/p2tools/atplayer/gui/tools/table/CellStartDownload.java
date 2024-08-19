@@ -17,7 +17,7 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -110,7 +110,7 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
                 btnFilmStart.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
                 btnFilmStart.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
-                    AudioTools.playAudio(download);
+                    AudioFactory.playAudio(download);
                 });
 
                 btnOpenDirectory = new Button();

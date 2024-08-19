@@ -76,7 +76,7 @@ public class LoadAudioFactory {
                 }
                 ProgData.getInstance().maskerPane.setMaskerText("Blacklist filtern");
                 BlacklistFilterFactory.markBlack(false);
-                AudioTools.markShownAndBookmarks();
+                AudioFactory.markShownAndBookmarks();
 
                 // activate the saved filter
                 ProgData.getInstance().worker.resetFilter();
@@ -112,7 +112,7 @@ public class LoadAudioFactory {
         return !act.equals(today);
     }
 
-    public void initLoadFactoryConst() {
+    private void initLoadFactoryConst() {
         LoadAudioFactoryDto.debug = ProgData.debug;
 
         LoadAudioFactoryDto.audioListDate = ProgConfig.SYSTEM_AUDIOLIST_DATE_TIME;

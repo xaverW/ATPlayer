@@ -69,7 +69,7 @@ public final class ActFilterWorker {
 
     private AudioFilter actFilterSettings = new AudioFilter(SELECTED_FILTER_NAME); // ist der "aktuelle" Filter im Programm
 
-    private boolean theme = false, themeTitle = false, title = false, somewhere = false;
+    private boolean theme = false, title = false, somewhere = false;
 
     public ActFilterWorker() {
         audioFilterListBackward.addListener((ListChangeListener<AudioFilter>) c -> {
@@ -211,18 +211,6 @@ public final class ActFilterWorker {
         }
     }
 
-//    private void setFilterChange() {
-//        addLastThemeTitleFilter(progData.actFilterWorker.getActFilterSettings().getTheme());
-//        addLastTitleFilter(progData.actFilterWorker.getActFilterSettings().getTitle());
-//        addLastSomewhereFilter(progData.actFilterWorker.getActFilterSettings().getSomewhere());
-//
-//        //hier erst mal die actFilter vergleichen, ob geändert
-//        if (!oldFilterSettings.isSame(actFilterSettings, true)) {
-//            actFilterSettings.copyTo(oldFilterSettings);
-//            this.filterChange.set(!filterChange.get());
-//        }
-//    }
-
     public void addBackward() {
         final AudioFilter sf = new AudioFilter();
         actFilterSettings.copyTo(sf);
@@ -236,16 +224,9 @@ public final class ActFilterWorker {
             // dann hat sich nichts geändert (z.B. mehrmals gelöscht)
             return;
         }
-
-        //Textfilter
-//        if (!sf.isThemeExact() && checkText(sfB.themeProperty(), sf.themeProperty(), sfB, sf, theme)) {
-//            setFalse();
-//            theme = true;
-//            return;
-//        }
-        if (checkText(sfB.themeProperty(), sf.themeProperty(), sfB, sf, themeTitle)) {
+        if (checkText(sfB.themeProperty(), sf.themeProperty(), sfB, sf, theme)) {
             setFalse();
-            themeTitle = true;
+            theme = true;
             return;
         }
         if (checkText(sfB.titleProperty(), sf.titleProperty(), sfB, sf, title)) {
@@ -265,7 +246,6 @@ public final class ActFilterWorker {
 
     private void setFalse() {
         theme = false;
-        themeTitle = false;
         title = false;
         somewhere = false;
     }

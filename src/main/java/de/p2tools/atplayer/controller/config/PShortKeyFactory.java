@@ -19,7 +19,7 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.ProgQuit;
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutKey;
 import javafx.scene.Scene;
@@ -41,11 +41,11 @@ public class PShortKeyFactory {
     }
 
     private static void playAudio() {
-        AudioTools.playAudio();
+        AudioFactory.playAudio();
     }
 
     private static void saveAudio() {
-        AudioTools.saveAllAudios();
+        AudioFactory.saveAllAudios();
     }
 
     private static void setShown() {

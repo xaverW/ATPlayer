@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -112,7 +112,7 @@ public class AudioGuiController extends AnchorPane {
         if (list.isEmpty()) {
             return;
         }
-        AudioTools.setFilmShown(list, set);
+        AudioFactory.setFilmShown(list, set);
     }
 
     public void refreshTable() {
@@ -131,7 +131,7 @@ public class AudioGuiController extends AnchorPane {
     public void setBookmark(boolean bookmark) {
         final ArrayList<AudioData> list = getSelList();
         if (!list.isEmpty()) {
-            AudioTools.bookmarkFilmList(list, bookmark);
+            AudioFactory.bookmarkFilmList(list, bookmark);
         }
     }
 

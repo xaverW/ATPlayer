@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.controller.history;
 
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
@@ -110,7 +110,7 @@ public class HistoryList extends SimpleListProperty<HistoryData> {
             clearList();
             HistoryFactory.deleteHistoryFile(settingsDir, fileName);
             if (bookmark) {
-                AudioTools.clearAllBookmarks();
+                AudioFactory.clearAllBookmarks();
             }
             PListener.notify(PListener.EVENT_HISTORY_CHANGED, HistoryList.class.getSimpleName());
         }

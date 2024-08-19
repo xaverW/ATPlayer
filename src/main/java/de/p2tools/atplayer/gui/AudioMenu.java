@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.ATPlayerFactory;
-import de.p2tools.atplayer.controller.audio.AudioTools;
+import de.p2tools.atplayer.controller.audio.AudioFactory;
 import de.p2tools.atplayer.controller.config.PShortKeyFactory;
 import de.p2tools.atplayer.controller.config.PShortcut;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -68,9 +68,9 @@ public class AudioMenu {
         final ToolBarButton btnSave = new ToolBarButton(vBox,
                 "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_REC.getImageView());
 
-        btnPlay.setOnAction(a -> AudioTools.playAudio());
-        btnPlayAll.setOnAction(a -> AudioTools.playAllAudios());
-        btnSave.setOnAction(a -> AudioTools.saveAllAudios());
+        btnPlay.setOnAction(a -> AudioFactory.playAudio());
+        btnPlayAll.setOnAction(a -> AudioFactory.playAllAudios());
+        btnSave.setOnAction(a -> AudioFactory.saveAllAudios());
 
         vBoxSpace = new VBox();
         vBoxSpace.setMaxHeight(10);
@@ -117,27 +117,27 @@ public class AudioMenu {
                 return;
             }
             final Optional<AudioData> filmSelection = ProgData.getInstance().audioGuiController.getSel(true);
-            filmSelection.ifPresent(AudioTools::playAudio);
+            filmSelection.ifPresent(AudioFactory::playAudio);
         });
-        P2ShortcutWorker.addShortCut(mbPlay, PShortcut.SHORTCUT_PLAY_FILM);
+        P2ShortcutWorker.addShortCut(mbPlay, PShortcut.SHORTCUT_PLAY);
 
         final MenuItem mbPlayAll = new MenuItem("Alle markierten Audios abspielen");
         mbPlayAll.setOnAction(a -> {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
                 return;
             }
-            AudioTools.playAllAudios();
+            AudioFactory.playAllAudios();
         });
-        P2ShortcutWorker.addShortCut(mbPlayAll, PShortcut.SHORTCUT_PLAY_FILM_ALL);
+        P2ShortcutWorker.addShortCut(mbPlayAll, PShortcut.SHORTCUT_PLAY_ALL);
 
         final MenuItem mbSave = new MenuItem("Film speichern");
         mbSave.setOnAction(e -> {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
                 return;
             }
-            AudioTools.saveAudio();
+            AudioFactory.saveAudio();
         });
-        P2ShortcutWorker.addShortCut(mbSave, PShortcut.SHORTCUT_SAVE_FILM);
+        P2ShortcutWorker.addShortCut(mbSave, PShortcut.SHORTCUT_SAVE);
 
         mb.getItems().addAll(mbPlay, mbPlayAll, mbSave);
 
@@ -148,7 +148,7 @@ public class AudioMenu {
             }
             progData.audioGuiController.setShown(true);
         });
-        P2ShortcutWorker.addShortCut(miFilmShown, PShortcut.SHORTCUT_FILM_SHOWN);
+        P2ShortcutWorker.addShortCut(miFilmShown, PShortcut.SHORTCUT_AUDIO_SHOWN);
 
         final MenuItem miFilmNotShown = new MenuItem("Filme als ungesehen markieren");
         miFilmNotShown.setOnAction(a -> {
@@ -157,20 +157,20 @@ public class AudioMenu {
             }
             progData.audioGuiController.setShown(false);
         });
-        P2ShortcutWorker.addShortCut(miFilmNotShown, PShortcut.SHORTCUT_FILM_NOT_SHOWN);
+        P2ShortcutWorker.addShortCut(miFilmNotShown, PShortcut.SHORTCUT_AUDIO_NOT_SHOWN);
 
         final MenuItem miFilmInfo = new MenuItem("Filminformation anzeigen" +
-                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_INFO_FILM.getActShortcut());
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_INFO_AUDIO.getActShortcut());
         miFilmInfo.setOnAction(a -> {
             progData.audioGuiController.showAudioInfo();
         });
 
         final MenuItem miCopyTheme = new MenuItem("Thema in die Zwischenablage kopieren" +
-                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_FILM_THEME_TO_CLIPBOARD.getActShortcut());
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_AUDIO_THEME_TO_CLIPBOARD.getActShortcut());
         miCopyTheme.setOnAction(a -> progData.audioGuiController.copyFilmThemeTitle(true));
 
         final MenuItem miCopyTitle = new MenuItem("Titel in die Zwischenablage kopieren" +
-                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_FILM_TITLE_TO_CLIPBOARD.getActShortcut());
+                PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_COPY_AUDIO_TITLE_TO_CLIPBOARD.getActShortcut());
         miCopyTitle.setOnAction(a -> progData.audioGuiController.copyFilmThemeTitle(false));
 
         //Blacklist
