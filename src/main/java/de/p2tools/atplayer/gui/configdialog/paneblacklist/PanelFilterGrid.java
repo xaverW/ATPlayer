@@ -43,7 +43,9 @@ import java.util.function.Predicate;
 public class PanelFilterGrid {
     private final BlackList list;
     private final P2MenuButton mbFilterChannel;
+    private final P2MenuButton mbFilterGenre;
     private final StringProperty mbFilterChannelProp = new SimpleStringProperty();
+    private final StringProperty mbFilterGenreProp = new SimpleStringProperty();
 
     private final TextField txtFilterThema = new TextField();
     private final TextField txtFilterTitel = new TextField();
@@ -62,6 +64,7 @@ public class PanelFilterGrid {
         this.list = list;
         this.blackListFilterBlackList = blackListFilterBlackList;
         this.mbFilterChannel = new P2MenuButton(mbFilterChannelProp, ProgData.getInstance().worker.getAllChannelList());
+        this.mbFilterGenre = new P2MenuButton(mbFilterGenreProp, ProgData.getInstance().worker.getAllGenreList());
 
         bind();
         addPredicate();
@@ -111,6 +114,11 @@ public class PanelFilterGrid {
 
         VBox vb = new VBox(SPACE_TITLE);
         vb.getChildren().addAll(new Label("Sender"), mbFilterChannel);
+        vb1.getChildren().add(vb);
+        HBox.setHgrow(vb, Priority.ALWAYS);
+
+        vb = new VBox(SPACE_TITLE);
+        vb.getChildren().addAll(new Label("Genre"), mbFilterGenre);
         vb1.getChildren().add(vb);
         HBox.setHgrow(vb, Priority.ALWAYS);
 
@@ -168,6 +176,7 @@ public class PanelFilterGrid {
 
     private void makeFilter() {
         mbFilterChannelProp.addListener((u, o, n) -> addPredicate());
+        mbFilterGenreProp.addListener((u, o, n) -> addPredicate());
         txtFilterThema.textProperty().addListener((u, o, n) -> addPredicate());
         txtFilterTitel.textProperty().addListener((u, o, n) -> addPredicate());
         txtFilterThemaTitel.textProperty().addListener((u, o, n) -> addPredicate());
@@ -180,6 +189,7 @@ public class PanelFilterGrid {
 
         btnClearFilter.setOnAction(a -> {
             mbFilterChannelProp.setValue("");
+            mbFilterGenreProp.setValue("");
             txtFilterThema.clear();
             tglFilterThemeExact.setSelected(false);
             tglFilterThemeExact.setIndeterminate(true);
@@ -197,6 +207,10 @@ public class PanelFilterGrid {
         if (!mbFilterChannelProp.getValueSafe().isEmpty()) {
             Filter filter = new Filter(mbFilterChannelProp.getValueSafe(), true);
             predicate = predicate.and(blackData -> FilterCheck.check(filter, blackData.getChannel()));
+        }
+        if (!mbFilterGenreProp.getValueSafe().isEmpty()) {
+            Filter filter = new Filter(mbFilterGenreProp.getValueSafe(), true);
+            predicate = predicate.and(blackData -> FilterCheck.check(filter, blackData.getGenre()));
         }
         if (!txtFilterThema.getText().isEmpty()) {
             Filter filter = new Filter(txtFilterThema.getText(), true);

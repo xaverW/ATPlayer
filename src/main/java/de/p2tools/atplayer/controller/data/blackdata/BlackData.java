@@ -145,8 +145,8 @@ public class BlackData extends BlackDataProps {
 
     private void initFilter() {
         channelProperty().addListener(l -> createFilter());
-
         genreProperty().addListener(l -> createFilter());
+
         themeProperty().addListener(l -> createFilter());
         themeExactProperty().addListener(l -> createFilter());
 
