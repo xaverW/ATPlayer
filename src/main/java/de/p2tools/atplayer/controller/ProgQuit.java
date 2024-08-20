@@ -97,5 +97,6 @@ public class ProgQuit {
         // Tabelleneinstellungen merken
         final ProgData progData = ProgData.getInstance();
         progData.audioGuiController.saveTable();
+        progData.downloadGuiController.saveTable();
     }
 }

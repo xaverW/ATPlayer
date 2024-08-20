@@ -85,7 +85,6 @@ public class DownloadGuiController extends AnchorPane {
         scrollPaneTableFilm.setContent(tableView);
 
         initInfoPane();
-        setInfoPane();
         initTable();
         initListener();
         setFilterProperty();
@@ -93,6 +92,7 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     public void isShown() {
+        setAudioInfos(tableView.getSelectionModel().getSelectedItem());
         tableView.requestFocus();
     }
 
@@ -102,6 +102,11 @@ public class DownloadGuiController extends AnchorPane {
 
     public int getSelCount() {
         return tableView.getSelectionModel().getSelectedItems().size();
+    }
+
+    private void setAudioInfos(DownloadData download) {
+        downloadInfoController.setDownloadData(download);
+        AudioInfoDialogController.getInstance().setAudio(download != null ? download.getAudioData() : null);
     }
 
     public void showAudioInfo() {
@@ -295,6 +300,8 @@ public class DownloadGuiController extends AnchorPane {
                 P2TableFactory.refreshTable(tableView);
             }
         });
+        progData.downloadList.downloadsChangedProperty().addListener((observable, oldValue, newValue) ->
+                setFilter());
     }
 
     private void initTable() {
@@ -314,21 +321,21 @@ public class DownloadGuiController extends AnchorPane {
             row.hoverProperty().addListener((observable) -> {
                 final DownloadData downloadData = (DownloadData) row.getItem();
                 if (row.isHover() && downloadData != null) { // null bei den leeren Zeilen unterhalb
-                    downloadInfoController.setDownloadData(downloadData);
+                    setAudioInfos(downloadData);
                 } else if (downloadData == null) {
-                    downloadInfoController.setDownloadData(tableView.getSelectionModel().getSelectedItem());
+                    setAudioInfos(tableView.getSelectionModel().getSelectedItem());
                 }
             });
             return row;
         });
         tableView.hoverProperty().addListener((o) -> {
             if (!tableView.isHover()) {
-                downloadInfoController.setDownloadData(tableView.getSelectionModel().getSelectedItem());
+                setAudioInfos(tableView.getSelectionModel().getSelectedItem());
             }
         });
         tableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) ->
                 //wird auch durch FilmlistenUpdate ausgelöst
-                Platform.runLater(() -> downloadInfoController.setDownloadData(tableView.getSelectionModel().getSelectedItem())));
+                Platform.runLater(() -> setAudioInfos(tableView.getSelectionModel().getSelectedItem())));
         tableView.setOnMousePressed(m -> {
             if (m.getButton().equals(MouseButton.SECONDARY)) {
                 final Optional<DownloadData> optionalDownload = getSel(false);
@@ -413,6 +420,7 @@ public class DownloadGuiController extends AnchorPane {
     private void initInfoPane() {
         downloadInfoController = new DownloadInfoController();
         boolInfoOn.addListener((observable, oldValue, newValue) -> setInfoPane());
+        setInfoPane();
     }
 
     private void setInfoPane() {

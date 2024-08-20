@@ -67,7 +67,10 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     @Override
     public void addNewItem(Object obj) {
         if (obj.getClass().equals(DownloadData.class)) {
-            add((DownloadData) obj);
+            DownloadData d = (DownloadData) obj;
+            // cleanUp
+            d.setPlacedBack(false);
+            add(d);
         }
     }
 
@@ -271,6 +274,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     public synchronized void resetPlacedBack() {
         // zurückgestellte wieder aktivieren
         forEach(d -> d.setPlacedBack(false));
+        setDownloadsChanged();
     }
 
     // ==============================

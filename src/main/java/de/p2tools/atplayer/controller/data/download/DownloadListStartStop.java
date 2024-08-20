@@ -76,7 +76,6 @@ public class DownloadListStartStop {
      */
     public synchronized boolean putBackDownloads(List<DownloadData> list) {
         boolean found = false;
-
         if (list == null || list.isEmpty()) {
             return false;
         }
@@ -86,6 +85,20 @@ public class DownloadListStartStop {
         for (final DownloadData download : list) {
             if (download.isStateInit() || download.isStateStopped()) {
                 download.putBack();
+                found = true;
+            }
+        }
+
+        return found;
+    }
+
+    public synchronized boolean revertPutBackDownloads() {
+        boolean found = false;
+        // das Starten von neuen Downloads etwas Pausieren
+        progData.starterClass.setPaused();
+        for (final DownloadData download : ProgData.getInstance().downloadList) {
+            if (download.isPlacedBack()) {
+                download.setPlacedBack(false);
                 found = true;
             }
         }

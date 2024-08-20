@@ -81,6 +81,7 @@ public class DownloadMenu {
                 "Film Starten", "Gespeicherten Film abspielen", ProgIcons.ICON_TOOLBAR_START.getImageView());
 
         btnRefresh.setOnAction(a -> {
+            progData.downloadList.resetPlacedBack();
             progData.downloadGuiController.tableView.refresh();
             progData.downloadGuiController.tableView.requestFocus();
         });
