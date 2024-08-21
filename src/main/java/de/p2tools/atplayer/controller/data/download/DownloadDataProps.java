@@ -23,9 +23,10 @@ import de.p2tools.p2lib.mtdownload.DownloadSize;
 import de.p2tools.p2lib.mtfilm.film.Data;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.date.P2LDateProperty;
-import de.p2tools.p2lib.tools.file.P2FileUtils;
 import javafx.application.Platform;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 public class DownloadDataProps extends P2DataSample<DownloadData> {
 
     public static final String TAG = "DownloadData";
+    private final ObservableList<String> urlList = FXCollections.observableArrayList(); // wenn mehrere Filme gestartet werden sollen
     private final IntegerProperty no = new SimpleIntegerProperty(ProgConst.NUMBER_NOT_EXISTS);
     private final IntegerProperty filmNr = new SimpleIntegerProperty(ProgConst.NUMBER_NOT_EXISTS);
     private final StringProperty channel = new SimpleStringProperty("");
@@ -44,8 +46,8 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     private final IntegerProperty guiState = new SimpleIntegerProperty(DownloadConstants.STATE_INIT);
     private final DoubleProperty progress = new SimpleDoubleProperty(DownloadConstants.PROGRESS_NOT_STARTED);
     private final DoubleProperty guiProgress = new SimpleDoubleProperty(DownloadConstants.PROGRESS_NOT_STARTED);
-    private final StringProperty remaining = new SimpleStringProperty("");
-    private final StringProperty bandwidth = new SimpleStringProperty("");
+    private final IntegerProperty remaining = new SimpleIntegerProperty(DownloadConstants.REMAINING_NOT_STARTET);
+    private final LongProperty bandwidth = new SimpleLongProperty(); // bytes per second
     private final DownloadSize downloadSize = new DownloadSize();
     private final P2LDateProperty filmDate = new P2LDateProperty(LocalDate.MIN);//zum Sortieren in der Tabelle
     private final StringProperty filmTime = new SimpleStringProperty("");
@@ -54,8 +56,12 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     private final StringProperty filmUrl = new SimpleStringProperty(""); //in normaler Auflösung
     private final StringProperty url = new SimpleStringProperty(""); //in der gewählte Auflösung
     private final StringProperty urlWebsite = new SimpleStringProperty("");
+
     private final StringProperty destFileName = new SimpleStringProperty("");
     private final StringProperty destPath = new SimpleStringProperty("");
+    private final StringProperty destPathFile = new SimpleStringProperty("");
+
+    private final StringProperty source = new SimpleStringProperty(DownloadConstants.ALL);
     private final BooleanProperty placedBack = new SimpleBooleanProperty(false);
     private final BooleanProperty infoFile = new SimpleBooleanProperty(false);
     private final BooleanProperty subtitle = new SimpleBooleanProperty(false);
@@ -63,8 +69,8 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
             state, progress, remaining, bandwidth, downloadSize,
             filmDate, filmTime, durationMinute,
             geoBlocked, filmUrl, url, urlWebsite,
-            destFileName, destPath,
-            placedBack, infoFile, subtitle};
+            destFileName, destPath, destPathFile,
+            source, placedBack, infoFile, subtitle};
 
     DownloadDataProps() {
     }
@@ -91,8 +97,8 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         list.add(new Config_stringProp("description", DownloadFieldNames.DOWNLOAD_DESCRIPTION, description));
         list.add(new Config_intProp("state", DownloadFieldNames.DOWNLOAD_STATE, state));
         list.add(new Config_doubleProp("progress", DownloadFieldNames.DOWNLOAD_PROGRESS, progress));
-        list.add(new Config_stringProp("remaining", DownloadFieldNames.DOWNLOAD_REMAINING_TIME, remaining));
-        list.add(new Config_stringProp("bandwidth", DownloadFieldNames.DOWNLOAD_BANDWIDTH, bandwidth));
+        list.add(new Config_intProp("remaining", remaining));
+        list.add(new Config_longProp("bandwidth", bandwidth));
         list.add(new Config_lDateProp("filmDate", DownloadFieldNames.DOWNLOAD_DATE, filmDate));
         list.add(new Config_stringProp("filmTime", DownloadFieldNames.DOWNLOAD_TIME, filmTime));
         list.add(new Config_intProp("durationMinute", DownloadFieldNames.DOWNLOAD_DURATION, durationMinute));
@@ -103,6 +109,7 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         list.add(new Config_stringProp("destFileName", DownloadFieldNames.DOWNLOAD_DEST_FILE_NAME, destFileName));
         list.add(new Config_stringProp("destPath", DownloadFieldNames.DOWNLOAD_DEST_PATH, destPath));
         list.add(new Config_boolProp("placedBack", DownloadFieldNames.DOWNLOAD_PLACED_BACK, placedBack));
+        list.add(new Config_boolProp("placedBack", placedBack));
         list.add(new Config_boolProp("infoFile", DownloadFieldNames.DOWNLOAD_INFO_FILE, infoFile));
         list.add(new Config_boolProp("subtitle", DownloadFieldNames.DOWNLOAD_SUBTITLE, subtitle));
 
@@ -119,6 +126,22 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         }
 
         return ret;
+    }
+
+    public ObservableList<String> getUrlList() {
+        return urlList;
+    }
+
+    public String getUrl() {
+        if (urlList.isEmpty()) {
+            return "";
+        } else {
+            return urlList.get(0);
+        }
+    }
+
+    public void setUrl(String url) {
+        urlList.setAll(url);
     }
 
     public LocalDate getFilmDate() {
@@ -277,28 +300,32 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         return progress;
     }
 
-    public String getRemaining() {
+    public int getRemaining() {
         return remaining.get();
     }
 
-    public void setRemaining(String remaining) {
-        this.remaining.set(remaining);
-    }
-
-    public StringProperty remainingProperty() {
+    public IntegerProperty remainingProperty() {
         return remaining;
     }
 
-    public String getBandwidth() {
+    public void setRemaining(int remaining) {
+        this.remaining.set(remaining);
+    }
+
+    public long getBandwidth() {
         return bandwidth.get();
     }
 
-    public void setBandwidth(String bandwidth) {
+    public LongProperty bandwidthProperty() {
+        return bandwidth;
+    }
+
+    public void setBandwidth(long bandwidth) {
         this.bandwidth.set(bandwidth);
     }
 
-    public StringProperty bandwidthProperty() {
-        return bandwidth;
+    public void setBandwidthEnd(long bandwidth) {
+        this.bandwidth.setValue(-1 * bandwidth);
     }
 
     public DownloadSize getDownloadSize() {
@@ -345,13 +372,13 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
         return filmUrl;
     }
 
-    public String getUrl() {
-        return url.get();
-    }
-
-    public void setUrl(String url) {
-        this.url.set(url);
-    }
+//    public String getUrl() {
+//        return url.get();
+//    }
+//
+//    public void setUrl(String url) {
+//        this.url.set(url);
+//    }
 
     public StringProperty urlProperty() {
         return url;
@@ -394,7 +421,23 @@ public class DownloadDataProps extends P2DataSample<DownloadData> {
     }
 
     public String getDestPathFile() {
-        return P2FileUtils.addsPath(destPath.getValueSafe(), destFileName.getValueSafe());
+        return destPathFile.get();
+    }
+
+    public StringProperty destPathFileProperty() {
+        return destPathFile;
+    }
+
+    public String getSource() {
+        return source.get();
+    }
+
+    public StringProperty sourceProperty() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source.set(source);
     }
 
     public boolean isPlacedBack() {

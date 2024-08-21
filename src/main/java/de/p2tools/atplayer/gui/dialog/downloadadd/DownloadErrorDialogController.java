@@ -1,5 +1,5 @@
 /*
- * P2Tools Copyright (C) 2023 W. Xaver W.Xaver[at]googlemail.com
+ * MTPlayer Copyright (C) 2017 W. Xaver W.Xaver[at]googlemail.com
  * https://www.p2tools.de
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
@@ -14,13 +14,12 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.atplayer.gui.dialog;
+package de.p2tools.atplayer.gui.dialog.downloadadd;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadErrorStreamDialogController;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;

@@ -21,6 +21,7 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
+import de.p2tools.atplayer.gui.infopane.AudioInfoController;
 import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
@@ -35,11 +36,12 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Orientation;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TabPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -65,6 +67,8 @@ public class AudioGuiController extends AnchorPane {
         progData = ProgData.getInstance();
         sortedList = progData.audioListFiltered.getSortedList();
         pClosePaneHInfo = new P2ClosePaneH(ProgConfig.AUDIO_GUI_DIVIDER_ON, true);
+        audioInfoController = new AudioInfoController();
+
         tabPaneInfo = new TabPane();
         tableView = new TableAudio(Table.TABLE_ENUM.FILM, progData);
 
@@ -79,7 +83,6 @@ public class AudioGuiController extends AnchorPane {
         scrollPaneTableFilm.setFitToWidth(true);
         scrollPaneTableFilm.setContent(tableView);
 
-        initInfoPane();
         setInfoPane();
         initTable();
         initListener();
@@ -90,33 +93,12 @@ public class AudioGuiController extends AnchorPane {
         tableView.requestFocus();
     }
 
-    public int getFilmCount() {
+    public int getCount() {
         return tableView.getItems().size();
     }
 
     public int getSelCount() {
         return tableView.getSelectionModel().getSelectedItems().size();
-    }
-
-    public void showAudioInfo() {
-        AudioInfoDialogController.getInstanceAndShow().showAudioInfo();
-    }
-
-    public void saveTable() {
-        Table.saveTable(tableView, Table.TABLE_ENUM.FILM);
-    }
-
-    public void setShown(boolean set) {
-        // aus dem Menü/Kontext Tabelle
-        final ArrayList<AudioData> list = getSelList();
-        if (list.isEmpty()) {
-            return;
-        }
-        AudioFactory.setFilmShown(list, set);
-    }
-
-    public void refreshTable() {
-        P2TableFactory.refreshTable(tableView);
     }
 
     public ArrayList<AudioData> getSelList() {
@@ -126,13 +108,6 @@ public class AudioGuiController extends AnchorPane {
             P2Alert.showInfoNoSelection();
         }
         return ret;
-    }
-
-    public void setBookmark(boolean bookmark) {
-        final ArrayList<AudioData> list = getSelList();
-        if (!list.isEmpty()) {
-            AudioFactory.bookmarkFilmList(list, bookmark);
-        }
     }
 
     public Optional<AudioData> getSel() {
@@ -151,7 +126,36 @@ public class AudioGuiController extends AnchorPane {
         }
     }
 
+    public void showAudioInfo() {
+        AudioInfoDialogController.getInstanceAndShow().showAudioInfo();
+    }
+
+    public void saveTable() {
+        Table.saveTable(tableView, Table.TABLE_ENUM.FILM);
+    }
+
+    public void refreshTable() {
+        P2TableFactory.refreshTable(tableView);
+    }
+
+    public void setShown(boolean set) {
+        // aus dem Menü/Kontext Tabelle
+        final ArrayList<AudioData> list = getSelList();
+        if (list.isEmpty()) {
+            return;
+        }
+        AudioFactory.setFilmShown(list, set);
+    }
+
+    public void setBookmark(boolean bookmark) {
+        final ArrayList<AudioData> list = getSelList();
+        if (!list.isEmpty()) {
+            AudioFactory.bookmarkFilmList(list, bookmark);
+        }
+    }
+
     private void initListener() {
+        ProgConfig.AUDIO_GUI_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
         PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
                 AudioGuiController.class.getSimpleName()) {
             @Override
@@ -170,29 +174,6 @@ public class AudioGuiController extends AnchorPane {
             @Override
             public void pingFx() {
                 P2TableFactory.refreshTable(tableView);
-            }
-        });
-    }
-
-    private void selectFilm() {
-        Platform.runLater(() -> {
-            if ((tableView.getItems().size() == 0)) {
-                return;
-            }
-            if (lastShownFilmData != null) {
-                tableView.getSelectionModel().clearSelection();
-                tableView.getSelectionModel().select(lastShownFilmData);
-                tableView.scrollTo(lastShownFilmData);
-
-            } else {
-                AudioData selFilm = tableView.getSelectionModel().getSelectedItem();
-                if (selFilm != null) {
-                    tableView.scrollTo(selFilm);
-                } else {
-                    tableView.getSelectionModel().clearSelection();
-                    tableView.getSelectionModel().select(0);
-                    tableView.scrollTo(0);
-                }
             }
         });
     }
@@ -267,50 +248,35 @@ public class AudioGuiController extends AnchorPane {
 
     private void setAudioInfos(AudioData audios) {
         // Film in FilmInfoDialog setzen
-        audioInfoController.setAudioData(audios);
+        audioInfoController.setAudioInfos(audios);
         AudioInfoDialogController.getInstance().setAudio(audios);
     }
 
-    private void initInfoPane() {
-        audioInfoController = new AudioInfoController();
-        boolInfoOn.addListener((observable, oldValue, newValue) -> setInfoPane());
-    }
+//    private void initInfoPane() {
+//        audioInfoController = new AudioInfoController();
+//        boolInfoOn.addListener((observable, oldValue, newValue) -> setInfoPane());
+//    }
 
     private void setInfoPane() {
-        if (boolInfoOn.getValue()) {
+        // hier wird das InfoPane ein- ausgeblendet
+        if (ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue()) {
             boundSplitPaneDivPos = true;
-            setInfoTabPane();
+            if (splitPane.getItems().size() != 2) {
+                // erst mal splitPane einrichten, dass Tabelle und Infos angezeigt werden
+                splitPane.getItems().clear();
+                splitPane.getItems().addAll(scrollPaneTableFilm, audioInfoController);
+                SplitPane.setResizableWithParent(audioInfoController, false);
+            }
             splitPane.getDividers().get(0).positionProperty().bindBidirectional(splitPaneProperty);
 
         } else {
             if (boundSplitPaneDivPos) {
                 splitPane.getDividers().get(0).positionProperty().unbindBidirectional(splitPaneProperty);
             }
-
             if (splitPane.getItems().size() != 1) {
                 splitPane.getItems().clear();
                 splitPane.getItems().add(scrollPaneTableFilm);
             }
         }
-    }
-
-    private void setInfoTabPane() {
-        if (splitPane.getItems().size() != 2) {
-            //erst mal splitPane einrichten, dass Tabelle und Info angezeigt werden
-            splitPane.getItems().clear();
-            splitPane.getItems().addAll(scrollPaneTableFilm, pClosePaneHInfo);
-            SplitPane.setResizableWithParent(pClosePaneHInfo, false);
-        }
-
-        Tab tabInfo = new Tab("Infos");
-        tabInfo.setClosable(false);
-        tabInfo.setContent(audioInfoController);
-
-        tabPaneInfo.getTabs().clear();
-        tabPaneInfo.getTabs().addAll(tabInfo);
-
-        pClosePaneHInfo.getVBoxAll().getChildren().clear();
-        pClosePaneHInfo.getVBoxAll().getChildren().add(tabPaneInfo);
-        VBox.setVgrow(tabPaneInfo, Priority.ALWAYS);
     }
 }

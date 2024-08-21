@@ -97,7 +97,7 @@ public class TableDownload extends PTable<DownloadData> {
 
         final TableColumn<DownloadData, Double> progressColumn = new TableColumn<>("Fortschritt"); //müssen sich unterscheiden!!
         progressColumn.setCellValueFactory(new PropertyValueFactory<>("guiProgress"));
-        progressColumn.setCellFactory(new CellProgress<>().cellFactory);
+        progressColumn.setCellFactory(new CellDownloadProgress<>().cellFactory);
         progressColumn.getStyleClass().add("alignCenterLeft");
 
         final TableColumn<DownloadData, Integer> remainingColumn = new TableColumn<>("Restzeit");

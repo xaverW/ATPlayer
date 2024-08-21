@@ -20,6 +20,8 @@ import java.text.DecimalFormat;
 
 public class DownloadConstants {
 
+    static int SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART = 3;
+
     public static final String TRENNER_PROG_ARRAY = "<>";
 
     // Fortschritt

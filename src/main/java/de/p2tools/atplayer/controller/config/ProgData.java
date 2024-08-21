@@ -23,6 +23,7 @@ import de.p2tools.atplayer.controller.data.blackdata.BlackList;
 import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
 import de.p2tools.atplayer.controller.data.download.DownloadInfos;
 import de.p2tools.atplayer.controller.data.download.DownloadList;
+import de.p2tools.atplayer.controller.data.downloaderror.DownloadErrorList;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
 import de.p2tools.atplayer.controller.filter.StringFilter;
@@ -33,6 +34,7 @@ import de.p2tools.atplayer.controller.worker.CheckForNewFilmlist;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.DownloadGuiController;
+import de.p2tools.atplayer.gui.chart.ChartData;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
 import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
@@ -55,6 +57,7 @@ public class ProgData {
     public static boolean reset = false; // Programm auf Starteinstellungen zurücksetzen
     public static boolean firstProgramStart = false; // ist der allererste Programmstart: Init wird gemacht
     public static BooleanProperty AUDIOLIST_IS_DOWNLOADING = new SimpleBooleanProperty(Boolean.FALSE); // dann wird eine Audioliste geladen
+    public static long countRunningTimeSeconds = 0; // Gesamtzeit die das Programm läuft
 
     // Infos
     public static String configDir = ""; // Verzeichnis zum Speichern der Programmeinstellungen
@@ -75,6 +78,7 @@ public class ProgData {
     public AudioGuiController audioGuiController = null; // Tab mit den Audios
     public DownloadGuiController downloadGuiController = null; // Tab mit den Audios
     public QuitDialogController quitDialogController = null;
+    public final ChartData chartData;
 
     // Worker
     public Worker worker; // Liste aller Sender, Themen, ...
@@ -91,6 +95,7 @@ public class ProgData {
     public HistoryList historyListBookmarks; // markierte Filme
     public BlackList blackList;
     public final BlackListFilter blackListFilterBlackList;
+    public DownloadErrorList downloadErrorList;
 
     boolean oneSecond = false;
 
@@ -103,6 +108,7 @@ public class ProgData {
         audioList = new AudioList();
         audioListFiltered = new AudioList();
         stringFilterLists = new StringFilter();
+        downloadErrorList = new DownloadErrorList();
 
         historyList = new HistoryList(ProgConst.FILE_HISTORY,
                 ProgInfos.getSettingsDirectory_String(), false);
@@ -113,6 +119,7 @@ public class ProgData {
         downloadList = new DownloadList(this);
         starterClass = new StarterClass(this);
         downloadInfos = new DownloadInfos(this);
+        chartData = new ChartData();
         audioFilterRunner = new AudioFilterRunner(this);
         worker = new Worker(this);
         checkForNewFilmlist = new CheckForNewFilmlist();

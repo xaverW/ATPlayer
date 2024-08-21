@@ -82,7 +82,7 @@ public class DownloadProgParameterFactory {
 
         final String[] ar = progParameter.split(" ");
         for (final String s : ar) {
-            ret = ret + RuntimeExec.TRENNER_PROG_ARRAY + s;
+            ret = ret + DownloadConstants.TRENNER_PROG_ARRAY + s;
         }
         return ret;
     }

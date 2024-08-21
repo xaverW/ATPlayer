@@ -254,6 +254,36 @@ public class HelpText {
                     "* Immer von Anfang an neu starten." +
                     "\n";
 
+    public static final String DOWNLOAD_ONLY_CANCEL =
+            "Hier kann ein Download abgebrochen oder gelöscht werden. " +
+                    "\n\n" +
+                    "Wird \"Nicht mehr fragen\" angeklickt, wird der Download in Zukunft " +
+                    "immer abgebrochen oder gelöscht. Der Dialog erscheint dann nicht mehr. Diese Einstellung kann aber " +
+                    "in den Programmeinstellungen->Downloads auch wieder geändert werden." +
+                    "\n";
+
+    public static final String DOWNLOAD_CANCEL =
+            "Wenn ein Download abgebrochen oder gelöscht wird, " +
+                    "können zusätzlich auch noch bereits geladene oder " +
+                    "teilweise geladene Filmdateien " +
+                    "mit gelöscht werden." +
+                    "\n\n" +
+                    "Wird \"Nicht mehr fragen\" angeklickt, wird die Einstellung in Zukunft " +
+                    "immer ausgeführt, der Dialog erscheint dann nicht mehr. Diese Einstellung kann aber " +
+                    "in den Programmeinstellungen->Downloads auch wieder geändert werden." +
+                    "\n";
+
+    public static final String CONFIG_DOWNOAD_ERROR =
+            "Hier werden die Fehler eines fehlgeschlagenen Downloads angezeigt.\n\n" +
+                    "\"Nicht mehr Anzeigen\" meint genau das, bei einem Downloadfehler wird dieser Dialog nicht " +
+                    "mehr angezeigt. Die Anzeige kann in den Einstellungen wieder eingeschaltet werden.\n\n" +
+                    "Ist \"Automatisch ausblenden\" eingeschaltet, wird der Dialog automatisch nach einer gewissen " +
+                    "Zeit wieder beendet.\n\n" +
+                    "\"Programmausgabe\" zeigt bei Downloads über ein Hilfsprogramm dessen Ausgabe an. Der " +
+                    "Button wird nur angezeigt, wenn es eine Programmausgabe gibt.\n\n" +
+                    "Mit \"Log öffnen\" wird das Logfile mit dem Standardeditor des Betriebssystem geöffnet." +
+                    "\n";
+
     public static final String LOAD_ONLY_FILMS =
             "\"Nur Audios der letzten Tage laden:\" Die Audioliste enthält nur Audios aus diesem Zeitraum. " +
                     "Audios ohne Datum sind immer enthalten.\n" +

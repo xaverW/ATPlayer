@@ -14,15 +14,20 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.atplayer.gui;
+package de.p2tools.atplayer.gui.infopane;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.atdate.AudioData;
 import de.p2tools.p2lib.atdate.AudioDataXml;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
+import de.p2tools.p2lib.mtdownload.DownloadSizeData;
 import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -30,7 +35,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
-public class AudioInfoController extends VBox {
+public class PaneAudioInfo extends VBox {
     private final SplitPane splitPane = new SplitPane();
     private final VBox vBoxLeft = new VBox();
 
@@ -47,9 +52,12 @@ public class AudioInfoController extends VBox {
     private final Label lblSize = new Label();
 
     private AudioData audioData = null;
+    private DownloadData downloadData = null;
+    private final ChangeListener<DownloadSizeData> sizeChangeListener;
+
     private String oldDescription = "";
 
-    public AudioInfoController() {
+    public PaneAudioInfo() {
         setSpacing(10);
         setPadding(new Insets(10));
 
@@ -58,6 +66,8 @@ public class AudioInfoController extends VBox {
         StackPane.setAlignment(btnReset, Pos.BOTTOM_RIGHT);
         stackPane.setMaxHeight(Double.MAX_VALUE);
         VBox.setVgrow(stackPane, Priority.ALWAYS);
+
+        this.sizeChangeListener = (u, o, n) -> setSize(true);
 
         btnReset.setOnAction(a -> resetFilmDescription());
         btnReset.setTooltip(new Tooltip("Beschreibung zurücksetzen"));
@@ -141,6 +151,75 @@ public class AudioInfoController extends VBox {
         lblDate.setText(audioData.getDate().get_dd_MM_yyyy());
         lblDuration.setText(audioData.getDuration().isEmpty() ? "" : (audioData.getDuration() + " [min]"));
         lblSize.setText(audioData.getAudioSize().toString().isEmpty() ? "" : (audioData.getAudioSize().toString() + " [MB]"));
+    }
+
+    public void setAudioData(DownloadData downloadData) {
+        hBoxUrl.getChildren().clear();
+        if (this.downloadData != null) {
+            this.downloadData.downloadSizeProperty().removeListener(sizeChangeListener);
+        }
+
+        this.audioData = null;
+        this.downloadData = downloadData;
+
+        if (downloadData == null) {
+            lblTheme.setText("");
+            lblTitle.setText("");
+            textArea.clear();
+            oldDescription = "";
+            btnReset.setVisible(false);
+
+            lblDate.setText("");
+            lblTime.setText("");
+            lblDuration.setText("");
+            lblSize.setText("");
+            return;
+        }
+
+        lblTheme.setText(downloadData.getChannel() + "  -  " + downloadData.getTheme());
+        lblTitle.setText(downloadData.getTitle());
+        lblDate.setText(P2LDateFactory.toString(downloadData.getFilmDate()));
+        lblTime.setText(downloadData.getFilmTime());
+        lblDuration.setText(downloadData.getDurationMinute() + " [min]");
+
+        setSize(false); // die kann bim Film abweichen: HD, small
+        downloadData.downloadSizeProperty().addListener(sizeChangeListener);
+
+        textArea.setText(downloadData.getDescription());
+        textArea.setEditable(false);
+        oldDescription = downloadData.getDescription();
+        btnReset.setVisible(false);
+
+        if (!downloadData.getUrlWebsite().isEmpty()) {
+            P2Hyperlink hyperlink = new P2Hyperlink(downloadData.getUrlWebsite(),
+                    ProgConfig.SYSTEM_PROG_OPEN_URL);
+            hBoxUrl.getChildren().addAll(lblUrl, hyperlink);
+        }
+    }
+
+    private void setSize(boolean async) {
+        if (downloadData != null) {
+            final String size = downloadData.getDownloadSize().toString();
+
+            if (async) {
+                Platform.runLater(() -> {
+                    // die kann bim Film abweichen: HD, small
+                    // und wird beim Download asynchron gesetzt
+                    if (size.isEmpty()) {
+                        lblSize.setText("");
+                    } else {
+                        lblSize.setText(size + " [MB]");
+                    }
+                });
+
+            } else {
+                if (size.isEmpty()) {
+                    lblSize.setText("");
+                } else {
+                    lblSize.setText(size + " [MB]");
+                }
+            }
+        }
     }
 
     private void setFilmDescription() {

@@ -21,6 +21,7 @@ import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
+import de.p2tools.atplayer.gui.chart.ChartGenerateFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.data.P2DataProgConfig;
@@ -123,6 +124,13 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_DOWNLOAD = new SimpleIntegerProperty(-1);
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_PLAY = new SimpleIntegerProperty(-1);
 
+    // Proxy
+    public static BooleanProperty SYSTEM_USE_PROXY = addBoolProp("system-use-proxy", Boolean.FALSE);
+    public static StringProperty SYSTEM_PROXY_HOST = addStrProp("system-proxy-host", "");
+    public static StringProperty SYSTEM_PROXY_PORT = addStrProp("system-proxy-port", "");
+    public static StringProperty SYSTEM_PROXY_USER = addStrProp("system-proxy-user", "");
+    public static StringProperty SYSTEM_PROXY_PWD = addStrProp("system-proxy-pwd", "");
+
     //Download
     public static StringProperty DOWNLOAD_DIALOG_PATH_SAVING = addStrProp("download-dialog-path-saving"); // gesammelten Downloadpfade im Downloaddialog
     public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_BYTE = addIntProp("download-max-bandwidth-byte", MLBandwidthTokenBucket.BANDWIDTH_RUN_FREE);
@@ -142,6 +150,13 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty DOWNLOAD_DIALOG_ADD_SIZE = addStrProp("download-dialog-add-size", "700:700");
     public static StringProperty DOWNLOAD_DIALOG_ADD_MORE_SIZE = addStrProp("download-dialog-add-more-size", "800:700");
     public static List<String> DOWNLOAD_DIALOG_DOWNLOAD_PATH = addListProp("download-dialog-download-path"); // gesammelten Downloadpfade im Downloaddialog
+    public static BooleanProperty DOWNLOAD_DIALOG_ERROR_SHOW = addBoolProp("download-dialog-error-show", Boolean.TRUE);
+    public static StringProperty DOWNLOAD_DIALOG_ERROR_STREAM_SIZE = addStrProp("download-dialog-error-steam-size", "600:500");
+    public static BooleanProperty DOWNLOAD_DIALOG_ERROR_TIME = addBoolProp("download-dialog-error-time", Boolean.TRUE);
+    public static IntegerProperty DOWNLOAD_STOP = addIntProp("download-stop", ProgConfigAskBeforeDelete.DOWNLOAD_STOP__ASK); // das sind Downloads mit bereits geladenen Dateien
+    public static StringProperty DOWNLOAD_STOP_DIALOG_SIZE = addStrProp("download-stop-dialog-size", "950:600");
+    public static IntegerProperty DOWNLOAD_ONLY_STOP = addIntProp("download-only-stop", ProgConfigAskBeforeDelete.DOWNLOAD_STOP__ASK); // das sind Downloads ohne Dateien
+    public static StringProperty DOWNLOAD_ONLY_STOP_DIALOG_SIZE = addStrProp("download-only-stop-dialog-size", "600:400");
 
     //Download-SetDate
     public static String DOWNLOAD_FILE_PATH_INIT = P2SystemUtils.getStandardDownloadPath();
@@ -211,6 +226,8 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty AUDIO_GUI_SHOW_MENU = addBoolProp("audio-gui-show-menu", Boolean.TRUE);
     public static DoubleProperty AUDIO_GUI_DIVIDER = addDoubleProp("audio-gui-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
     public static BooleanProperty AUDIO_GUI_DIVIDER_ON = addBoolProp("audio-gui-divider-on", Boolean.TRUE);
+    public static BooleanProperty AUDIO_PANE_DIALOG_INFO_ON = addBoolProp("audio-pane-dialog-info-on");
+    public static StringProperty AUDIO_PANE_DIALOG_INFO_SIZE = addStrProp("audio-pane-dialog-info-size");
     public static StringProperty AUDIO_GUI_TABLE_WIDTH = addStrProp("audio-gui-table-width");
     public static StringProperty AUDIO_GUI_TABLE_SORT = addStrProp("audio-gui-table-sort");
     public static StringProperty AUDIO_GUI_TABLE_UP_DOWN = addStrProp("audio-gui-table-up-down");
@@ -218,10 +235,28 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty AUDIO_GUI_TABLE_ORDER = addStrProp("audio-gui-table-order");
     public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", 0.7);
 
+    // Gui PaneDialog
+    public static BooleanProperty DOWNLOAD_PANE_DIALOG_CHART_ON = addBoolProp("download-pane-dialog-chart-on");
+    public static BooleanProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON = addBoolProp("download-pane-dialog-down-info-on");
+    public static BooleanProperty DOWNLOAD_PANE_DIALOG_ERROR_ON = addBoolProp("download-pane-dialog-error-on");
+
     // Gui Download
     public static BooleanProperty DOWNLOAD_GUI_SHOW_MENU = addBoolProp("download-gui-show-menu", Boolean.TRUE);
     public static BooleanProperty DOWNLOAD_GUI_DIVIDER_ON = addBoolProp("download-gui-divider-on", Boolean.TRUE);
     public static DoubleProperty DOWNLOAD_GUI_INFO_DIVIDER = addDoubleProp("download-gui-info-divider", 0.7);
+    public static BooleanProperty DOWNLOAD_PANE_DIALOG_INFO_ON = addBoolProp("download-pane-dialog-info-on");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_INFO_SIZE = addStrProp("download-pane-dialog-info-size");
+    public static DoubleProperty DOWNLOAD_GUI_DIVIDER = addDoubleProp("download-gui-divider", 0.7);
+    public static StringProperty DOWNLOAD_PANE_DIALOG_CHART_SIZE = addStrProp("download-pane-dialog-chart-size");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_ERROR_SIZE = addStrProp("download-pane-dialog-error-size");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE = addStrProp("download-pane-dialog-down-info-size");
+
+    // DownloadChart
+    public static IntegerProperty DOWNLOAD_CHART_SHOW_WHAT = addIntProp("download-chart-show-what", ChartGenerateFactory.GEN_CHART_SHOW_DOWN);
+    public static BooleanProperty DOWNLOAD_CHART_ONLY_EXISTING = addBoolProp("download-chart-only-existing", Boolean.FALSE);
+    public static BooleanProperty DOWNLOAD_CHART_ONLY_RUNNING = addBoolProp("download-chart-only-running", Boolean.FALSE);
+    public static IntegerProperty DOWNLOAD_CHART_MAX_TIME_TO_SHOW_MIN = addIntProp("download-chart-max-time-to-show-min", 30); //MAX Minuten im Chart
+
 
     // Gui Filter
     public static BooleanProperty AUDIO_GUI_FILTER_DIVIDER_ON = addBoolProp("film-gui-filter-divider-on", Boolean.TRUE);

@@ -19,15 +19,10 @@ package de.p2tools.atplayer.controller.downloadtools;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
-import de.p2tools.p2lib.mtdownload.MTInfoFile;
-import de.p2tools.p2lib.tools.P2SystemUtils;
-import de.p2tools.p2lib.tools.date.P2DateConst;
 import javafx.beans.property.LongProperty;
 
 import java.io.File;
 import java.net.HttpURLConnection;
-import java.util.Date;
 import java.util.Timer;
 
 public class DownloadCont {
@@ -37,37 +32,37 @@ public class DownloadCont {
      *
      * @throws Exception
      */
-    public void downloadContent(DirectHttpDownload directHttpDownload, ProgData progData, DownloadData download,
+    public void downloadContent(DownloadDirectHttp downloadDirectHttp, ProgData progData, DownloadData download,
                                 HttpURLConnection conn, Timer bandwidthCalculationTimer,
                                 File file, LongProperty downloaded) throws Exception {
 
-        if (download.getDestPath().isEmpty()) {
-            download.setDestPath(P2SystemUtils.getStandardDownloadPath());
-        }
-        if (download.getDestFileName().isEmpty()) {
-            download.setDestFileName(P2DateConst.F_FORMAT_yyyyMMdd.format(new Date())
-                    + "_" + download.getTheme() + "-" + download.getTitle() + ".mp4");
-        }
-
-        if (download.isInfoFile()) {
-            //Infofile laden
-            MTInfoFile.writeInfoFile(download.getDestPath(), download.getDestPathFile(), download.getFileNameWithoutSuffix(),
-                    download.getUrl(), download.getDownloadSize().toString(),
-                    download.getChannel(), download.getTheme(), download.getTitle(),
-                    download.getFilmDate().toString(), download.getFilmTime(), download.getDurationMinute() + "",
-                    download.getUrlWebsite(), download.getDescription());
-        }
-
-        if (DownloadDataFactory.checkDownloadM3U8(download.getUrl())) {
-            //dann ists ein http.m3u8
-            if (conn != null) {
-                conn.disconnect();
-            }
-            new ExternalProgramDownload(directHttpDownload, progData, download).startExt();
-
-        } else {
-            //dann ists ein http.mp4
-            new DownloadMp4(progData, download).download(conn, bandwidthCalculationTimer, file, downloaded);
-        }
+//        if (download.getDestPath().isEmpty()) {
+//            download.setDestPath(P2SystemUtils.getStandardDownloadPath());
+//        }
+//        if (download.getDestFileName().isEmpty()) {
+//            download.setDestFileName(P2DateConst.F_FORMAT_yyyyMMdd.format(new Date())
+//                    + "_" + download.getTheme() + "-" + download.getTitle() + ".mp4");
+//        }
+//
+//        if (download.isInfoFile()) {
+//            //Infofile laden
+//            MTInfoFile.writeInfoFile(download.getDestPath(), download.getDestPathFile(), download.getFileNameWithoutSuffix(),
+//                    download.getUrl(), download.getDownloadSize().toString(),
+//                    download.getChannel(), download.getTheme(), download.getTitle(),
+//                    download.getFilmDate().toString(), download.getFilmTime(), download.getDurationMinute() + "",
+//                    download.getUrlWebsite(), download.getDescription());
+//        }
+//
+//        if (DownloadDataFactory.checkDownloadM3U8(download.getUrl())) {
+//            //dann ists ein http.m3u8
+//            if (conn != null) {
+//                conn.disconnect();
+//            }
+//            new ExternalProgramDownload(downloadDirectHttp, progData, download).startExt();
+//
+//        } else {
+//            //dann ists ein http.mp4
+//            new DownloadMp3(progData, download).download(conn, bandwidthCalculationTimer, file, downloaded);
+//        }
     }
 }

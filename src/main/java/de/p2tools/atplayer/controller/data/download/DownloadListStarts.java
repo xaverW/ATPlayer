@@ -49,14 +49,14 @@ public class DownloadListStarts {
             }
 
             if (download.isStateError()
-                    && download.getStart().getRestartCounter() < ProgConfig.SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART.getValue()
+                    && download.getDownloadStartDto().getStartCounter() < ProgConfig.SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART.getValue()
                     && !maxChannelPlay(download, 1)) {
 
-                int restarted = download.getStart().getRestartCounter();
+                int restarted = download.getDownloadStartDto().getStartCounter();
                 download.resetDownload();
                 progData.downloadList.startDownloads(download);
                 // UND jetzt den Restartcounter wieder setzen!!
-                download.getStart().setRestartCounter(++restarted);
+                download.getDownloadStartDto().setStartCounter(++restarted);
                 return download;
             }
         }

@@ -48,7 +48,7 @@ public class HttpDownloadFactory {
         if (downloadData.isStateStartedRun()) {
 
             if (downloadData.getDurationMinute() > 0
-                    && downloadData.getStart().getTimeLeftSeconds() > 0
+                    && downloadData.getDownloadStartDto().getTimeLeftSeconds() > 0
                     && downloadData.getDownloadSize().getActuallySize() > 0
                     && downloadData.getDownloadSize().getTargetSize() > 0) {
 
@@ -57,8 +57,8 @@ public class HttpDownloadFactory {
                         * downloadData.getDownloadSize().getActuallySize()
                         / downloadData.getDownloadSize().getTargetSize();
 
-                if (filetimeAlreadyLoadedSeconds > (downloadData.getStart().getTimeLeftSeconds() * 1.1 /* plus 10% zur Sicherheit */)) {
-                    downloadData.getStart().setStartViewing(true);
+                if (filetimeAlreadyLoadedSeconds > (downloadData.getDownloadStartDto().getTimeLeftSeconds() * 1.1 /* plus 10% zur Sicherheit */)) {
+                    downloadData.getDownloadStartDto().setStartViewing(true);
                 }
             }
         }

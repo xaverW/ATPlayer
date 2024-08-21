@@ -26,6 +26,7 @@ import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
 import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
+import de.p2tools.atplayer.gui.infopane.DownloadInfoController;
 import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableDownload;
 import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
@@ -40,11 +41,11 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Orientation;
-import javafx.scene.control.*;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,22 +55,22 @@ import java.util.function.Predicate;
 public class DownloadGuiController extends AnchorPane {
 
     private final SplitPane splitPane = new SplitPane();
-    private final ScrollPane scrollPaneTableFilm = new ScrollPane();
+    private final ScrollPane scrollPane = new ScrollPane();
     private final P2ClosePaneH pClosePaneHInfo;
-    private final TabPane tabPaneInfo;
     public final TableDownload tableView;
     private final ProgData progData;
     private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
     DoubleProperty splitPaneProperty = ProgConfig.AUDIO_GUI_DIVIDER;
     BooleanProperty boolInfoOn = ProgConfig.DOWNLOAD_GUI_DIVIDER_ON;
     private boolean boundSplitPaneDivPos = false;
+    private boolean bound = false;
 
     private DownloadInfoController downloadInfoController;
 
     public DownloadGuiController() {
         progData = ProgData.getInstance();
         pClosePaneHInfo = new P2ClosePaneH(ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, true);
-        tabPaneInfo = new TabPane();
+        downloadInfoController = new DownloadInfoController();
         tableView = new TableDownload(Table.TABLE_ENUM.DOWNLOAD, progData);
 
 
@@ -80,11 +81,13 @@ public class DownloadGuiController extends AnchorPane {
         splitPane.setOrientation(Orientation.VERTICAL);
         getChildren().addAll(splitPane);
 
-        scrollPaneTableFilm.setFitToHeight(true);
-        scrollPaneTableFilm.setFitToWidth(true);
-        scrollPaneTableFilm.setContent(tableView);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setContent(tableView);
 
-        initInfoPane();
+        ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
+
+        setInfoPane();
         initTable();
         initListener();
         setFilterProperty();
@@ -105,7 +108,7 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void setAudioInfos(DownloadData download) {
-        downloadInfoController.setDownloadData(download);
+        downloadInfoController.setDownloadInfos(download);
         AudioInfoDialogController.getInstance().setAudio(download != null ? download.getAudioData() : null);
     }
 
@@ -417,47 +420,21 @@ public class DownloadGuiController extends AnchorPane {
         });
     }
 
-    private void initInfoPane() {
-        downloadInfoController = new DownloadInfoController();
-        boolInfoOn.addListener((observable, oldValue, newValue) -> setInfoPane());
-        setInfoPane();
-    }
-
     private void setInfoPane() {
-        if (boolInfoOn.getValue()) {
-            boundSplitPaneDivPos = true;
-            setInfoTabPane();
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(splitPaneProperty);
+        if (!ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.getValue()) {
+            if (bound) {
+                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_DIVIDER);
+            }
+            splitPane.getItems().clear();
+            splitPane.getItems().add(scrollPane);
 
         } else {
-            if (boundSplitPaneDivPos) {
-                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(splitPaneProperty);
-            }
+            bound = true;
 
-            if (splitPane.getItems().size() != 1) {
-                splitPane.getItems().clear();
-                splitPane.getItems().add(scrollPaneTableFilm);
-            }
-        }
-    }
-
-    private void setInfoTabPane() {
-        if (splitPane.getItems().size() != 2) {
-            //erst mal splitPane einrichten, dass Tabelle und Info angezeigt werden
             splitPane.getItems().clear();
-            splitPane.getItems().addAll(scrollPaneTableFilm, pClosePaneHInfo);
-            SplitPane.setResizableWithParent(pClosePaneHInfo, false);
+            splitPane.getItems().addAll(scrollPane, downloadInfoController);
+            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_DIVIDER);
+            SplitPane.setResizableWithParent(downloadInfoController, false);
         }
-
-        Tab tabInfo = new Tab("Infos");
-        tabInfo.setClosable(false);
-        tabInfo.setContent(downloadInfoController);
-
-        tabPaneInfo.getTabs().clear();
-        tabPaneInfo.getTabs().addAll(tabInfo);
-
-        pClosePaneHInfo.getVBoxAll().getChildren().clear();
-        pClosePaneHInfo.getVBoxAll().getChildren().add(tabPaneInfo);
-        VBox.setVgrow(tabPaneInfo, Priority.ALWAYS);
     }
 }

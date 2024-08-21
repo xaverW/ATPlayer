@@ -16,13 +16,9 @@
 
 package de.p2tools.atplayer.gui.dialog;
 
-import de.p2tools.atplayer.controller.config.ProgColorList;
-import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadFactory;
-import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
@@ -33,46 +29,55 @@ import javafx.animation.Timeline;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
+import java.nio.file.Paths;
+
 public class DownloadContinueDialogController extends P2DialogExtra {
 
-    private final ProgData progData;
-    private final DownloadData download;
-    private final boolean directDownload;
-    private final Label lblHeader = new Label("Die Filmdatei existiert bereits.");
+    private final Label lblHeader = new Label("Die Filmdatei existiert bereits,\n" +
+            "wie soll der Download weitergeführt werden?");
     private final Button btnRestartDownload = new Button("neu _Starten");
     private final Button btnCancel = new Button("_Abbrechen");
     private final Button btnContinueDownload = new Button("_Weiterführen");
-    private final CheckBox chkSave = new CheckBox("Merken");
+    private final CheckBox chkAlways = new CheckBox("Nicht mehr fragen");
+
     private final Label lblFilmTitle = new Label("ARD: Tatort, ..");
     private final TextField txtFileName = new TextField("");
     private final ComboBox<String> cbPath = new ComboBox<>();
     private final Label lblSizeFree = new Label("");
+
     private final Button btnPath = new Button("");
     private final GridPane gridPane = new GridPane();
-    private DownloadState.ContinueDownload result = DownloadState.ContinueDownload.CANCEL_DOWNLOAD;
+
+    private final DownloadData download;
+    private ProgConfigAskBeforeDelete.ContinueDownload result = ProgConfigAskBeforeDelete.ContinueDownload.CANCEL;
+    private final boolean httpDownload;
     private final String oldPathFile;
 
     private Timeline timeline = null;
     private Integer timeSeconds = ProgConfig.SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS.getValue();
 
     public DownloadContinueDialogController(StringProperty conf, ProgData progData,
-                                            DownloadData download, boolean directDownload) {
-        super(progData.primaryStage, conf, "Download weiterführen", true, false);
+                                            DownloadData download, boolean httpDownload) {
+        super(progData.primaryStage, conf,
+                download.getDownloadStartDto().getStartCounter() == 1 ? "Download starten" : "Download abgebrochen",
+                true, false, DECO.BORDER_SMALL);
 
-        this.progData = progData;
         this.download = download;
-        this.directDownload = directDownload;
+        this.httpDownload = httpDownload;
         this.oldPathFile = download.getDestPathFile();
+
         init(true);
     }
 
-    public DownloadState.ContinueDownload getResult() {
+    public ProgConfigAskBeforeDelete.ContinueDownload getResult() {
         return result;
     }
 
@@ -94,14 +99,8 @@ public class DownloadContinueDialogController extends P2DialogExtra {
         lblFilmTitle.setStyle("-fx-font-weight: bold;");
         lblFilmTitle.setText(download.getTitle());
 
-        btnContinueDownload.setVisible(directDownload);
-        btnContinueDownload.setManaged(directDownload);
-
-        if (!directDownload) {
-            // nur für Downloads mit Programm
-            txtFileName.setDisable(true);
-            cbPath.setDisable(true);
-        }
+        btnContinueDownload.setVisible(httpDownload);
+        btnContinueDownload.setManaged(httpDownload);
 
         initButton();
         initPathAndName();
@@ -116,6 +115,7 @@ public class DownloadContinueDialogController extends P2DialogExtra {
 
     private void initCont() {
         getHBoxTitle().getChildren().add(lblHeader);
+        lblHeader.setMinHeight(Region.USE_PREF_SIZE);
 
         // Gridpane
         gridPane.setHgap(10);
@@ -150,9 +150,8 @@ public class DownloadContinueDialogController extends P2DialogExtra {
         addOkButton(btnRestartDownload);
         addOkButton(btnContinueDownload);
 
-        VBox vBox = new VBox(5);
-        vBox.getChildren().addAll(new Label("Wie möchten Sie forfahren?"), chkSave);
-        getHboxLeft().getChildren().add(vBox);
+        getHBoxOverButtons().setAlignment(Pos.CENTER_RIGHT);
+        getHBoxOverButtons().getChildren().addAll(chkAlways);
     }
 
     private void initButton() {
@@ -161,33 +160,32 @@ public class DownloadContinueDialogController extends P2DialogExtra {
         btnPath.setOnAction(event -> getDestination());
 
         btnCancel.setOnAction(event -> {
-            result = DownloadState.ContinueDownload.CANCEL_DOWNLOAD;
+            result = ProgConfigAskBeforeDelete.ContinueDownload.CANCEL;
             quit();
         });
 
         btnRestartDownload.setOnAction(event -> {
-            if (chkSave.isSelected()) {
-                ProgConfig.DOWNLOAD_CONTINUE.setValue(DownloadState.DOWNLOAD_RESTART__RESTART);
+            if (chkAlways.isSelected()) {
+                ProgConfig.DOWNLOAD_CONTINUE.setValue(ProgConfigAskBeforeDelete.DOWNLOAD_RESTART__RESTART);
             }
 
-            result = DownloadState.ContinueDownload.RESTART_DOWNLOAD;
+            result = ProgConfigAskBeforeDelete.ContinueDownload.RESTART;
             download.setPathName(cbPath.getSelectionModel().getSelectedItem(), txtFileName.getText());
             quit();
         });
         btnContinueDownload.setOnAction(event -> {
-            if (chkSave.isSelected()) {
-                ProgConfig.DOWNLOAD_CONTINUE.setValue(DownloadState.DOWNLOAD_RESTART__CONTINUE);
+            if (chkAlways.isSelected()) {
+                ProgConfig.DOWNLOAD_CONTINUE.setValue(ProgConfigAskBeforeDelete.DOWNLOAD_RESTART__CONTINUE);
             }
 
-            result = DownloadState.ContinueDownload.CONTINUE_DOWNLOAD;
+            result = ProgConfigAskBeforeDelete.ContinueDownload.CONTINUE;
             quit();
         });
     }
 
     private void initPathAndName() {
         // gespeicherte Pfade eintragen
-        final String[] p = ProgConfig.DOWNLOAD_DIALOG_PATH_SAVING.get().split("<>");
-        cbPath.getItems().addAll(p);
+        cbPath.getItems().addAll(ProgConfig.DOWNLOAD_DIALOG_DOWNLOAD_PATH);
 
         if (download.getDestPath().isEmpty()) {
             cbPath.getSelectionModel().selectFirst();
@@ -199,6 +197,7 @@ public class DownloadContinueDialogController extends P2DialogExtra {
             stopCounter();
             if (newValue != null) {
                 btnContinueDownload.setDisable(!download.getDestPath().equals(newValue));
+                download.setFile(Paths.get(cbPath.getValue(), txtFileName.getText()).toFile());
             }
 
             DownloadFactory.calculateAndCheckDiskSpace(download, cbPath.getSelectionModel().getSelectedItem(), lblSizeFree);
@@ -223,14 +222,14 @@ public class DownloadContinueDialogController extends P2DialogExtra {
     private void handleCountDownAction() {
         timeSeconds--;
         if (timeSeconds > 0) {
-            if (!directDownload) {
+            if (!httpDownload) {
                 btnRestartDownload.setText("neu _Starten in " + timeSeconds + " s");
             } else {
                 btnContinueDownload.setText("_Weiterführen in " + timeSeconds + " s");
             }
         } else {
             timeline.stop();
-            result = DownloadState.ContinueDownload.CONTINUE_DOWNLOAD;
+            result = ProgConfigAskBeforeDelete.ContinueDownload.CONTINUE;
             quit();
         }
     }
@@ -243,7 +242,7 @@ public class DownloadContinueDialogController extends P2DialogExtra {
     }
 
     private void setButtonText() {
-        if (!directDownload) {
+        if (!httpDownload) {
             btnRestartDownload.setText("neu _Starten");
         } else {
             btnContinueDownload.setText("_Weiterführen");

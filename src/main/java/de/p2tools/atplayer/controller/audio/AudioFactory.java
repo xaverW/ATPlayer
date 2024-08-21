@@ -19,9 +19,9 @@ package de.p2tools.atplayer.controller.audio;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.downloadtools.DownloadProgParameterFactory;
-import de.p2tools.atplayer.controller.downloadtools.RuntimeExec;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.p2lib.P2LibConst;
@@ -57,7 +57,7 @@ public class AudioFactory {
         final String url = audioData.getUrl();
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(url);
-        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(DownloadConstants.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 url, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -76,7 +76,7 @@ public class AudioFactory {
         final String url = buildUrl(audioDataList);
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(url);
-        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(DownloadConstants.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 url, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -97,7 +97,7 @@ public class AudioFactory {
             if (!append) {
                 append = true;
             } else {
-                url.append(RuntimeExec.TRENNER_PROG_ARRAY);
+                url.append(DownloadConstants.TRENNER_PROG_ARRAY);
             }
             url.append(u);
         }
@@ -107,7 +107,7 @@ public class AudioFactory {
     public static void playAudio(DownloadData downloadData) {
         String strProgCallArray = "";
         strProgCallArray = DownloadProgParameterFactory.getProgParameterArray(downloadData.getDestPathFile());
-        String[] arrProgCallArray = strProgCallArray.split(RuntimeExec.TRENNER_PROG_ARRAY);
+        String[] arrProgCallArray = strProgCallArray.split(DownloadConstants.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
                 downloadData.getDestPathFile(), ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
@@ -160,7 +160,7 @@ public class AudioFactory {
     public static synchronized String getStatusInfosAudio() {
         String textLinks;
         final int sumFilmlist = ProgData.getInstance().audioList.size();
-        final int sumFilmShown = ProgData.getInstance().audioGuiController.getFilmCount();
+        final int sumFilmShown = ProgData.getInstance().audioGuiController.getCount();
 
         String sumFilmlistStr = numberFormat.format(sumFilmShown);
         String sumFilmShownStr = numberFormat.format(sumFilmlist);

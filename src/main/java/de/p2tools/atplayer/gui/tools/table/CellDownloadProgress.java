@@ -1,5 +1,5 @@
 /*
- * P2Tools Copyright (C) 2023 W. Xaver W.Xaver[at]googlemail.com
+ * P2tools Copyright (C) 2022 W. Xaver W.Xaver[at]googlemail.com
  * https://www.p2tools.de/
  *
  * This program is free software: you can redistribute it and/or modify it under the terms of the
@@ -17,31 +17,35 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
-import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.util.Callback;
 
-public class CellProgress<S, T> extends TableCell<S, T> {
+public class CellDownloadProgress<S, T> extends TableCell<S, T> {
 
     public final Callback<TableColumn<DownloadData, Double>, TableCell<DownloadData, Double>> cellFactory
-            = (final TableColumn<DownloadData, Double> param) -> new ProgressBarTableCell<>() {
+            = (final TableColumn<DownloadData, Double> param) -> {
 
-        @Override
-        public void updateItem(Double item, boolean empty) {
-            super.updateItem(item, empty);
+        final ProgressBarTableCell<DownloadData> cell = new ProgressBarTableCell<>() {
 
-            if (item != null) {
-                DownloadData download = getTableView().getItems().get(getIndex());
-                if (item <= DownloadConstants.PROGRESS_STARTED || item >= DownloadConstants.PROGRESS_FINISHED) {
-                    String text = DownloadConstants.getTextProgress(download.getState(), item.doubleValue());
-                    Label label = new Label(text);
-                    setGraphic(label);
+            @Override
+            public void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item != null) {
+                    DownloadData download = getTableView().getItems().get(getIndex());
+
+                    if (item <= DownloadConstants.PROGRESS_STARTED || item >= DownloadConstants.PROGRESS_FINISHED) {
+                        String text = DownloadConstants.getTextProgress(false, download.getState(), item);
+                        Label label = new Label(text);
+                        setGraphic(label);
+                    }
                 }
             }
-        }
+        };
+        return cell;
     };
 }

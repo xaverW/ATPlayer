@@ -17,17 +17,22 @@
 package de.p2tools.atplayer.controller.starter;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
+import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.downloadtools.DirectHttpDownload;
+import de.p2tools.atplayer.controller.data.downloaderror.DownloadErrorData;
+import de.p2tools.atplayer.controller.downloadtools.DownloadDirectHttp;
+import de.p2tools.atplayer.gui.dialog.DownloadErrorDialogController;
 import de.p2tools.p2lib.mtdownload.SizeTools;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.log.P2Log;
+import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -60,7 +65,7 @@ public class StarterClass {
         });
     }
 
-    public static boolean check(ProgData progData, DownloadData download) {
+    public static boolean check(ProgData progData, DownloadData download, StringProperty errorMsg) {
         // prüfen, ob der Download geklappt hat und die Datei existiert und eine min. Größe hat
         boolean ret = false;
 
@@ -68,15 +73,23 @@ public class StarterClass {
 
         if (progress > DownloadConstants.PROGRESS_NOT_STARTED && progress < DownloadConstants.PROGRESS_NEARLY_FINISHED) {
             // *progress* Prozent werden berechnet und es wurde vor 99,5% abgebrochen
-            P2Log.errorLog(696510258, "Download fehlgeschlagen: 99,5% wurden nicht erreicht: " + progress + "%, " + download.getDestPathFile());
+            String str = "Download fehlgeschlagen, Datei zu klein, nur " + String.format("%.0f", progress) + " % erreicht.\n" +
+                    "Soll aus der URL: " + download.getDownloadSize().getTargetSize() + " Byte\n" +
+                    "Ist aus der Datei: " + download.getDownloadSize().getActuallySize() + " Byte\n";
+            errorMsg.setValue(str);
+            P2Log.errorLog(696510258, str);
             return false;
         }
 
         final File file = new File(download.getDestPathFile());
         if (!file.exists()) {
-            P2Log.errorLog(550236231, "Download fehlgeschlagen: Datei existiert nicht: " + download.getDestPathFile());
+            String str = "Download fehlgeschlagen: Datei existiert nicht: " + download.getDestPathFile();
+            errorMsg.setValue(str);
+            P2Log.errorLog(550236231, str);
         } else if (file.length() < ProgConst.MIN_DATEI_GROESSE_FILM) {
-            P2Log.errorLog(795632500, "Download fehlgeschlagen: Datei zu klein: " + download.getDestPathFile());
+            String str = "Download fehlgeschlagen: Datei zu klein: " + download.getDestPathFile();
+            errorMsg.setValue(str);
+            P2Log.errorLog(795632500, str);
         } else {
             ret = true;
         }
@@ -110,24 +123,24 @@ public class StarterClass {
         }
     }
 
-    public static void startMsg(DownloadData download) {
-        final ArrayList<String> list = new ArrayList<>();
-        list.add(P2Log.LILNE3);
-        if (download.getStart().getRestartCounter() > 0) {
-            list.add("Download starten - Restart (Summe Starts: " + download.getStart().getRestartCounter() + ')');
-        } else {
-            list.add("Download starten");
-        }
-        list.add("Ziel: " + download.getDestPathFile());
-        list.add("URL: " + download.getUrl());
-        list.add("Startzeit: " + P2DateConst.F_FORMAT_HH__mm__ss.format(download.getStart().getStartTime()));
-        list.add(DownloadConstants.TYPE_DOWNLOAD);
-        list.add(P2Log.LILNE_EMPTY);
-        P2Log.sysLog(list.toArray(new String[list.size()]));
-    }
+//    public static void startMsg(DownloadData download) {
+//        final ArrayList<String> list = new ArrayList<>();
+//        list.add(P2Log.LILNE3);
+//        if (download.getDownloadStartDto().getRestartCounter() > 0) {
+//            list.add("Download starten - Restart (Summe Starts: " + download.getDownloadStartDto().getRestartCounter() + ')');
+//        } else {
+//            list.add("Download starten");
+//        }
+//        list.add("Ziel: " + download.getDestPathFile());
+//        list.add("URL: " + download.getUrl());
+//        list.add("Startzeit: " + P2DateConst.F_FORMAT_HH__mm__ss.format(download.getDownloadStartDto().getStartTime()));
+//        list.add(DownloadConstants.TYPE_DOWNLOAD);
+//        list.add(P2Log.LILNE_EMPTY);
+//        P2Log.sysLog(list.toArray(new String[list.size()]));
+//    }
 
     private static void finishedMsg(final DownloadData download) {
-        final Start start = download.getStart();
+        final StartDownloadDto startDownloadDto = download.getDownloadStartDto();
         final ArrayList<String> list = new ArrayList<>();
         list.add(P2Log.LILNE3);
         if (download.isStateStopped()) {
@@ -143,24 +156,24 @@ public class StarterClass {
             list.add("Ziel: " + download.getDestPathFile());
         }
 
-        list.add("Startzeit: " + P2DateConst.F_FORMAT_HH__mm__ss.format(start.getStartTime()));
+        list.add("Startzeit: " + P2DateConst.F_FORMAT_HH__mm__ss.format(startDownloadDto.getStartTime()));
         list.add("Endzeit: " + P2DateConst.F_FORMAT_HH__mm__ss.format(new P2Date().getTime()));
 
-        if (start.getRestartCounter() > 0) {
-            list.add("Restarts: " + start.getRestartCounter());
+        if (startDownloadDto.getStartCounter() > 0) {
+            list.add("Restarts: " + startDownloadDto.getStartCounter());
         }
 
-        final long dauer = start.getStartTime().diffInMinutes();
+        final long dauer = startDownloadDto.getStartTime().diffInMinutes();
         if (dauer == 0) {
-            list.add("Dauer: " + start.getStartTime().diffInSeconds() + " s");
+            list.add("Dauer: " + startDownloadDto.getStartTime().diffInSeconds() + " s");
             //list.add("Dauer: <1 Min.");
         } else {
-            list.add("Dauer: " + start.getStartTime().diffInMinutes() + " Min");
+            list.add("Dauer: " + startDownloadDto.getStartTime().diffInMinutes() + " Min");
         }
 
-        if (start.getInputStream() != null) {
-            list.add("Bytes gelesen: " + SizeTools.humanReadableByteCount(start.getInputStream().getSumByte(), true));
-            list.add("Bandbreite: " + SizeTools.humanReadableByteCount(start.getInputStream().getSumBandwidth(), true));
+        if (startDownloadDto.getInputStream() != null) {
+            list.add("Bytes gelesen: " + SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumByte(), true));
+            list.add("Bandbreite: " + SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumBandwidth(), true));
         }
         list.add("URL: " + download.getUrl());
         list.add(DownloadConstants.TYPE_DOWNLOAD);
@@ -185,7 +198,7 @@ public class StarterClass {
 
     public static void finalizeDownload(DownloadData download) {
 
-        final Start start = download.getStart();
+        final StartDownloadDto startDownloadDto = download.getDownloadStartDto();
         deleteIfEmpty(new File(download.getDestPathFile()));
         setFileSize(download);
 
@@ -193,28 +206,41 @@ public class StarterClass {
 
         if (download.isStateError()) {
             download.setProgress(DownloadConstants.PROGRESS_NOT_STARTED);
+            Platform.runLater(() -> {
+                ProgData.getInstance().downloadErrorList.add(new DownloadErrorData(download.getTitle(),
+                        download.getUrl(),
+                        download.getDestPathFile(),
+                        download.getDownloadStartDto().getErrorMsg(),
+                        download.getDownloadStartDto().getErrorStream()));
+
+                if (ProgConfig.DOWNLOAD_DIALOG_ERROR_SHOW.getValue()) {
+                    // nur wenn gewollt
+                    new DownloadErrorDialogController(download);
+                }
+            });
+
         } else if (!download.isStateStopped()) {
             //dann ist er gelaufen
-            start.setTimeLeftSeconds(0);
+            startDownloadDto.setTimeLeftSeconds(0);
             download.setProgress(DownloadConstants.PROGRESS_FINISHED);
             download.getDownloadSize().setActuallySize(-1);
 
-            if (start.getInputStream() != null) {
-                download.setBandwidth("Ø " + SizeTools.humanReadableByteCount(start.getInputStream().getSumBandwidth(), true));
+            if (startDownloadDto.getInputStream() != null) {
+//                download.setBandwidth("Ø " + SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumBandwidth(), true));
             }
 
-            final long dauer = start.getStartTime().diffInMinutes();
+            final long dauer = startDownloadDto.getStartTime().diffInMinutes();
             if (dauer == 0) {
-                download.setRemaining("Dauer: " + start.getStartTime().diffInSeconds() + " s");
+//                download.setRemaining("Dauer: " + startDownloadDto.getStartTime().diffInSeconds() + " s");
             } else {
-                download.setRemaining("Dauer: " + start.getStartTime().diffInMinutes() + " Min");
+//                download.setRemaining("Dauer: " + startDownloadDto.getStartTime().diffInMinutes() + " Min");
             }
         }
 
         download.setNo(ProgConst.NUMBER_NOT_EXISTS);
-        start.setProcess(null);
-        start.setInputStream(null);
-        start.setStartTime(null);
+        startDownloadDto.setProcess(null);
+        startDownloadDto.setInputStream(null);
+        startDownloadDto.setStartTime(null);
 
     }
 
@@ -251,7 +277,7 @@ public class StarterClass {
 
     private void restartMsg(DownloadData download) {
         final ArrayList<String> text = new ArrayList<>();
-        text.add("Fehlerhaften Download neu starten - Restart (Summe Starts: " + download.getStart().getRestartCounter() + ')');
+        text.add("Fehlerhaften Download neu starten - Restart (Summe Starts: " + download.getDownloadStartDto().getStartCounter() + ')');
         text.add("Ziel: " + download.getDestPathFile());
         text.add("URL: " + download.getUrl());
         P2Log.sysLog(text.toArray(new String[text.size()]));
@@ -339,10 +365,10 @@ public class StarterClass {
          * @param download The {@link DownloadData} info object for download.
          */
         private void startDownload(DownloadData download) {
-            download.getStart().startDownload();
+            download.getDownloadStartDto().startDownload();
             Thread downloadThread;
 
-            downloadThread = new DirectHttpDownload(progData, download, bandwidthCalculationTimer);
+            downloadThread = new DownloadDirectHttp(progData, download, bandwidthCalculationTimer);
             downloadThread.start();
         }
     }

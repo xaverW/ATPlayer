@@ -26,22 +26,30 @@ import de.p2tools.p2lib.tools.log.P2Log;
 import java.text.DecimalFormat;
 
 public class DownloadInfos {
-    private final ProgData progData;
     private int placedBack = 0; //Zurüchgestellt
     private int amount = 0; //Gesamtanzahl
-    private int notStarted = 0; //davon gestartet, alle, egal ob warten, laden oder fertig
+
+    private int amountAbo = 0; //davon Abos
+    private int amountDownload = 0; //und manuelle Downloads
+
+    private int notStarted = 0; //davon gestartet, alle, egal ob warten, laden oder fertig (keine zurückgestellten)
     private int started = 0; //davon gestartet, alle, egal ob warten, laden oder fertig
+
+    private int loadingM3u8 = 0; //gestarte m3u8-URLs
     private int startedNotLoading = 0; //davon gestartet, warten aber noch
     private int loading = 0; //laden schon
     private int finishedOk = 0; //fertig und Ok
     private int finishedError = 0; //fertig mit Fehler
+
     private int numberNotStartedDownloads = 0; //Anzahl aller noch nicht gestarteten Downloads
     private int numberWaitingDownloads = 0; //Anzahl aller gestarteten und wartenden Downloads
     private int numberLoadingDownloads = 0; //Anzahl aller ladenden Downloads
+
     private long byteNotStartedDownloads = 0; //anz. Bytes für alle noch nicht gestarteten Downloads
     private long byteWaitingDownloads = 0; //anz. Bytes für alle gestarteten und wartenden Downloads
     private long byteLoadingDownloads = 0; //anz. Bytes für alle ladenden Downloads
     private long byteLoadingDownloadsAlreadyLoaded = 0; //anz. Bytes bereits geladen für die gerade ladenden Downloads
+
     private long timeLeftNotStartedDownloads = 0; //Restzeit für alle noch nicht gestarteten Downloads
     private long timeLeftWaitingDownloads = 0; //Restzeit für alle gestarteten und wartenden Downloads
     private long timeLeftLoadingDownloads = 0; //Restzeit für alle ladenden Downloads
@@ -49,11 +57,13 @@ public class DownloadInfos {
     private String bandwidthStr = "";
     private int percent = -1; // Prozent fertig (alle)
 
+    private final ProgData progData;
+
     public DownloadInfos(ProgData progData) {
         this.progData = progData;
         PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadInfos.class.getSimpleName()) {
             @Override
-            public void ping() {
+            public void pingFx() {
                 clean();
                 generateDownloadInfos();
                 generateBandwidthInfo();
@@ -69,6 +79,10 @@ public class DownloadInfos {
         return amount;
     }
 
+    public synchronized int getAmountAbo() {
+        return amountAbo;
+    }
+
     public int getNotStarted() {
         return notStarted;
     }
@@ -77,12 +91,20 @@ public class DownloadInfos {
         return started;
     }
 
+    public synchronized int getAmountDownload() {
+        return amountDownload;
+    }
+
     public synchronized int getStartedNotLoading() {
         return startedNotLoading;
     }
 
     public synchronized int getLoading() {
         return loading;
+    }
+
+    public int getLoadingM3u8() {
+        return loadingM3u8;
     }
 
     public synchronized int getFinishedOk() {
@@ -146,15 +168,15 @@ public class DownloadInfos {
     }
 
     public String getTimeLeftNotStarted() {
-        return DownloadConstants.getTimeLeft(timeLeftNotStartedDownloads);
+        return DownloadConstants.getTextTimeLeft(timeLeftNotStartedDownloads);
     }
 
     public String getTimeLeftWaiting() {
-        return DownloadConstants.getTimeLeft(timeLeftWaitingDownloads);
+        return DownloadConstants.getTextTimeLeft(timeLeftWaitingDownloads);
     }
 
     public String getTimeLeftLoading() {
-        return DownloadConstants.getTimeLeft(timeLeftLoadingDownloads);
+        return DownloadConstants.getTextTimeLeft(timeLeftLoadingDownloads);
     }
 
     private synchronized void generateDownloadInfos() {
@@ -170,18 +192,27 @@ public class DownloadInfos {
                 ++amount;
             }
 
+            ++amountDownload;
+
             if (download.isStarted() || download.isFinishedOrError()) {
-                ++started;
-                if (download.isStateStartedWaiting()) {
-                    ++startedNotLoading;
-                } else if (download.isStateStartedRun()) {
-                    ++loading;
-                } else if (download.isStateFinished()) {
-                    ++finishedOk;
-                } else if (download.isStateError()) {
-                    ++finishedError;
+                if (download.getSource().equals(DownloadConstants.SRC_ABO) ||
+                        download.getSource().equals(DownloadConstants.SRC_DOWNLOAD)) {
+                    ++started;
+                    if (download.isStateStartedWaiting()) {
+                        ++startedNotLoading;
+                    } else if (download.isStateStartedRun()) {
+                        ++loading;
+//                        if (download.getUrl().endsWith(ProgConst.M3U8_URL)) {
+//                            ++loadingM3u8;
+//                        }
+                    } else if (download.isStateFinished()) {
+                        ++finishedOk;
+                    } else if (download.isStateError()) {
+                        ++finishedError;
+                    }
                 }
-            } else {
+            } else if (!download.isPlacedBack()) {
+                //dann die angezeigten und noch nicht gestartet
                 ++notStarted;
             }
         }
@@ -205,14 +236,14 @@ public class DownloadInfos {
                 ++numberLoadingDownloads;
                 byteLoadingDownloads += (download.getDownloadSize().getTargetSize() > 0 ? download.getDownloadSize().getTargetSize() : 0);
 
-                bandwidth += download.getStart().getBandwidth(); // bytes per second
+                bandwidth += download.getBandwidth(); // bytes per second
                 if (bandwidth < 0) {
                     bandwidth = 0;
                 }
                 byteLoadingDownloadsAlreadyLoaded += (download.getDownloadSize().getActuallySize() > 0 ? download.getDownloadSize().getActuallySize() : 0);
-                if (download.getStart().getTimeLeftSeconds() > timeLeftLoadingDownloads) {
+                if (download.getDownloadStartDto().getTimeLeftSeconds() > timeLeftLoadingDownloads) {
                     // der längste gibt die aktuelle Restzeit vor
-                    timeLeftLoadingDownloads = download.getStart().getTimeLeftSeconds();
+                    timeLeftLoadingDownloads = download.getDownloadStartDto().getTimeLeftSeconds();
                 }
 
             }
@@ -222,20 +253,19 @@ public class DownloadInfos {
             byteLoadingDownloads = byteLoadingDownloadsAlreadyLoaded;
         }
 
-        final long resBandwidth = bandwidth > 0 ? bandwidth : ProgConfig.DOWNLOAD_BANDWIDTH_KBYTE.getValue();
-        if (resBandwidth > 0) {
+        if (bandwidth > 0) {
             // wartende Downloads
             if (byteWaitingDownloads <= 0) {
                 timeLeftWaitingDownloads = 0;
             } else {
-                timeLeftWaitingDownloads = byteWaitingDownloads / resBandwidth;
+                timeLeftWaitingDownloads = byteWaitingDownloads / bandwidth;
             }
 
             // nicht gestartete Downloads
             if (byteNotStartedDownloads <= 0) {
                 timeLeftNotStartedDownloads = 0;
             } else {
-                timeLeftNotStartedDownloads = byteNotStartedDownloads / resBandwidth;
+                timeLeftNotStartedDownloads = byteNotStartedDownloads / bandwidth;
             }
         }
 
@@ -251,9 +281,12 @@ public class DownloadInfos {
         //DonwloadInfos
         placedBack = 0;
         amount = 0;
+        amountAbo = 0;
+        amountDownload = 0;
         notStarted = 0;
         started = 0;
         startedNotLoading = 0;
+        loadingM3u8 = 0;
         loading = 0;
         finishedOk = 0;
         finishedError = 0;

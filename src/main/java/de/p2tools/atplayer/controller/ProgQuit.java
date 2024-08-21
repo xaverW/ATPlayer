@@ -81,7 +81,7 @@ public class ProgQuit {
                 //wartende werden komplett zurückgesetzt
                 download.resetDownload();
             }
-            Process p = download.getStart().getProcess();
+            Process p = download.getDownloadStartDto().getProcess();
             if (p != null) {
                 //um Downloads mit ffmpeg zu stoppen!
                 p.destroy();
