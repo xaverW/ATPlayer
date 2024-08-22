@@ -21,9 +21,11 @@ import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.file.P2FileUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
+import de.p2tools.p2lib.tools.net.PUrlTools;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Date;
 
 public class DownloadFactoryMakeParameter {
@@ -31,19 +33,19 @@ public class DownloadFactoryMakeParameter {
     private DownloadFactoryMakeParameter() {
     }
 
-    public static boolean makeProgParameter(DownloadData download, String name, String path) {
+    public static boolean makeProgParameter(DownloadData download) {
         // zieldatei und pfad bauen und eintragen
         try {
             // Direkter Download nur wenn url passt und wenn im Programm ein Zielpfad ist sonst Abspielen
             // legt fest, dass NICHT Abspielen, Abspielen immer über Programm!
-            buildFileNamePath(download, name, path);
+            buildFileNamePath(download);
         } catch (final Exception ex) {
             P2Log.errorLog(825600145, ex);
         }
         return true;
     }
 
-    private static void buildFileNamePath(DownloadData download, String pNname, String pPath) {
+    private static void buildFileNamePath(DownloadData download) {
         // nname und ppfad sind nur belegt, wenn der Download über den DialogAddDownload gestartet wurde
         // (aus TabFilme)
         String name;
@@ -52,67 +54,57 @@ public class DownloadFactoryMakeParameter {
         // ##############################################
         // Name
         // ##############################################
-        if (!pNname.isEmpty()) {
-            // wenn vorgegeben, dann den nehmen
-            name = pNname;
+        name = ProgConfig.DOWNLOAD_FILE_NAME.getValueSafe();
 
-        } else {
-            name = ProgConfig.DOWNLOAD_FILE_PATH.getValueSafe();
+        // ##############################
+        // Name sinnvoll belegen
+        if (name.isEmpty()) {
+            name = getToday_yyyyMMdd() + "_" + download.getTheme() + "-" + download.getTitle() + ".mp4";
+        }
 
-            // ##############################
-            // Name sinnvoll belegen
-            if (name.isEmpty()) {
-                name = getToday_yyyyMMdd() + "_" + download.getTheme() + "-" + download.getTitle() + ".mp4";
+        // Tags ersetzen
+        name = replaceString(download, name); // %D ... ersetzen
+
+        String suff = "";
+        if (name.contains(".")) {
+            // Suffix (und den . ) nicht ändern
+            suff = name.substring(name.lastIndexOf("."));
+            if (suff.length() <= 4 && suff.length() > 1) {
+                // dann ist es sonst was??
+                name = name.substring(0, name.lastIndexOf("."));
+            } else {
+                suff = "";
             }
+        }
 
-            // Tags ersetzen
-            name = replaceString(download, name); // %D ... ersetzen
+        name = DownloadFactory.replaceEmptyFileName(name,
+                false /* pfad */,
+                ProgConfig.SYSTEM_USE_REPLACETABLE.getValue(),
+                ProgConfig.SYSTEM_ONLY_ASCII.getValue());
+        name = name + suff;
 
-            String suff = "";
-            if (name.contains(".")) {
-                // Suffix (und den . ) nicht ändern
-                suff = name.substring(name.lastIndexOf("."));
-                if (suff.length() <= 4 && suff.length() > 1) {
-                    // dann ist es sonst was??
-                    name = name.substring(0, name.lastIndexOf("."));
-                } else {
-                    suff = "";
+        // prüfen ob das Suffix 2x vorkommt
+        if (name.length() > 8) {
+            final String suf1 = name.substring(name.length() - 8, name.length() - 4);
+            final String suf2 = name.substring(name.length() - 4);
+            if (suf1.startsWith(".") && suf2.startsWith(".")) {
+                if (suf1.equalsIgnoreCase(suf2)) {
+                    name = name.substring(0, name.length() - 4);
                 }
             }
+        }
 
-            name = DownloadFactory.replaceEmptyFileName(name,
-                    false /* pfad */,
-                    ProgConfig.SYSTEM_USE_REPLACETABLE.getValue(),
-                    ProgConfig.SYSTEM_ONLY_ASCII.getValue());
-            name = name + suff;
-
-            // prüfen ob das Suffix 2x vorkommt
-            if (name.length() > 8) {
-                final String suf1 = name.substring(name.length() - 8, name.length() - 4);
-                final String suf2 = name.substring(name.length() - 4);
-                if (suf1.startsWith(".") && suf2.startsWith(".")) {
-                    if (suf1.equalsIgnoreCase(suf2)) {
-                        name = name.substring(0, name.length() - 4);
-                    }
-                }
-            }
-
-            // Kürzen
-            int length = ProgConfig.SYSTEM_SAVE_MAX_SIZE.get();
+        // Kürzen
+        if (ProgConfig.SYSTEM_SAVE_MAX_SIZE.getValue() > 0) {
+            int length = ProgConfig.SYSTEM_SAVE_MAX_SIZE.getValue();
             name = P2FileUtils.cutName(name, length);
         }
 
         // ##############################################
         // Pfad
         // ##############################################
-        if (!pPath.isEmpty()) {
-            // wenn vorgegeben, dann den nehmen
-            path = pPath;
-
-        } else {
-            path = ProgConfig.DOWNLOAD_FILE_PATH.getValueSafe();
-            path = replaceString(download, path); // %D ... ersetzen
-        }
+        path = ProgConfig.DOWNLOAD_FILE_PATH.getValueSafe();
+        path = replaceString(download, path); // %D ... ersetzen
 
         if (path.endsWith(File.separator)) {
             path = path.substring(0, path.length() - 1);
@@ -134,58 +126,60 @@ public class DownloadFactoryMakeParameter {
         download.setFile(Paths.get(path, name).toFile());
     }
 
-    private static String replaceString(DownloadData download, String replStr) {
-//        // hier wird nur ersetzt!
-//        // Felder mit variabler Länge, evtl. vorher kürzen
-//
-//        int length = ProgConfig.SYSTEM_SAVE_MAX_FIELD.get();
-//
-//        replStr = replStr.replace("%t", getField(download.getTheme(), length));
-//        replStr = replStr.replace("%T", getField(download.getTitle(), length));
-//        replStr = replStr.replace("%s", getField(download.getChannel(), length));
-//        replStr = replStr.replace("%N", getField(PUrlTools.getFileName(download.getUrl()), length));
-//
-//        // Felder mit fester Länge werden immer ganz geschrieben
-//        replStr = replStr.replace("%D",
-//                download.getFilmDate().isEmpty() ? getToday_yyyyMMdd()
-//                        : cleanDate(turnDate(download.getFilmDateStr())));
-//        replStr = replStr.replace("%d",
-//                download.getFilmTime().isEmpty() ? getNow_HHMMSS()
-//                        : cleanDate(download.getFilmTime()));
-//        replStr = replStr.replace("%H", getToday_yyyyMMdd());
-//        replStr = replStr.replace("%h", getNow_HHMMSS());
-//
-//        replStr = replStr.replace("%1",
-//                getDMY("%1", download.getFilmDateStr().isEmpty() ? getToday__yyyy_o_MM_o_dd() : download.getFilmDateStr()));
-//        replStr = replStr.replace("%2",
-//                getDMY("%2", download.getFilmDateStr().isEmpty() ? getToday__yyyy_o_MM_o_dd() : download.getFilmDateStr()));
-//        replStr = replStr.replace("%3",
-//                getDMY("%3", download.getFilmDateStr().isEmpty() ? getToday__yyyy_o_MM_o_dd() : download.getFilmDateStr()));
-//
-//        replStr = replStr.replace("%4",
-//                getHMS("%4", download.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : download.getFilmTime()));
-//        replStr = replStr.replace("%5",
-//                getHMS("%5", download.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : download.getFilmTime()));
-//        replStr = replStr.replace("%6",
-//                getHMS("%6", download.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : download.getFilmTime()));
-//
-//        replStr = replStr.replace("%i", String.valueOf(download.getFilmNo()));
-//
-//        String res = "";
-//        if (download.getUrl().equals(download.getUrlForResolution(FilmDataMTP.RESOLUTION_NORMAL))) {
+    private static String replaceString(DownloadData downloadData, String replStr) {
+        // hier wird nur ersetzt!
+        // Felder mit variabler Länge, evtl. vorher kürzen
+
+        int length = ProgConfig.SYSTEM_SAVE_MAX_FIELD.getValue();
+
+        replStr = replStr.replace("%g", getField(downloadData.getGenre(), length));
+        replStr = replStr.replace("%t", getField(downloadData.getTheme(), length));
+        replStr = replStr.replace("%T", getField(downloadData.getTitle(), length));
+        replStr = replStr.replace("%s", getField(downloadData.getChannel(), length));
+        replStr = replStr.replace("%N", getField(PUrlTools.getFileName(downloadData.getUrl()), length));
+
+        // Felder mit fester Länge werden immer ganz geschrieben
+        replStr = replStr.replace("%D",
+                downloadData.getFilmDate().equals(LocalDate.MIN) ? getToday_yyyyMMdd()
+                        : cleanDate(turnDate(downloadData.getFilmDate().toString())));
+        replStr = replStr.replace("%d",
+                downloadData.getFilmTime().isEmpty() ? getNow_HHMMSS()
+                        : cleanDate(downloadData.getFilmTime()));
+        replStr = replStr.replace("%H", getToday_yyyyMMdd());
+        replStr = replStr.replace("%h", getNow_HHMMSS());
+
+        replStr = replStr.replace("%1",
+                getDMY("%1", downloadData.getFilmDate().equals(LocalDate.MIN) ? getToday__yyyy_o_MM_o_dd() : downloadData.getFilmDate().toString()));
+        replStr = replStr.replace("%2",
+                getDMY("%2", downloadData.getFilmDate().equals(LocalDate.MIN) ? getToday__yyyy_o_MM_o_dd() : downloadData.getFilmDate().toString()));
+        replStr = replStr.replace("%3",
+                getDMY("%3", downloadData.getFilmDate().equals(LocalDate.MIN) ? getToday__yyyy_o_MM_o_dd() : downloadData.getFilmDate().toString()));
+
+        replStr = replStr.replace("%4",
+                getHMS("%4", downloadData.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : downloadData.getFilmTime()));
+        replStr = replStr.replace("%5",
+                getHMS("%5", downloadData.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : downloadData.getFilmTime()));
+        replStr = replStr.replace("%6",
+                getHMS("%6", downloadData.getFilmTime().isEmpty() ? getNow_HH_MM_SS() : downloadData.getFilmTime()));
+
+        if (downloadData.getAudioData() != null) {
+            replStr = replStr.replace("%i", String.valueOf(downloadData.getAudioData().no));
+        }
+        String res = "";
+//        if (downloadData.getUrl().equals(film.getUrlForResolution(FilmData.RESOLUTION_NORMAL))) {
 //            res = "H";
-//        } else if (download.getUrl().equals(download.getUrlForResolution(FilmDataMTP.RESOLUTION_HD))) {
+//        } else if (downloadData.getUrl().equals(film.getUrlForResolution(FilmData.RESOLUTION_HD))) {
 //            res = "HD";
-//        } else if (download.getUrl().equals(download.getUrlForResolution(FilmDataMTP.RESOLUTION_SMALL))) {
+//        } else if (downloadData.getUrl().equals(film.getUrlForResolution(FilmData.RESOLUTION_SMALL))) {
 //            res = "L";
 //        }
-//        replStr = replStr.replace("%q", res); // %q Qualität des Films ("HD", "H", "L")
-//
-//        replStr = replStr.replace("%S", PUrlTools.getSuffixFromUrl(download.getUrl()));
-//        replStr = replStr.replace("%Z", P2FileUtils.getHash(download.getUrl()));
-//        replStr = replStr.replace("%z",
-//                P2FileUtils.getHash(download.getUrl()) + "."
-//                        + PUrlTools.getSuffixFromUrl(download.getUrl()));
+        replStr = replStr.replace("%q", res); // %q Qualität des Films ("HD", "H", "L")
+
+        replStr = replStr.replace("%S", PUrlTools.getSuffixFromUrl(downloadData.getUrl()));
+        replStr = replStr.replace("%Z", P2FileUtils.getHash(downloadData.getUrl()));
+        replStr = replStr.replace("%z",
+                P2FileUtils.getHash(downloadData.getUrl()) + "."
+                        + PUrlTools.getSuffixFromUrl(downloadData.getUrl()));
 
         return replStr;
     }
@@ -307,56 +301,5 @@ public class DownloadFactoryMakeParameter {
         ret = ret.replace(":", "");
         ret = ret.replace(".", "");
         return ret;
-    }
-
-    private static String buildUrl(DownloadData downloadData, String execString) {
-        // die URL bauen
-        if (downloadData.getUrlList().size() <= 1) {
-            return execString.replace("%f", downloadData.getUrl());
-        }
-
-        final String TRENNER;
-        // dann sind es mehrere Filme
-        if (execString.contains(DownloadConstants.TRENNER_PROG_ARRAY)) {
-            // dann solls das Array sein
-            TRENNER = DownloadConstants.TRENNER_PROG_ARRAY;
-        } else {
-            // dann ist der einfache Aufruf
-            TRENNER = " ";
-        }
-        StringBuilder url = new StringBuilder();
-        boolean append = false;
-        for (String u : downloadData.getUrlList()) {
-            if (!append) {
-                append = true;
-            } else {
-                url.append(TRENNER);
-            }
-            url.append(u);
-        }
-        return execString.replace("%f", url);
-    }
-
-    private static String replaceExec(DownloadData downloadData, String execString) {
-        // hier werden die Parameter beim Programmaufruf ersetzt
-        execString = execString.replace("**", downloadData.getDestPathFile());
-
-        if (downloadData != null) {
-            //ist für Button z.B. "search in google"
-            execString = execString.replace("%w", downloadData.getUrlWebsite());
-            execString = execString.replace("%t", downloadData.getTheme());
-            execString = execString.replace("%T", downloadData.getTitle());
-            execString = execString.replace("%s", downloadData.getChannel());
-        } else {
-            execString = execString.replace("%w", "");
-            execString = execString.replace("%t", "");
-            execString = execString.replace("%T", "");
-            execString = execString.replace("%s", "");
-        }
-
-        execString = execString.replace("%a", downloadData.getDestPath());
-        execString = execString.replace("%b", downloadData.getDestFileName());
-
-        return execString;
     }
 }

@@ -203,27 +203,6 @@ public class TableAudioFactory {
     }
 
     public static void set(AudioData audioData, TableCell tableCell) {
-//            if (film.isNewAudio()) {
-//                for (int i = 0; i < getChildren().size(); i++) {
-//                    getChildren().get(i).setStyle(ProgColorList.AUDIO_NEW.getCssFont());
-//                }
-//
-//            } else {
-//                for (int i = 0; i < getChildren().size(); i++) {
-//                    getChildren().get(i).setStyle("");
-//                }
-//            }
-//            if (film.isBookmark()) {
-//                setStyle(ProgColorList.AUDIO_BOOKMARK.getCssBackground());
-//
-//            } else if (film.isShown()) {
-//                setStyle(ProgColorList.AUDIO_HISTORY.getCssBackground());
-//
-//            } else {
-//                setStyle("");
-//            }
-//        }
-
         if (audioData.isNewAudio()) {
             // neuer Film
             tableCell.setStyle(ProgColorList.AUDIO_NEW.getCssFont());

@@ -14,13 +14,11 @@
  * not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.p2tools.atplayer.controller.downloadtools;
+package de.p2tools.atplayer.controller.starter;
 
 import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.starter.CheckDownloadFileExists;
-import de.p2tools.atplayer.controller.starter.LogMsgFactory;
-import de.p2tools.atplayer.controller.starter.StartDownloadFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;

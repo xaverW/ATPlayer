@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.chart;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import javafx.collections.FXCollections;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;

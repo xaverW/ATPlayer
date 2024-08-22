@@ -18,7 +18,7 @@ package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ButtonClearFilterFactory;

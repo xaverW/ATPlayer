@@ -18,12 +18,11 @@
 package de.p2tools.atplayer.controller.downloadtools;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.p2lib.tools.log.P2Log;
 
 public class DownloadProgParameterFactory {
     private DownloadProgParameterFactory() {
-
     }
 
     public static String getProgParameterArray(String url) {
@@ -38,44 +37,6 @@ public class DownloadProgParameterFactory {
         return progArray;
     }
 
-    public static String getProgParameter(DownloadData downloadData) {
-        //Zieldatei und Pfad bauen und eintragen
-        String commandCall = "";
-        try {
-//            String program = ProgConfig.SYSTEM_PROG_SAVE.getValueSafe();
-//            String progParameter = ProgConfig.SYSTEM_PROG_SAVE_PARAMETER.getValueSafe();
-//
-//            commandCall = program + " " + progParameter;
-//            commandCall = replaceExec(downloadData, commandCall);
-        } catch (final Exception ex) {
-            P2Log.errorLog(825600145, ex);
-        }
-        return commandCall;
-    }
-
-    public static String getProgParameterArray(DownloadData downloadData) {
-        //Zieldatei und Pfad bauen und eintragen
-        String progArray = "";
-        try {
-//            progArray = getProgParameterArray();
-            progArray = replaceExec(downloadData, progArray);
-        } catch (final Exception ex) {
-            P2Log.errorLog(987512098, ex);
-        }
-        return progArray;
-    }
-//
-//    private static String getProgParameterArray() {
-//        String ret = ProgConfig.SYSTEM_PROG_SAVE.getValueSafe();
-//        String progParameter = ProgConfig.SYSTEM_PROG_SAVE_PARAMETER.getValueSafe();
-//
-//        final String[] ar = progParameter.split(" ");
-//        for (final String s : ar) {
-//            ret = ret + RuntimeExec.TRENNER_PROG_ARRAY + s;
-//        }
-//        return ret;
-//    }
-
     private static String getPlayParameterArray() {
         String ret = ProgConfig.SYSTEM_PROG_PLAY.getValueSafe();
         String progParameter = ProgConfig.SYSTEM_PROG_PLAY_PARAMETER.getValueSafe();
@@ -85,17 +46,6 @@ public class DownloadProgParameterFactory {
             ret = ret + DownloadConstants.TRENNER_PROG_ARRAY + s;
         }
         return ret;
-    }
-
-    private static String replaceExec(DownloadData downloadData, String execString) {
-        execString = execString.replace("**", downloadData.getDestPathFile());
-        execString = execString.replace("%f", downloadData.getUrl());
-        execString = execString.replace("%w", downloadData.getUrlWebsite());
-
-        execString = execString.replace("%a", downloadData.getDestPath());
-        execString = execString.replace("%b", downloadData.getDestFileName());
-
-        return execString;
     }
 
     private static String replaceExec(String url, String execString) {

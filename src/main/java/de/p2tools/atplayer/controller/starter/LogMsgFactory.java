@@ -18,8 +18,8 @@
 package de.p2tools.atplayer.controller.starter;
 
 
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
 import de.p2tools.p2lib.mtdownload.SizeTools;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.date.P2DateConst;

@@ -21,9 +21,9 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
-import de.p2tools.atplayer.controller.downloadtools.DownloadConstants;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.atplayer.gui.infopane.DownloadInfoController;
@@ -33,18 +33,16 @@ import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.guitools.P2TableFactory;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
-import javafx.scene.input.*;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 
 import java.util.ArrayList;
@@ -56,20 +54,14 @@ public class DownloadGuiController extends AnchorPane {
 
     private final SplitPane splitPane = new SplitPane();
     private final ScrollPane scrollPane = new ScrollPane();
-    private final P2ClosePaneH pClosePaneHInfo;
     public final TableDownload tableView;
     private final ProgData progData;
-    private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
-    DoubleProperty splitPaneProperty = ProgConfig.AUDIO_GUI_DIVIDER;
-    BooleanProperty boolInfoOn = ProgConfig.DOWNLOAD_GUI_DIVIDER_ON;
-    private boolean boundSplitPaneDivPos = false;
     private boolean bound = false;
 
     private DownloadInfoController downloadInfoController;
 
     public DownloadGuiController() {
         progData = ProgData.getInstance();
-        pClosePaneHInfo = new P2ClosePaneH(ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, true);
         downloadInfoController = new DownloadInfoController();
         tableView = new TableDownload(Table.TABLE_ENUM.DOWNLOAD, progData);
 
@@ -120,14 +112,16 @@ public class DownloadGuiController extends AnchorPane {
         Table.saveTable(tableView, Table.TABLE_ENUM.DOWNLOAD);
     }
 
-    public void startDownloads(boolean all) {
-        // bezieht sich auf "alle" oder nur die markierten Audios
-        final ArrayList<DownloadData> startDownloadsList =
-                new ArrayList<>(all ? tableView.getItems() : getSelList());
+    public void startDownload(boolean all) {
+        // bezieht sich auf "alle" oder nur die markierten Filme
+        // der/die noch nicht gestartet sind, werden gestartet
+        // Filme dessen Start schon auf fehler steht werden wieder gestartet
+        final ArrayList<DownloadData> startDownloadsList = new ArrayList<>();
+        startDownloadsList.addAll(all ? tableView.getItems() : getSelList());
         progData.downloadList.startDownloads(startDownloadsList, true);
     }
 
-    public void startDownloads(DownloadData downloadData) {
+    public void startDownload(DownloadData downloadData) {
         progData.downloadList.startDownloads(downloadData);
     }
 
@@ -138,9 +132,9 @@ public class DownloadGuiController extends AnchorPane {
         progData.downloadList.stopDownloads(data);
     }
 
-    public void stopDownloads(DownloadData downloadData) {
-        progData.downloadList.stopDownloads(downloadData);
-    }
+//    public void stopDownloads(DownloadData downloadData) {
+//        progData.downloadList.stopDownloads(downloadData);
+//    }
 
     public void stopWaitingDownloads() {
         // aus dem Menü

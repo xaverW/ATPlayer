@@ -20,7 +20,6 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.p2lib.data.P2ColorData;
 import de.p2tools.p2lib.data.P2ColorList;
-import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.paint.Color;
@@ -94,24 +93,5 @@ public class ProgColorList extends P2ColorList {
 
     public synchronized static P2ColorList getInstance() {
         return P2ColorList.getInst();
-    }
-
-
-    public static void setColorData(String key, String value) {
-        try {
-            ObservableList<P2ColorData> list = getInstance();
-            list.stream().forEach(pColorData -> {
-                if (pColorData.getKey().equals(key)) {
-                    Color c = Color.web(value);
-                    if (value.endsWith("_DARK")) {
-                        pColorData.setColorDark(c);
-                    } else {
-                        pColorData.setColorLight(c);
-                    }
-                }
-            });
-        } catch (Exception ex) {
-            P2Log.errorLog(956410210, "setColorData");
-        }
     }
 }

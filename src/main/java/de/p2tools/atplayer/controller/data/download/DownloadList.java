@@ -20,6 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.atdate.AudioList;
 import de.p2tools.p2lib.configfile.pdata.P2DataList;
+import de.p2tools.p2lib.tools.P2GetList;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -36,7 +37,6 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     public static final String TAG = "DownloadList";
     private final ProgData progData;
     private final DownloadListStarts downloadListStarts;
-    private final DownloadListStartStop downloadListStartStop;
     private final ObservableList<DownloadData> undoList = FXCollections.observableArrayList();
     private BooleanProperty downloadsChanged = new SimpleBooleanProperty(true);
     FilteredList<DownloadData> filteredList = null;
@@ -46,7 +46,6 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         super(FXCollections.observableArrayList());
         this.progData = progData;
         this.downloadListStarts = new DownloadListStarts(progData, this);
-        this.downloadListStartStop = new DownloadListStartStop(progData, this);
     }
 
     @Override
@@ -68,10 +67,16 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     public void addNewItem(Object obj) {
         if (obj.getClass().equals(DownloadData.class)) {
             DownloadData d = (DownloadData) obj;
-            // cleanUp
-            d.setPlacedBack(false);
             add(d);
         }
+    }
+
+    public synchronized void initDownloads() {
+        this.forEach(download -> {
+            // cleanUp
+            download.setPlacedBack(false);
+            download.setFile(download.getDestPathFile());
+        });
     }
 
     public SortedList<DownloadData> getSortedList() {
@@ -95,7 +100,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         return undoList;
     }
 
-    public synchronized void addDownloadUndoList(List<DownloadData> list) {
+    public synchronized void addDownloadsToUndoList(List<DownloadData> list) {
         undoList.clear();
         undoList.addAll(list);
     }
@@ -219,6 +224,15 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         return ret;
     }
 
+    public synchronized int countRunningDownloads() {
+        int count = 0;
+        for (final DownloadData download : this) {
+            if (download.isStateStartedRun()) {
+                ++count;
+            }
+        }
+        return count;
+    }
 
     public synchronized DownloadData getDownloadUrlFilm(String urlFilm) {
         for (final DownloadData dataDownload : this) {
@@ -279,14 +293,14 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
 
     // ==============================
     // DownloadListStartStop
-    public synchronized void stopDownloads(DownloadData downloadData) {
-        if (downloadListStartStop.stopDownloads(downloadData)) {
-            setDownloadsChanged();
-        }
-    }
+//    public synchronized void stopDownloads(DownloadData downloadData) {
+//        if (DownloadFactoryStopDownload.stopDownloads(downloadData)) {
+//            setDownloadsChanged();
+//        }
+//    }
 
     public synchronized void stopDownloads(ArrayList<DownloadData> list) {
-        if (downloadListStartStop.stopDownloads(list)) {
+        if (DownloadFactoryStopDownload.stopDownloads(list)) {
             setDownloadsChanged();
         }
     }
@@ -299,28 +313,29 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
     }
 
     public synchronized void delDownloads(DownloadData download) {
-        downloadListStartStop.delDownloads(download);
+        DownloadFactoryStopDownload.delDownloads(this, new P2GetList<DownloadData>().getArrayList(download));
     }
 
-    public synchronized void delDownloads(List<DownloadData> list) {
-        if (downloadListStartStop.delDownloads(list)) {
+    public synchronized void delDownloads(ArrayList<DownloadData> list) {
+        if (DownloadFactoryStopDownload.delDownloads(this, list)) {
             setDownloadsChanged();
         }
     }
 
-    public synchronized void putBackDownloads(List<DownloadData> list) {
-        if (downloadListStartStop.putBackDownloads(list)) {
+    public synchronized void putBackDownloads(ArrayList<DownloadData> list) {
+        if (DownloadFactoryStopDownload.putBackDownloads(list)) {
             setDownloadsChanged();
         }
     }
 
     public void startDownloads(DownloadData download) {
-        downloadListStartStop.startDownloads(download);
+        DownloadFactoryStartDownload.startDownloads(this,
+                new P2GetList<DownloadData>().getArrayList(download));
         setDownloadsChanged();
     }
 
     public void startDownloads(Collection<DownloadData> list, boolean alsoFinished) {
-        if (downloadListStartStop.startDownloads(list, alsoFinished)) {
+        if (DownloadFactoryStartDownload.startDownloads(this, list, alsoFinished)) {
             setDownloadsChanged();
         }
     }

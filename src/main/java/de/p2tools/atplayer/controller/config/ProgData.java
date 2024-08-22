@@ -28,9 +28,8 @@ import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
 import de.p2tools.atplayer.controller.filter.StringFilter;
 import de.p2tools.atplayer.controller.history.HistoryList;
-import de.p2tools.atplayer.controller.starter.StarterClass;
+import de.p2tools.atplayer.controller.starter.StartDownload;
 import de.p2tools.atplayer.controller.worker.Busy;
-import de.p2tools.atplayer.controller.worker.CheckForNewFilmlist;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.DownloadGuiController;
@@ -66,7 +65,6 @@ public class ProgData {
     public ActFilterWorker actFilterWorker; // gespeicherte Filterprofile
     public AudioFilterRunner audioFilterRunner;
     public DownloadList downloadList; // Filme die als "Download" geladen werden sollen
-    public StarterClass starterClass; // Klasse zum Ausführen der Programme (für die Downloads): VLC, flvstreamer, ...
 
     public static BooleanProperty AUDIO_TAB_ON = new SimpleBooleanProperty(Boolean.FALSE);
     public static BooleanProperty DOWNLOAD_TAB_ON = new SimpleBooleanProperty(Boolean.FALSE);
@@ -82,9 +80,9 @@ public class ProgData {
 
     // Worker
     public Worker worker; // Liste aller Sender, Themen, ...
-    public CheckForNewFilmlist checkForNewFilmlist;
 
     // Programmdaten
+    public StartDownload startDownload; // Klasse zum Ausführen der Programme (für die Downloads): VLC, ...
     public AudioList audioList; // ist die komplette Audioliste
     public AudioList audioListFiltered; // nach der Blacklist
     public StringFilter stringFilterLists; // sind die Text-Filter in den CBO's
@@ -117,13 +115,12 @@ public class ProgData {
         blackList = new BlackList(this);
         blackListFilterBlackList = new BlackListFilter();
         downloadList = new DownloadList(this);
-        starterClass = new StarterClass(this);
+
+        startDownload = new StartDownload(this);
         downloadInfos = new DownloadInfos(this);
         chartData = new ChartData();
         audioFilterRunner = new AudioFilterRunner(this);
         worker = new Worker(this);
-        checkForNewFilmlist = new CheckForNewFilmlist();
-
     }
 
     public synchronized static final ProgData getInstance(String dir) {

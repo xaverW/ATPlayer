@@ -60,8 +60,6 @@ public class ATPlayer extends Application {
     }
 
     private void initP2lib() {
-//        ProgIcons.initIcons();
-//        P2ProgIcons.initIcons();
         P2LibInit.initLib(primaryStage, ProgConst.PROGRAM_NAME,
                 "", ProgConfig.SYSTEM_DARK_THEME, ProgConfig.SYSTEM_BLACK_WHITE_ICON,
                 ProgData.debug, ProgData.duration);

@@ -12,3 +12,9 @@
     /*-fx-background-color: gainsboro;*/
     -fx-background-color: derive(-fx-control-inner-background, -15%);
 }
+
+/*ist der Text in Downloads unten im Tab Mediensammlung*/
+.downloadGuiMediaText{
+    -fx-fill: #000000;
+}
+

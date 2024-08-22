@@ -18,7 +18,6 @@
 package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
-import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.gui.chart.ChartGenerateFactory;
@@ -136,7 +135,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_BYTE = addIntProp("download-max-bandwidth-byte", MLBandwidthTokenBucket.BANDWIDTH_RUN_FREE);
     public static StringProperty DOWNLOAD_DIALOG_ERROR_SIZE = addStrProp("download-dialog-error-size", "");
     public static IntegerProperty DOWNLOAD_MAX_DOWNLOADS = addIntProp("download-max-downloads", 1);
-    public static IntegerProperty DOWNLOAD_CONTINUE = addIntProp("download-contineu", DownloadState.DOWNLOAD_RESTART__ASK);
+    public static IntegerProperty DOWNLOAD_CONTINUE = addIntProp("download-contineu", ProgConfigAskBeforeDelete.DOWNLOAD_RESTART__ASK);
     public static StringProperty DOWNLOAD_DIALOG_CONTINUE_SIZE = addStrProp("download-dialog-continue-size");
     public static BooleanProperty DOWNLOAD_SHOW_NOTIFICATION = addBoolProp("download-show-notification", Boolean.TRUE);
     public static BooleanProperty DOWNLOAD_DIALOG_START_DOWNLOAD_NOW = addBoolProp("download-dialog-start-download-now", Boolean.TRUE);

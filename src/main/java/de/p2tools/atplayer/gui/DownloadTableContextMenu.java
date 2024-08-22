@@ -47,7 +47,7 @@ public class DownloadTableContextMenu {
     private void getMenu(final ContextMenu contextMenu, final DownloadData download) {
         //dann die "echten" Menüpunkte
         final MenuItem miStart = new MenuItem("Download starten");
-        miStart.setOnAction(a -> downloadInfoController.startDownloads(false));
+        miStart.setOnAction(a -> downloadInfoController.startDownload(false));
         final MenuItem miStop = new MenuItem("Download stoppen");
         miStop.setOnAction(a -> downloadInfoController.stopDownloads(false));
         final MenuItem miChange = new MenuItem("Download ändern");
@@ -76,7 +76,7 @@ public class DownloadTableContextMenu {
 
         // Submenü "alle Downloads"
         final MenuItem miStartAll = new MenuItem("Alle Downloads starten");
-        miStartAll.setOnAction(a -> downloadInfoController.startDownloads(true /* alle */));
+        miStartAll.setOnAction(a -> downloadInfoController.startDownload(true /* alle */));
 
         final MenuItem miStopAll = new MenuItem("Alle Downloads stoppen");
         miStopAll.setOnAction(a -> downloadInfoController.stopDownloads(true /* alle */));

@@ -37,16 +37,6 @@ public class TableRowAudio<T> extends TableRow<T> {
 
         } else {
             AudioData audioData = (AudioData) item;
-//            if (film.isNewAudio()) {
-//                for (int i = 0; i < getChildren().size(); i++) {
-//                    getChildren().get(i).setStyle(ProgColorList.AUDIO_NEW.getCssFont());
-//                }
-//
-//            } else {
-//                for (int i = 0; i < getChildren().size(); i++) {
-//                    getChildren().get(i).setStyle("");
-//                }
-//            }
             if (audioData.isBookmark()) {
                 setStyle(ProgColorList.AUDIO_BOOKMARK.getCssBackground());
 

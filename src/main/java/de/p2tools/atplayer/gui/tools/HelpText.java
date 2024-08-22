@@ -244,16 +244,6 @@ public class HelpText {
             "Wenn ein Download erfolgreich beendet ist, wird mit einem Fenster informiert." +
                     "\n";
 
-    public static final String DOWNLOAD_CONTINUE =
-            "Wenn ein bereits teilweise geladener Download neu startet, " +
-                    "kann er weitergeführt oder von Anfang an, neu gestartet werden." +
-                    P2LibConst.LINE_SEPARATORx2 +
-                    "Hier kann ausgewählt werden, was gemacht werden soll:\n" +
-                    "* Jedes mal vorher fragen\n" +
-                    "* Sofort weiterführen\n" +
-                    "* Immer von Anfang an neu starten." +
-                    "\n";
-
     public static final String DOWNLOAD_ONLY_CANCEL =
             "Hier kann ein Download abgebrochen oder gelöscht werden. " +
                     "\n\n" +
@@ -271,6 +261,26 @@ public class HelpText {
                     "Wird \"Nicht mehr fragen\" angeklickt, wird die Einstellung in Zukunft " +
                     "immer ausgeführt, der Dialog erscheint dann nicht mehr. Diese Einstellung kann aber " +
                     "in den Programmeinstellungen->Downloads auch wieder geändert werden." +
+                    "\n";
+
+    public static final String DOWNLOAD_STOP =
+            "Wenn ein bereits teilweise geladener Download abgebrochen wird, " +
+                    "können die teilweise geladenen Dateien gleich gelöscht werden." +
+                    P2LibConst.LINE_SEPARATORx2 +
+                    "Hier kann ausgewählt werden, was gemacht werden soll:\n" +
+                    "* Jedes mal vorher fragen\n" +
+                    "* Immer den Download löschen oder Abbrechen und die Datei löschen\n" +
+                    "* Nur den Download löschen oder abbrechen." +
+                    "\n";
+
+    public static final String DOWNLOAD_CONTINUE =
+            "Wenn ein bereits teilweise geladener Download neu startet, " +
+                    "kann er weitergeführt oder von Anfang an, neu gestartet werden." +
+                    P2LibConst.LINE_SEPARATORx2 +
+                    "Hier kann ausgewählt werden, was gemacht werden soll:\n" +
+                    "* Jedes mal vorher fragen\n" +
+                    "* Sofort weiterführen\n" +
+                    "* Immer von Anfang an neu starten." +
                     "\n";
 
     public static final String CONFIG_DOWNOAD_ERROR =

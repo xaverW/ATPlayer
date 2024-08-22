@@ -19,31 +19,27 @@ package de.p2tools.atplayer.gui.tools.table;
 
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.ProgressBarTableCell;
 import javafx.util.Callback;
 
-public class CellDownloadProgress<S, T> extends TableCell<S, T> {
+public class CellDownloadRemaining<S, T> extends TableCell<S, T> {
 
-    public final Callback<TableColumn<DownloadData, Double>, TableCell<DownloadData, Double>> cellFactory
-            = (final TableColumn<DownloadData, Double> param) -> {
+    public final Callback<TableColumn<DownloadData, Integer>, TableCell<DownloadData, Integer>> cellFactory
+            = (final TableColumn<DownloadData, Integer> param) -> {
 
-        final ProgressBarTableCell<DownloadData> cell = new ProgressBarTableCell<>() {
+        final TableCell<DownloadData, Integer> cell = new TableCell<>() {
 
             @Override
-            public void updateItem(Double item, boolean empty) {
+            public void updateItem(Integer item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item != null) {
-                    DownloadData download = getTableView().getItems().get(getIndex());
 
-                    if (item <= DownloadConstants.PROGRESS_STARTED || item >= DownloadConstants.PROGRESS_FINISHED) {
-                        String text = DownloadConstants.getTextProgress(false, download.getState(), item);
-                        Label label = new Label(text);
-                        setGraphic(label);
-                    }
+                if (item == null || empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
                 }
+                setText(DownloadConstants.getRemaining(item));
             }
         };
         return cell;

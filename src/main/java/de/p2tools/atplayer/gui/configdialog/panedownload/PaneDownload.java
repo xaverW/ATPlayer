@@ -17,7 +17,6 @@
 package de.p2tools.atplayer.gui.configdialog.panedownload;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.downloadtools.DownloadState;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
@@ -25,10 +24,10 @@ import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.Collection;
@@ -38,9 +37,6 @@ public class PaneDownload {
     final GridPane gridPane = new GridPane();
     private final P2ToggleSwitch tglFinished = new P2ToggleSwitch("Benachrichtigung wenn abgeschlossen");
     private final ToggleGroup group = new ToggleGroup();
-    private final RadioButton rbAsk = new RadioButton("Vorher fragen");
-    private final RadioButton rbContinue = new RadioButton("Immer weiterführen");
-    private final RadioButton rbRestart = new RadioButton("Immer neu starten");
 
     private final P2ToggleSwitch tglSSL = new P2ToggleSwitch("SSL-Download-URLs: Bei Problemen SSL abschalten");
     private final Stage stage;
@@ -49,7 +45,6 @@ public class PaneDownload {
         this.stage = stage;
 
         make();
-        initRadio();
     }
 
     public void makePane(Collection<TitledPane> titledPanes) {
@@ -71,29 +66,16 @@ public class PaneDownload {
         final Button btnHelpFinished = P2Button.helpButton(stage, "Download",
                 HelpText.DOWNLOAD_FINISHED);
 
-        final Button btnHelpContinue = P2Button.helpButton(stage, "Download",
-                HelpText.DOWNLOAD_CONTINUE);
-
         tglSSL.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_SSL_ALWAYS_TRUE);
         final Button btnHelpSSL = P2Button.helpButton(stage, "Download",
                 HelpText.DOWNLOAD_SSL_ALWAYS_TRUE);
 
         GridPane.setHalignment(btnHelpFinished, HPos.RIGHT);
-        GridPane.setHalignment(btnHelpContinue, HPos.RIGHT);
         GridPane.setHalignment(btnHelpSSL, HPos.RIGHT);
 
         int row = 0;
         gridPane.add(tglFinished, 0, row);
         gridPane.add(btnHelpFinished, 1, row);
-
-        VBox vBox = new VBox(5);
-        HBox hBox = new HBox(20);
-        hBox.getChildren().addAll(new Label("            "), rbAsk, rbContinue, rbRestart);
-        vBox.getChildren().addAll(new Label("Beim Neustart bereits angefangener Downloads:"), hBox);
-
-        ++row;
-        gridPane.add(vBox, 0, ++row);
-        gridPane.add(btnHelpContinue, 1, row);
 
         ++row;
         gridPane.add(tglSSL, 0, ++row);
@@ -103,30 +85,4 @@ public class PaneDownload {
                 P2ColumnConstraints.getCcPrefSize());
     }
 
-    private void initRadio() {
-        rbAsk.setToggleGroup(group);
-        rbContinue.setToggleGroup(group);
-        rbRestart.setToggleGroup(group);
-        setRadio();
-
-        ProgConfig.DOWNLOAD_CONTINUE.addListener((v, o, n) -> setRadio());
-        rbAsk.setOnAction(a -> ProgConfig.DOWNLOAD_CONTINUE.setValue(DownloadState.DOWNLOAD_RESTART__ASK));
-        rbContinue.setOnAction(a -> ProgConfig.DOWNLOAD_CONTINUE.setValue(DownloadState.DOWNLOAD_RESTART__CONTINUE));
-        rbRestart.setOnAction(a -> ProgConfig.DOWNLOAD_CONTINUE.setValue(DownloadState.DOWNLOAD_RESTART__RESTART));
-    }
-
-    private void setRadio() {
-        switch (ProgConfig.DOWNLOAD_CONTINUE.getValue()) {
-            case DownloadState.DOWNLOAD_RESTART__CONTINUE:
-                rbContinue.setSelected(true);
-                break;
-            case DownloadState.DOWNLOAD_RESTART__RESTART:
-                rbRestart.setSelected(true);
-                break;
-            case DownloadState.DOWNLOAD_RESTART__ASK:
-            default:
-                rbAsk.setSelected(true);
-                break;
-        }
-    }
 }

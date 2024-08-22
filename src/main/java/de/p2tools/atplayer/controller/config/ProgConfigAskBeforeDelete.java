@@ -19,10 +19,6 @@ package de.p2tools.atplayer.controller.config;
 public class ProgConfigAskBeforeDelete {
 
     //die Vorgaben des Users:
-    public static final int ABO_DELETE__ASK = 0;
-    public static final int ABO_DELETE__DELETE = 1;
-
-    //die Vorgaben des Users:
     public static final int DOWNLOAD_ONLY_STOP__ASK = 0;
     public static final int DOWNLOAD_ONLY_STOP__DELETE = 1;
 

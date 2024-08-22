@@ -29,6 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ATInfoFile {
+    
     public static void writeInfoFile(DownloadData download) {
         if (download.getDestPath().isEmpty()) {
             // das darf nicht sein!

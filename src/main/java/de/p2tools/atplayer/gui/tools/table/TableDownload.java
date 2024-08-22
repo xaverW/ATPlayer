@@ -67,7 +67,7 @@ public class TableDownload extends PTable<DownloadData> {
         nrColumn.getStyleClass().add("alignCenterRightPadding_10");
 
         final TableColumn<DownloadData, Integer> filmNrColumn = new TableColumn<>("Audionr");
-        filmNrColumn.setCellValueFactory(new PropertyValueFactory<>("filmNr"));
+        filmNrColumn.setCellValueFactory(new PropertyValueFactory<>("filmNo"));
         filmNrColumn.setCellFactory(new CellNo<>().cellFactory);
         filmNrColumn.getStyleClass().add("alignCenterRightPadding_10");
 
@@ -102,10 +102,12 @@ public class TableDownload extends PTable<DownloadData> {
 
         final TableColumn<DownloadData, Integer> remainingColumn = new TableColumn<>("Restzeit");
         remainingColumn.setCellValueFactory(new PropertyValueFactory<>("remaining"));
+        remainingColumn.setCellFactory(new CellDownloadRemaining<>().cellFactory);
         remainingColumn.getStyleClass().add("alignCenterRightPadding_25");
 
-        final TableColumn<DownloadData, Integer> speedColumn = new TableColumn<>("Geschwindigkeit");
+        final TableColumn<DownloadData, Long> speedColumn = new TableColumn<>("Geschwindigkeit");
         speedColumn.setCellValueFactory(new PropertyValueFactory<>("bandwidth"));
+        speedColumn.setCellFactory(new CellDownloadBandwidth<>().cellFactory);
         speedColumn.getStyleClass().add("alignCenterRightPadding_25");
 
         final TableColumn<DownloadData, DownloadSize> sizeColumn = new TableColumn<>("Größe [MB]");

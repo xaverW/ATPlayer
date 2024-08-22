@@ -23,7 +23,6 @@ import de.p2tools.atplayer.controller.config.PShortKeyFactory;
 import de.p2tools.atplayer.controller.config.PShortcut;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
-import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.beans.binding.Bindings;
@@ -31,7 +30,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 public class DownloadMenu {
-    private AudioFilter storedActFilterSettings = null;
     private final VBox vBox;
     private final ProgData progData;
 
@@ -96,12 +94,12 @@ public class DownloadMenu {
             progData.downloadGuiController.tableView.requestFocus();
         });
         btnStart.setOnAction(a -> {
-            progData.downloadGuiController.startDownloads(false);
+            progData.downloadGuiController.startDownload(false);
             progData.downloadGuiController.tableView.refresh();
             progData.downloadGuiController.tableView.requestFocus();
         });
         btnStartAll.setOnAction(a -> {
-            progData.downloadGuiController.startDownloads(true);
+            progData.downloadGuiController.startDownload(true);
             progData.downloadGuiController.tableView.refresh();
             progData.downloadGuiController.tableView.requestFocus();
         });
@@ -134,7 +132,7 @@ public class DownloadMenu {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.DOWNLOAD) {
                 return;
             }
-            progData.downloadGuiController.startDownloads(false);
+            progData.downloadGuiController.startDownload(false);
         });
         P2ShortcutWorker.addShortCut(miDownloadStart, PShortcut.SHORTCUT_DOWNLOAD_START);
 
@@ -183,7 +181,7 @@ public class DownloadMenu {
 
         // Submenü "alle Downloads"
         final MenuItem mbStartAll = new MenuItem("Alle Downloads starten");
-        mbStartAll.setOnAction(a -> progData.downloadGuiController.startDownloads(true /* alle */));
+        mbStartAll.setOnAction(a -> progData.downloadGuiController.startDownload(true /* alle */));
         final MenuItem mbStopAll = new MenuItem("Alle Downloads stoppen");
         mbStopAll.setOnAction(a -> progData.downloadGuiController.stopDownloads(true /* alle */));
         final MenuItem mbStopWait = new MenuItem("Alle wartenden Downloads stoppen");

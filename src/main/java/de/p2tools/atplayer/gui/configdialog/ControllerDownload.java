@@ -17,6 +17,7 @@
 package de.p2tools.atplayer.gui.configdialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.gui.configdialog.configpanes.PaneDownloadStop;
 import de.p2tools.atplayer.gui.configdialog.panedownload.PaneDestination;
 import de.p2tools.atplayer.gui.configdialog.panedownload.PaneDownload;
 import de.p2tools.atplayer.gui.configdialog.panedownload.PaneReplace;
@@ -30,6 +31,7 @@ import java.util.Collection;
 public class ControllerDownload extends P2AccordionPane {
     private final Stage stage;
     private PaneDownload paneDownload;
+    private PaneDownloadStop paneDownloadStop;
     private PaneDestination paneDestination;
     private PaneReplace paneReplace;
 
@@ -43,6 +45,7 @@ public class ControllerDownload extends P2AccordionPane {
     public void close() {
         super.close();
         paneDownload.close();
+        paneDownloadStop.close();
         paneDestination.close();
         paneReplace.close();
     }
@@ -52,6 +55,10 @@ public class ControllerDownload extends P2AccordionPane {
         Collection<TitledPane> titledPanes = new ArrayList<>();
         paneDownload = new PaneDownload(stage);
         paneDownload.makePane(titledPanes);
+
+        paneDownloadStop = new PaneDownloadStop(stage);
+        paneDownloadStop.makeDownload(titledPanes);
+
         paneDestination = new PaneDestination(stage);
         paneDestination.makePane(titledPanes);
         paneReplace = new PaneReplace(stage);

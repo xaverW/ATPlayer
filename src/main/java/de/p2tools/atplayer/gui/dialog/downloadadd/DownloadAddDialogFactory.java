@@ -172,20 +172,6 @@ public class DownloadAddDialogFactory {
         return usableSpace;
     }
 
-//    public static String getFilmSize(AddDownloadData addDownloadData) {
-//        switch (addDownloadData.resolution) {
-//            case FilmDataMTP.RESOLUTION_HD:
-//                return addDownloadData.fileSize_HD;
-//
-//            case FilmDataMTP.RESOLUTION_SMALL:
-//                return addDownloadData.fileSize_small;
-//
-//            case FilmDataMTP.RESOLUTION_NORMAL:
-//            default:
-//                return addDownloadData.fileSize_high;
-//        }
-//    }
-
     public static boolean checkPathWritable(String path) {
         boolean ret = false;
         final File testPath = new File(path);

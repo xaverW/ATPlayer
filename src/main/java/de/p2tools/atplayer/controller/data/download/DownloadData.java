@@ -17,7 +17,6 @@
 package de.p2tools.atplayer.controller.data.download;
 
 import de.p2tools.atplayer.controller.config.ProgConst;
-import de.p2tools.atplayer.controller.downloadtools.DownloadFileNameFactory;
 import de.p2tools.atplayer.controller.starter.StartDownloadDto;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
@@ -30,6 +29,7 @@ import de.p2tools.p2lib.tools.net.PUrlTools;
 import javafx.application.Platform;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -45,7 +45,7 @@ public final class DownloadData extends DownloadDataProps {
     public DownloadData(AudioData audioData) {
         setAudioData(audioData);
         // und endlich Aufruf bauen :)
-        DownloadFileNameFactory.buildFileNamePath(this);
+        DownloadFactoryMakeParameter.makeProgParameter(this);
     }
 
     public DownloadData(List<AudioData> filmList) {
@@ -54,15 +54,16 @@ public final class DownloadData extends DownloadDataProps {
 
         setAudioData(filmList.get(0));
         setInfoFile(false);
+        setSource(DownloadConstants.SRC_BUTTON);
         if (filmList.size() > 1) {
             // dass müssen die URLs aller Filme gesetzt werden, dass alle drin sind
             getUrlList().clear();
-            for (AudioData filmDataMTP : filmList) {
-                getUrlList().add(filmDataMTP.getUrl());
+            for (AudioData audioData : filmList) {
+                getUrlList().add(audioData.getUrl());
             }
         }
 
-        DownloadFileNameFactory.buildFileNamePath(this);
+        DownloadFactoryMakeParameter.makeProgParameter(this);
     }
 
     //==============================================
@@ -144,7 +145,8 @@ public final class DownloadData extends DownloadDataProps {
     // todo: reset, restart, stop????
     public void resetDownload() {
         // stoppen und alles zurücksetzen
-        stopDownload();
+        stopDownload(false);
+        setProgress(DownloadConstants.PROGRESS_NOT_STARTED); // damit auch fehlerhafte zurückgesetzt werden
         setState(DownloadConstants.STATE_INIT);
     }
 
@@ -165,25 +167,6 @@ public final class DownloadData extends DownloadDataProps {
         setNo(P2LibConst.NUMBER_NOT_STARTED);
     }
 
-    public String getFileNameWithoutSuffix() {
-        return PUrlTools.getFileNameWithoutSuffix(getDestPathFile());
-    }
-
-    public String getFileNameSuffix() {
-        return P2FileUtils.getFileNameSuffix(getDestPathFile());
-    }
-
-    public String getPathFileNameWithoutSuffix() {
-        return PUrlTools.getFileNameWithoutSuffix(getDestPathFile());
-    }
-
-    public void setFile(File file) {
-        this.startDownloadDto.setFile(file);
-        destFileNameProperty().setValue(file.getName());
-        destPathProperty().setValue(file.getParent());
-        destPathFileProperty().setValue(file.getAbsolutePath());
-    }
-
     //==============================================
     // Get/Set
     //==============================================
@@ -202,13 +185,14 @@ public final class DownloadData extends DownloadDataProps {
     public void setAudioData(AudioData audioData) {
         if (audioData == null) {
             // bei gespeicherten Downloads kann es den Film nicht mehr geben
-            setFilmNr(ProgConst.NUMBER_NOT_EXISTS);
+            setFilmNo(ProgConst.NUMBER_NOT_EXISTS);
             return;
         }
 
         this.audioData = audioData;
-        setFilmNr(audioData.getNo());
-        setUrl(audioData.getUrl());
+        setFilmNo(audioData.getNo());
+        setUrl(audioData.getUrl()); // im MTPlayer wird das in setResolution gemacht
+
         setChannel(audioData.getChannel());
         setGenre(audioData.getGenre());
         setTheme(audioData.getTheme());
@@ -223,8 +207,41 @@ public final class DownloadData extends DownloadDataProps {
         setDurationMinute(audioData.getDurationMinute());
     }
 
+    public String getFileNameWithoutSuffix() {
+        return PUrlTools.getFileNameWithoutSuffix(getDestFileName());
+    }
+
+    public String getPathFileNameWithoutSuffix() {
+        return PUrlTools.getFileNameWithoutSuffix(getDestPathFile());
+    }
+
+    public String getFileNameSuffix() {
+        return P2FileUtils.getFileNameSuffix(getDestPathFile());
+    }
+
     public File getFile() {
         return startDownloadDto.getFile();
+    }
+
+    public void setFile(File file) {
+        this.startDownloadDto.setFile(file);
+        destFileNameProperty().setValue(file.getName());
+        destPathProperty().setValue(file.getParent());
+        destPathFileProperty().setValue(file.getAbsolutePath());
+    }
+
+    public void setFile(String path, String name) {
+        setFile(P2FileUtils.addsPath(path, name));
+    }
+
+    public void setFile(String file) {
+        startDownloadDto.setFile(Path.of(file).toFile());
+        String name = startDownloadDto.getFile().getName();
+        String path = startDownloadDto.getFile().getParent();
+        String pathFile = startDownloadDto.getFile().getAbsolutePath();
+        destFileNameProperty().setValue(name == null ? "" : name);
+        destPathProperty().setValue(path == null ? "" : path);
+        destPathFileProperty().setValue(pathFile == null ? "" : pathFile);
     }
 
     public void setPathName(String path, String name) {
@@ -239,7 +256,7 @@ public final class DownloadData extends DownloadDataProps {
             path = P2SystemUtils.getStandardDownloadPath();
         }
         if (name.isEmpty()) {
-            name = P2LDateFactory.toStringR(LocalDate.now()) + '_' + getTheme() + '-' + getTitle() + ".mp4";
+            name = P2LDateFactory.toStringR(LocalDate.now()) + '_' + getTheme() + '-' + getTitle() + ".mp3";
         }
         final String[] pathName = {path, name};
         P2FileUtils.checkLengthPath(pathName);
@@ -253,8 +270,7 @@ public final class DownloadData extends DownloadDataProps {
         }
 
         //=====================================================
-        setDestFileName(name);
-        setDestPath(path);
+        setFile(P2FileUtils.addsPath(path, name));
     }
 
     public String getErrorMessage() {
@@ -267,22 +283,24 @@ public final class DownloadData extends DownloadDataProps {
     }
 
     public DownloadData getCopy() {
-        final DownloadData ret = new DownloadData();
+        final DownloadData downloadData = new DownloadData();
         for (int i = 0; i < properties.length; ++i) {
-            ret.properties[i].setValue(this.properties[i].getValue());
+            downloadData.properties[i].setValue(this.properties[i].getValue());
         }
-        ret.audioData = audioData;
-        ret.setDownloadStartDto(getDownloadStartDto());
 
-        return ret;
+        downloadData.audioData = audioData;
+        downloadData.setDownloadStartDto(getDownloadStartDto());
+        downloadData.getUrlList().setAll(getUrl());
+        return downloadData;
     }
 
-    public void copyToMe(DownloadData download) {
+    public void copyToMe(DownloadData downloadData) {
         for (int i = 0; i < properties.length; ++i) {
-            properties[i].setValue(download.properties[i].getValue());
+            properties[i].setValue(downloadData.properties[i].getValue());
         }
-        audioData = download.audioData;
-        getDownloadSize().setTargetSize(download.getDownloadSize().getTargetSize());// die Auflösung des Films kann sich ändern
-        setDownloadStartDto(download.getDownloadStartDto());
+
+        audioData = downloadData.audioData;
+        setDownloadStartDto(downloadData.getDownloadStartDto());
+        getUrlList().setAll(downloadData.getUrlList());
     }
 }
