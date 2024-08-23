@@ -116,9 +116,9 @@ public class ProgData {
         blackListFilterBlackList = new BlackListFilter();
         downloadList = new DownloadList(this);
 
+        chartData = new ChartData();
         startDownload = new StartDownload(this);
         downloadInfos = new DownloadInfos(this);
-        chartData = new ChartData();
         audioFilterRunner = new AudioFilterRunner(this);
         worker = new Worker(this);
     }
@@ -153,6 +153,7 @@ public class ProgData {
     }
 
     private void doTimerWorkOneSecond() {
+        ++countRunningTimeSeconds;
         PListener.notify(PListener.EVENT_TIMER, ProgData.class.getName());
     }
 
