@@ -26,7 +26,6 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -36,8 +35,7 @@ public class PaneDownload {
 
     final GridPane gridPane = new GridPane();
     private final P2ToggleSwitch tglFinished = new P2ToggleSwitch("Benachrichtigung wenn abgeschlossen");
-    private final ToggleGroup group = new ToggleGroup();
-
+    private final P2ToggleSwitch tglError = new P2ToggleSwitch("Bei Downloadfehler Fehlermeldung anzeigen");
     private final P2ToggleSwitch tglSSL = new P2ToggleSwitch("SSL-Download-URLs: Bei Problemen SSL abschalten");
     private final Stage stage;
 
@@ -54,6 +52,7 @@ public class PaneDownload {
 
     public void close() {
         tglFinished.selectedProperty().unbindBidirectional(ProgConfig.DOWNLOAD_SHOW_NOTIFICATION);
+        tglError.selectedProperty().unbindBidirectional(ProgConfig.DOWNLOAD_DIALOG_ERROR_SHOW);
         tglSSL.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_SSL_ALWAYS_TRUE);
     }
 
@@ -66,6 +65,10 @@ public class PaneDownload {
         final Button btnHelpFinished = P2Button.helpButton(stage, "Download",
                 HelpText.DOWNLOAD_FINISHED);
 
+        tglError.selectedProperty().bindBidirectional(ProgConfig.DOWNLOAD_DIALOG_ERROR_SHOW);
+        final Button btnHelpError = P2Button.helpButton(stage, "Download",
+                HelpText.DOWNLOAD_ERROR);
+
         tglSSL.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_SSL_ALWAYS_TRUE);
         final Button btnHelpSSL = P2Button.helpButton(stage, "Download",
                 HelpText.DOWNLOAD_SSL_ALWAYS_TRUE);
@@ -76,6 +79,9 @@ public class PaneDownload {
         int row = 0;
         gridPane.add(tglFinished, 0, row);
         gridPane.add(btnHelpFinished, 1, row);
+
+        gridPane.add(tglError, 0, ++row);
+        gridPane.add(btnHelpError, 1, row);
 
         ++row;
         gridPane.add(tglSSL, 0, ++row);

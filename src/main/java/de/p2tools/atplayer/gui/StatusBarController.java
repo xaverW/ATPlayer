@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.audio.AudioFactory;
+import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
@@ -105,7 +105,7 @@ public class StatusBarController extends AnchorPane {
     }
 
     private void setInfoAudio() {
-        lblLeft.setText(AudioFactory.getStatusInfosAudio());
+        lblLeft.setText(AudioToolsFactory.getStatusInfosAudio());
         final int selCount = progData.audioGuiController.getSelCount();
         lblSel.setText(selCount > 0 ? selCount + "" : " ");
     }

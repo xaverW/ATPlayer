@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
-import de.p2tools.atplayer.controller.audio.AudioFactory;
+import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -194,7 +194,7 @@ public class DownloadGuiController extends AnchorPane {
             return;
         }
         // und starten
-        AudioFactory.playAudio(download.get());
+        AudioPlayFactory.playAudio(download.get());
     }
 
     public void copyUrl() {
@@ -211,7 +211,7 @@ public class DownloadGuiController extends AnchorPane {
 
     public void playAudio() {
         final Optional<DownloadData> download = getSel();
-        download.ifPresent(AudioFactory::playAudio);
+        download.ifPresent(AudioPlayFactory::playAudio);
     }
 
     private void stopWaiting() {

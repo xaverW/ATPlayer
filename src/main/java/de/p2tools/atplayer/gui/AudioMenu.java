@@ -19,7 +19,8 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.ATPlayerFactory;
-import de.p2tools.atplayer.controller.audio.AudioFactory;
+import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
+import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
 import de.p2tools.atplayer.controller.config.PShortKeyFactory;
 import de.p2tools.atplayer.controller.config.PShortcut;
 import de.p2tools.atplayer.controller.config.ProgData;
@@ -41,6 +42,9 @@ public class AudioMenu {
     private AudioFilter storedActFilterSettings = null;
     final private ProgData progData;
     final private VBox vBox;
+    private static final String FILM_FILTER_BOOKMARK_TEXT = "Alle angelegte Bookmarks anzeigen\n" +
+            "der zweite Klick stellt den\n" +
+            "eingestellten Filter wieder her";
 
     public AudioMenu(VBox vBox) {
         this.vBox = vBox;
@@ -68,21 +72,35 @@ public class AudioMenu {
         final ToolBarButton btnSave = new ToolBarButton(vBox,
                 "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_REC.getImageView());
 
-        btnPlay.setOnAction(a -> AudioFactory.playAudio());
-        btnPlayAll.setOnAction(a -> AudioFactory.playAllAudios());
-        btnSave.setOnAction(a -> AudioFactory.saveAllAudios());
+        btnPlay.setOnAction(a -> AudioPlayFactory.playAudio());
+        btnPlayAll.setOnAction(a -> AudioPlayFactory.playAllAudios());
+        btnSave.setOnAction(a -> AudioSaveFactory.saveAllAudios());
 
         vBoxSpace = new VBox();
         vBoxSpace.setMaxHeight(10);
         vBoxSpace.setMinHeight(10);
         vBox.getChildren().add(vBoxSpace);
 
+
+        final ToolBarButton btBookmark = new ToolBarButton(vBox,
+                "Bookmarks anlegen", "Bookmarks für die markierten Filme anlegen", ProgIcons.ICON_TOOLBAR_BOOKMARK.getImageView());
+        final ToolBarButton btDelBookmark = new ToolBarButton(vBox,
+                "Bookmarks löschen", "Bookmarks für die markierten Filme löschen", ProgIcons.ICON_TOOLBAR_DEL_BOOKMARK.getImageView());
         final ToolBarButton btDelAllBookmark = new ToolBarButton(vBox,
                 "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen", ProgIcons.ICON_TOOLBAR_DEL_ALL_BOOKMARK.getImageView());
         final ToolBarButton btFilterBookmark = new ToolBarButton(vBox,
-                "Bookmarks anzeigen", AUDIO_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_BOOKMARK_FILTER.getImageView());
+                "Bookmarks anzeigen", FILM_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_BOOKMARK_FILTER.getImageView());
 
-        btDelAllBookmark.setOnAction(a -> ProgData.getInstance().historyListBookmarks.clearAll(ProgData.getInstance().primaryStage));
+        btBookmark.setOnAction(a -> {
+            progData.audioGuiController.bookmarkAudio(true);
+            ;
+        });
+        btDelBookmark.setOnAction(a -> {
+            progData.audioGuiController.bookmarkAudio(false);
+        });
+        btDelAllBookmark.setOnAction(a -> {
+            progData.historyListBookmarks.clearAll(progData.primaryStage);
+        });
         btFilterBookmark.setOnAction(a -> {
             AudioFilter sf = ProgData.getInstance().actFilterWorker.getActFilterSettings();
             AudioFilter filter = AudioFilterSample.getBookmarkFilter();
@@ -117,7 +135,7 @@ public class AudioMenu {
                 return;
             }
             final Optional<AudioData> filmSelection = ProgData.getInstance().audioGuiController.getSel(true);
-            filmSelection.ifPresent(AudioFactory::playAudio);
+            filmSelection.ifPresent(AudioPlayFactory::playAudio);
         });
         P2ShortcutWorker.addShortCut(mbPlay, PShortcut.SHORTCUT_PLAY);
 
@@ -126,7 +144,7 @@ public class AudioMenu {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
                 return;
             }
-            AudioFactory.playAllAudios();
+            AudioPlayFactory.playAllAudios();
         });
         P2ShortcutWorker.addShortCut(mbPlayAll, PShortcut.SHORTCUT_PLAY_ALL);
 
@@ -135,7 +153,7 @@ public class AudioMenu {
             if (ATPlayerController.paneShown != ATPlayerController.PANE_SHOWN.AUDIO) {
                 return;
             }
-            AudioFactory.saveAudio();
+            AudioSaveFactory.saveAudio();
         });
         P2ShortcutWorker.addShortCut(mbSave, PShortcut.SHORTCUT_SAVE);
 
@@ -193,9 +211,9 @@ public class AudioMenu {
         // Bookmarks
         Menu submenuBookmark = new Menu("Bookmarks");
         final MenuItem miBookmarkAdd = new MenuItem("Neue Bookmarks anlegen");
-        miBookmarkAdd.setOnAction(a -> progData.audioGuiController.setBookmark(true));
+        miBookmarkAdd.setOnAction(a -> progData.audioGuiController.bookmarkAudio(true));
         final MenuItem miBookmarkDel = new MenuItem("Bookmarks löschen");
-        miBookmarkDel.setOnAction(a -> progData.audioGuiController.setBookmark(false));
+        miBookmarkDel.setOnAction(a -> progData.audioGuiController.bookmarkAudio(false));
         final MenuItem miBookmarkDelAll = new MenuItem("Alle angelegten Bookmarks löschen");
         miBookmarkDelAll.setOnAction(a -> progData.historyListBookmarks.clearAll(progData.primaryStage));
 

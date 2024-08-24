@@ -294,6 +294,12 @@ public class HelpText {
                     "Mit \"Log öffnen\" wird das Logfile mit dem Standardeditor des Betriebssystem geöffnet." +
                     "\n";
 
+    public static final String DOWNLOAD_ERROR =
+            "Wenn ein Download mit einem Fehler endet, wird mit einem Dialog darüber informiert. Die Fehlermeldung " +
+                    "wird aber auch zusätzlich im Tab \"Downloadfehler\" unter der Tabelle " +
+                    "Downloads angezeigt." +
+                    "\n";
+
     public static final String LOAD_ONLY_FILMS =
             "\"Nur Audios der letzten Tage laden:\" Die Audioliste enthält nur Audios aus diesem Zeitraum. " +
                     "Audios ohne Datum sind immer enthalten.\n" +

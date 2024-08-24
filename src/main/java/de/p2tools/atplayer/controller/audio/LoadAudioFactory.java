@@ -76,7 +76,7 @@ public class LoadAudioFactory {
                 }
                 ProgData.getInstance().maskerPane.setMaskerText("Blacklist filtern");
                 BlacklistFilterFactory.markBlack(false);
-                AudioFactory.markShownAndBookmarks();
+                AudioToolsFactory.markShownAndBookmarks();
 
                 // activate the saved filter
                 ProgData.getInstance().worker.resetFilter();

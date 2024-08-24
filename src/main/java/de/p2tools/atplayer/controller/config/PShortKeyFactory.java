@@ -19,7 +19,8 @@ package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.ProgQuit;
-import de.p2tools.atplayer.controller.audio.AudioFactory;
+import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
+import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutKey;
 import javafx.scene.Scene;
@@ -41,11 +42,11 @@ public class PShortKeyFactory {
     }
 
     private static void playAudio() {
-        AudioFactory.playAudio();
+        AudioPlayFactory.playAudio();
     }
 
     private static void saveAudio() {
-        AudioFactory.saveAllAudios();
+        AudioSaveFactory.saveAllAudios();
     }
 
     private static void setShown() {
@@ -57,11 +58,11 @@ public class PShortKeyFactory {
     }
 
     private static void setBookmark() {
-        ProgData.getInstance().audioGuiController.setBookmark(true);
+        ProgData.getInstance().audioGuiController.bookmarkAudio(true);
     }
 
     private static void unsetBookmark() {
-        ProgData.getInstance().audioGuiController.setBookmark(false);
+        ProgData.getInstance().audioGuiController.bookmarkAudio(false);
     }
 
     private static void centerGui() {
