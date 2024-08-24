@@ -136,7 +136,7 @@ public class ATPlayerController extends StackPane {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                ProgConfig.AUDIO_GUI_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue());
+                ProgConfig.AUDIO_GUI_INFO_ON.setValue(!ProgConfig.AUDIO_GUI_INFO_ON.getValue());
             }
         });
         btnDownload.setOnMouseClicked(mouseEvent -> {
@@ -144,7 +144,7 @@ public class ATPlayerController extends StackPane {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.setValue(!ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.getValue());
+                ProgConfig.DOWNLOAD_GUI_INFO_ON.setValue(!ProgConfig.DOWNLOAD_GUI_INFO_ON.getValue());
             }
         });
     }

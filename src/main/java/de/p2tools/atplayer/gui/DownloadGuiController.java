@@ -56,7 +56,7 @@ public class DownloadGuiController extends AnchorPane {
     private final ScrollPane scrollPane = new ScrollPane();
     public final TableDownload tableView;
     private final ProgData progData;
-    private boolean bound = false;
+    private boolean boundSplitPaneDivPos = false;
 
     private DownloadInfoController downloadInfoController;
 
@@ -77,7 +77,7 @@ public class DownloadGuiController extends AnchorPane {
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(tableView);
 
-        ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.DOWNLOAD_GUI_INFO_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
 
         setInfoPane();
         initTable();
@@ -188,15 +188,6 @@ public class DownloadGuiController extends AnchorPane {
         P2Open.openDir(s, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
     }
 
-    public void playUrl() {
-        final Optional<DownloadData> download = getSel();
-        if (download.isEmpty()) {
-            return;
-        }
-        // und starten
-        AudioPlayFactory.playAudio(download.get());
-    }
-
     public void copyUrl() {
         final Optional<DownloadData> download = getSel();
         if (download.isEmpty()) {
@@ -209,9 +200,18 @@ public class DownloadGuiController extends AnchorPane {
         P2TableFactory.invertSelection(tableView);
     }
 
-    public void playAudio() {
+    public void playUrl() {
         final Optional<DownloadData> download = getSel();
-        download.ifPresent(AudioPlayFactory::playAudio);
+        if (download.isEmpty()) {
+            return;
+        }
+        // und starten
+        AudioPlayFactory.playUrlAudio(download.get());
+    }
+
+    public void playStoredAudio() {
+        final Optional<DownloadData> download = getSel();
+        download.ifPresent(AudioPlayFactory::playStoredAudio);
     }
 
     private void stopWaiting() {
@@ -415,20 +415,28 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void setInfoPane() {
-        if (!ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.getValue()) {
-            if (bound) {
-                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_DIVIDER);
-            }
-            splitPane.getItems().clear();
+        // hier wird das InfoPane ein- ausgeblendet
+        if (boundSplitPaneDivPos && splitPane.getItems().size() > 1) {
+            boundSplitPaneDivPos = false;
+            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_INFO_DIVIDER);
+        }
+
+        splitPane.getItems().clear();
+        if (!downloadInfoController.isPaneShowing()) {
+            // dann wird nix angezeigt
             splitPane.getItems().add(scrollPane);
+            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(false);
+            return;
+        }
+
+        if (ProgConfig.DOWNLOAD_GUI_INFO_ON.getValue()) {
+            boundSplitPaneDivPos = true;
+            splitPane.getItems().addAll(scrollPane, downloadInfoController);
+            SplitPane.setResizableWithParent(downloadInfoController, false);
+            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_INFO_DIVIDER);
 
         } else {
-            bound = true;
-
-            splitPane.getItems().clear();
-            splitPane.getItems().addAll(scrollPane, downloadInfoController);
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_DIVIDER);
-            SplitPane.setResizableWithParent(downloadInfoController, false);
+            splitPane.getItems().add(scrollPane);
         }
     }
 }

@@ -110,7 +110,7 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
                 btnFilmStart.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
                 btnFilmStart.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
-                    AudioPlayFactory.playAudio(download);
+                    AudioPlayFactory.playStoredAudio(download);
                 });
 
                 btnOpenDirectory = new Button();

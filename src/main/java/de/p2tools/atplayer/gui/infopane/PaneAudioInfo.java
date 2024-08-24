@@ -54,7 +54,6 @@ public class PaneAudioInfo extends VBox {
     private AudioData audioData = null;
     private DownloadData downloadData = null;
     private final ChangeListener<DownloadSizeData> sizeChangeListener;
-
     private String oldDescription = "";
 
     public PaneAudioInfo() {
@@ -107,7 +106,7 @@ public class PaneAudioInfo extends VBox {
         gridPane.add(lblSize, 1, row);
 
         splitPane.getItems().addAll(vBoxLeft, gridPane);
-        splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_INFO_DIVIDER);
+        splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_PANE_INFO_DIVIDER);
         SplitPane.setResizableWithParent(gridPane, false);
 
         setSpacing(0);

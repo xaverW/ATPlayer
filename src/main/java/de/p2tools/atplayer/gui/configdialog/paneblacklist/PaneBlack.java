@@ -24,17 +24,16 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
+import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
+import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TitledPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.Collection;
@@ -44,6 +43,8 @@ public class PaneBlack {
     private final ProgData progData;
     private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Keine Podcasts anzeigen");
     private final P2ToggleSwitch tglDouble = new P2ToggleSwitch("Doppelte nicht anzeigen");
+    private final Label lblDouble = new Label();
+
     private final Slider slSize = new Slider();
     private final Label lblSize = new Label("");
     private final Slider slDays = new Slider();
@@ -105,9 +106,15 @@ public class PaneBlack {
         gridPane.add(tglDouble, 0, ++row, 3, 1);
         gridPane.add(btnHelpDouble, 3, row);
 
+        Label lbl = new Label("Anzahl Doppelte:");
+        HBox hBox = new HBox(P2LibConst.PADDING_HBOX);
+        hBox.getChildren().addAll(lbl, lblDouble);
+        gridPane.add(hBox, 2, ++row);
+        GridPane.setHalignment(hBox, HPos.LEFT);
+
         gridPane.add(new Label(" "), 0, ++row);
         gridPane.add(new Label("Nur Filme der letzten Tage anzeigen:"), 0, ++row, 2, 1);
-        Label lbl = new Label("Filme anzeigen:");
+        lbl = new Label("Filme anzeigen:");
         gridPane.add(lbl, 0, ++row);
         gridPane.add(slDays, 1, row);
         gridPane.add(lblDays, 2, row);
@@ -151,6 +158,10 @@ public class PaneBlack {
         tglDouble.selectedProperty().addListener((observable, oldValue, newValue) -> {
             blackChanged.set(true);
         });
+        ProgConfig.SYSTEM_AUDIOLIST_COUNT_DOUBLE.addListener((u, o, n) -> {
+            Platform.runLater(this::setLblDouble);
+        });
+        setLblDouble();
 
         slDays.setMin(0);
         slDays.setMax(ProgConst.SYSTEM_BLACKLIST_MAX_FILM_DAYS);
@@ -183,6 +194,10 @@ public class PaneBlack {
         });
 
         setValueSlider();
+    }
+
+    private void setLblDouble() {
+        lblDouble.setText(ProgConfig.SYSTEM_AUDIOLIST_COUNT_DOUBLE.getValue() + "");
     }
 
     private void setValueSlider() {

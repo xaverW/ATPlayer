@@ -225,8 +225,6 @@ public class ProgConfig extends P2DataProgConfig {
 
     // Gui Audios
     public static BooleanProperty AUDIO_GUI_SHOW_MENU = addBoolProp("audio-gui-show-menu", Boolean.TRUE);
-    public static DoubleProperty AUDIO_GUI_DIVIDER = addDoubleProp("audio-gui-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
-    public static BooleanProperty AUDIO_GUI_DIVIDER_ON = addBoolProp("audio-gui-divider-on", Boolean.TRUE);
     public static BooleanProperty AUDIO_PANE_DIALOG_INFO_ON = addBoolProp("audio-pane-dialog-info-on");
     public static StringProperty AUDIO_PANE_DIALOG_INFO_SIZE = addStrProp("audio-pane-dialog-info-size");
     public static StringProperty AUDIO_GUI_TABLE_WIDTH = addStrProp("audio-gui-table-width");
@@ -234,23 +232,26 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty AUDIO_GUI_TABLE_UP_DOWN = addStrProp("audio-gui-table-up-down");
     public static StringProperty AUDIO_GUI_TABLE_VIS = addStrProp("audio-gui-table-vis");
     public static StringProperty AUDIO_GUI_TABLE_ORDER = addStrProp("audio-gui-table-order");
-    public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", 0.7);
+    public static DoubleProperty AUDIO_PANE_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", 0.7);
+
+    public static BooleanProperty AUDIO_GUI_INFO_ON = addBoolProp("audio-gui-info-on", Boolean.TRUE);
+    public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
+
+    // Gui Download
+    public static BooleanProperty DOWNLOAD_GUI_SHOW_MENU = addBoolProp("download-gui-show-menu", Boolean.TRUE);
+    public static BooleanProperty DOWNLOAD_PANE_DIALOG_INFO_ON = addBoolProp("download-pane-dialog-info-on");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_INFO_SIZE = addStrProp("download-pane-dialog-info-size");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_CHART_SIZE = addStrProp("download-pane-dialog-chart-size");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_ERROR_SIZE = addStrProp("download-pane-dialog-error-size", "400:400");
+    public static StringProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE = addStrProp("download-pane-dialog-down-info-size", "400:400");
+
+    public static BooleanProperty DOWNLOAD_GUI_INFO_ON = addBoolProp("download-gui-info-on", Boolean.TRUE);
+    public static DoubleProperty DOWNLOAD_GUI_INFO_DIVIDER = addDoubleProp("download-gui-info-divider", 0.7);
 
     // Gui PaneDialog
     public static BooleanProperty DOWNLOAD_PANE_DIALOG_CHART_ON = addBoolProp("download-pane-dialog-chart-on");
     public static BooleanProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON = addBoolProp("download-pane-dialog-down-info-on");
     public static BooleanProperty DOWNLOAD_PANE_DIALOG_ERROR_ON = addBoolProp("download-pane-dialog-error-on");
-
-    // Gui Download
-    public static BooleanProperty DOWNLOAD_GUI_SHOW_MENU = addBoolProp("download-gui-show-menu", Boolean.TRUE);
-    public static BooleanProperty DOWNLOAD_GUI_DIVIDER_ON = addBoolProp("download-gui-divider-on", Boolean.TRUE);
-    public static DoubleProperty DOWNLOAD_GUI_INFO_DIVIDER = addDoubleProp("download-gui-info-divider", 0.7);
-    public static BooleanProperty DOWNLOAD_PANE_DIALOG_INFO_ON = addBoolProp("download-pane-dialog-info-on");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_INFO_SIZE = addStrProp("download-pane-dialog-info-size");
-    public static DoubleProperty DOWNLOAD_GUI_DIVIDER = addDoubleProp("download-gui-divider", 0.7);
-    public static StringProperty DOWNLOAD_PANE_DIALOG_CHART_SIZE = addStrProp("download-pane-dialog-chart-size");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_ERROR_SIZE = addStrProp("download-pane-dialog-error-size");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE = addStrProp("download-pane-dialog-down-info-size");
 
     // DownloadChart
     public static IntegerProperty DOWNLOAD_CHART_SHOW_WHAT = addIntProp("download-chart-show-what", ChartGenerateFactory.GEN_CHART_SHOW_DOWN);

@@ -28,18 +28,14 @@ import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.DoubleProperty;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
-import javafx.scene.control.TabPane;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 
@@ -50,15 +46,10 @@ public class AudioGuiController extends AnchorPane {
 
     private final SplitPane splitPane = new SplitPane();
     private final ScrollPane scrollPaneTableFilm = new ScrollPane();
-    private final P2ClosePaneH pClosePaneHInfo;
-    private final TabPane tabPaneInfo;
     private final TableAudio tableView;
     private final ProgData progData;
     private final SortedList<AudioData> sortedList;
     private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
-    DoubleProperty splitPaneProperty = ProgConfig.AUDIO_GUI_DIVIDER;
-    BooleanProperty boolInfoOn = ProgConfig.AUDIO_GUI_DIVIDER_ON;
-    private AudioData lastShownFilmData = null;
     private boolean boundSplitPaneDivPos = false;
 
     private AudioInfoController audioInfoController;
@@ -66,10 +57,7 @@ public class AudioGuiController extends AnchorPane {
     public AudioGuiController() {
         progData = ProgData.getInstance();
         sortedList = progData.audioListFiltered.getSortedList();
-        pClosePaneHInfo = new P2ClosePaneH(ProgConfig.AUDIO_GUI_DIVIDER_ON, true);
         audioInfoController = new AudioInfoController();
-
-        tabPaneInfo = new TabPane();
         tableView = new TableAudio(Table.TABLE_ENUM.FILM, progData);
 
         AnchorPane.setLeftAnchor(splitPane, 0.0);
@@ -155,7 +143,7 @@ public class AudioGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        ProgConfig.AUDIO_GUI_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.AUDIO_GUI_INFO_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
         PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
                 AudioGuiController.class.getSimpleName()) {
             @Override
@@ -252,31 +240,29 @@ public class AudioGuiController extends AnchorPane {
         AudioInfoDialogController.getInstance().setAudio(audios);
     }
 
-//    private void initInfoPane() {
-//        audioInfoController = new AudioInfoController();
-//        boolInfoOn.addListener((observable, oldValue, newValue) -> setInfoPane());
-//    }
-
     private void setInfoPane() {
         // hier wird das InfoPane ein- ausgeblendet
-        if (ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue()) {
+        if (boundSplitPaneDivPos && splitPane.getItems().size() > 1) {
+            boundSplitPaneDivPos = false;
+            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_INFO_DIVIDER);
+        }
+
+        splitPane.getItems().clear();
+        if (!audioInfoController.isPaneShowing()) {
+            // dann wird nix angezeigt
+            splitPane.getItems().add(scrollPaneTableFilm);
+            ProgConfig.AUDIO_GUI_INFO_ON.set(false);
+            return;
+        }
+
+        if (ProgConfig.AUDIO_GUI_INFO_ON.getValue()) {
             boundSplitPaneDivPos = true;
-            if (splitPane.getItems().size() != 2) {
-                // erst mal splitPane einrichten, dass Tabelle und Infos angezeigt werden
-                splitPane.getItems().clear();
-                splitPane.getItems().addAll(scrollPaneTableFilm, audioInfoController);
-                SplitPane.setResizableWithParent(audioInfoController, false);
-            }
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(splitPaneProperty);
+            splitPane.getItems().addAll(scrollPaneTableFilm, audioInfoController);
+            SplitPane.setResizableWithParent(audioInfoController, false);
+            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_INFO_DIVIDER);
 
         } else {
-            if (boundSplitPaneDivPos) {
-                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(splitPaneProperty);
-            }
-            if (splitPane.getItems().size() != 1) {
-                splitPane.getItems().clear();
-                splitPane.getItems().add(scrollPaneTableFilm);
-            }
+            splitPane.getItems().add(scrollPaneTableFilm);
         }
     }
 }

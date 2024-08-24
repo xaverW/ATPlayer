@@ -43,7 +43,7 @@ public class DownloadInfoController extends P2ClosePaneH {
     private final TabPane tabPane = new TabPane();
 
     public DownloadInfoController() {
-        super(ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, false, true);
+        super(ProgConfig.DOWNLOAD_GUI_INFO_ON, false, true);
         progData = ProgData.getInstance();
         initInfoPane();
         PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadInfoController.class.getSimpleName()) {
@@ -51,14 +51,13 @@ public class DownloadInfoController extends P2ClosePaneH {
             public void pingFx() {
                 paneBandwidthChart.searchInfos(InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
                         getVBoxAll(), tabPane, paneBandwidthChart,
-                        ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON));
+                        ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON));
 
                 if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
                         getVBoxAll(), tabPane, paneDownloadInfo,
-                        ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON)) {
+                        ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON)) {
                     paneDownloadInfo.setInfoText();
                 }
-
             }
         });
     }
@@ -66,14 +65,16 @@ public class DownloadInfoController extends P2ClosePaneH {
     public void setDownloadInfos(DownloadData download) {
         if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
                 getVBoxAll(), tabPane, paneFilmInfo,
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON)) {
+                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON)) {
             paneFilmInfo.setAudioData(download);
         }
-//        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
-//                getVBoxAll(), tabPane,
-//                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_MEDIA_ON)) {
-//            paneMedia.setSearchPredicate(download);
-//        }
+    }
+
+    public boolean isPaneShowing() {
+        return !ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON.getValue();
     }
 
     private void initInfoPane() {
@@ -126,25 +127,25 @@ public class DownloadInfoController extends P2ClosePaneH {
     private void dialogInfo() {
         InfoPaneFactory.setDialogInfo(tabFilmInfo, paneFilmInfo, "Filminfos",
                 ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON,
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgData.DOWNLOAD_TAB_ON);
+                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void dialogChart() {
         InfoPaneFactory.setDialogInfo(tabDownloadChart, paneBandwidthChart, "Downloadchart",
                 ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON,
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgData.DOWNLOAD_TAB_ON);
+                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void dialogDownloadError() {
         InfoPaneFactory.setDialogInfo(tabDownloadError, paneDownloadError, "Downloadfehler",
                 ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON,
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgData.DOWNLOAD_TAB_ON);
+                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void dialogDownloadInfo() {
         InfoPaneFactory.setDialogInfo(tabDownloadInfo, paneDownloadInfo, "Downloadinfos",
                 ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON,
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON, ProgData.DOWNLOAD_TAB_ON);
+                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void setTabs() {
@@ -192,7 +193,7 @@ public class DownloadInfoController extends P2ClosePaneH {
 
         if (i == 0) {
             getVBoxAll().getChildren().clear();
-            ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.set(false);
+            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(false);
 
         } else if (i == 1) {
             // dann gibts einen Tab
@@ -200,11 +201,13 @@ public class DownloadInfoController extends P2ClosePaneH {
             tabPane.getTabs().remove(0);
             getVBoxAll().getChildren().setAll(node);
             VBox.setVgrow(node, Priority.ALWAYS);
+            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(true);
 
         } else {
             // dann gibts mehre Tabs
             getVBoxAll().getChildren().setAll(tabPane);
             VBox.setVgrow(tabPane, Priority.ALWAYS);
+            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(true);
         }
     }
 }

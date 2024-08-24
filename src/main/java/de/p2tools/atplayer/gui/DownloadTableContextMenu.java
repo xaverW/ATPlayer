@@ -94,7 +94,7 @@ public class DownloadTableContextMenu {
 
         // Submenü "gespeicherte Audios"
         final MenuItem miPlayerDownload = new MenuItem("Gespeichertes Audio (Datei) abspielen");
-        miPlayerDownload.setOnAction(a -> downloadInfoController.playAudio());
+        miPlayerDownload.setOnAction(a -> downloadInfoController.playStoredAudio());
         final MenuItem miDeleteDownload = new MenuItem("Gespeichertes Audio (Datei) löschen");
         miDeleteDownload.setOnAction(a -> downloadInfoController.deleteAudioFile());
         final MenuItem miOpenDir = new MenuItem("Zielordner öffnen");

@@ -35,7 +35,7 @@ public class DownloadInfos {
     private int notStarted = 0; //davon gestartet, alle, egal ob warten, laden oder fertig (keine zurückgestellten)
     private int started = 0; //davon gestartet, alle, egal ob warten, laden oder fertig
 
-    private int loadingM3u8 = 0; //gestarte m3u8-URLs
+    private int loadingM3u8 = 0; //gestartete m3u8-URLs
     private int startedNotLoading = 0; //davon gestartet, warten aber noch
     private int loading = 0; //laden schon
     private int finishedOk = 0; //fertig und Ok
@@ -191,25 +191,18 @@ public class DownloadInfos {
             } else {
                 ++amount;
             }
-
             ++amountDownload;
 
             if (download.isStarted() || download.isFinishedOrError()) {
-                if (download.getSource().equals(DownloadConstants.SRC_ABO) ||
-                        download.getSource().equals(DownloadConstants.SRC_DOWNLOAD)) {
-                    ++started;
-                    if (download.isStateStartedWaiting()) {
-                        ++startedNotLoading;
-                    } else if (download.isStateStartedRun()) {
-                        ++loading;
-//                        if (download.getUrl().endsWith(ProgConst.M3U8_URL)) {
-//                            ++loadingM3u8;
-//                        }
-                    } else if (download.isStateFinished()) {
-                        ++finishedOk;
-                    } else if (download.isStateError()) {
-                        ++finishedError;
-                    }
+                ++started;
+                if (download.isStateStartedWaiting()) {
+                    ++startedNotLoading;
+                } else if (download.isStateStartedRun()) {
+                    ++loading;
+                } else if (download.isStateFinished()) {
+                    ++finishedOk;
+                } else if (download.isStateError()) {
+                    ++finishedError;
                 }
             } else if (!download.isPlacedBack()) {
                 //dann die angezeigten und noch nicht gestartet

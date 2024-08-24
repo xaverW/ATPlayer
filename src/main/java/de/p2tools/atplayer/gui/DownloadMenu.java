@@ -61,8 +61,6 @@ public class DownloadMenu {
                 "Downloads Starten", "Markierte Downloads starten", ProgIcons.ICON_TOOLBAR_DOWNLOAD_START.getImageView());
         final ToolBarButton btnStartAll = new ToolBarButton(vBox,
                 "Alle Downloads starten", "Alle Downloads starten", ProgIcons.ICON_TOOLBAR_DOWNLOAD_START_ALL.getImageView());
-        final ToolBarButton btStartAllTime = new ToolBarButton(vBox,
-                "Alle Downloads mit Startzeit starten", "Alle Downloads mit Startzeit starten", ProgIcons.ICON_TOOLBAR_DOWNLOAD_START_ALL_TIME.getImageView());
 
         vBox.getChildren().add(P2GuiTools.getVDistance(10));
         final ToolBarButton btnBack = new ToolBarButton(vBox,
@@ -75,7 +73,7 @@ public class DownloadMenu {
                 "Downloads aufräumen", "Liste der Downloads aufräumen", ProgIcons.ICON_TOOLBAR_DOWNLOAD_CLEAN.getImageView());
 
         vBox.getChildren().add(P2GuiTools.getVDistance(10));
-        final ToolBarButton btnDownloadFilm = new ToolBarButton(vBox,
+        final ToolBarButton btnPlayStoredAudio = new ToolBarButton(vBox,
                 "Film Starten", "Gespeicherten Film abspielen", ProgIcons.ICON_TOOLBAR_START.getImageView());
 
         btnRefresh.setOnAction(a -> {
@@ -113,8 +111,8 @@ public class DownloadMenu {
             progData.downloadGuiController.tableView.refresh();
             progData.downloadGuiController.tableView.requestFocus();
         });
-        btnDownloadFilm.setOnAction(a -> {
-            progData.downloadGuiController.playAudio();
+        btnPlayStoredAudio.setOnAction(a -> {
+            progData.downloadGuiController.playStoredAudio();
             progData.downloadGuiController.tableView.refresh();
             progData.downloadGuiController.tableView.requestFocus();
         });
@@ -200,7 +198,7 @@ public class DownloadMenu {
         submenuAllDownloads.getItems().addAll(mbStartAll, mbStopAll, mbStopWait, mbClean);
         mb.getItems().addAll(submenuAllDownloads);
 
-        MenuItem miPlayUrl = new MenuItem("Film (URL) abspielen");
+        MenuItem miPlayUrl = new MenuItem("Audio (URL) abspielen");
         miPlayUrl.setOnAction(a -> progData.downloadGuiController.playUrl());
         MenuItem miCopyUrl = new MenuItem("Download (URL) kopieren");
         miCopyUrl.setOnAction(a -> progData.downloadGuiController.copyUrl());

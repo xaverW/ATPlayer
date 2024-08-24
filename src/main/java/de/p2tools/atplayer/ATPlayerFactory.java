@@ -44,10 +44,10 @@ public class ATPlayerFactory {
     public static void setInfos() {
         switch (ATPlayerController.paneShown) {
             case AUDIO:
-                ProgConfig.AUDIO_GUI_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_DIVIDER_ON.getValue());
+                ProgConfig.AUDIO_GUI_INFO_ON.setValue(!ProgConfig.AUDIO_GUI_INFO_ON.getValue());
                 break;
             case DOWNLOAD:
-                ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.setValue(!ProgConfig.DOWNLOAD_GUI_DIVIDER_ON.getValue());
+                ProgConfig.DOWNLOAD_GUI_INFO_ON.setValue(!ProgConfig.DOWNLOAD_GUI_INFO_ON.getValue());
                 break;
         }
     }

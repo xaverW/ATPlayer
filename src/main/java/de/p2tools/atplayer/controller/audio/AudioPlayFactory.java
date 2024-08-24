@@ -23,11 +23,13 @@ import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.dialogs.P2DialogFileChooser;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.log.P2Log;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -69,12 +71,33 @@ public class AudioPlayFactory {
         ProgData.getInstance().historyList.addFilmDataListToHistory(audioDataList);
     }
 
-    public static void playAudio(DownloadData downloadData) {
+    public static void playStoredAudio(DownloadData downloadData) {
         if (downloadData == null) {
             return;
         }
 
-        String url = downloadData.getDestPathFile();
+        String destPathFile = downloadData.getDestPathFile();
+
+        File filmFile;
+        filmFile = new File(destPathFile);
+        if (!filmFile.exists()) {
+            new P2DialogFileChooser().showErrorAlert("Fehler", "Kein Film", "Film existiert noch nicht!");
+            return;
+        }
+
+        play(destPathFile);
+
+        List<DownloadData> list = new ArrayList<>();
+        list.add(downloadData);
+        ProgData.getInstance().historyList.addDownloadDataListToHistory(list);
+    }
+
+    public static void playUrlAudio(DownloadData downloadData) {
+        if (downloadData == null) {
+            return;
+        }
+
+        String url = downloadData.getUrl();
         play(url);
 
         List<DownloadData> list = new ArrayList<>();
