@@ -174,12 +174,14 @@ public class ProgConfig extends P2DataProgConfig {
 
     // Blacklist
     public static BooleanProperty SYSTEM_BLACKLIST_SHOW_NO_PODCAST = addBoolProp("system-blacklist-show-no-podcast", Boolean.FALSE);
+    public static BooleanProperty SYSTEM_BLACKLIST_SHOW_NO_DOUBLE = addBoolProp("system-blacklist-show-no-double", Boolean.FALSE);
     public static IntegerProperty SYSTEM_BLACKLIST_MAX_FILM_DAYS = addIntProp("system-blacklist-max-film-days", 0);
     public static IntegerProperty SYSTEM_BLACKLIST_MIN_FILM_DURATION = addIntProp("system-blacklist-min-film-duration", 0); // Minuten
     public static DoubleProperty CONFIG_DIALOG_BLACKLIST_SPLITPANE = addDoubleProp("config-dialog-blacklist-splitpane", 0.7);
     public static DoubleProperty CONFIG_DIALOG_FILMLIST_FILTER_SPLITPANE = addDoubleProp("config-dialog-filmlist-filter-splitpane", 0.7);
     public static IntegerProperty SYSTEM_FILMLIST_FILTER = addIntProp("system-filmlist-filter", BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
     public static StringProperty ADD_BLACK_DIALOG_SIZE = addStrProp("add-black-dialog-size", "600:400");
+    public static IntegerProperty SYSTEM_AUDIOLIST_COUNT_DOUBLE = addIntProp("system-audiolist-count-double", 0); // Anzahl der doppelten Filme
 
     public static StringProperty BLACKLIST_TABLE_WIDTH = addStrProp("blacklist-table-width");
     public static StringProperty BLACKLIST_TABLE_SORT = addStrProp("blacklist-table-sort");

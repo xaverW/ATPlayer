@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.infopane;
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;

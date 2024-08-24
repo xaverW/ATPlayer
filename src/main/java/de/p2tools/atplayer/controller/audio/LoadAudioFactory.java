@@ -24,7 +24,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
-import de.p2tools.p2lib.atdate.AudioList;
+import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.tools.date.P2DateConst;

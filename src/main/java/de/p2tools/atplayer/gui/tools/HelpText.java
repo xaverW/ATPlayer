@@ -554,6 +554,10 @@ public class HelpText {
             "Audios die aus Podcasts stammen, werden ausgeblendet. " +
                     "\n";
 
+    public static final String BLACKLIST_DOUBLE =
+            "Audios die doppelt in der Liste sind, werden nur einmal angezeigt. " +
+                    "\n";
+
     public static final String BLACKLIST_SIZE =
             "Filme ohne Längenangabe werden immer angezeigt und ggf. von Abos als Download angelegt.\n" +
                     "\n" +

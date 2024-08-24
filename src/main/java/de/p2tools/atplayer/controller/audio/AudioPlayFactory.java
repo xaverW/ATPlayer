@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.date.P2DateConst;

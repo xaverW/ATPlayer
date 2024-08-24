@@ -17,9 +17,9 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.p2lib.atdate.AudioData;
-import de.p2tools.p2lib.atdate.AudioDataProps;
-import de.p2tools.p2lib.atdate.AudioDataXml;
+import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.atdata.AudioDataProps;
+import de.p2tools.p2lib.atdata.AudioDataXml;
 import de.p2tools.p2lib.mtfilter.FilmFilterCheck;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;

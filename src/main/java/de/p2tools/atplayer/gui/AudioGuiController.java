@@ -26,7 +26,7 @@ import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import de.p2tools.p2lib.tools.P2SystemUtils;

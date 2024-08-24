@@ -35,7 +35,7 @@ import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.DownloadGuiController;
 import de.p2tools.atplayer.gui.chart.ChartData;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
-import de.p2tools.p2lib.atdate.AudioList;
+import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.animation.Animation;

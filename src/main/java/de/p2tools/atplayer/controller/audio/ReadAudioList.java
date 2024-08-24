@@ -19,10 +19,10 @@ package de.p2tools.atplayer.controller.audio;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.p2lib.atdate.AudioData;
-import de.p2tools.p2lib.atdate.AudioFactory;
-import de.p2tools.p2lib.atdate.AudioList;
-import de.p2tools.p2lib.atdate.ReadAudioListJson;
+import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.atdata.AudioFactory;
+import de.p2tools.p2lib.atdata.AudioList;
+import de.p2tools.p2lib.atdata.ReadAudioListJson;
 import de.p2tools.p2lib.mtdownload.MLHttpClient;
 import de.p2tools.p2lib.mtfilm.tools.InputStreamProgressMonitor;
 import de.p2tools.p2lib.mtfilm.tools.LoadFactoryConst;
@@ -45,12 +45,14 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
 public class ReadAudioList {
 
     private List<String> logList = new ArrayList<>();
+    private static int countDouble = 0;
 
     public ReadAudioList() {
     }
@@ -90,12 +92,14 @@ public class ReadAudioList {
                 if (LoadAudioFactoryDto.audioListNew.isEmpty()) {
                     // dann hats nicht geklappt
                     ret = false;
+
                 } else {
                     setDate();
                     // unerwünschte löschen
                     removeUnwanted(logList, LoadAudioFactoryDto.audioListNew);
                     // neue Filme markieren
-                    findAndMarkNewFilms(logList, LoadAudioFactoryDto.audioListNew);
+                    markNewFilms(logList, LoadAudioFactoryDto.audioListNew);
+                    markDoubleAudios(logList, LoadAudioFactoryDto.audioListNew);
 
                     // und dann auch speichern
                     logList.add("##");
@@ -214,7 +218,7 @@ public class ReadAudioList {
         }
     }
 
-    private void findAndMarkNewFilms(List<String> logList, AudioList audioList) {
+    private void markNewFilms(List<String> logList, AudioList audioList) {
         logList.add("## neue Audios markieren");
         audioList.stream() //genauso schnell wie "parallel": ~90ms
                 .peek(film -> film.setNewAudio(false))
@@ -224,5 +228,31 @@ public class ReadAudioList {
                 });
 
         LoadAudioFactoryDto.hashSet.clear();
+    }
+
+    public void markDoubleAudios(List<String> logList, AudioList audioList) {
+        // läuft direkt nach dem Laden der Filmliste!
+        // doppelte Filme (URL)
+        // viele Filme sind bei mehreren Sendern vorhanden
+
+        logList.add("## neue Audios markieren");
+        final HashSet<String> urlHashSet = new HashSet<>(audioList.size(), 0.75F);
+        P2Duration.counterStart("markAudios");
+        try {
+            countDouble = 0;
+            audioList.forEach((AudioData f) -> {
+                if (!urlHashSet.add(f.getUrl())) {
+                    ++countDouble;
+                    f.setDoubleUrl(true);
+                }
+            });
+        } catch (Exception ex) {
+            P2Log.errorLog(951024789, ex);
+        }
+
+        urlHashSet.clear();
+        P2Duration.counterStop("markAudios");
+
+        ProgConfig.SYSTEM_AUDIOLIST_COUNT_DOUBLE.setValue(countDouble);
     }
 }

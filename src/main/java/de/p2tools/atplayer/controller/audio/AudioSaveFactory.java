@@ -22,8 +22,8 @@ import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdate.AudioData;
-import de.p2tools.p2lib.atdate.AudioDataXml;
+import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.atdata.AudioDataXml;
 
 import java.util.ArrayList;
 import java.util.List;

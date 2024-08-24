@@ -20,7 +20,7 @@ import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
 import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;

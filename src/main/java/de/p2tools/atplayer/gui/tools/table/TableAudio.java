@@ -20,8 +20,8 @@ import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
-import de.p2tools.p2lib.atdate.AudioData;
-import de.p2tools.p2lib.atdate.AudioSize;
+import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.atdata.AudioSize;
 import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.tools.date.P2Date;
 import javafx.scene.control.SelectionMode;
@@ -121,6 +121,11 @@ public class TableAudio extends PTable<AudioData> {
         podcastAudioColumn.getStyleClass().add("alignCenter");
         TableAudioFactory.columnFactoryBoolean(podcastAudioColumn);
 
+        final TableColumn<AudioData, Boolean> doubleAudioColumn = new TableColumn<>("Doppelt");
+        doubleAudioColumn.setCellValueFactory(new PropertyValueFactory<>("doubleUrl"));
+        doubleAudioColumn.getStyleClass().add("alignCenter");
+        TableAudioFactory.columnFactoryBoolean(doubleAudioColumn);
+
         final TableColumn<AudioData, String> urlColumn = new TableColumn<>("URL");
         urlColumn.setCellValueFactory(new PropertyValueFactory<>("url"));
         urlColumn.getStyleClass().add("alignCenterLeft");
@@ -148,6 +153,6 @@ public class TableAudio extends PTable<AudioData> {
                 senderColumn, genreColumn, themeColumn, titleColumn,
                 startColumn,
                 dateColumn, timeColumn, durationColumn, sizeColumn,
-                newAudioColumn, podcastAudioColumn, urlColumn);
+                newAudioColumn, podcastAudioColumn, doubleAudioColumn, urlColumn);
     }
 }

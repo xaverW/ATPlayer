@@ -20,8 +20,8 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
-import de.p2tools.p2lib.atdate.AudioData;
-import de.p2tools.p2lib.atdate.AudioList;
+import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 
@@ -35,6 +35,7 @@ public class BlacklistFilterFactory {
     public static final int BLACKLILST_FILTER_INVERS = 2;
 
     private static boolean dontShowPodcast;
+    private static boolean dontShowDouble;
     private static long maxFilmDays = 0; // Zeit in ms ab wann erlaubt, oder 0 wenn alles
     private static long minFilmDuration = 0;
     private static int act = 0;
@@ -153,6 +154,9 @@ public class BlacklistFilterFactory {
         if (dontShowPodcast && audioData.isPodcast()) {
             return true;
         }
+        if (dontShowDouble && audioData.isDoubleUrl()) {
+            return true;
+        }
         if (minFilmDuration != 0 && !checkOkFilmLength(audioData)) {
             return true;
         }
@@ -238,6 +242,7 @@ public class BlacklistFilterFactory {
     private static void loadCurrentBlacklistSettings() {
         // die aktuellen allgemeinen Blacklist-Einstellungen laden
         dontShowPodcast = ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST.get();
+        dontShowDouble = ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_DOUBLE.get();
 
         try {
             if (ProgConfig.SYSTEM_BLACKLIST_MAX_FILM_DAYS.getValue() == 0) {

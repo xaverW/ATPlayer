@@ -23,7 +23,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdate.AudioData;
+import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import javafx.scene.control.Button;
