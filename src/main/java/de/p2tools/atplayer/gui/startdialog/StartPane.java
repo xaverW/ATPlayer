@@ -96,8 +96,8 @@ public class StartPane {
                 "Downloads angezeigt." +
 
                 P2LibConst.LINE_SEPARATORx2 +
-                "3) Das ist die Liste aller" + P2LibConst.LINE_SEPARATOR +
-                "angelegten Downloads." +
+                "3) Infos über die Downloads" + P2LibConst.LINE_SEPARATOR +
+                "werden hier angezeigt." +
 
                 P2LibConst.LINE_SEPARATORx2 +
                 "4) Downloads können hier gestartet," + P2LibConst.LINE_SEPARATOR +

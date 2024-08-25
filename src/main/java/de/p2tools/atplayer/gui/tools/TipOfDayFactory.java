@@ -65,8 +65,9 @@ public class TipOfDayFactory {
         // private final int listSize = 1
         String text = START;
         text += "Der Infobereich unter der Audioliste\n" +
-                "kann mit dem Tastenkürzel \"alt+i\"\n" +
-                "oder über den Button \"I\" rechts\n" +
+                "oder den Downloads kann\n" +
+                "mit dem Tastenkürzel \"alt+i\"\n" +
+                "oder über das Menü\n" +
                 "ein- und ausgeblendet werden.";
         String image = "/de/p2tools/atplayer/res/tooltips/Info.png";
         P2TipOfDay pToolTip = new P2TipOfDay(text, image);
