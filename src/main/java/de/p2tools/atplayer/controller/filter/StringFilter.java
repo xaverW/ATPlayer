@@ -12,11 +12,11 @@ public class StringFilter extends P2DataSample<StringFilter> implements Comparab
 
     public static String TAG = "StringFilter";
 
-    private final ObservableList<String> filterListAudioTheme = FXCollections.observableArrayList("");
-    private final ObservableList<String> filterListAudioTitle = FXCollections.observableArrayList("");
-    private final ObservableList<String> filterListAudioSomewhere = FXCollections.observableArrayList("");
-    private final ObservableList<String> filterListDownloadTheme = FXCollections.observableArrayList("");
-    private final ObservableList<String> filterListDownloadTitle = FXCollections.observableArrayList("");
+    private final ObservableList<String> filterListAudioTheme = FXCollections.observableArrayList();
+    private final ObservableList<String> filterListAudioTitle = FXCollections.observableArrayList();
+    private final ObservableList<String> filterListAudioSomewhere = FXCollections.observableArrayList();
+    private final ObservableList<String> filterListDownloadTheme = FXCollections.observableArrayList();
+    private final ObservableList<String> filterListDownloadTitle = FXCollections.observableArrayList();
 
 
     public StringFilter() {
