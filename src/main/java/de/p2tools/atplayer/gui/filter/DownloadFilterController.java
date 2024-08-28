@@ -37,8 +37,8 @@ public class DownloadFilterController extends FilterController {
 
     private final P2MenuButton mbChannel;
     private final P2MenuButton mbGenre;
-    private final PCboStringSearch2 cboTheme;
-    private final PCboStringSearch2 cboTitle;
+    private final PCboString cboTheme;
+    private final PCboString cboTitle;
     private final ComboBox<String> cboState = new ComboBox<>();
 
     private final Spinner<Integer> spinnerAnz = new Spinner<>(1, 9, 1);
@@ -56,9 +56,9 @@ public class DownloadFilterController extends FilterController {
                 progData.worker.getAllChannelList());
         this.mbGenre = new P2MenuButton(ProgConfig.FILTER_DOWNLOAD_GENRE,
                 progData.worker.getAllGenreList());
-        this.cboTheme = new PCboStringSearch2(progData.stringFilterLists.getFilterListDownloadTheme(),
+        this.cboTheme = new PCboString(progData.stringFilterLists.getFilterListDownloadTheme(),
                 ProgConfig.FILTER_DOWNLOAD_THEME);
-        this.cboTitle = new PCboStringSearch2(progData.stringFilterLists.getFilterListDownloadTitle(),
+        this.cboTitle = new PCboString(progData.stringFilterLists.getFilterListDownloadTitle(),
                 ProgConfig.FILTER_DOWNLOAD_TITLE);
 
         initLayout();

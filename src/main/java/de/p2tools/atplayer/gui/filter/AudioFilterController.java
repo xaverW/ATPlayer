@@ -48,9 +48,9 @@ public class AudioFilterController extends FilterController {
     private final ScrollPane scrollPane = new ScrollPane();
     private final P2MenuButton mbChannel;
     private final P2MenuButton mbGenre;
-    private final PCboStringSearch2 cboTheme;
-    private final PCboStringSearch2 cboTitle;
-    private final PCboStringSearch2 cboSomewhere;
+    private final PCboString cboTheme;
+    private final PCboString cboTitle;
+    private final PCboString cboSomewhere;
     private final Slider slTimeRange = new Slider();
     private final Label lblTimeRangeValue = new Label();
     private final P2RangeBox slDur = new P2RangeBox("Länge:", true, FilterCheck.FILTER_ALL_OR_MIN,
@@ -77,11 +77,11 @@ public class AudioFilterController extends FilterController {
             progData.actFilterWorker.getActFilterSettings().reportFilterReturn();
             return true;
         };
-        this.cboTheme = new PCboStringSearch2(progData.stringFilterLists.getFilterListAudioTheme(),
+        this.cboTheme = new PCboString(progData.stringFilterLists.getFilterListAudioTheme(),
                 progData.actFilterWorker.getActFilterSettings().themeProperty(), supplierReportReturn);
-        this.cboTitle = new PCboStringSearch2(progData.stringFilterLists.getFilterListAudioTitle(),
+        this.cboTitle = new PCboString(progData.stringFilterLists.getFilterListAudioTitle(),
                 progData.actFilterWorker.getActFilterSettings().titleProperty(), supplierReportReturn);
-        this.cboSomewhere = new PCboStringSearch2(progData.stringFilterLists.getFilterListAudioSomewhere(),
+        this.cboSomewhere = new PCboString(progData.stringFilterLists.getFilterListAudioSomewhere(),
                 progData.actFilterWorker.getActFilterSettings().somewhereProperty(), supplierReportReturn);
 
         audioFilterControllerBlacklist = new AudioFilterControllerBlacklist();
