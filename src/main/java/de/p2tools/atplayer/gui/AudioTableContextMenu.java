@@ -102,7 +102,7 @@ public class AudioTableContextMenu {
         miFilterTheme.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTheme(film.getTheme()));
 
         final MenuItem miFilterTitle = new MenuItem("nach Titel filtern");
-        miFilterTheme.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTitle(film.getTheme()));
+        miFilterTitle.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTitle(film.getTitle()));
 
         final MenuItem miFilterChannelTheme = new MenuItem("nach Sender und Thema filtern");
         miFilterChannelTheme.setOnAction(event -> {
