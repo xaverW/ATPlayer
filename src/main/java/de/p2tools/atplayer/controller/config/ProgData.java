@@ -18,6 +18,7 @@
 package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.ATPlayerController;
+import de.p2tools.atplayer.controller.StringLists;
 import de.p2tools.atplayer.controller.data.ReplaceList;
 import de.p2tools.atplayer.controller.data.blackdata.BlackList;
 import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
@@ -26,7 +27,6 @@ import de.p2tools.atplayer.controller.data.download.DownloadList;
 import de.p2tools.atplayer.controller.data.downloaderror.DownloadErrorList;
 import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
-import de.p2tools.atplayer.controller.filter.StringFilter;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.controller.starter.StartDownload;
 import de.p2tools.atplayer.controller.worker.Busy;
@@ -85,7 +85,7 @@ public class ProgData {
     public StartDownload startDownload; // Klasse zum Ausführen der Programme (für die Downloads): VLC, ...
     public AudioList audioList; // ist die komplette Audioliste
     public AudioList audioListFiltered; // nach der Blacklist
-    public StringFilter stringFilterLists; // sind die Text-Filter in den CBO's
+    public StringLists stringListsLists; // sind die Text-Filter in den CBO's
 
     public DownloadInfos downloadInfos;
     public ReplaceList replaceList;
@@ -105,7 +105,7 @@ public class ProgData {
         actFilterWorker = new ActFilterWorker();
         audioList = new AudioList();
         audioListFiltered = new AudioList();
-        stringFilterLists = new StringFilter();
+        stringListsLists = new StringLists();
         downloadErrorList = new DownloadErrorList();
 
         historyList = new HistoryList(ProgConst.FILE_HISTORY,

@@ -35,12 +35,14 @@ public class AudioPredicateFactory {
         Filter fChannel;
         Filter fGenre;
         Filter fTheme;
+        Filter fThemeTitle;
         Filter fTitle;
         Filter fSomewhere;
 
         String filterChannel = audioFilter.getChannel();
         String filterGenre = audioFilter.getGenre();
         String filterTheme = audioFilter.getTheme();
+        String filterThemeTitle = audioFilter.getThemeTitle();
         String filterTitle = audioFilter.getTitle();
         String filterSomewhere = audioFilter.getSomewhere();
 
@@ -50,6 +52,8 @@ public class AudioPredicateFactory {
         fGenre = new Filter(filterGenre, true);
         // Thema
         fTheme = new Filter(filterTheme, true);
+        // Thema-Titel
+        fThemeTitle = new Filter(filterThemeTitle, true);
         // Titel
         fTitle = new Filter(filterTitle, true);
         // Irgendwo
@@ -119,6 +123,11 @@ public class AudioPredicateFactory {
 
         if (!fTheme.isEmpty) {
             predicate = predicate.and(f -> FilterCheck.check(fTheme, f.arr[AudioDataXml.AUDIO_THEME]));
+        }
+
+        if (!fThemeTitle.isEmpty) {
+            predicate = predicate.and(f -> FilterCheck.check(fThemeTitle, f.arr[AudioDataXml.AUDIO_THEME]) ||
+                    FilterCheck.check(fThemeTitle, f.arr[AudioDataXml.AUDIO_TITLE]));
         }
 
         if (!fTitle.isEmpty) {

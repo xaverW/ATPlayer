@@ -49,6 +49,7 @@ public class AudioFilterController extends FilterController {
     private final P2MenuButton mbChannel;
     private final P2MenuButton mbGenre;
     private final PCboString cboTheme;
+    private final PCboString cboThemeTitle;
     private final PCboString cboTitle;
     private final PCboString cboSomewhere;
     private final Slider slTimeRange = new Slider();
@@ -77,11 +78,13 @@ public class AudioFilterController extends FilterController {
             progData.actFilterWorker.getActFilterSettings().reportFilterReturn();
             return true;
         };
-        this.cboTheme = new PCboString(progData.stringFilterLists.getFilterListAudioTheme(),
+        this.cboTheme = new PCboString(progData.stringListsLists.getFilterListAudioTheme(),
                 progData.actFilterWorker.getActFilterSettings().themeProperty(), supplierReportReturn);
-        this.cboTitle = new PCboString(progData.stringFilterLists.getFilterListAudioTitle(),
+        this.cboThemeTitle = new PCboString(progData.stringListsLists.getFilterListAudioThemeTitle(),
+                progData.actFilterWorker.getActFilterSettings().themeTitleProperty(), supplierReportReturn);
+        this.cboTitle = new PCboString(progData.stringListsLists.getFilterListAudioTitle(),
                 progData.actFilterWorker.getActFilterSettings().titleProperty(), supplierReportReturn);
-        this.cboSomewhere = new PCboString(progData.stringFilterLists.getFilterListAudioSomewhere(),
+        this.cboSomewhere = new PCboString(progData.stringListsLists.getFilterListAudioSomewhere(),
                 progData.actFilterWorker.getActFilterSettings().somewhereProperty(), supplierReportReturn);
 
         audioFilterControllerBlacklist = new AudioFilterControllerBlacklist();
@@ -240,6 +243,10 @@ public class AudioFilterController extends FilterController {
         vBoxAll.getChildren().add(vBox);
 
         vBox = addTxt("Thema", cboTheme);
+        GridPane.setHgrow(vBox, Priority.ALWAYS);
+        vBoxAll.getChildren().add(vBox);
+
+        vBox = addTxt("Thema oder Titel", cboThemeTitle);
         GridPane.setHgrow(vBox, Priority.ALWAYS);
         vBoxAll.getChildren().add(vBox);
 

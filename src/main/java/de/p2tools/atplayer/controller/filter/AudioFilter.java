@@ -75,6 +75,7 @@ public final class AudioFilter extends AudioFilterProps {
         channelProperty().addListener(l -> setFilterChange(true));
         genreProperty().addListener(l -> setFilterChange(true));
         themeProperty().addListener(l -> setFilterChange(false));
+        themeTitleProperty().addListener(l -> setFilterChange(false));
         titleProperty().addListener(l -> setFilterChange(false));
         somewhereProperty().addListener(l -> setFilterChange(false));
         timeRangeProperty().addListener(l -> setFilterChange(true));
@@ -111,6 +112,7 @@ public final class AudioFilter extends AudioFilterProps {
         setChannel("");
         setGenre("");
         setTheme("");
+        setThemeTitle("");
         setTitle("");
         setSomewhere("");
         setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);

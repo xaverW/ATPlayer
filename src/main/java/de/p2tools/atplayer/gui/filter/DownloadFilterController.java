@@ -56,9 +56,9 @@ public class DownloadFilterController extends FilterController {
                 progData.worker.getAllChannelList());
         this.mbGenre = new P2MenuButton(ProgConfig.FILTER_DOWNLOAD_GENRE,
                 progData.worker.getAllGenreList());
-        this.cboTheme = new PCboString(progData.stringFilterLists.getFilterListDownloadTheme(),
+        this.cboTheme = new PCboString(progData.stringListsLists.getFilterListDownloadTheme(),
                 ProgConfig.FILTER_DOWNLOAD_THEME);
-        this.cboTitle = new PCboString(progData.stringFilterLists.getFilterListDownloadTitle(),
+        this.cboTitle = new PCboString(progData.stringListsLists.getFilterListDownloadTitle(),
                 ProgConfig.FILTER_DOWNLOAD_TITLE);
 
         initLayout();

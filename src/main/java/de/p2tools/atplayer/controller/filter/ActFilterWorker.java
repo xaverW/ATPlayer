@@ -69,7 +69,7 @@ public final class ActFilterWorker {
 
     private AudioFilter actFilterSettings = new AudioFilter(SELECTED_FILTER_NAME); // ist der "aktuelle" Filter im Programm
 
-    private boolean theme = false, title = false, somewhere = false;
+    private boolean theme = false, themeTitle = false, title = false, somewhere = false;
 
     public ActFilterWorker() {
         audioFilterListBackward.addListener((ListChangeListener<AudioFilter>) c -> {
@@ -229,6 +229,11 @@ public final class ActFilterWorker {
             theme = true;
             return;
         }
+        if (checkText(sfB.themeTitleProperty(), sf.themeTitleProperty(), sfB, sf, themeTitle)) {
+            setFalse();
+            themeTitle = true;
+            return;
+        }
         if (checkText(sfB.titleProperty(), sf.titleProperty(), sfB, sf, title)) {
             setFalse();
             title = true;
@@ -246,6 +251,7 @@ public final class ActFilterWorker {
 
     private void setFalse() {
         theme = false;
+        themeTitle = false;
         title = false;
         somewhere = false;
     }

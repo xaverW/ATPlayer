@@ -404,7 +404,7 @@ public class ProgConfig extends P2DataProgConfig {
         configFile.addConfigs(progData.replaceList);
         configFile.addConfigs(progData.downloadList);
         configFile.addConfigs(progData.blackList);
-        configFile.addConfigs(progData.stringFilterLists); // sind die Textfilter in den CBO's
+        configFile.addConfigs(progData.stringListsLists); // sind die Textfilter in den CBO's
     }
 
     public static void logAllConfigs() {

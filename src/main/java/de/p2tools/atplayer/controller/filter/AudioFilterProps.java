@@ -35,6 +35,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
     private final StringProperty channel = new SimpleStringProperty();
     private final StringProperty genre = new SimpleStringProperty();
     private final StringProperty theme = new SimpleStringProperty();
+    private final StringProperty themeTitle = new SimpleStringProperty();
     private final StringProperty title = new SimpleStringProperty();
     private final StringProperty somewhere = new SimpleStringProperty();
 
@@ -65,6 +66,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         list.add(new Config_stringProp("channel", channel));
         list.add(new Config_stringProp("genre", genre));
         list.add(new Config_stringProp("theme", theme));
+        list.add(new Config_stringProp("themeTitle", themeTitle));
         list.add(new Config_stringProp("title", title));
         list.add(new Config_stringProp("somewhere", somewhere));
         list.add(new Config_intProp("timeRange", timeRange));
@@ -174,6 +176,18 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public StringProperty themeProperty() {
         return theme;
+    }
+
+    public String getThemeTitle() {
+        return themeTitle.get();
+    }
+
+    public void setThemeTitle(String theme) {
+        this.themeTitle.set(theme);
+    }
+
+    public StringProperty themeTitleProperty() {
+        return themeTitle;
     }
 
     public String getTitle() {
