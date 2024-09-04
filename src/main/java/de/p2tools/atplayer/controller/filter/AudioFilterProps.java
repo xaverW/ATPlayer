@@ -33,30 +33,44 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     private final StringProperty name = new SimpleStringProperty();
     private final StringProperty channel = new SimpleStringProperty();
+    private final BooleanProperty channelVis = new SimpleBooleanProperty(true);
     private final StringProperty genre = new SimpleStringProperty();
+    private final BooleanProperty genreVis = new SimpleBooleanProperty(false);
     private final StringProperty theme = new SimpleStringProperty();
+    private final BooleanProperty themeVis = new SimpleBooleanProperty(true);
     private final StringProperty themeTitle = new SimpleStringProperty();
+    private final BooleanProperty themeTitleVis = new SimpleBooleanProperty(false);
     private final StringProperty title = new SimpleStringProperty();
+    private final BooleanProperty titleVis = new SimpleBooleanProperty(true);
     private final StringProperty somewhere = new SimpleStringProperty();
+    private final BooleanProperty somewhereVis = new SimpleBooleanProperty(false);
 
     private final IntegerProperty timeRange = new SimpleIntegerProperty(15);
+    private final BooleanProperty timeRangeVis = new SimpleBooleanProperty(true);
+
     private final IntegerProperty minDur = new SimpleIntegerProperty(0);
     private final IntegerProperty maxDur = new SimpleIntegerProperty(FilterCheck.FILTER_DURATION_MAX_MINUTE);
+    private final BooleanProperty durVis = new SimpleBooleanProperty(true);
 
+    private final BooleanProperty onlyVis = new SimpleBooleanProperty(true);
     private final BooleanProperty onlyNew = new SimpleBooleanProperty(false);
     private final BooleanProperty onlyBookmark = new SimpleBooleanProperty(false);
     private final BooleanProperty noHistory = new SimpleBooleanProperty(false);
 
-    public static final int PODCAST_FILTER_OFF = 0;
-    public static final int PODCAST_FILTER_ON = 1;
-    public static final int PODCAST_FILTER_INVERS = 2;
+    public static final int PODCAST_FILTER_OFF__SHOW_ALL = 0; // alles
+    public static final int PODCAST_FILTER_ON__SHOW_ONLY_POD = 1; // nur Podcast
+    public static final int PODCAST_FILTER_INVERS__SHOW_NO_POD = 2; // keine Podcast
     private final IntegerProperty podcastOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
+    private final BooleanProperty podcastVis = new SimpleBooleanProperty(false);
+
 
     private final IntegerProperty blacklistOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
 
-    public BooleanProperty[] sfBooleanPropArr = {onlyNew, onlyBookmark, noHistory};
+    public BooleanProperty[] sfBooleanPropArr = {channelVis, genreVis, themeVis, themeTitleVis, titleVis, somewhereVis,
+            timeRangeVis, durVis, onlyVis,
+            onlyNew, onlyBookmark, noHistory, podcastVis};
 
-    public StringProperty[] sfStringPropArr = {name, channel, genre, theme, title, somewhere};
+    public StringProperty[] sfStringPropArr = {name, channel, genre, theme, themeTitle, title, somewhere};
     public IntegerProperty[] sfIntegerPropArr = {timeRange, minDur, maxDur, podcastOnOff, blacklistOnOff};
 
     @Override
@@ -64,18 +78,33 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         ArrayList<Config> list = new ArrayList<>();
         list.add(new Config_stringProp("name", name));
         list.add(new Config_stringProp("channel", channel));
+        list.add(new Config_boolProp("channelVis", channelVis));
+
         list.add(new Config_stringProp("genre", genre));
+        list.add(new Config_boolProp("genreVis", genreVis));
         list.add(new Config_stringProp("theme", theme));
+        list.add(new Config_boolProp("themeVis", themeVis));
         list.add(new Config_stringProp("themeTitle", themeTitle));
+        list.add(new Config_boolProp("themeTitleVis", themeTitleVis));
         list.add(new Config_stringProp("title", title));
+        list.add(new Config_boolProp("titleVis", titleVis));
         list.add(new Config_stringProp("somewhere", somewhere));
+        list.add(new Config_boolProp("somewhereVis", somewhereVis));
+
         list.add(new Config_intProp("timeRange", timeRange));
+        list.add(new Config_boolProp("timeRangeVis", timeRangeVis));
+        list.add(new Config_boolProp("durVis", durVis));
         list.add(new Config_intProp("minDur", minDur));
         list.add(new Config_intProp("maxDur", maxDur));
+
+        list.add(new Config_boolProp("onlyVis", onlyVis));
         list.add(new Config_boolProp("onlyNew", onlyNew));
         list.add(new Config_boolProp("onlyBookmark", onlyBookmark));
         list.add(new Config_boolProp("noHistory", noHistory));
+
         list.add(new Config_intProp("podcastOnOff", podcastOnOff));
+        list.add(new Config_boolProp("podcastVis", podcastVis));
+
         list.add(new Config_intProp("blacklistOnOff", blacklistOnOff));
 
         return list.toArray(new Config[]{});
@@ -154,6 +183,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return channel;
     }
 
+    public boolean isChannelVis() {
+        return channelVis.get();
+    }
+
+    public BooleanProperty channelVisProperty() {
+        return channelVis;
+    }
+
     public String getGenre() {
         return genre.getValueSafe();
     }
@@ -164,6 +201,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public void setGenre(String genre) {
         this.genre.set(genre);
+    }
+
+    public boolean isGenreVis() {
+        return genreVis.get();
+    }
+
+    public BooleanProperty genreVisProperty() {
+        return genreVis;
     }
 
     public String getTheme() {
@@ -178,6 +223,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return theme;
     }
 
+    public boolean isThemeVis() {
+        return themeVis.get();
+    }
+
+    public BooleanProperty themeVisProperty() {
+        return themeVis;
+    }
+
     public String getThemeTitle() {
         return themeTitle.get();
     }
@@ -188,6 +241,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public StringProperty themeTitleProperty() {
         return themeTitle;
+    }
+
+    public boolean isThemeTitleVis() {
+        return themeTitleVis.get();
+    }
+
+    public BooleanProperty themeTitleVisProperty() {
+        return themeTitleVis;
     }
 
     public String getTitle() {
@@ -202,6 +263,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return title;
     }
 
+    public boolean isTitleVis() {
+        return titleVis.get();
+    }
+
+    public BooleanProperty titleVisProperty() {
+        return titleVis;
+    }
+
     public String getSomewhere() {
         return somewhere.get();
     }
@@ -214,6 +283,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return somewhere;
     }
 
+    public boolean isSomewhereVis() {
+        return somewhereVis.get();
+    }
+
+    public BooleanProperty somewhereVisProperty() {
+        return somewhereVis;
+    }
+
     public int getTimeRange() {
         return timeRange.get();
     }
@@ -224,6 +301,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public IntegerProperty timeRangeProperty() {
         return timeRange;
+    }
+
+    public boolean isTimeRangeVis() {
+        return timeRangeVis.get();
+    }
+
+    public BooleanProperty timeRangeVisProperty() {
+        return timeRangeVis;
     }
 
     public int getMinDur() {
@@ -248,6 +333,26 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public void setMaxDur(int maxDur) {
         this.maxDur.set(maxDur);
+    }
+
+    public boolean isDurVis() {
+        return durVis.get();
+    }
+
+    public BooleanProperty durVisProperty() {
+        return durVis;
+    }
+
+    public boolean isOnlyVis() {
+        return onlyVis.get();
+    }
+
+    public BooleanProperty onlyVisProperty() {
+        return onlyVis;
+    }
+
+    public void setOnlyVis(boolean onlyNew) {
+        this.onlyVis.set(onlyNew);
     }
 
     public boolean isOnlyNew() {
@@ -296,6 +401,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public void setPodcastOnOff(int podcastOnOff) {
         this.podcastOnOff.set(podcastOnOff);
+    }
+
+    public boolean isPodcastVis() {
+        return podcastVis.get();
+    }
+
+    public BooleanProperty podcastVisProperty() {
+        return podcastVis;
     }
 
     public int getBlacklistOnOff() {

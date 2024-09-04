@@ -93,27 +93,27 @@ public class AudioTableContextMenu {
         }
 
         final MenuItem miFilterChannel = new MenuItem("nach Sender filtern");
-        miFilterChannel.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setChannel(film.getChannel()));
+        miFilterChannel.setOnAction(event -> progData.filterWorker.getActFilterSettings().setChannel(film.getChannel()));
 
         final MenuItem miFilterGenre = new MenuItem("nach Genre filtern");
-        miFilterGenre.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setGenre(film.getGenre()));
+        miFilterGenre.setOnAction(event -> progData.filterWorker.getActFilterSettings().setGenre(film.getGenre()));
 
         final MenuItem miFilterTheme = new MenuItem("nach Thema filtern");
-        miFilterTheme.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTheme(film.getTheme()));
+        miFilterTheme.setOnAction(event -> progData.filterWorker.getActFilterSettings().setTheme(film.getTheme()));
 
         final MenuItem miFilterTitle = new MenuItem("nach Titel filtern");
-        miFilterTitle.setOnAction(event -> progData.actFilterWorker.getActFilterSettings().setTitle(film.getTitle()));
+        miFilterTitle.setOnAction(event -> progData.filterWorker.getActFilterSettings().setTitle(film.getTitle()));
 
         final MenuItem miFilterChannelTheme = new MenuItem("nach Sender und Thema filtern");
         miFilterChannelTheme.setOnAction(event -> {
-            progData.actFilterWorker.getActFilterSettings().setChannel(film.getChannel());
-            progData.actFilterWorker.getActFilterSettings().setTheme(film.getTheme());
+            progData.filterWorker.getActFilterSettings().setChannel(film.getChannel());
+            progData.filterWorker.getActFilterSettings().setTheme(film.getTheme());
         });
 
         final MenuItem miFilterChannelThemeTitle = new MenuItem("nach Sender, und Titel filtern");
         miFilterChannelThemeTitle.setOnAction(event -> {
-            progData.actFilterWorker.getActFilterSettings().setChannel(film.getChannel());
-            progData.actFilterWorker.getActFilterSettings().setTitle(film.getTitle());
+            progData.filterWorker.getActFilterSettings().setChannel(film.getChannel());
+            progData.filterWorker.getActFilterSettings().setTitle(film.getTitle());
         });
 
         submenuFilter.getItems().addAll(miFilterChannel, miFilterGenre, miFilterTheme, miFilterTitle, miFilterChannelTheme, miFilterChannelThemeTitle);

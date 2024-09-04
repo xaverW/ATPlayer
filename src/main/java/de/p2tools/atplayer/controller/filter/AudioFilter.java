@@ -44,14 +44,14 @@ public final class AudioFilter extends AudioFilterProps {
         // sind die ComboBoxen wenn return gedrückt wird
         P2Log.debugLog("reportFilterReturn");
         pause.stop();
-        ProgData.getInstance().actFilterWorker.addBackward();
+        ProgData.getInstance().filterWorker.addBackward();
         PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
     }
 
     private void reportFilterChange() {
         // sind die anderen Filter (ändern, ein-ausschalten), wenn Pause abgelaufen ist / gestoppt ist
         if (!filterIsOff) {
-            ProgData.getInstance().actFilterWorker.addBackward();
+            ProgData.getInstance().filterWorker.addBackward();
             PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
         }
     }
@@ -73,18 +73,32 @@ public final class AudioFilter extends AudioFilterProps {
         clearFilter();
         nameProperty().addListener(l -> setFilterChange(false));
         channelProperty().addListener(l -> setFilterChange(true));
+        channelVisProperty().addListener(l -> setFilterChange(true));
         genreProperty().addListener(l -> setFilterChange(true));
+        genreVisProperty().addListener(l -> setFilterChange(true));
         themeProperty().addListener(l -> setFilterChange(false));
+        themeVisProperty().addListener(l -> setFilterChange(false));
         themeTitleProperty().addListener(l -> setFilterChange(false));
+        themeTitleVisProperty().addListener(l -> setFilterChange(false));
         titleProperty().addListener(l -> setFilterChange(false));
+        titleVisProperty().addListener(l -> setFilterChange(false));
         somewhereProperty().addListener(l -> setFilterChange(false));
+        somewhereVisProperty().addListener(l -> setFilterChange(false));
+
         timeRangeProperty().addListener(l -> setFilterChange(true));
+        timeRangeVisProperty().addListener(l -> setFilterChange(true));
+        durVisProperty().addListener(l -> setFilterChange(true));
         minDurProperty().addListener(l -> setFilterChange(true));
         maxDurProperty().addListener(l -> setFilterChange(true));
+
+        onlyVisProperty().addListener(l -> setFilterChange(true));
         onlyNewProperty().addListener(l -> setFilterChange(true));
         onlyBookmarkProperty().addListener(l -> setFilterChange(true));
         noHistoryProperty().addListener(l -> setFilterChange(true));
+
         podcastOnOffProperty().addListener(l -> setFilterChange(true));
+        podcastVisProperty().addListener(l -> setFilterChange(true));
+
         blacklistOnOffProperty().addListener(l -> reportBlacklistChange());
     }
 
@@ -115,12 +129,15 @@ public final class AudioFilter extends AudioFilterProps {
         setThemeTitle("");
         setTitle("");
         setSomewhere("");
+
         setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
         setMinDur(FilterCheck.FILTER_ALL_OR_MIN);
         setMaxDur(FilterCheck.FILTER_DURATION_MAX_MINUTE);
+
         setOnlyNew(false);
         setOnlyBookmark(false);
         setNoHistory(false);
-        setPodcastOnOff(AudioFilter.PODCAST_FILTER_ON);
+
+        setPodcastOnOff(AudioFilter.PODCAST_FILTER_OFF__SHOW_ALL);
     }
 }

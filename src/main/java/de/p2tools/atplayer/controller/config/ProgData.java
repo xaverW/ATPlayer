@@ -25,8 +25,8 @@ import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
 import de.p2tools.atplayer.controller.data.download.DownloadInfos;
 import de.p2tools.atplayer.controller.data.download.DownloadList;
 import de.p2tools.atplayer.controller.data.downloaderror.DownloadErrorList;
-import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilterRunner;
+import de.p2tools.atplayer.controller.filter.FilterWorker;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.controller.starter.StartDownload;
 import de.p2tools.atplayer.controller.worker.Busy;
@@ -62,7 +62,7 @@ public class ProgData {
     public static String configDir = ""; // Verzeichnis zum Speichern der Programmeinstellungen
 
     public PShortcut pShortcut; // verwendete Shortcuts
-    public ActFilterWorker actFilterWorker; // gespeicherte Filterprofile
+    public FilterWorker filterWorker; // gespeicherte Filterprofile
     public AudioFilterRunner audioFilterRunner;
     public DownloadList downloadList; // Filme die als "Download" geladen werden sollen
 
@@ -102,7 +102,7 @@ public class ProgData {
         pShortcut = new PShortcut();
         replaceList = new ReplaceList();
 
-        actFilterWorker = new ActFilterWorker();
+        filterWorker = new FilterWorker();
         audioList = new AudioList();
         audioListFiltered = new AudioList();
         stringListsLists = new StringLists();

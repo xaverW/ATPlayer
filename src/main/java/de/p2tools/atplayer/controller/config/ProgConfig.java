@@ -18,8 +18,8 @@
 package de.p2tools.atplayer.controller.config;
 
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
-import de.p2tools.atplayer.controller.filter.ActFilterWorker;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
+import de.p2tools.atplayer.controller.filter.FilterWorker;
 import de.p2tools.atplayer.gui.chart.ChartGenerateFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.configfile.ConfigFile;
@@ -397,8 +397,8 @@ public class ProgConfig extends P2DataProgConfig {
         configFile.addConfigs(ProgConfig.getInstance());//Progconfig
         configFile.addConfigs(ProgColorList.getInstance());//Color
 
-        final AudioFilter akt_sf = progData.actFilterWorker.getActFilterSettings();//akt-Filter
-        akt_sf.setName(ActFilterWorker.SELECTED_FILTER_NAME);// nur zur Info im Config-File
+        final AudioFilter akt_sf = progData.filterWorker.getActFilterSettings();//akt-Filter
+        akt_sf.setName(FilterWorker.SELECTED_FILTER_NAME);// nur zur Info im Config-File
         configFile.addConfigs(akt_sf);
 
         configFile.addConfigs(progData.replaceList);

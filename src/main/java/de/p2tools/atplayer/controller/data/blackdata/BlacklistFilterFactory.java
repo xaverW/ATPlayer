@@ -122,12 +122,12 @@ public class BlacklistFilterFactory {
 
             Stream<AudioData> initialStream = audioList.stream();
 
-            if (progData.actFilterWorker.getActFilterSettings().getBlacklistOnOff() == BLACKLILST_FILTER_INVERS) {
+            if (progData.filterWorker.getActFilterSettings().getBlacklistOnOff() == BLACKLILST_FILTER_INVERS) {
                 //blacklist ONLY
                 P2Log.sysLog("FilmlistBlackFilter - isBlacklistOnly");
                 initialStream = initialStream.filter(AudioData::isBlackBlocked);
 
-            } else if (progData.actFilterWorker.getActFilterSettings().getBlacklistOnOff() == BLACKLILST_FILTER_ON) {
+            } else if (progData.filterWorker.getActFilterSettings().getBlacklistOnOff() == BLACKLILST_FILTER_ON) {
                 //blacklist ON
                 P2Log.sysLog("FilmlistBlackFilter - isBlacklistOn");
                 initialStream = initialStream.filter(audioData -> !audioData.isBlackBlocked());

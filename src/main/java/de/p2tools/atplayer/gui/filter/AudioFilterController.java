@@ -26,12 +26,15 @@ import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ButtonClearFilterFactory;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2MenuButton;
+import de.p2tools.p2lib.guitools.pcheckcombobox.P2CheckComboBox;
 import de.p2tools.p2lib.guitools.prange.P2RangeBox;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import de.p2tools.p2lib.tools.duration.P2Duration;
+import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -57,10 +60,13 @@ public class AudioFilterController extends FilterController {
     private final P2RangeBox slDur = new P2RangeBox("Länge:", true, FilterCheck.FILTER_ALL_OR_MIN,
             FilterCheck.FILTER_DURATION_MAX_MINUTE);
 
+    private final Button btnEditFilter = new Button("");
     private final Button btnClearFilter = P2ButtonClearFilterFactory.getPButtonClearSmall();
     private final Button btnGoBack = new Button("");
     private final Button btnGoForward = new Button("");
     private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast:");
+    private final Label lblOnly = new Label("Anzeigen:");
+    private final P2CheckComboBox checkOnly = new P2CheckComboBox();
 
     private final ProgData progData;
     private AudioFilterControllerBlacklist audioFilterControllerBlacklist;
@@ -69,23 +75,23 @@ public class AudioFilterController extends FilterController {
         super(ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON);
 
         this.progData = ProgData.getInstance();
-        this.mbChannel = new P2MenuButton(progData.actFilterWorker.getActFilterSettings().channelProperty(),
+        this.mbChannel = new P2MenuButton(progData.filterWorker.getActFilterSettings().channelProperty(),
                 progData.worker.getAllChannelList());
-        this.mbGenre = new P2MenuButton(progData.actFilterWorker.getActFilterSettings().genreProperty(),
+        this.mbGenre = new P2MenuButton(progData.filterWorker.getActFilterSettings().genreProperty(),
                 progData.worker.getAllGenreList());
 
         final BooleanSupplier supplierReportReturn = () -> {
-            progData.actFilterWorker.getActFilterSettings().reportFilterReturn();
+            progData.filterWorker.getActFilterSettings().reportFilterReturn();
             return true;
         };
         this.cboTheme = new PCboString(progData.stringListsLists.getFilterListAudioTheme(),
-                progData.actFilterWorker.getActFilterSettings().themeProperty(), supplierReportReturn);
+                progData.filterWorker.getActFilterSettings().themeProperty(), supplierReportReturn);
         this.cboThemeTitle = new PCboString(progData.stringListsLists.getFilterListAudioThemeTitle(),
-                progData.actFilterWorker.getActFilterSettings().themeTitleProperty(), supplierReportReturn);
+                progData.filterWorker.getActFilterSettings().themeTitleProperty(), supplierReportReturn);
         this.cboTitle = new PCboString(progData.stringListsLists.getFilterListAudioTitle(),
-                progData.actFilterWorker.getActFilterSettings().titleProperty(), supplierReportReturn);
+                progData.filterWorker.getActFilterSettings().titleProperty(), supplierReportReturn);
         this.cboSomewhere = new PCboString(progData.stringListsLists.getFilterListAudioSomewhere(),
-                progData.actFilterWorker.getActFilterSettings().somewhereProperty(), supplierReportReturn);
+                progData.filterWorker.getActFilterSettings().somewhereProperty(), supplierReportReturn);
 
         audioFilterControllerBlacklist = new AudioFilterControllerBlacklist();
 
@@ -100,34 +106,34 @@ public class AudioFilterController extends FilterController {
 
     private void initPodcast() {
         tglPodcast.setAllowIndeterminate(true);
-        tglPodcast.setLabelLeft("Podcast [ein]:", "Podcast [aus]:", "Podcast [nur]:");
-        tglPodcast.setTooltip(new Tooltip("Podcast [ein]: Alle Audio werden angezeigt.\n" +
-                "Podcast [aus]: Es werden keine Podcasts angezeigt.\n" +
-                "Podcast [nur]: Es werden nur Podcasts angezeigt."));
+        tglPodcast.setLabelLeft("Podcast [nur]:", "Podcast [alles]:", "Podcast [keine]:");
+        tglPodcast.setTooltip(new Tooltip("Podcast [aus]: Alle Audios werden angezeigt.\n" +
+                "Podcast [ein]: Es werden nur Podcasts angezeigt.\n" +
+                "Podcast [invers]: Es werden keine Podcasts angezeigt."));
 
         setPodcast();
         tglPodcast.getCheckBox().setOnAction((mouseEvent) -> {
             if (tglPodcast.isIndeterminate()) {
-                progData.actFilterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_INVERS);
+                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD);
             } else if (tglPodcast.isSelected()) {
-                progData.actFilterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_ON);
+                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD);
             } else {
-                progData.actFilterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_OFF);
+                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_OFF__SHOW_ALL);
             }
         });
     }
 
     private void setPodcast() {
-        switch (progData.actFilterWorker.getActFilterSettings().podcastOnOffProperty().getValue()) {
-            case AudioFilter.PODCAST_FILTER_OFF:
+        switch (progData.filterWorker.getActFilterSettings().podcastOnOffProperty().getValue()) {
+            case AudioFilter.PODCAST_FILTER_OFF__SHOW_ALL:
                 tglPodcast.setIndeterminate(false);
                 tglPodcast.setSelected(false);
                 break;
-            case AudioFilter.PODCAST_FILTER_ON:
+            case AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD:
                 tglPodcast.setIndeterminate(false);
                 tglPodcast.setSelected(true);
                 break;
-            case AudioFilter.PODCAST_FILTER_INVERS:
+            case AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD:
                 tglPodcast.setIndeterminate(true);
                 tglPodcast.setSelected(false);
                 break;
@@ -136,19 +142,23 @@ public class AudioFilterController extends FilterController {
 
     private void initButton() {
         btnGoBack.setGraphic(ProgIcons.ICON_BUTTON_BACKWARD.getImageView());
-        btnGoBack.setOnAction(a -> progData.actFilterWorker.goBackward());
-        btnGoBack.disableProperty().bind(progData.actFilterWorker.backwardPossibleProperty().not());
+        btnGoBack.setOnAction(a -> progData.filterWorker.goBackward());
+        btnGoBack.disableProperty().bind(progData.filterWorker.backwardPossibleProperty().not());
         btnGoBack.setTooltip(new Tooltip("letzte Filtereinstellung wieder herstellen"));
         btnGoForward.setGraphic(ProgIcons.ICON_BUTTON_FORWARD.getImageView());
-        btnGoForward.setOnAction(a -> progData.actFilterWorker.goForward());
-        btnGoForward.disableProperty().bind(progData.actFilterWorker.forwardPossibleProperty().not());
-        progData.actFilterWorker.forwardPossibleProperty().addListener((v, o, n) -> System.out.println(progData.actFilterWorker.forwardPossibleProperty().getValue().toString()));
+        btnGoForward.setOnAction(a -> progData.filterWorker.goForward());
+        btnGoForward.disableProperty().bind(progData.filterWorker.forwardPossibleProperty().not());
+        progData.filterWorker.forwardPossibleProperty().addListener((v, o, n) -> System.out.println(progData.filterWorker.forwardPossibleProperty().getValue().toString()));
         btnGoForward.setTooltip(new Tooltip("letzte Filtereinstellung wieder herstellen"));
 
         btnClearFilter.setOnAction(a -> {
             P2Duration.onlyPing("Filter löschen");
-            progData.actFilterWorker.clearFilter();
+            progData.filterWorker.clearFilter();
         });
+
+        btnEditFilter.setGraphic(ProgIcons.ICON_BUTTON_EDIT.getImageView());
+        btnEditFilter.setOnAction(a -> new FilmFilterEditDialog(progData));
+        btnEditFilter.setTooltip(new Tooltip("Filter ein/ausschalten"));
     }
 
     private void initDaysFilter() {
@@ -173,31 +183,31 @@ public class AudioFilterController extends FilterController {
             }
         });
 
-        slTimeRange.setValue(progData.actFilterWorker.getActFilterSettings().getTimeRange());
+        slTimeRange.setValue(progData.filterWorker.getActFilterSettings().getTimeRange());
         setLabelSlider();
-        progData.actFilterWorker.getActFilterSettings().timeRangeProperty().addListener(
-                l -> slTimeRange.setValue(progData.actFilterWorker.getActFilterSettings().getTimeRange()));
+        progData.filterWorker.getActFilterSettings().timeRangeProperty().addListener(
+                l -> slTimeRange.setValue(progData.filterWorker.getActFilterSettings().getTimeRange()));
 
         // kein direktes binding wegen: valueChangingProperty, nur melden wenn "steht"
         slTimeRange.valueProperty().addListener((o, oldV, newV) -> {
             setLabelSlider();
             if (!slTimeRange.isValueChanging()) {
-                progData.actFilterWorker.getActFilterSettings().setTimeRange((int) slTimeRange.getValue());
+                progData.filterWorker.getActFilterSettings().setTimeRange((int) slTimeRange.getValue());
             }
         });
 
         slTimeRange.valueChangingProperty().addListener((observable, oldvalue, newvalue) -> {
                     if (!newvalue) {
-                        progData.actFilterWorker.getActFilterSettings().setTimeRange((int) slTimeRange.getValue());
+                        progData.filterWorker.getActFilterSettings().setTimeRange((int) slTimeRange.getValue());
                     }
                 }
         );
     }
 
     private void initDurFilter() {
-        slDur.minValueProperty().bindBidirectional(progData.actFilterWorker.getActFilterSettings().minDurProperty());
-        slDur.maxValueProperty().bindBidirectional(progData.actFilterWorker.getActFilterSettings().maxDurProperty());
-// todo       slDur.setValuePrefix("");
+        slDur.minValueProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().minDurProperty());
+        slDur.maxValueProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().maxDurProperty());
+        // todo       slDur.setValuePrefix("");
     }
 
     private VBox addSlider() {
@@ -233,62 +243,35 @@ public class AudioFilterController extends FilterController {
         VBox.setVgrow(scrollPane, Priority.ALWAYS);
         getVBoxAll().getChildren().add(scrollPane);
 
-        VBox vBox;
-        vBox = addTxt("Sender", mbChannel);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
+        // Textfilter
+        addTxt("Sender", mbChannel, vBoxAll, progData.filterWorker.getActFilterSettings().channelVisProperty());
+        addTxt("Genre", mbGenre, vBoxAll, progData.filterWorker.getActFilterSettings().genreVisProperty());
+        addTxt("Thema", cboTheme, vBoxAll, progData.filterWorker.getActFilterSettings().themeVisProperty());
+        addTxt("Thema oder Titel", cboThemeTitle, vBoxAll, progData.filterWorker.getActFilterSettings().themeTitleVisProperty());
+        addTxt("Titel", cboTitle, vBoxAll, progData.filterWorker.getActFilterSettings().titleVisProperty());
+        addTxt("Irgendwo", cboSomewhere, vBoxAll, progData.filterWorker.getActFilterSettings().somewhereVisProperty());
 
-        vBox = addTxt("Genre", mbGenre);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
+        // Podcast
+        vBoxAll.getChildren().add(P2GuiTools.getVDistance(5));
+        vBoxAll.getChildren().add(tglPodcast);
+        tglPodcast.visibleProperty().bind(progData.filterWorker.getActFilterSettings().podcastVisProperty());
+        tglPodcast.managedProperty().bind(progData.filterWorker.getActFilterSettings().podcastVisProperty());
 
-        vBox = addTxt("Thema", cboTheme);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
-
-        vBox = addTxt("Thema oder Titel", cboThemeTitle);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
-
-        vBox = addTxt("Titel", cboTitle);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
-
-        vBox = addTxt("Irgendwo", cboSomewhere);
-        GridPane.setHgrow(vBox, Priority.ALWAYS);
-        vBoxAll.getChildren().add(vBox);
-
-        final Button btnHelpFilter = P2Button.helpButton(progData.primaryStage, "Infos über die Filter",
-                HelpText.FILTER_INFO);
-
-
-        //zweite Zeile
-        vBox = addSlider();
+        // Zeit
+        VBox vBox = addSlider();
         vBoxAll.getChildren().add(vBox);
         GridPane.setHgrow(vBox, Priority.ALWAYS);
+        vBox.visibleProperty().bind(progData.filterWorker.getActFilterSettings().timeRangeVisProperty());
+        vBox.managedProperty().bind(progData.filterWorker.getActFilterSettings().timeRangeVisProperty());
 
+        // Länge
         vBox = slDur;
         vBoxAll.getChildren().add(vBox);
         GridPane.setHgrow(vBox, Priority.ALWAYS);
+        vBox.visibleProperty().bind(progData.filterWorker.getActFilterSettings().durVisProperty());
+        vBox.managedProperty().bind(progData.filterWorker.getActFilterSettings().durVisProperty());
 
-        CheckBox chkOnlyNew = new CheckBox();
-        chkOnlyNew.selectedProperty().bindBidirectional(progData.actFilterWorker.getActFilterSettings().onlyNewProperty());
-        HBox hBoxNew = new HBox(P2LibConst.DIST_BUTTON);
-        hBoxNew.getChildren().addAll(new Label("Nur neue:"), P2GuiTools.getHBoxGrower(), chkOnlyNew);
-
-        CheckBox chkOnlyBookmark = new CheckBox();
-        chkOnlyBookmark.selectedProperty().bindBidirectional(progData.actFilterWorker.getActFilterSettings().onlyBookmarkProperty());
-        HBox hBoxBookmark = new HBox(P2LibConst.DIST_BUTTON);
-        hBoxBookmark.getChildren().addAll(new Label("Nur Bookmarks:"), P2GuiTools.getHBoxGrower(), chkOnlyBookmark);
-
-        CheckBox chkNoHistory = new CheckBox();
-        chkNoHistory.selectedProperty().bindBidirectional(progData.actFilterWorker.getActFilterSettings().noHistoryProperty());
-        HBox hBoxNoHistory = new HBox(P2LibConst.DIST_BUTTON);
-        hBoxNoHistory.getChildren().addAll(new Label("Keine gehörten:"), P2GuiTools.getHBoxGrower(), chkNoHistory);
-
-        HBox hBoxPodcast = new HBox(P2LibConst.DIST_BUTTON);
-        HBox.setHgrow(tglPodcast, Priority.ALWAYS);
-        hBoxPodcast.getChildren().addAll(tglPodcast);
+        addShowAllFilter(vBoxAll);
 
         Separator sp = new Separator();
         sp.getStyleClass().add("pseperator1");
@@ -296,31 +279,38 @@ public class AudioFilterController extends FilterController {
         sp.setMaxHeight(1);
         vBoxAll.getChildren().add(sp);
 
-        VBox vBoxChk = new VBox(P2LibConst.DIST_BUTTON);
-        vBoxChk.setAlignment(Pos.CENTER_RIGHT);
-        vBoxChk.getChildren().addAll(hBoxNew, hBoxBookmark, hBoxNoHistory, hBoxPodcast);
-        vBoxAll.getChildren().add(vBoxChk);
-
-        sp = new Separator();
-        sp.getStyleClass().add("pseperator1");
-        sp.setMinHeight(0);
-        sp.setMaxHeight(1);
-        vBoxAll.getChildren().add(sp);
-
         vBoxAll.getChildren().add(P2GuiTools.getVDistance(5));
 
+        final Button btnHelpFilter = P2Button.helpButton(progData.primaryStage, "Infos über die Filter",
+                HelpText.FILTER_INFO);
         HBox hBoxClear = new HBox(P2LibConst.DIST_BUTTON);
         hBoxClear.setAlignment(Pos.CENTER_RIGHT);
-        hBoxClear.getChildren().addAll(btnGoBack, btnGoForward, P2GuiTools.getHBoxGrower(), btnClearFilter, btnHelpFilter);
+        hBoxClear.getChildren().addAll(btnEditFilter, btnGoBack, btnGoForward,
+                P2GuiTools.getHBoxGrower(), btnClearFilter, btnHelpFilter);
 
         vBoxAll.getChildren().addAll(hBoxClear);
     }
 
-    private VBox addTxt(String txt, Control control) {
+    private void addTxt(String txt, Node control, VBox vBoxComplete, BooleanProperty booleanProperty) {
         VBox vBox = new VBox(2);
-        vBox.setMaxWidth(Double.MAX_VALUE);
         Label label = new Label(txt);
         vBox.getChildren().addAll(label, control);
-        return vBox;
+        vBoxComplete.getChildren().add(vBox);
+
+        vBox.visibleProperty().bind(booleanProperty);
+        vBox.managedProperty().bind(booleanProperty);
+    }
+
+    private void addShowAllFilter(VBox vBoxAll) {
+        checkOnly.setEmptyText("Alles");
+        checkOnly.addItem("Nur neue", "Nur neue Audios anzeigen", progData.filterWorker.getActFilterSettings().onlyNewProperty());
+        checkOnly.addItem("Nur Bookmarks", "Nur Bookmarks anzeigen", progData.filterWorker.getActFilterSettings().onlyBookmarkProperty());
+        checkOnly.addItem("Keine gehörten", "Keine gehörten Audios anzeigen", progData.filterWorker.getActFilterSettings().noHistoryProperty());
+
+        VBox vBox = new VBox(2);
+        vBox.getChildren().addAll(lblOnly, checkOnly);
+        vBox.visibleProperty().bind(progData.filterWorker.getActFilterSettings().onlyVisProperty());
+        vBox.managedProperty().bind(progData.filterWorker.getActFilterSettings().onlyVisProperty());
+        vBoxAll.getChildren().add(vBox);
     }
 }

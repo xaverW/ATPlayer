@@ -49,7 +49,7 @@ public class ProgStartAfterGui {
         setTitle();
         ProgData.getInstance().startTimer();
         //die gespeicherte Audioliste laden
-        ProgData.getInstance().actFilterWorker.getActFilterSettings().switchFilterOff(false);
+        ProgData.getInstance().filterWorker.getActFilterSettings().switchFilterOff(false);
         LoadAudioFactory.getInstance().loadProgStart();
     }
 

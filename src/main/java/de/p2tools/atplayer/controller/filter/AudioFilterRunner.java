@@ -38,7 +38,7 @@ public class AudioFilterRunner {
      */
     public AudioFilterRunner(ProgData progData) {
         this.progData = progData;
-        progData.actFilterWorker.filterChangeProperty().addListener((observable, oldValue, newValue) -> filter()); // Filmfilter (User) haben sich geändert
+        progData.filterWorker.filterChangeProperty().addListener((observable, oldValue, newValue) -> filter()); // Filmfilter (User) haben sich geändert
         PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, AudioFilterRunner.class.getSimpleName()) {
             @Override
             public void ping() {
@@ -60,7 +60,7 @@ public class AudioFilterRunner {
         PListener.addListener(new PListener(PListener.EVENT_HISTORY_CHANGED, AudioFilterRunner.class.getSimpleName()) {
             @Override
             public void ping() {
-                AudioFilter audioFilter = progData.actFilterWorker.getActFilterSettings();
+                AudioFilter audioFilter = progData.filterWorker.getActFilterSettings();
                 if (audioFilter.isNoHistory()) {
                     //nur dann wird History gefiltert
                     filterList();
@@ -86,7 +86,7 @@ public class AudioFilterRunner {
 
                     P2Duration.counterStart("AudioFilterRunner.filterList");
                     progData.audioListFiltered.filteredListSetPred(
-                            AudioPredicateFactory.getPredicate(progData.actFilterWorker.getActFilterSettings()));
+                            PredicateFactory.getPredicate(progData.filterWorker.getActFilterSettings()));
                     P2Duration.counterStop("AudioFilterRunner.filterList");
 
                     search.set(false);

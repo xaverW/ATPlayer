@@ -35,13 +35,13 @@ public class Worker {
     }
 
     public void saveFilter() {
-        progData.actFilterWorker.getActFilterSettings().copyTo(sfTemp);
+        progData.filterWorker.getActFilterSettings().copyTo(sfTemp);
     }
 
     public void resetFilter() {
         allChannelList.setAll(Arrays.asList(progData.audioList.sender));//alle Sender laden
         allGenreList.setAll(Arrays.asList(progData.audioList.genre));//alle Genre laden
-        sfTemp.copyTo(progData.actFilterWorker.getActFilterSettings());
+        sfTemp.copyTo(progData.filterWorker.getActFilterSettings());
     }
 
     public ObservableList<String> getAllChannelList() {

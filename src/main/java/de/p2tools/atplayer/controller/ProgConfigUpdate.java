@@ -38,8 +38,8 @@ public class ProgConfigUpdate {
             // dann müssen die gespeicherten Filter aktualisiert werden
             final int FILTER_DAYS_MAX__OLD = 30; // ist der alte Wert für "alles"
 
-            if (ProgData.getInstance().actFilterWorker.getActFilterSettings().getTimeRange() == FILTER_DAYS_MAX__OLD) {
-                ProgData.getInstance().actFilterWorker.getActFilterSettings().setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
+            if (ProgData.getInstance().filterWorker.getActFilterSettings().getTimeRange() == FILTER_DAYS_MAX__OLD) {
+                ProgData.getInstance().filterWorker.getActFilterSettings().setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
             }
         }
 

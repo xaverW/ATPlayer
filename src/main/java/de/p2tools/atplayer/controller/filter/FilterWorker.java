@@ -28,7 +28,7 @@ import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
 
-public final class ActFilterWorker {
+public final class FilterWorker {
 
     // ist der aktuell angezeigte Filter
     public static final String SELECTED_FILTER_NAME = "aktuelle Einstellung"; // dient nur der Info im Config-File
@@ -71,7 +71,7 @@ public final class ActFilterWorker {
 
     private boolean theme = false, themeTitle = false, title = false, somewhere = false;
 
-    public ActFilterWorker() {
+    public FilterWorker() {
         audioFilterListBackward.addListener((ListChangeListener<AudioFilter>) c -> {
             if (audioFilterListBackward.size() > 1) {
                 backwardPossible.setValue(true);
@@ -273,12 +273,12 @@ public final class ActFilterWorker {
 
     private void postFilterChange() {
         addBackward();
-        PListener.notify(PListener.EVENT_FILTER_CHANGED, ActFilterWorker.class.getSimpleName());
+        PListener.notify(PListener.EVENT_FILTER_CHANGED, FilterWorker.class.getSimpleName());
     }
 
     private void postBlacklistChange() {
         // dann hat sich auch Blacklist-ein/aus geändert
         BlacklistFilterFactory.makeBlackFiltered();
-        PListener.notify(PListener.EVENT_FILTER_CHANGED, ActFilterWorker.class.getSimpleName());
+        PListener.notify(PListener.EVENT_FILTER_CHANGED, FilterWorker.class.getSimpleName());
     }
 }

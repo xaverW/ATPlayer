@@ -102,23 +102,23 @@ public class AudioMenu {
             progData.historyListBookmarks.clearAll(progData.primaryStage);
         });
         btFilterBookmark.setOnAction(a -> {
-            AudioFilter sf = ProgData.getInstance().actFilterWorker.getActFilterSettings();
+            AudioFilter sf = ProgData.getInstance().filterWorker.getActFilterSettings();
             AudioFilter filter = AudioFilterSample.getBookmarkFilter();
 
             if (sf.isSame(filter, false)) {
                 // dann ist der BlackFilter aktiv, dann zurückschalten
                 if (storedActFilterSettings != null) {
                     // dann haben wir einen gespeicherten Filter
-                    ProgData.getInstance().actFilterWorker.setActFilterSettings(storedActFilterSettings);
+                    ProgData.getInstance().filterWorker.setActFilterSettings(storedActFilterSettings);
                     storedActFilterSettings = null;
                 } else {
                     // dann gibts keinen gespeicherten, dann einfach löschen
-                    ProgData.getInstance().actFilterWorker.getActFilterSettings().clearFilter();
+                    ProgData.getInstance().filterWorker.getActFilterSettings().clearFilter();
                 }
             } else {
                 // dann ist es ein anderer Filter, Black einschalten und ActFilter merken
-                storedActFilterSettings = ProgData.getInstance().actFilterWorker.getActFilterSettings().getCopy();
-                ProgData.getInstance().actFilterWorker.setActFilterSettings(filter);
+                storedActFilterSettings = ProgData.getInstance().filterWorker.getActFilterSettings().getCopy();
+                ProgData.getInstance().filterWorker.setActFilterSettings(filter);
             }
         });
     }
