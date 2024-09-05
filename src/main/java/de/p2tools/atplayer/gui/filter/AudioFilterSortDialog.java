@@ -187,7 +187,7 @@ public class AudioFilterSortDialog extends P2DialogExtra {
             return;
         }
 
-        if (progData.filterWorker.removeStoredFilter(sf)) {
+        if (progData.filterWorker.getFilterList().removeStoredFilter(sf)) {
             tableView.getSelectionModel().selectFirst();
         }
     }

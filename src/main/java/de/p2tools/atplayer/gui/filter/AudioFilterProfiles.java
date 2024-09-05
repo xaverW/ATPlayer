@@ -235,7 +235,7 @@ public class AudioFilterProfiles extends VBox {
         if (sf == null) {
             newFilter();
         } else {
-            progData.filterWorker.saveStoredFilter(sf);
+            progData.filterWorker.getFilterList().saveStoredFilter(sf);
             checkCboFilter();
         }
     }
@@ -247,13 +247,13 @@ public class AudioFilterProfiles extends VBox {
             return;
         }
 
-        if (progData.filterWorker.removeStoredFilter(sf)) {
+        if (progData.filterWorker.getFilterList().removeStoredFilter(sf)) {
             cboFilterProfiles.getSelectionModel().selectFirst();
         }
     }
 
     private void delAllFilter() {
-        progData.filterWorker.removeAllStoredFilter();
+        progData.filterWorker.getFilterList().removeAllStoredFilter();
     }
 
     private void resetFilter() {
@@ -268,7 +268,7 @@ public class AudioFilterProfiles extends VBox {
     }
 
     private void newFilter() {
-        final TextInputDialog dialog = new TextInputDialog(progData.filterWorker.getNextName());
+        final TextInputDialog dialog = new TextInputDialog(progData.filterWorker.getFilterList().getNextName());
         dialog.setTitle("Filterprofilname");
         dialog.setHeaderText("Den Namen des Filterprofils vorgeben");
         dialog.setContentText("Name:");
@@ -277,7 +277,7 @@ public class AudioFilterProfiles extends VBox {
 
         final Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
-            progData.filterWorker.addNewStoredFilter(result.get());
+            progData.filterWorker.getFilterList().addNewStoredFilter(result.get());
             cboFilterProfiles.getSelectionModel().selectLast();
         }
     }

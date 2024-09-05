@@ -18,7 +18,6 @@ package de.p2tools.atplayer.controller.filter;
 
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
-import de.p2tools.p2lib.alert.P2Alert;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -288,63 +287,5 @@ public final class FilterWorker {
         // dann hat sich auch Blacklist-ein/aus geändert
         BlacklistFilterFactory.makeBlackFiltered();
         PListener.notify(PListener.EVENT_FILTER_CHANGED, FilterWorker.class.getSimpleName());
-    }
-
-    public boolean removeStoredFilter(AudioFilter sf) {
-        // delete stored filter
-        if (sf == null) {
-            return false;
-        }
-
-        if (P2Alert.showAlertOkCancel("Löschen", "Filterprofil löschen",
-                "Soll das Filterprofil: " +
-                        sf.getName() + "\n" +
-                        "gelöscht werden?")) {
-            filterList.remove(sf);
-            return true;
-        }
-        return false;
-    }
-
-    public void removeAllStoredFilter() {
-        // delete all stored Filter
-        if (P2Alert.showAlertOkCancel("Löschen", "Filterprofile löschen",
-                "Sollen alle Filterprofile gelöscht werden?")) {
-            filterList.clear();
-        }
-    }
-
-    public void saveStoredFilter(AudioFilter sf) {
-        // gesicherten Filter mit den aktuellen Einstellungen überschreiben
-        if (sf == null) {
-            return;
-        }
-
-        final String name = sf.getName();
-        actFilterSettings.copyTo(sf);
-        sf.setName(name);
-    }
-
-    public void addNewStoredFilter(String name) {
-        // einen neuen Filter zu den gespeicherten hinzufügen
-        final AudioFilter sf = new AudioFilter();
-        actFilterSettings.copyTo(sf);
-        sf.setName(name.isEmpty() ? getNextName() : name);
-        filterList.add(sf);
-    }
-
-    public String getNextName() {
-        String ret = "";
-        int id = 1;
-        boolean found = false;
-        while (!found) {
-            final String name = "Filter " + id;
-            if (filterList.stream().noneMatch(f -> name.equalsIgnoreCase(f.getName()))) {
-                ret = name;
-                found = true;
-            }
-            ++id;
-        }
-        return ret;
     }
 }
