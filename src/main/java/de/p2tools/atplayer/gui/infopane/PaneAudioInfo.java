@@ -24,7 +24,6 @@ import de.p2tools.p2lib.atdata.AudioDataXml;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mtdownload.DownloadSizeData;
-import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -135,7 +134,7 @@ public class PaneAudioInfo extends VBox {
 
         this.audioData = audioData;
 
-        lblTheme.setText(audioData.arr[AudioDataXml.AUDIO_CHANNEL] + "  -  " + audioData.arr[FilmDataXml.FILM_THEME]);
+        lblTheme.setText(audioData.arr[AudioDataXml.AUDIO_CHANNEL] + "  -  " + audioData.arr[AudioDataXml.AUDIO_THEME]);
         lblTitle.setText(audioData.arr[AudioDataXml.AUDIO_TITLE]);
         textArea.setText(audioData.getDescription());
         oldDescription = audioData.getDescription();

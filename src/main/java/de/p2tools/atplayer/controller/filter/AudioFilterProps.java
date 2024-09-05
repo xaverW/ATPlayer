@@ -109,7 +109,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return list.toArray(new Config[]{});
     }
 
-    public boolean isSame(AudioFilter sf, boolean compareName) {
+    public boolean isSame(AudioFilter sf) {
         if (sf == null) {
             return false;
         }
@@ -119,7 +119,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
                 return false;
             }
         }
-        int ii = compareName ? 0 : 1;//wenn der Name mit verglichen werden soll, dann Start bei 0, sonst 1
+        int ii = 1;// wenn der Name mit verglichen werden soll, dann Start bei 0, sonst 1
         for (int i = ii; i < sfStringPropArr.length; ++i) {
             if (!this.sfStringPropArr[i].getValue().equals(sf.sfStringPropArr[i].getValue())) {
                 return false;
@@ -140,7 +140,6 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
     }
 
     public void copyTo(AudioFilter sf) {
-
         for (int i = 0; i < sfBooleanPropArr.length; ++i) {
             sf.sfBooleanPropArr[i].setValue(this.sfBooleanPropArr[i].getValue());
         }
@@ -190,6 +189,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return channelVis;
     }
 
+    public void setChannelVis(boolean set) {
+        channelVis.set(set);
+    }
+
     public String getGenre() {
         return genre.getValueSafe();
     }
@@ -208,6 +211,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public BooleanProperty genreVisProperty() {
         return genreVis;
+    }
+
+    public void setGenreVis(boolean set) {
+        genreVis.set(set);
     }
 
     public String getTheme() {
@@ -230,6 +237,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return themeVis;
     }
 
+    public void setThemeVis(boolean set) {
+        themeVis.set(set);
+    }
+
     public String getThemeTitle() {
         return themeTitle.get();
     }
@@ -248,6 +259,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public BooleanProperty themeTitleVisProperty() {
         return themeTitleVis;
+    }
+
+    public void setThemeTitleVis(boolean set) {
+        themeTitleVis.set(set);
     }
 
     public String getTitle() {
@@ -270,6 +285,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return titleVis;
     }
 
+    public void setTitleVis(boolean set) {
+        titleVis.set(set);
+    }
+
     public String getSomewhere() {
         return somewhere.get();
     }
@@ -290,6 +309,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         return somewhereVis;
     }
 
+    public void setSomewhereVis(boolean set) {
+        somewhereVis.set(set);
+    }
+
     public int getTimeRange() {
         return timeRange.get();
     }
@@ -308,6 +331,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public BooleanProperty timeRangeVisProperty() {
         return timeRangeVis;
+    }
+
+    public void setTimeRangeVis(boolean set) {
+        timeRangeVis.set(set);
     }
 
     public int getMinDur() {
@@ -340,6 +367,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public BooleanProperty durVisProperty() {
         return durVis;
+    }
+
+    public void setDurVis(boolean set) {
+        durVis.set(set);
     }
 
     public boolean isOnlyVis() {
@@ -408,6 +439,10 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public BooleanProperty podcastVisProperty() {
         return podcastVis;
+    }
+
+    public void setPodcastVis(boolean set) {
+        podcastVis.set(set);
     }
 
     public int getBlacklistOnOff() {

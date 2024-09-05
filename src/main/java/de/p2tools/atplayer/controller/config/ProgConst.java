@@ -69,6 +69,8 @@ public class ProgConst {
     public static final int LAENGE_DATEINAME_MAX = 200; // Standardwert für die Länge des Zieldateinamens
     public static final int LAENGE_FELD_MAX = 100; // Standardwert für die Länge des Feldes des
 
+    public static final int MAX_FILTER_GO_BACK = 20;
+
     // Startnummer/Filmnummer/... wenn nicht vorhanden
     public static final int NUMBER_NOT_EXISTS = Integer.MAX_VALUE;
 }

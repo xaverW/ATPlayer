@@ -17,6 +17,7 @@
 package de.p2tools.atplayer.controller;
 
 import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.gui.startdialog.StartDialogController;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
@@ -51,6 +52,7 @@ public class ProgStartBeforeGui {
             }
         }
 
+        FilterSamples.addStandardFilter();
         ProgData.getInstance().historyList.loadList();
         ProgData.getInstance().historyListBookmarks.loadList();
     }

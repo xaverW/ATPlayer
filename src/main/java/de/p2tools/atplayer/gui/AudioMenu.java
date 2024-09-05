@@ -27,7 +27,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
-import de.p2tools.atplayer.controller.filter.AudioFilterSample;
+import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
@@ -103,9 +103,9 @@ public class AudioMenu {
         });
         btFilterBookmark.setOnAction(a -> {
             AudioFilter sf = ProgData.getInstance().filterWorker.getActFilterSettings();
-            AudioFilter filter = AudioFilterSample.getBookmarkFilter();
+            AudioFilter filter = FilterSamples.getBookmarkFilter();
 
-            if (sf.isSame(filter, false)) {
+            if (sf.isSame(filter)) {
                 // dann ist der BlackFilter aktiv, dann zurückschalten
                 if (storedActFilterSettings != null) {
                     // dann haben wir einen gespeicherten Filter

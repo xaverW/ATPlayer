@@ -194,6 +194,9 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty AUDIO_INFO_DIALOG_SHOW_WEBSITE_URL = addBoolProp("audio-info-dialog-show-website-url", Boolean.FALSE);
     public static BooleanProperty AUDIO_INFO_DIALOG_SHOW_DESCRIPTION = addBoolProp("audio-info-dialog-show-description", Boolean.TRUE);
 
+    // Filter
+    public static IntegerProperty FILTER_SEL_FILTER = addIntProp("filter-sel-filter");
+
     // Configs
     public static StringProperty SYSTEM_AUDIOLIST_DATE_TIME = addStrProp("system-audiolist-date", ""); // DateTimeFormatter DT_FORMATTER_dd_MM_yyyy___HH__mm
     public static StringProperty SYSTEM_USERAGENT = addStrProp("system-useragent", ProgConst.USER_AGENT_DEFAULT); //Useragent für direkte Downloads

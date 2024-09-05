@@ -29,13 +29,13 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class AudioFilterControllerBlacklist extends HBox {
+public class AudioFilterrBlacklist extends HBox {
 
     private final ProgData progData;
 
     private final P2ToggleSwitch tglBlacklist = new P2ToggleSwitch("Blacklist:");
 
-    public AudioFilterControllerBlacklist() {
+    public AudioFilterrBlacklist() {
         progData = ProgData.getInstance();
 
         Button btnBlack = new Button("");
