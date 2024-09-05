@@ -25,53 +25,13 @@ import de.p2tools.p2lib.mtfilter.FilterCheck;
 
 public class AudioFilterCheck {
 
+    public static final String FILTER_SHOW_DATE_ALL = "";
+    public static final int FILTER_ALL_OR_MIN = 0;
+    public static final int FILTER_DURATION_MAX_MINUTE = 150;//Filmlänge [Minuten]
+    public static final int FILTER_TIME_MAX_SEC = 24 * 60 * 60;//Sendezeit [Minuten], das ist eigentlich bereits 00:00 vom nächsten Tag!!
+    public static final int FILTER_TIME_RANGE_MAX_VALUE = 50;//Zeitraum zurück [Tag]
+
     private AudioFilterCheck() {
-    }
-
-    /**
-     * Abo und Blacklist prüfen
-     *
-     * @param sender
-     * @param theme
-     * @param themeTitle
-     * @param title
-     * @param somewhere
-     * @param filmData
-     * @return
-     */
-    public static boolean checkFilterMatch(Filter sender,
-                                           Filter genre,
-                                           Filter theme,
-                                           Filter themeTitle,
-                                           Filter title,
-                                           Filter somewhere,
-                                           AudioData filmData) {
-
-        if (!sender.isEmpty && !checkMatchChannelSmartLowerCase(sender, filmData)) {
-            return false;
-        }
-
-        if (!genre.isEmpty && !checkMatchGenreLowerCase(genre, filmData)) {
-            return false;
-        }
-
-        if (!theme.isEmpty && !checkMatchThemeExactLowerCase(theme, filmData)) {
-            return false;
-        }
-
-        if (!themeTitle.isEmpty && !checkMatchThemeTitleLowerCase(themeTitle, filmData)) {
-            return false;
-        }
-
-        if (!title.isEmpty && !checkMatchTitleLowerCase(title, filmData)) {
-            return false;
-        }
-
-        if (!somewhere.isEmpty && !checkMatchSomewhereLowerCase(somewhere, filmData)) {
-            return false;
-        }
-
-        return true;
     }
 
     public static boolean checkFilterMatch(Filter sender,
@@ -89,7 +49,7 @@ public class AudioFilterCheck {
             return false;
         }
 
-        if (!theme.isEmpty && !checkMatchThemeExactLowerCase(theme, audioData)) {
+        if (!theme.isEmpty && !checkMatchThemeLowerCase(theme, audioData)) {
             return false;
         }
 
@@ -133,50 +93,8 @@ public class AudioFilterCheck {
         return true;
     }
 
-    public static boolean checkMatchThemeExact(Filter theme, AudioData audioData) {
-        if (theme.isExact) {
-            if (!theme.filter.equalsIgnoreCase(audioData.arr[AudioDataXml.AUDIO_THEME])) {
-                return false;
-            }
-        } else {
-            if (!FilterCheck.check(theme, audioData.arr[AudioDataXml.AUDIO_THEME])) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean checkMatchThemeExactLowerCase(Filter theme, AudioData audioData) {
-        if (theme.isExact) {
-            if (!theme.filterArr[0].equals(audioData.THEME_STR)) {
-                //exact: dann werden auch der Kleinbuchstaben verglichen!!
-                return false;
-            }
-        } else {
-            if (!FilterCheck.checkLowerCase(theme, audioData.arr[AudioDataXml.AUDIO_THEME], audioData.THEME_STR)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static boolean checkMatchTheme(Filter theme, AudioData audioData) {
-        if (!FilterCheck.check(theme, audioData.arr[AudioDataXml.AUDIO_THEME])) {
-            return false;
-        }
-        return true;
-    }
-
     private static boolean checkMatchThemeLowerCase(Filter theme, AudioData audioData) {
         if (!FilterCheck.checkLowerCase(theme, audioData.arr[AudioDataXml.AUDIO_THEME], audioData.THEME_STR)) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean checkMatchThemeTitle(Filter themeTitle, AudioData audioData) {
-        if (!FilterCheck.check(themeTitle, audioData.arr[AudioDataXml.AUDIO_THEME])
-                && !FilterCheck.check(themeTitle, audioData.arr[AudioDataXml.AUDIO_TITLE])) {
             return false;
         }
         return true;
@@ -190,13 +108,6 @@ public class AudioFilterCheck {
         return true;
     }
 
-    public static boolean checkMatchTitle(Filter title, AudioData audioData) {
-        if (!FilterCheck.check(title, audioData.arr[AudioDataXml.AUDIO_TITLE])) {
-            return false;
-        }
-        return true;
-    }
-
     private static boolean checkMatchTitleLowerCase(Filter title, AudioData audioData) {
         if (!FilterCheck.checkLowerCase(title, audioData.arr[AudioDataXml.AUDIO_TITLE], audioData.TITLE_STR)) {
             return false;
@@ -204,19 +115,10 @@ public class AudioFilterCheck {
         return true;
     }
 
-    public static boolean checkMatchSomewhere(Filter somewhere, AudioData audioData) {
-        if (!FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_DATE])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_THEME])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_TITLE])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_DESCRIPTION])) {
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean checkMatchSomewhereLowerCase(Filter somewhere, AudioData audioData) {
+    public static boolean checkMatchSomewhereLowerCase(Filter somewhere, AudioData audioData) {
         if (!FilterCheck.checkLowerCase(somewhere, audioData.arr[AudioDataXml.AUDIO_DATE],
                 audioData.arr[AudioDataXml.AUDIO_DATE].toLowerCase())
+                && !FilterCheck.checkLowerCase(somewhere, audioData.arr[AudioDataXml.AUDIO_GENRE], audioData.GENRE_STR)
                 && !FilterCheck.checkLowerCase(somewhere, audioData.arr[AudioDataXml.AUDIO_THEME], audioData.THEME_STR)
                 && !FilterCheck.checkLowerCase(somewhere, audioData.arr[AudioDataXml.AUDIO_TITLE], audioData.TITLE_STR)
                 && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_DESCRIPTION])) {
@@ -228,7 +130,7 @@ public class AudioFilterCheck {
     public static boolean checkMaxDays(int maxDays, long filmTime) {
         long days = 0;
         try {
-            if (maxDays == FilterCheck.FILTER_ALL_OR_MIN) {
+            if (maxDays == AudioFilterCheck.FILTER_ALL_OR_MIN) {
                 days = 0;
             } else {
                 final long max = 1000L * 60L * 60L * 24L * maxDays;
@@ -266,20 +168,12 @@ public class AudioFilterCheck {
         return true;
     }
 
-    public static boolean checkMatchUrl(Filter url, AudioData audioData) {
-        if (!FilterCheck.check(url, audioData.arr[AudioDataXml.AUDIO_WEBSITE])
-                && !FilterCheck.check(url, audioData.arr[AudioDataXml.AUDIO_URL])) {
-            return false;
-        }
-        return true;
-    }
-
     public static boolean checkMatchLengthMin(int filterLangth, long filmLength) {
         return filterLangth == 0 || filmLength == 0 || filmLength >= filterLangth;
     }
 
     public static boolean checkMatchLengthMax(int filterLaenge, long filmLength) {
-        return filterLaenge == FilterCheck.FILTER_DURATION_MAX_MINUTE || filmLength == 0
+        return filterLaenge == AudioFilterCheck.FILTER_DURATION_MAX_MINUTE || filmLength == 0
                 || filmLength <= filterLaenge;
     }
 
@@ -294,7 +188,7 @@ public class AudioFilterCheck {
         }
 
         boolean ret = (timeMin == 0 || filmTime >= timeMin) &&
-                (timeMax == FilterCheck.FILTER_TIME_MAX_SEC || filmTime <= timeMax);
+                (timeMax == AudioFilterCheck.FILTER_TIME_MAX_SEC || filmTime <= timeMax);
 
         if (invert) {
             return !ret;
@@ -304,7 +198,7 @@ public class AudioFilterCheck {
     }
 
     public static boolean checkMatchMinDur(int minDur, AudioData audioData) {
-        if (minDur == FilterCheck.FILTER_ALL_OR_MIN) {
+        if (minDur == AudioFilterCheck.FILTER_ALL_OR_MIN) {
             return true;
         }
 
@@ -317,7 +211,7 @@ public class AudioFilterCheck {
     }
 
     public static boolean checkMatchMinDur(int minDur, int durationMinute) {
-        if (minDur == FilterCheck.FILTER_ALL_OR_MIN) {
+        if (minDur == AudioFilterCheck.FILTER_ALL_OR_MIN) {
             return true;
         }
 
@@ -329,7 +223,7 @@ public class AudioFilterCheck {
     }
 
     public static boolean checkMatchMaxDur(int maxDur, AudioData audioData) {
-        if (maxDur == FilterCheck.FILTER_DURATION_MAX_MINUTE) {
+        if (maxDur == AudioFilterCheck.FILTER_DURATION_MAX_MINUTE) {
             return true;
         }
 
@@ -342,7 +236,7 @@ public class AudioFilterCheck {
     }
 
     public static boolean checkMatchMaxDur(int maxDur, int durationMinute) {
-        if (maxDur == FilterCheck.FILTER_DURATION_MAX_MINUTE) {
+        if (maxDur == AudioFilterCheck.FILTER_DURATION_MAX_MINUTE) {
             return true;
         }
 

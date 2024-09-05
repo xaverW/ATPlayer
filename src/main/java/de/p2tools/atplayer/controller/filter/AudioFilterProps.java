@@ -22,7 +22,6 @@ import de.p2tools.p2lib.configfile.config.Config_boolProp;
 import de.p2tools.p2lib.configfile.config.Config_intProp;
 import de.p2tools.p2lib.configfile.config.Config_stringProp;
 import de.p2tools.p2lib.configfile.pdata.P2DataSample;
-import de.p2tools.p2lib.mtfilter.FilterCheck;
 import javafx.beans.property.*;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
     private final BooleanProperty timeRangeVis = new SimpleBooleanProperty(true);
 
     private final IntegerProperty minDur = new SimpleIntegerProperty(0);
-    private final IntegerProperty maxDur = new SimpleIntegerProperty(FilterCheck.FILTER_DURATION_MAX_MINUTE);
+    private final IntegerProperty maxDur = new SimpleIntegerProperty(AudioFilterCheck.FILTER_DURATION_MAX_MINUTE);
     private final BooleanProperty durVis = new SimpleBooleanProperty(true);
 
     private final BooleanProperty onlyVis = new SimpleBooleanProperty(true);

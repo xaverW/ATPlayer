@@ -132,7 +132,7 @@ public final class AudioFilter extends AudioFilterProps {
 
         setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
         setMinDur(FilterCheck.FILTER_ALL_OR_MIN);
-        setMaxDur(FilterCheck.FILTER_DURATION_MAX_MINUTE);
+        setMaxDur(AudioFilterCheck.FILTER_DURATION_MAX_MINUTE);
 
         setOnlyNew(false);
         setOnlyBookmark(false);

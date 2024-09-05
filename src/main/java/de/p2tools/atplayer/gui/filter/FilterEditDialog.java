@@ -34,11 +34,11 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 
-public class FilmFilterEditDialog extends P2DialogExtra {
+public class FilterEditDialog extends P2DialogExtra {
 
     private final ProgData progData;
 
-    public FilmFilterEditDialog(ProgData progData) {
+    public FilterEditDialog(ProgData progData) {
         super(progData.primaryStage, null, "Filtereinstellungen", true, true, DECO.NO_BORDER);
         this.progData = progData;
 

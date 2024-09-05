@@ -20,7 +20,6 @@ package de.p2tools.atplayer.controller.filter;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.atdata.AudioDataProps;
 import de.p2tools.p2lib.atdata.AudioDataXml;
-import de.p2tools.p2lib.mtfilter.FilmFilterCheck;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 
@@ -108,20 +107,21 @@ public class PredicateFactory {
         //anz Tage Sendezeit
         if (days != 0) {
             final long d = days;
-            predicate = predicate.and(f -> FilmFilterCheck.checkDays(d, f.getDate().getTime()));
+            predicate = predicate.and(f -> AudioFilterCheck.checkDays(d, f.getDate().getTime()));
         }
 
         //Filmlänge
         if (audioFilter.getMinDur() != FilterCheck.FILTER_ALL_OR_MIN) {
-            predicate = predicate.and(f -> FilmFilterCheck.checkMatchMinDur(audioFilter.getMinDur(), f.getDurationMinute()));
+            predicate = predicate.and(f -> AudioFilterCheck.checkMatchMinDur(audioFilter.getMinDur(), f.getDurationMinute()));
         }
-        if (audioFilter.getMaxDur() != FilterCheck.FILTER_DURATION_MAX_MINUTE) {
-            predicate = predicate.and(f -> FilmFilterCheck.checkMatchMaxDur(audioFilter.getMaxDur(), f.getDurationMinute()));
+        if (audioFilter.getMaxDur() != AudioFilterCheck.FILTER_DURATION_MAX_MINUTE) {
+            predicate = predicate.and(f ->
+                    AudioFilterCheck.checkMatchMaxDur(audioFilter.getMaxDur(), f.getDurationMinute()));
         }
 
         //Textfilter
         if (!fChannel.isEmpty) {
-            predicate = predicate.and(f -> checkMatchChannelSmart(fChannel, f.arr[AudioDataXml.AUDIO_CHANNEL]));
+            predicate = predicate.and(audioData -> AudioFilterCheck.checkMatchChannelSmart(fChannel, audioData));
         }
 
         if (!fGenre.isEmpty) {
@@ -142,32 +142,9 @@ public class PredicateFactory {
         }
 
         if (!fSomewhere.isEmpty) {
-            predicate = predicate.and(f -> checkMatchSomewhere(fSomewhere, f));
+            predicate = predicate.and(audioData -> AudioFilterCheck.checkMatchSomewhereLowerCase(fSomewhere, audioData));
         }
 
         return predicate;
     }
-
-    public static boolean checkMatchChannelSmart(Filter sender, String channel) {
-        // nur ein Suchbegriff muss passen
-        for (final String s : sender.filterArr) {
-            // dann jeden Suchbegriff checken
-            if (s.equalsIgnoreCase(channel)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean checkMatchSomewhere(Filter somewhere, AudioData audioData) {
-        if (!FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_DATE])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_GENRE])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_THEME])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_TITLE])
-                && !FilterCheck.check(somewhere, audioData.arr[AudioDataXml.AUDIO_DESCRIPTION])) {
-            return false;
-        }
-        return true;
-    }
-
 }

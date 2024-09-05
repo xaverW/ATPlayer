@@ -20,6 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
+import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
@@ -58,7 +59,7 @@ public class AudioFilterController extends FilterController {
     private final Slider slTimeRange = new Slider();
     private final Label lblTimeRangeValue = new Label();
     private final P2RangeBox slDur = new P2RangeBox("Länge:", true, FilterCheck.FILTER_ALL_OR_MIN,
-            FilterCheck.FILTER_DURATION_MAX_MINUTE);
+            AudioFilterCheck.FILTER_DURATION_MAX_MINUTE);
 
     private final Button btnEditFilter = new Button("");
     private final Button btnClearFilter = P2ButtonClearFilterFactory.getPButtonClearSmall();
@@ -157,7 +158,7 @@ public class AudioFilterController extends FilterController {
         });
 
         btnEditFilter.setGraphic(ProgIcons.ICON_BUTTON_EDIT.getImageView());
-        btnEditFilter.setOnAction(a -> new FilmFilterEditDialog(progData));
+        btnEditFilter.setOnAction(a -> new FilterEditDialog(progData));
         btnEditFilter.setTooltip(new Tooltip("Filter ein/ausschalten"));
     }
 
