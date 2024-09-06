@@ -403,6 +403,7 @@ public class ProgConfig extends P2DataProgConfig {
         final AudioFilter akt_sf = progData.filterWorker.getActFilterSettings();//akt-Filter
         akt_sf.setName(FilterWorker.SELECTED_FILTER_NAME);// nur zur Info im Config-File
         configFile.addConfigs(akt_sf);
+        configFile.addConfigs(progData.filterWorker.getFilterList());
 
         configFile.addConfigs(progData.replaceList);
         configFile.addConfigs(progData.downloadList);

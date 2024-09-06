@@ -145,8 +145,7 @@ public class AudioFilterProfiles extends VBox {
 
         mbFilterTools.setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
         mbFilterTools.getItems().addAll(miLoad, miRename, miDel, miDelAll, miSave, miNew,
-                new SeparatorMenuItem(), miResort,
-                new SeparatorMenuItem(), miReset);
+                new SeparatorMenuItem(), miResort, miReset);
         mbFilterTools.setTooltip(new Tooltip("Gespeicherte Filterprofile bearbeiten"));
 
         cboFilterProfiles.getSelectionModel().select(ProgConfig.FILTER_SEL_FILTER.get());
@@ -297,6 +296,7 @@ public class AudioFilterProfiles extends VBox {
         final Optional<String> result = dialog.showAndWait();
         if (result.isPresent()) {
             sf.setName(result.get());
+            cboFilterProfiles.getSelectionModel().clearSelection();
             cboFilterProfiles.getSelectionModel().select(sf);
         }
     }

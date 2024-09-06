@@ -50,9 +50,10 @@ public class ProgStartBeforeGui {
                 Platform.exit();
                 System.exit(0);
             }
+
+            FilterSamples.addStandardFilter();
         }
 
-        FilterSamples.addStandardFilter();
         ProgData.getInstance().historyList.loadList();
         ProgData.getInstance().historyListBookmarks.loadList();
     }
