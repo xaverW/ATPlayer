@@ -49,22 +49,22 @@ public class StartPane {
                 "in der Audioliste ermöglichen." +
 
                 P2LibConst.LINE_SEPARATORx2 +
-                "2) Hier können alte Filtereinstellungen" + P2LibConst.LINE_SEPARATOR +
-                "wiederhergestellt und der" + P2LibConst.LINE_SEPARATOR +
-                "Filter gelöscht werden." +
+                "2) Hier können Filter ein/ausgeblendet werden," + P2LibConst.LINE_SEPARATOR +
+                "alte Filtereinstellungen wiederhergestellt" + P2LibConst.LINE_SEPARATOR +
+                "und der Filter gelöscht werden." +
 
                 P2LibConst.LINE_SEPARATORx2 +
                 "3) Infos zum markierten Audio" + P2LibConst.LINE_SEPARATOR +
                 "werden hier angezeigt." +
 
                 P2LibConst.LINE_SEPARATORx2 +
-                "4) Ein Audio oder ein Download kann" + P2LibConst.LINE_SEPARATOR +
-                "hier gestartet werden." +
-
-                P2LibConst.LINE_SEPARATORx2 +
-                "5) Das ist das Programm-Menü" + P2LibConst.LINE_SEPARATOR +
+                "4) Das ist das Programm-Menü" + P2LibConst.LINE_SEPARATOR +
                 "mit den Einstellungen und Infos über" + P2LibConst.LINE_SEPARATOR +
                 "das Programm." +
+
+                P2LibConst.LINE_SEPARATORx2 +
+                "5) Ein Audio oder ein Download kann" + P2LibConst.LINE_SEPARATOR +
+                "hier gestartet werden." +
 
                 P2LibConst.LINE_SEPARATORx2 +
                 "6) Audios können damit markiert " + P2LibConst.LINE_SEPARATOR +
