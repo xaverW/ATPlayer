@@ -24,15 +24,10 @@ import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 
 public final class FilterList extends SimpleListProperty<AudioFilter> implements P2DataList<AudioFilter> {
-    public String TAG = "SelectedFilterList";
+    public String TAG = "FilterList";
 
     public FilterList() {
         super(FXCollections.observableArrayList());
-    }
-
-    public FilterList(String tag) {
-        super(FXCollections.observableArrayList());
-        TAG = tag;
     }
 
     @Override
