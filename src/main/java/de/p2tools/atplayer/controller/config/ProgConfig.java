@@ -236,6 +236,8 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty AUDIO_GUI_TABLE_VIS = addStrProp("audio-gui-table-vis");
     public static StringProperty AUDIO_GUI_TABLE_ORDER = addStrProp("audio-gui-table-order");
     public static DoubleProperty AUDIO_PANE_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", 0.7);
+    public static StringProperty AUDIO_GUI_FILTER_DIALOG = addStrProp("audio-gui-filter-dialog", "400:500");
+    public static BooleanProperty AUDIO_GUI_FILTER_DIALOG_IS_SHOWING = addBoolProp("audio-gui-filter-dialog-is-showing", Boolean.FALSE);
 
     public static BooleanProperty AUDIO_GUI_INFO_ON = addBoolProp("audio-gui-info-on", Boolean.TRUE);
     public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);

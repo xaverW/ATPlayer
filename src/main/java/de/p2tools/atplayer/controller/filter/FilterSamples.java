@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.controller.filter;
 
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.mtfilter.FilterCheck;
+import de.p2tools.p2lib.guitools.P2SeparatorComboBox;
 
 public class FilterSamples {
 
@@ -35,11 +35,7 @@ public class FilterSamples {
         sf.setSomewhereVis(false);
 
         sf.setTimeRangeVis(false);
-        sf.setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
-
         sf.setDurVis(false);
-        sf.setMinDur(0);
-        sf.setMaxDur(FilterCheck.FILTER_DURATION_MAX_MINUTE);
 
         sf.setOnlyVis(true);
         sf.setOnlyNew(false);
@@ -63,11 +59,7 @@ public class FilterSamples {
         sf.setSomewhereVis(false);
 
         sf.setTimeRangeVis(true);
-        sf.setTimeRange(FilterCheck.FILTER_ALL_OR_MIN);
-
         sf.setDurVis(false);
-        sf.setMinDur(0);
-        sf.setMaxDur(FilterCheck.FILTER_DURATION_MAX_MINUTE);
 
         sf.setOnlyVis(true);
         sf.setOnlyNew(false);
@@ -75,6 +67,32 @@ public class FilterSamples {
         sf.setNoHistory(false);
 
         progData.filterWorker.getFilterList().add(sf);
+
+        //========================================================
+        sf = new AudioFilter("nur neue anzeigen");
+        sf.clearFilter();
+
+        sf.setChannelVis(true);
+        sf.setThemeVis(false);
+        sf.setThemeTitleVis(true);
+        sf.setTitleVis(false);
+        sf.setSomewhereVis(false);
+
+        sf.setTimeRangeVis(true);
+        sf.setTimeRange(10);
+
+        sf.setDurVis(false);
+        sf.setMinDur(10);
+
+        sf.setOnlyVis(true);
+        sf.setOnlyNew(true);
+        sf.setOnlyBookmark(false);
+        sf.setNoHistory(false);
+
+        progData.filterWorker.getFilterList().add(sf);
+
+        //========================================================
+        progData.filterWorker.getFilterList().add(new AudioFilter(P2SeparatorComboBox.SEPARATOR));
 
         //========================================================
         // nur Bookmark
@@ -92,9 +110,8 @@ public class FilterSamples {
         sf.setTitleVis(false);
         sf.setSomewhereVis(false);
 
-        sf.setTimeRange(10);
         sf.setTimeRangeVis(true);
-
+        sf.setTimeRange(10);
         sf.setDurVis(false);
 
         sf.setOnlyVis(true);
@@ -157,8 +174,8 @@ public class FilterSamples {
         sf.setTitleVis(false);
         sf.setSomewhereVis(false);
 
-        sf.setTimeRange(10);
         sf.setTimeRangeVis(true);
+        sf.setTimeRange(10);
         sf.setDurVis(false);
 
         sf.setOnlyVis(true);

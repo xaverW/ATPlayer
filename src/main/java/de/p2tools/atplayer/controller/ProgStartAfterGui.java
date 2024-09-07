@@ -22,6 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
+import de.p2tools.atplayer.gui.filter.AudioFilterDialog;
 import de.p2tools.p2lib.guitools.P2WindowIcon;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
@@ -34,8 +35,6 @@ import java.util.Date;
 import java.util.List;
 
 public class ProgStartAfterGui {
-    private static boolean doneAtProgramstart = false;
-
     private ProgStartAfterGui() {
     }
 
@@ -47,6 +46,9 @@ public class ProgStartAfterGui {
         P2WindowIcon.addWindowP2Icon(ProgData.getInstance().primaryStage);
         startMsg();
         setTitle();
+        if (ProgConfig.AUDIO_GUI_FILTER_DIALOG_IS_SHOWING.getValue()) {
+            new AudioFilterDialog(ProgData.getInstance()).showDialog();
+        }
         ProgData.getInstance().startTimer();
         //die gespeicherte Audioliste laden
         ProgData.getInstance().filterWorker.getActFilterSettings().switchFilterOff(false);

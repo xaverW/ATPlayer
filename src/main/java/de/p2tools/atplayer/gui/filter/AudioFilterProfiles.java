@@ -16,7 +16,10 @@
 
 package de.p2tools.atplayer.gui.filter;
 
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.gui.tools.HelpText;
@@ -31,7 +34,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import javafx.util.StringConverter;
 
 import java.util.Optional;
 
@@ -100,20 +102,6 @@ public class AudioFilterProfiles extends VBox {
         cboFilterProfiles.setTooltip(new Tooltip("Gespeicherte Filterprofile können\n" +
                 "hier geladen werden"));
 
-        final StringConverter<AudioFilter> converter = new StringConverter<>() {
-            @Override
-            public String toString(AudioFilter selFilter) {
-                return selFilter == null ? "" : selFilter.getName();
-            }
-
-            @Override
-            public AudioFilter fromString(String id) {
-                final int i = cboFilterProfiles.getSelectionModel().getSelectedIndex();
-                return progData.filterWorker.getFilterList().get(i);
-            }
-        };
-        cboFilterProfiles.setConverter(converter);
-
         final MenuItem miLoad = new MenuItem("Aktuelles Filterprofil wieder laden");
         miLoad.setOnAction(e -> loadFilter());
         miLoad.disableProperty().bind(cboFilterProfiles.getSelectionModel().selectedItemProperty().isNull());
@@ -140,12 +128,15 @@ public class AudioFilterProfiles extends VBox {
         final MenuItem miResort = new MenuItem("Filterprofile sortieren");
         miResort.setOnAction(e -> new AudioFilterSortDialog(progData).showDialog());
 
+        final MenuItem miFilterDialog = new MenuItem("Filterprofile in eigenem Fenster anzeigen");
+        miFilterDialog.setOnAction(e -> new AudioFilterDialog(progData).showDialog());
+
         final MenuItem miReset = new MenuItem("Alle Filterprofile wieder herstellen");
         miReset.setOnAction(e -> resetFilter());
 
         mbFilterTools.setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
         mbFilterTools.getItems().addAll(miLoad, miRename, miDel, miDelAll, miSave, miNew,
-                new SeparatorMenuItem(), miResort, miReset);
+                new SeparatorMenuItem(), miResort, miFilterDialog, miReset);
         mbFilterTools.setTooltip(new Tooltip("Gespeicherte Filterprofile bearbeiten"));
 
         cboFilterProfiles.getSelectionModel().select(ProgConfig.FILTER_SEL_FILTER.get());
@@ -156,53 +147,11 @@ public class AudioFilterProfiles extends VBox {
                 loadFilter();
             }
         });
-        ProgColorList.FILTER_PROFILE_SEPARATOR.colorProperty().addListener((a, b, c) -> cboFilterProfiles.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<AudioFilter> call(ListView<AudioFilter> param) {
-                final ListCell<AudioFilter> cell = new ListCell<>() {
-                    @Override
-                    public void updateItem(AudioFilter item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            setText(item.toString());
-                            if (P2SeparatorComboBox.isSeparator(item.toString())) {
-                                this.setDisable(true);
-                                setStyle(ProgColorList.FILTER_PROFILE_SEPARATOR.getCssBackgroundAndSel());
-                            } else {
-                                this.setDisable(false);
-                                setStyle("");
-                            }
-                        }
-                    }
-                };
-                return cell;
-            }
-        }));
 
-        cboFilterProfiles.setCellFactory(new Callback<>() {
-            @Override
-            public ListCell<AudioFilter> call(ListView<AudioFilter> param) {
-                final ListCell<AudioFilter> cell = new ListCell<>() {
-                    @Override
-                    public void updateItem(AudioFilter item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (!empty) {
-                            setText(item.toString());
-                            if (P2SeparatorComboBox.isSeparator(item.toString())) {
-                                this.setDisable(true);
-                                setStyle(ProgColorList.FILTER_PROFILE_SEPARATOR.getCssBackgroundAndSel());
-                            } else {
-                                this.setDisable(false);
-                                setStyle("");
-                            }
-                        }
-                    }
-                };
-                return cell;
-            }
-        });
+        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) ->
+                cboFilterProfiles.setCellFactory(new ListViewListCellCallback()));
+        cboFilterProfiles.setCellFactory(new ListViewListCellCallback());
     }
-
 
     private void initRest() {
         // Filterprofile
@@ -309,6 +258,37 @@ public class AudioFilterProfiles extends VBox {
             markFilterOk(true);
         } else {
             markFilterOk(false);
+        }
+    }
+
+    private static class ListViewListCellCallback implements Callback<ListView<AudioFilter>, ListCell<AudioFilter>> {
+        @Override
+        public ListCell<AudioFilter> call(ListView<AudioFilter> param) {
+            return new ListCell<>() {
+                @Override
+                public void updateItem(AudioFilter item, boolean empty) {
+                    super.updateItem(item, empty);
+
+                    if (item == null || empty) {
+                        setGraphic(null);
+                        setText(null);
+                        setStyle("");
+                        return;
+                    }
+
+                    if (P2SeparatorComboBox.isSeparator(item.toString())) {
+                        setGraphic(ProgIcons.ICON_BUTTON_SEPARATOR_WIDTH.getImageView());
+                        setText(null);
+                        setStyle("-fx-alignment: center;");
+                        setDisable(true);
+                    } else {
+                        setGraphic(null);
+                        setText(item.toString());
+                        setStyle("");
+                        setDisable(false);
+                    }
+                }
+            };
         }
     }
 }

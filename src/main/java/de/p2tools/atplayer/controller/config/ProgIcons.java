@@ -51,6 +51,7 @@ public class ProgIcons {
     public static P2Image ICON_BUTTON_WORKER_STOP = new P2Image(ICON_PATH_LONG, "button-worker-stop.png", 12, 12);
     public static P2Image ICON_BUTTON_DEL_SW = new P2Image(ICON_PATH_LONG, "button-del-sw.png", 12, 12);
     public static P2Image ICON_BUTTON_SEPARATOR = new P2Image(ICON_PATH_LONG, "button-separator.png", 22, 16);
+    public static P2Image ICON_BUTTON_SEPARATOR_WIDTH = new P2Image(ICON_PATH_LONG, "button-separator-width.png", 100, 16);
 
     public static P2Image ICON_TABLE_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "table-download-del.png", 14, 14);
     public static P2Image ICON_TABLE_DOWNLOAD_OPEN_DIR = new P2Image(ICON_PATH_LONG, "table-download-open-dir.png", 14, 14);

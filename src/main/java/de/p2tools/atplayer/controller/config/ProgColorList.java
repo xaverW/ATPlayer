@@ -39,9 +39,6 @@ public class ProgColorList extends P2ColorList {
 
     public static final P2ColorData ERROR = new P2ColorData("COLOR_ERROR",
             Color.rgb(255, 233, 233), Color.rgb(163, 82, 82));
-    public static final P2ColorData FILTER_PROFILE_SEPARATOR = addNewKey("COLOR_FILTER_PROFILE_SEPARATOR",
-            Color.rgb(180, 180, 255), "Filterprofile Filme, Trenner");
-
 
     // DialogDownload
     public static final P2ColorData DOWNLOAD_NAME_ERROR = new P2ColorData("COLOR_DOWNLOAD_NAME_ERROR",
