@@ -40,6 +40,7 @@ public class AudioFilterDialog extends P2DialogExtra {
         super(ProgData.getInstance().primaryStage, ProgConfig.AUDIO_GUI_FILTER_DIALOG, "Audiofilter",
                 false, false, DECO.NO_BORDER, true);
         this.progData = progData;
+
         init(false);
     }
 

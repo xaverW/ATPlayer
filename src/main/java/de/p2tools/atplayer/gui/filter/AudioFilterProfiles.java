@@ -235,6 +235,7 @@ public class AudioFilterProfiles extends VBox {
         if (sf == null) {
             return;
         }
+
         final TextInputDialog dialog = new TextInputDialog(sf.getName());
         dialog.setTitle("Filterprofil umbenennen");
         dialog.setHeaderText("Den Namen des Filterprofils ändern");
