@@ -168,7 +168,7 @@ public class AudioFilterProfiles extends VBox {
         vBox.getChildren().addAll(new Label("Filterprofile:"), cboFilterProfiles);
         getChildren().add(vBox);
 
-        final Button btnHelp = P2Button.helpButton("Filter", HelpText.FILTER_INFO);
+        final Button btnHelp = P2Button.helpButton("Filter", HelpText.FILTER_INFO_PROFILE);
         hBox = new HBox(10);
         hBox.getChildren().addAll(mbFilterTools, P2GuiTools.getHBoxGrower(), btnHelp);
         getChildren().add(hBox);

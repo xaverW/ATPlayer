@@ -20,6 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.gui.tools.HelpText;
+import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ButtonClearFilterFactory;
 import de.p2tools.p2lib.guitools.P2MenuButton;
@@ -27,7 +28,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Separator;
+import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -84,28 +85,25 @@ public class DownloadFilterController extends FilterController {
         addCont("Titel", cboTitle, vBoxFilter);
         addCont("Status", cboState, vBoxFilter);
 
-        HBox hBox = new HBox();
+        final Button btnHelp = P2Button.helpButton("Filter", HelpText.GUI_DOWNLOAD_FILTER);
+        HBox hBox = new HBox(P2LibConst.SPACING_HBOX);
         hBox.setAlignment(Pos.CENTER_RIGHT);
         hBox.setPadding(new Insets(10, 0, 0, 0));
-        hBox.getChildren().add(btnClear);
+        hBox.getChildren().addAll(btnClear, btnHelp);
         hBox.setAlignment(Pos.TOP_RIGHT);
         VBox.setVgrow(hBox, Priority.ALWAYS);
+        vBoxFilter.getChildren().addAll(hBox);
 
-        Separator sp = new Separator();
-        sp.getStyleClass().add("pseperator3");
-        sp.setMinHeight(0);
-        vBoxFilter.getChildren().addAll(hBox, sp);
+        final Button btnHelpSpinner = P2Button.helpButton("Filter", HelpText.GUI_DOWNLOAD_FILTER_SUM);
+        HBox hb = new HBox(P2LibConst.SPACING_HBOX);
+        spinnerAnz.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(spinnerAnz, Priority.ALWAYS);
+        hb.getChildren().addAll(spinnerAnz, btnHelpSpinner);
 
-        VBox vb = new VBox(FilterController.FILTER_SPACING_TEXTFILTER);
-        addCont("Gleichzeitige Downloads", spinnerAnz, vb);
-
-        final Button btnHelp = P2Button.helpButton("Filter", HelpText.GUI_DOWNLOAD_FILTER);
-        hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_RIGHT);
-        hBox.getChildren().addAll(btnHelp);
-        vb.getChildren().add(hBox);
-
-        vBoxFilter.getChildren().add(vb);
+        Label label = new Label("Gleichzeitige Downloads");
+        VBox v = new VBox(2);
+        v.getChildren().addAll(label, hb);
+        getVBoxBlack().getChildren().add(v);
     }
 
     private void initNumberDownloads() {

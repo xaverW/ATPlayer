@@ -111,6 +111,11 @@ public class FilterEditDialog extends P2DialogExtra {
         tglSomewhere.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().somewhereVisProperty());
         vBox.getChildren().add(tglSomewhere);
 
+        P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast");
+        tglPodcast.setMaxWidth(Double.MAX_VALUE);
+        tglPodcast.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().podcastVisProperty());
+        vBox.getChildren().add(tglPodcast);
+
         P2ToggleSwitch tglTimeRange = new P2ToggleSwitch("Zeitraum [Tage]");
         tglTimeRange.setMaxWidth(Double.MAX_VALUE);
         tglTimeRange.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().timeRangeVisProperty());
@@ -120,11 +125,6 @@ public class FilterEditDialog extends P2DialogExtra {
         tglMinMax.setMaxWidth(Double.MAX_VALUE);
         tglMinMax.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().durVisProperty());
         vBox.getChildren().add(tglMinMax);
-
-        P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast");
-        tglPodcast.setMaxWidth(Double.MAX_VALUE);
-        tglPodcast.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().podcastVisProperty());
-        vBox.getChildren().add(tglPodcast);
 
         P2ToggleSwitch tglOnly = new P2ToggleSwitch("Anzeigen");
         tglOnly.setMaxWidth(Double.MAX_VALUE);

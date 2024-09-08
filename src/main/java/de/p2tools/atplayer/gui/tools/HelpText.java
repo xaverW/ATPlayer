@@ -31,18 +31,24 @@ public class HelpText {
                     "mehrere Sender oder Genres vorgegeben werden, " +
                     "in denen die Sendungen gesucht werden." +
                     "\n" +
-                    "Die Filter \"Thema\" und \"Titel\" suchen im jeweiligen Feld: Thema oder Titel." +
                     "\n" +
+                    "Die Filter \"Thema\" und \"Titel\" suchen im jeweiligen Feld: Thema oder Titel. " +
+                    "Beim Filter \"Thema oder Titel\" muss das Audio entweder im Thema ODER Titel vorhanden " +
+                    "sein. " +
                     "Der Filter \"Irgendwo\" sucht in den Felder: Thema, Titel, Beschreibung und " +
                     "Datum (z.B. nach \"20.11.\")." +
                     "\n" +
-                    "Mit dem Filtern \"Zeitraum\", \"Länge\" und \"Nur neue\" können die Ergebnisse auf " +
-                    "einen kleineren Zeitraum, auf Beiträge mit bestimmter Länge oder auf nur \"neue Audios\" eingeschränkt werden." +
+                    "\n" +
+                    "Mit dem Filtern \"Zeitraum\", \"Länge\" können die Ergebnisse auf " +
+                    "einen kleineren Zeitraum, auf Beiträge mit bestimmter Länge eingeschränkt werden." +
+                    "\n" +
+                    "In \"Anzeigen\" können ein paar Sachen ausgewählt werden, die angezeigt (oder nicht) werden " +
+                    "sollen." +
                     "\n" +
                     "\n" +
                     "[=====================================]" +
                     "\n" +
-
+                    "\n" +
 
                     "Mit den Textfeldern kann nach einem wörtlichen Suchtext (Suchtext muss enthalten sein/" +
                     "oder darf nicht enthalten sein) oder nach " +
@@ -103,6 +109,14 @@ public class HelpText {
                     "https://de.wikipedia.org/wiki/Regul%C3%A4rer_Ausdruck" +
                     "\n";
 
+    public static final String FILTER_INFO_PROFILE =
+            "Mit den Filterprofilen können Filtereinstellungen gespeichert " +
+                    "und wieder abgerufen werden. Der Pfeil \"nach oben\" stellt " +
+                    "den ausgewählten Filter ein, Der Pfeil \"nach unter\" schreibt die " +
+                    "eingestellten Filter in das gewählte Filterprofil. Der \"Kreis\" speichert " +
+                    "die aktuellen Filtereinstellungen in einem neuen Profil." +
+                    "\n";
+
     public static final String PROG_PATH_VLC =
             "Hier muss ein Standardprogramme zum Anhören der Audios eingetragen werden. VLC ist " +
                     "ein gutes Programm dafür.\n" +
@@ -135,22 +149,17 @@ public class HelpText {
                     "Durchsuchen und Filtern der vorhandenen Downloads.\n" +
                     "\n" +
                     "===================================\n" +
-                    "Filter [Sender] und [Status] sucht Downloads mit dem Sender " +
+                    "In den Filtern [Sender], [Genre] und [Status] kann ein Suchtext ausgewählt werden. " +
+                    "Diese Filter suchen dann Downloads mit dem gewählten Sender, Genre " +
                     "oder mit dem Status (gestartet, nicht gestartet, fertig).\n" +
-                    "\n" +
-                    "Mit den Schiebereglern: [gleichzeitige Downloads] und [max. Bandbreite] " +
-                    "kann die Anzahl der gleichzeitigen Downloads die geladen werden, " +
-                    "festgelegt werden. Die vorgegebene " +
-                    "maximale Bandbreite gilt pro Download.\n" +
-                    "\n" +
-                    "===================================\n" +
-                    "Besonderheiten:\n" +
-                    "Für die maximale Anzahl an Downloads gibt es noch eine Einschränkung: Es können maximal 2 " +
-                    "Downloads pro Server (ist meist dann auch pro Sender) geladen werden. Wenn z.B. alle " +
-                    "Downloads vom ZDF sind, werden " +
-                    "maximal 2 Downloads gestartet auch wenn als Maximum mehr vorgegeben ist." +
-                    "\n" +
-                    "(Ausgenommen davon sind explizite Downloadfarmen wie z.B. Akamai die ARTE benutzt.)" +
+                    "In den Filtern [Thema] und [Titel], kann ein Text zur freien Suche " +
+                    "eingegeben werden." +
+                    "\n";
+
+    public static final String GUI_DOWNLOAD_FILTER_SUM =
+            "Mit [gleichzeitige Downloads] " +
+                    "kann die Anzahl der gleichzeitigen Downloads die parallel geladen werden, " +
+                    "festgelegt werden." +
                     "\n";
 
     public static final String CONFIG_GEO =

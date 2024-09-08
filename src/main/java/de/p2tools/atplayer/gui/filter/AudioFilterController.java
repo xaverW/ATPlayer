@@ -18,40 +18,24 @@ package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import javafx.scene.control.Separator;
 import javafx.scene.layout.VBox;
 
 public class AudioFilterController extends FilterController {
 
-    private AudioFilterTextFilter audioFilterTextFilter;
-    private AudioFilterEdit audioFilterEdit;
-    private AudioFilterProfiles audioFilterProfiles;
-    private AudioFilterrBlacklist audioFilterrBlacklist;
-
     public AudioFilterController() {
         super(ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON);
 
-        audioFilterTextFilter = new AudioFilterTextFilter();
-        audioFilterEdit = new AudioFilterEdit();
-        audioFilterProfiles = new AudioFilterProfiles();
-        audioFilterrBlacklist = new AudioFilterrBlacklist();
+        final AudioFilterTextFilter audioFilterTextFilter = new AudioFilterTextFilter();
+        final AudioFilterEdit audioFilterEdit = new AudioFilterEdit();
+        final AudioFilterProfiles audioFilterProfiles = new AudioFilterProfiles();
+        final AudioFilterrBlacklist audioFilterrBlacklist = new AudioFilterrBlacklist();
 
-        Separator sp1 = new Separator();
-        sp1.getStyleClass().add("pseperator1");
-        sp1.setMinHeight(0);
-
-        Separator sp2 = new Separator();
-        sp2.getStyleClass().add("pseperator3");
-        sp2.setMinHeight(0);
-
-        final VBox vBoxFilter = getVBoxFilter(true);
-        vBoxFilter.setSpacing(10);
-        vBoxFilter.getChildren().addAll(audioFilterTextFilter,
+        VBox vBox = getVBoxFilter(true);
+        vBox.getChildren().addAll(audioFilterTextFilter,
                 P2GuiTools.getVBoxGrower(),
-                audioFilterEdit,
-                sp2,
-                audioFilterProfiles);
+                audioFilterEdit);
 
-        getVBoxBottom().getChildren().add(audioFilterrBlacklist);
+        getVBoxBlack().getChildren().addAll(audioFilterProfiles);
+        getVBoxBlack().getChildren().addAll(audioFilterrBlacklist);
     }
 }
