@@ -53,7 +53,7 @@ public class AudioInfoController extends P2ClosePaneH {
     }
 
     private void initInfoPane() {
-        paneAudioInfo = new PaneAudioInfo();
+        paneAudioInfo = new PaneAudioInfo(ProgConfig.AUDIO_PANE_INFO_DIVIDER);
         tabFilmInfo = new Tab("Beschreibung");
         tabFilmInfo.setClosable(false);
 

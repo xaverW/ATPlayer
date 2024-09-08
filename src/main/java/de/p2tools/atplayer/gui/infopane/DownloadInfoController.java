@@ -78,7 +78,7 @@ public class DownloadInfoController extends P2ClosePaneH {
     }
 
     private void initInfoPane() {
-        paneFilmInfo = new PaneAudioInfo();
+        paneFilmInfo = new PaneAudioInfo(ProgConfig.DOWNLOAD_PANE_INFO_DIVIDER);
         paneBandwidthChart = new PaneBandwidthChart(progData);
         paneDownloadError = new PaneDownloadError();
         paneDownloadInfo = new PaneDownloadInfo();

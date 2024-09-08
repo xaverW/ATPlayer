@@ -26,6 +26,7 @@ import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mtdownload.DownloadSizeData;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import javafx.application.Platform;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -55,16 +56,7 @@ public class PaneAudioInfo extends VBox {
     private final ChangeListener<DownloadSizeData> sizeChangeListener;
     private String oldDescription = "";
 
-    public PaneAudioInfo() {
-        setSpacing(10);
-        setPadding(new Insets(10));
-
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().addAll(textArea, btnReset);
-        StackPane.setAlignment(btnReset, Pos.BOTTOM_RIGHT);
-        stackPane.setMaxHeight(Double.MAX_VALUE);
-        VBox.setVgrow(stackPane, Priority.ALWAYS);
-
+    public PaneAudioInfo(DoubleProperty dividerProp) {
         this.sizeChangeListener = (u, o, n) -> setSize(true);
 
         btnReset.setOnAction(a -> resetFilmDescription());
@@ -79,13 +71,16 @@ public class PaneAudioInfo extends VBox {
         textArea.setPrefRowCount(4);
         textArea.textProperty().addListener((a, b, c) -> setFilmDescription());
 
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(textArea, btnReset);
+        StackPane.setAlignment(btnReset, Pos.BOTTOM_RIGHT);
+        stackPane.setMaxHeight(Double.MAX_VALUE);
+        VBox.setVgrow(stackPane, Priority.ALWAYS);
 
-        VBox v = new VBox();
-        v.setSpacing(0);
-        v.getChildren().addAll(lblTheme, lblTitle);
         vBoxLeft.setSpacing(2);
         vBoxLeft.setPadding(new Insets(P2LibConst.PADDING));
-        vBoxLeft.getChildren().addAll(v, stackPane, hBoxUrl);
+        vBoxLeft.getChildren().addAll(lblTheme, lblTitle, stackPane, hBoxUrl);
+
 
         final GridPane gridPane = new GridPane();
         gridPane.getStyleClass().add("extra-pane-info");
@@ -104,13 +99,14 @@ public class PaneAudioInfo extends VBox {
         gridPane.add(new Label("Größe: "), 0, ++row);
         gridPane.add(lblSize, 1, row);
 
+
         splitPane.getItems().addAll(vBoxLeft, gridPane);
-        splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_PANE_INFO_DIVIDER);
-        SplitPane.setResizableWithParent(gridPane, false);
+        splitPane.getDividers().get(0).positionProperty().bindBidirectional(dividerProp);
+        SplitPane.setResizableWithParent(gridPane, Boolean.FALSE);
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
 
         setSpacing(0);
         setPadding(new Insets(0));
-        VBox.setVgrow(splitPane, Priority.ALWAYS);
         getChildren().add(splitPane);
     }
 
