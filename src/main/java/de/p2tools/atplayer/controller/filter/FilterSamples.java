@@ -122,13 +122,34 @@ public class FilterSamples {
         progData.filterWorker.getFilterList().add(sf);
 
         //========================================================
-        sf = new AudioFilter("Nachrichten mit Europa UND Brexit");
+        sf = new AudioFilter("Nachrichten mit Europa ODER Wissenschaft");
         sf.clearFilter();
 
         sf.setChannelVis(true);
         sf.setThemeVis(false);
         sf.setThemeTitleVis(true);
-        sf.setThemeTitle("Europa:Brexit");
+        sf.setThemeTitle("Europa,Wissenschaft");
+        sf.setTitleVis(false);
+        sf.setSomewhereVis(false);
+
+        sf.setTimeRangeVis(true);
+        sf.setDurVis(false);
+
+        sf.setOnlyVis(true);
+        sf.setOnlyNew(false);
+        sf.setOnlyBookmark(false);
+        sf.setNoHistory(false);
+
+        progData.filterWorker.getFilterList().add(sf);
+
+        //========================================================
+        sf = new AudioFilter("Nachrichten mit Politik UND Wissenschaft");
+        sf.clearFilter();
+
+        sf.setChannelVis(true);
+        sf.setThemeVis(false);
+        sf.setThemeTitleVis(true);
+        sf.setThemeTitle("Politik:Wissenschaft");
         sf.setTitleVis(false);
         sf.setSomewhereVis(false);
 
