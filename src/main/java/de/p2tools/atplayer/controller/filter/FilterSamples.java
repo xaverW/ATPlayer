@@ -87,7 +87,7 @@ public class FilterSamples {
         sf.setOnlyVis(true);
         sf.setOnlyNew(true);
         sf.setOnlyBookmark(false);
-        sf.setNoHistory(false);
+        sf.setNoHistory(true);
 
         progData.filterWorker.getFilterList().add(sf);
 
