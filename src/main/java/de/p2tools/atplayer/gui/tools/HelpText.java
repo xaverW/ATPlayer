@@ -115,6 +115,9 @@ public class HelpText {
                     "den ausgewählten Filter ein, Der Pfeil \"nach unter\" schreibt die " +
                     "eingestellten Filter in das gewählte Filterprofil. Der \"Kreis\" speichert " +
                     "die aktuellen Filtereinstellungen in einem neuen Profil." +
+                    "\n\n" +
+                    "Solange die Filtereinstellungen mit dem ausgewählten Profil übereinstimmen, " +
+                    "wird der Name des Profils unterstrichen." +
                     "\n";
 
     public static final String PROG_PATH_VLC =

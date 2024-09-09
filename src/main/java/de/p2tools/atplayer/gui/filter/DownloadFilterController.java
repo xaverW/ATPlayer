@@ -67,17 +67,6 @@ public class DownloadFilterController extends FilterController {
         initNumberDownloads();
     }
 
-    private void initFilter() {
-        cboState.getItems().addAll(DownloadConstants.ALL,
-                DownloadConstants.STATE_COMBO_NOT_STARTED,
-                DownloadConstants.STATE_COMBO_WAITING,
-                DownloadConstants.STATE_COMBO_STARTED,
-                DownloadConstants.STATE_COMBO_LOADING,
-                DownloadConstants.STATE_COMBO_ERROR);
-        cboState.valueProperty().bindBidirectional(ProgConfig.FILTER_DOWNLOAD_STATE);
-        btnClear.setOnAction(a -> clearFilter());
-    }
-
     private void initLayout() {
         addCont("Sender", mbChannel, vBoxFilter);
         addCont("Genre", mbGenre, vBoxFilter);
@@ -94,6 +83,7 @@ public class DownloadFilterController extends FilterController {
         VBox.setVgrow(hBox, Priority.ALWAYS);
         vBoxFilter.getChildren().addAll(hBox);
 
+        // black
         final Button btnHelpSpinner = P2Button.helpButton("Filter", HelpText.GUI_DOWNLOAD_FILTER_SUM);
         HBox hb = new HBox(P2LibConst.SPACING_HBOX);
         spinnerAnz.setMaxWidth(Double.MAX_VALUE);
@@ -104,6 +94,17 @@ public class DownloadFilterController extends FilterController {
         VBox v = new VBox(2);
         v.getChildren().addAll(label, hb);
         getVBoxBlack().getChildren().add(v);
+    }
+
+    private void initFilter() {
+        cboState.getItems().addAll(DownloadConstants.ALL,
+                DownloadConstants.STATE_COMBO_NOT_STARTED,
+                DownloadConstants.STATE_COMBO_WAITING,
+                DownloadConstants.STATE_COMBO_STARTED,
+                DownloadConstants.STATE_COMBO_LOADING,
+                DownloadConstants.STATE_COMBO_ERROR);
+        cboState.valueProperty().bindBidirectional(ProgConfig.FILTER_DOWNLOAD_STATE);
+        btnClear.setOnAction(a -> clearFilter());
     }
 
     private void initNumberDownloads() {

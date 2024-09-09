@@ -30,7 +30,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-public class AudioFilterEdit extends VBox {
+public class AudioFilterClearFilter extends VBox {
 
     private final Button btnEditFilter = new Button("");
     private final Button btnClearFilter = P2ButtonClearFilterFactory.getPButtonClearSmall();
@@ -39,7 +39,7 @@ public class AudioFilterEdit extends VBox {
 
     private final ProgData progData;
 
-    public AudioFilterEdit() {
+    public AudioFilterClearFilter() {
         this.progData = ProgData.getInstance();
 
         initButton();

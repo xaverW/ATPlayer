@@ -26,14 +26,14 @@ public class AudioFilterController extends FilterController {
         super(ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON);
 
         final AudioFilterTextFilter audioFilterTextFilter = new AudioFilterTextFilter();
-        final AudioFilterEdit audioFilterEdit = new AudioFilterEdit();
+        final AudioFilterClearFilter audioFilterClearFilter = new AudioFilterClearFilter();
         final AudioFilterProfiles audioFilterProfiles = new AudioFilterProfiles();
         final AudioFilterrBlacklist audioFilterrBlacklist = new AudioFilterrBlacklist();
 
         VBox vBox = getVBoxFilter(true);
         vBox.getChildren().addAll(audioFilterTextFilter,
                 P2GuiTools.getVBoxGrower(),
-                audioFilterEdit);
+                audioFilterClearFilter);
 
         getVBoxBlack().getChildren().addAll(audioFilterProfiles);
         getVBoxBlack().getChildren().addAll(audioFilterrBlacklist);
