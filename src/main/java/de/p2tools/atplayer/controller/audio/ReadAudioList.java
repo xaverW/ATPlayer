@@ -19,16 +19,12 @@ package de.p2tools.atplayer.controller.audio;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioFactory;
-import de.p2tools.p2lib.atdata.AudioList;
-import de.p2tools.p2lib.atdata.ReadAudioListJson;
+import de.p2tools.p2lib.atdata.*;
 import de.p2tools.p2lib.mtdownload.MLHttpClient;
 import de.p2tools.p2lib.mtfilm.tools.InputStreamProgressMonitor;
 import de.p2tools.p2lib.mtfilm.tools.LoadFactoryConst;
 import de.p2tools.p2lib.mtfilm.tools.ProgressMonitorInputStream;
 import de.p2tools.p2lib.tools.date.P2DateConst;
-import de.p2tools.p2lib.tools.date.P2DateGmtFactory;
 import de.p2tools.p2lib.tools.date.P2LDateTimeFactory;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -125,8 +121,7 @@ public class ReadAudioList {
 
     private void setDate() {
         // Datum setzen
-        LocalDateTime date = P2DateGmtFactory.getLocalDateTimeFromGmt(
-                LoadAudioFactoryDto.audioListNew.metaData[AudioList.META_GMT]);
+        LocalDateTime date = AudioListFactory.getDate(LoadAudioFactoryDto.audioListNew.metaData);
         String dateStr = P2LDateTimeFactory.toString(date, P2DateConst.DT_FORMATTER_dd_MM_yyyy___HH__mm);
         ProgConfig.SYSTEM_AUDIOLIST_DATE_TIME.setValue(dateStr);
     }

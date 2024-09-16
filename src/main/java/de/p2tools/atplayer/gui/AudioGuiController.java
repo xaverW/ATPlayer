@@ -71,6 +71,9 @@ public class AudioGuiController extends AnchorPane {
         scrollPaneTableFilm.setFitToWidth(true);
         scrollPaneTableFilm.setContent(tableView);
 
+        ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.AUDIO_PANE_INFO_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+
         setInfoPane();
         initTable();
         initListener();
@@ -143,7 +146,7 @@ public class AudioGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        ProgConfig.AUDIO_GUI_INFO_ON.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
         PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
                 AudioGuiController.class.getSimpleName()) {
             @Override
@@ -248,14 +251,14 @@ public class AudioGuiController extends AnchorPane {
         }
 
         splitPane.getItems().clear();
-        if (!audioInfoController.isPaneShowing()) {
+        if (!audioInfoController.arePanesShowing()) {
             // dann wird nix angezeigt
             splitPane.getItems().add(scrollPaneTableFilm);
-            ProgConfig.AUDIO_GUI_INFO_ON.set(false);
+            ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.set(false);
             return;
         }
 
-        if (ProgConfig.AUDIO_GUI_INFO_ON.getValue()) {
+        if (ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.getValue()) {
             boundSplitPaneDivPos = true;
             splitPane.getItems().addAll(scrollPaneTableFilm, audioInfoController);
             SplitPane.setResizableWithParent(audioInfoController, false);

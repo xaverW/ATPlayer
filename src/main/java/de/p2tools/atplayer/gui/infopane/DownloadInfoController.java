@@ -21,19 +21,18 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import javafx.scene.Node;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class DownloadInfoController extends P2ClosePaneH {
+public class DownloadInfoController extends VBox {
 
     private PaneAudioInfo paneFilmInfo;
     private PaneBandwidthChart paneBandwidthChart;
     private PaneDownloadError paneDownloadError;
-    private PaneDownloadInfo paneDownloadInfo;
+    private PaneDownloadInfo paneDownloadInfoList;
     private Tab tabFilmInfo;
     private Tab tabDownloadChart;
     private Tab tabDownloadError;
@@ -43,171 +42,156 @@ public class DownloadInfoController extends P2ClosePaneH {
     private final TabPane tabPane = new TabPane();
 
     public DownloadInfoController() {
-        super(ProgConfig.DOWNLOAD_GUI_INFO_ON, false, true);
         progData = ProgData.getInstance();
         initInfoPane();
         PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadInfoController.class.getSimpleName()) {
             @Override
             public void pingFx() {
-                paneBandwidthChart.searchInfos(InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
-                        getVBoxAll(), tabPane, paneBandwidthChart,
-                        ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON));
+                paneBandwidthChart.searchInfos(InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneBandwidthChart));
 
-                if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
-                        getVBoxAll(), tabPane, paneDownloadInfo,
-                        ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON)) {
-                    paneDownloadInfo.setInfoText();
+                if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneDownloadInfoList)) {
+                    paneDownloadInfoList.setInfoText();
                 }
             }
         });
     }
 
     public void setDownloadInfos(DownloadData download) {
-        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD,
-                getVBoxAll(), tabPane, paneFilmInfo,
-                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON)) {
+        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneFilmInfo)) {
             paneFilmInfo.setAudioData(download);
         }
     }
 
-    public boolean isPaneShowing() {
-        return !ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON.getValue() ||
-                !ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON.getValue() ||
-                !ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON.getValue() ||
-                !ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON.getValue();
+    public boolean arePanesShowing() {
+        return !ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP.getValue() ||
+                !ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP.getValue();
     }
 
     private void initInfoPane() {
         paneFilmInfo = new PaneAudioInfo(ProgConfig.DOWNLOAD_PANE_INFO_DIVIDER);
         paneBandwidthChart = new PaneBandwidthChart(progData);
         paneDownloadError = new PaneDownloadError();
-        paneDownloadInfo = new PaneDownloadInfo();
+        paneDownloadInfoList = new PaneDownloadInfo();
 
-        tabFilmInfo = new Tab("Beschreibung");
-        tabFilmInfo.setClosable(false);
-        tabDownloadChart = new Tab("Downloadchart");
-        tabDownloadChart.setClosable(false);
-        tabDownloadError = new Tab("Downloadfehler");
-        tabDownloadError.setClosable(false);
-        tabDownloadInfo = new Tab("Infos");
-        tabDownloadInfo.setClosable(false);
 
-        super.getRipProperty().addListener((u, o, n) -> {
-            if (InfoPaneFactory.isSelPane(getVBoxAll(), tabPane, paneFilmInfo)) {
-                dialogInfo();
-            } else if (InfoPaneFactory.isSelPane(getVBoxAll(), tabPane, paneBandwidthChart)) {
-                dialogChart();
-            } else if (InfoPaneFactory.isSelPane(getVBoxAll(), tabPane, paneDownloadError)) {
-                dialogDownloadError();
-            } else if (InfoPaneFactory.isSelPane(getVBoxAll(), tabPane, paneDownloadInfo)) {
-                dialogDownloadInfo();
-            }
-        });
-
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON.getValue()) {
+        if (ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP.getValue()) {
             dialogInfo();
         }
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON.getValue()) {
+        ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP.addListener((u, o, n) -> {
+            if (n) {
+                dialogInfo();
+            } else {
+                ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.set(true);
+            }
+            setTabs();
+        });
+
+        if (ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP.getValue()) {
             dialogChart();
         }
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON.getValue()) {
+        ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP.addListener((u, o, n) -> {
+            if (n) {
+                dialogChart();
+            } else {
+                ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.set(true);
+            }
+            setTabs();
+        });
+
+        if (ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP.getValue()) {
             dialogDownloadError();
         }
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON.getValue()) {
-            dialogDownloadInfo();
-        }
+        ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP.addListener((u, o, n) -> {
+            if (n) {
+                dialogDownloadError();
+            } else {
+                ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.set(true);
+            }
+            setTabs();
+        });
 
-        ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON.addListener((u, o, n) -> setTabs());
-        ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON.addListener((u, o, n) -> setTabs());
-        ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON.addListener((u, o, n) -> setTabs());
-        ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON.addListener((u, o, n) -> setTabs());
+        if (ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP.getValue()) {
+            dialogInfoList();
+        }
+        ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP.addListener((u, o, n) -> {
+            if (n) {
+                dialogInfoList();
+            } else {
+                ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.set(true);
+            }
+            setTabs();
+        });
+
         setTabs();
     }
 
     private void dialogInfo() {
-        InfoPaneFactory.setDialogInfo(tabFilmInfo, paneFilmInfo, "Filminfos",
-                ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON,
-                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
+        new InfoPaneDialog(paneFilmInfo, "Filminfos",
+                ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_SIZE,
+                ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP,
+                ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void dialogChart() {
-        InfoPaneFactory.setDialogInfo(tabDownloadChart, paneBandwidthChart, "Downloadchart",
-                ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON,
-                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
+        new InfoPaneDialog(paneBandwidthChart, "Downloadchart",
+                ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_SIZE,
+                ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP,
+                ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void dialogDownloadError() {
-        InfoPaneFactory.setDialogInfo(tabDownloadError, paneDownloadError, "Downloadfehler",
-                ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON,
-                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
+        new InfoPaneDialog(paneDownloadError, "Downloadfehler",
+                ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_SIZE,
+                ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP,
+                ProgData.DOWNLOAD_TAB_ON);
     }
 
-    private void dialogDownloadInfo() {
-        InfoPaneFactory.setDialogInfo(tabDownloadInfo, paneDownloadInfo, "Downloadinfos",
-                ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE, ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON,
-                ProgConfig.DOWNLOAD_GUI_INFO_ON, ProgData.DOWNLOAD_TAB_ON);
+    private void dialogInfoList() {
+        new InfoPaneDialog(paneDownloadInfoList, "Downloadinfos",
+                ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE,
+                ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP,
+                ProgData.DOWNLOAD_TAB_ON);
     }
 
     private void setTabs() {
-        int i = 0;
+        tabPane.getTabs().clear();
 
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_INFO_ON.getValue()) {
-            tabPane.getTabs().remove(tabFilmInfo);
-        } else {
-            tabFilmInfo.setContent(paneFilmInfo);
-            if (!tabPane.getTabs().contains(tabFilmInfo)) {
-                tabPane.getTabs().add(i, tabFilmInfo);
-            }
-            ++i;
+        if (!ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP.getValue()) {
+            tabPane.getTabs().add(
+                    InfoPaneFactory.makeTab(paneFilmInfo, "Beschreibung", ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING, ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP));
         }
 
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_CHART_ON.getValue()) {
-            tabPane.getTabs().remove(tabDownloadChart);
-        } else {
-            tabDownloadChart.setContent(paneBandwidthChart);
-            if (!tabPane.getTabs().contains(tabDownloadChart)) {
-                tabPane.getTabs().add(i, tabDownloadChart);
-            }
-            ++i;
+        if (!ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP.getValue()) {
+            tabPane.getTabs().add(
+                    InfoPaneFactory.makeTab(paneBandwidthChart, "Downloadchart", ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING, ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP));
         }
 
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_ERROR_ON.getValue()) {
-            tabPane.getTabs().remove(tabDownloadError);
-        } else {
-            tabDownloadError.setContent(paneDownloadError);
-            if (!tabPane.getTabs().contains(tabDownloadError)) {
-                tabPane.getTabs().add(i, tabDownloadError);
-            }
-            ++i;
+        if (!ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP.getValue()) {
+            tabPane.getTabs().add(
+                    InfoPaneFactory.makeTab(paneDownloadError, "Downloadfehler", ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING, ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP));
         }
 
-        if (ProgConfig.DOWNLOAD_PANE_DIALOG_DOWN_INFO_ON.getValue()) {
-            tabPane.getTabs().remove(tabDownloadInfo);
-        } else {
-            tabDownloadInfo.setContent(paneDownloadInfo);
-            if (!tabPane.getTabs().contains(tabDownloadInfo)) {
-                tabPane.getTabs().add(i, tabDownloadInfo);
-            }
-            ++i;
+        if (!ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP.getValue()) {
+            tabPane.getTabs().add(
+                    InfoPaneFactory.makeTab(paneDownloadInfoList, "Infos", ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING, ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP));
         }
 
-        if (i == 0) {
-            getVBoxAll().getChildren().clear();
-            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(false);
 
-        } else if (i == 1) {
+        if (tabPane.getTabs().isEmpty()) {
+
+        } else if (tabPane.getTabs().size() == 1) {
             // dann gibts einen Tab
             final Node node = tabPane.getTabs().get(0).getContent();
             tabPane.getTabs().remove(0);
-            getVBoxAll().getChildren().setAll(node);
+            getChildren().setAll(node);
             VBox.setVgrow(node, Priority.ALWAYS);
-            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(true);
 
         } else {
             // dann gibts mehre Tabs
-            getVBoxAll().getChildren().setAll(tabPane);
+            getChildren().setAll(tabPane);
             VBox.setVgrow(tabPane, Priority.ALWAYS);
-            ProgConfig.DOWNLOAD_GUI_INFO_ON.set(true);
         }
     }
 }

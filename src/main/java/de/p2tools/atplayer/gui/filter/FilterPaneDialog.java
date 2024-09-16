@@ -15,7 +15,7 @@
  */
 
 
-package de.p2tools.atplayer.gui.infopane;
+package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
@@ -27,28 +27,29 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class InfoPaneDialog extends P2DialogExtra {
+public class FilterPaneDialog extends P2DialogExtra {
     private final Pane pane;
-    private final BooleanProperty dialogIsRip; // wird beim Beenden ausgeschaltet
-    private final BooleanProperty tabIsShowing; // Film, Abo, ..
-    private final ChangeListener<? super Boolean> tabListener = (ChangeListener<Boolean>) (observable, oldValue, newValue) ->
+    private final BooleanProperty filterIsRip;
+    private final BooleanProperty tabIsSelected;
+    private final ChangeListener<? super Boolean> tabVisListener = (ChangeListener<Boolean>) (observable, oldValue, newValue) ->
+            setVis();
+    private final ChangeListener<? super Boolean> filterVisListener = (ChangeListener<Boolean>) (observable, oldValue, newValue) ->
             setVis();
 
-    public InfoPaneDialog(Pane pane, String title,
-                          StringProperty sizeProperty,
-                          BooleanProperty dialogIsRip,
-                          BooleanProperty tabIsShowing) {
-
+    public FilterPaneDialog(Pane pane, String title,
+                            StringProperty sizeProperty, BooleanProperty filterIsRip,
+                            BooleanProperty tabIsSelected) {
         super(ProgData.getInstance().primaryStage, sizeProperty, title,
                 false, false, DECO.NO_BORDER);
 
         this.pane = pane;
-        this.dialogIsRip = dialogIsRip; // zeigt an, ob Dialog zu sehen
-        this.tabIsShowing = tabIsShowing;
+        this.filterIsRip = filterIsRip;
+        this.tabIsSelected = tabIsSelected;
 
-        init(this.tabIsShowing.get());
-        this.tabIsShowing.addListener(tabListener);
-        setVis();
+        init(this.tabIsSelected.getValue());
+        this.filterIsRip.setValue(true);
+        this.tabIsSelected.addListener(tabVisListener);
+        this.filterIsRip.addListener(filterVisListener);
     }
 
     @Override
@@ -58,15 +59,22 @@ public class InfoPaneDialog extends P2DialogExtra {
         getVBoxCont().getChildren().add(pane);
     }
 
+    public void closeSetNoRip() {
+        tabIsSelected.removeListener(tabVisListener);
+        filterIsRip.removeListener(filterVisListener);
+        super.close();
+    }
+
     @Override
     public void close() {
+        tabIsSelected.removeListener(tabVisListener);
+        filterIsRip.removeListener(filterVisListener);
+        filterIsRip.setValue(false);
         super.close();
-        tabIsShowing.removeListener(tabListener);
-        dialogIsRip.set(false);
     }
 
     private void setVis() {
-        if (tabIsShowing.get()) {
+        if (filterIsRip.get() && tabIsSelected.get()) {
             showDialog();
         } else {
             getStage().hide();

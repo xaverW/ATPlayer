@@ -16,15 +16,12 @@
 
 package de.p2tools.atplayer.gui.filter;
 
-import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import javafx.scene.layout.VBox;
 
 public class AudioFilterController extends FilterController {
 
     public AudioFilterController() {
-        super(ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON);
-
         final AudioFilterTextFilter audioFilterTextFilter = new AudioFilterTextFilter();
         final AudioFilterClearFilter audioFilterClearFilter = new AudioFilterClearFilter();
         final AudioFilterProfiles audioFilterProfiles = new AudioFilterProfiles();

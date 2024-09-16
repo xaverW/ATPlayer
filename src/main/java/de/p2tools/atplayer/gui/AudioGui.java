@@ -19,6 +19,8 @@ package de.p2tools.atplayer.gui;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.filter.AudioFilterController;
+import de.p2tools.atplayer.gui.filter.FilterPaneDialog;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneV;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -30,6 +32,7 @@ public class AudioGui {
     final AudioGuiController audioGuiController;
     private final SplitPane splitPane = new SplitPane();
     private boolean bound = false;
+    private FilterPaneDialog filterPaneDialog = null;
 
     public AudioGui() {
         audioFilterController = new AudioFilterController();
@@ -37,23 +40,41 @@ public class AudioGui {
         ProgData.getInstance().audioGuiController = audioGuiController;
     }
 
-    public void closeSplit() {
-        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.get());
-    }
-
     private void setSplit() {
-        if (ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.getValue()) {
-            splitPane.getItems().clear();
-            splitPane.getItems().addAll(audioFilterController, audioGuiController);
-            bound = true;
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
-        } else {
-            if (bound) {
-                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
+        if (bound) {
+            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
+            bound = false;
+        }
+        if (filterPaneDialog != null) {
+            filterPaneDialog.closeSetNoRip();
+            filterPaneDialog = null;
+        }
+        splitPane.getItems().clear();
+
+        if (ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.get()) {
+            if (ProgConfig.AUDIO_GUI_FILTER_IS_RIP.get()) {
+
+                filterPaneDialog = new FilterPaneDialog(audioFilterController, "Audiofilter",
+                        ProgConfig.AUDIO_GUI_FILTER_DIALOG_SIZE,
+                        ProgConfig.AUDIO_GUI_FILTER_IS_RIP,
+                        ProgData.AUDIO_TAB_ON);
+                splitPane.getItems().addAll(audioGuiController);
+
+            } else {
+                P2ClosePaneV closePaneV = new P2ClosePaneV();
+                closePaneV.addPane(audioFilterController);
+                closePaneV.getButtonClose().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.set(false));
+                closePaneV.getButtonRip().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_RIP.set(!ProgConfig.AUDIO_GUI_FILTER_IS_RIP.get()));
+
+                splitPane.getItems().addAll(closePaneV, audioGuiController);
+                splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
+                bound = true;
             }
-            splitPane.getItems().clear();
+
+        } else {
             splitPane.getItems().addAll(audioGuiController);
         }
+
     }
 
     public HBox pack() {
@@ -69,7 +90,8 @@ public class AudioGui {
         splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         SplitPane.setResizableWithParent(audioFilterController, Boolean.FALSE);
 
-        ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.AUDIO_GUI_FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
         setSplit();
         return hBox;
     }

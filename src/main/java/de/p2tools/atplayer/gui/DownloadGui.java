@@ -19,6 +19,8 @@ package de.p2tools.atplayer.gui;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.filter.DownloadFilterController;
+import de.p2tools.atplayer.gui.filter.FilterPaneDialog;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneV;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -29,15 +31,12 @@ public class DownloadGui {
     final DownloadGuiController downloadGuiController;
     private final SplitPane splitPane = new SplitPane();
     private boolean bound = false;
+    private FilterPaneDialog filterPaneDialog = null;
 
     public DownloadGui() {
         downloadFilterController = new DownloadFilterController();
         downloadGuiController = new DownloadGuiController();
         ProgData.getInstance().downloadGuiController = downloadGuiController;
-    }
-
-    public void closeSplit() {
-        ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.get());
     }
 
     public HBox pack() {
@@ -50,23 +49,46 @@ public class DownloadGui {
         splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         SplitPane.setResizableWithParent(downloadFilterController, Boolean.FALSE);
         splitPane.getItems().addAll(downloadFilterController, downloadGuiController);
-        ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.addListener((observable, oldValue, newValue) -> setSplit());
+
+        ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
         setSplit();
         return hBox;
     }
 
-
     private void setSplit() {
-        if (ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.getValue()) {
-            splitPane.getItems().clear();
-            splitPane.getItems().addAll(downloadFilterController, downloadGuiController);
-            bound = true;
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER);
-        } else {
-            if (bound) {
-                splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER);
+        if (bound) {
+            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER);
+            bound = false;
+        }
+
+        if (filterPaneDialog != null) {
+            filterPaneDialog.closeSetNoRip();
+            filterPaneDialog = null;
+        }
+        splitPane.getItems().clear();
+
+        if (ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.get()) {
+            if (ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.get()) {
+
+                filterPaneDialog = new FilterPaneDialog(downloadFilterController, "Downloadfilter",
+                        ProgConfig.DOWNLOAD_GUI_FILTER_DIALOG_SIZE,
+                        ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP, ProgData.DOWNLOAD_TAB_ON);
+
+                splitPane.getItems().addAll(downloadGuiController);
+
+            } else {
+                P2ClosePaneV closePaneV = new P2ClosePaneV();
+                closePaneV.addPane(downloadFilterController);
+                closePaneV.getButtonClose().setOnAction(a -> ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.set(false));
+                closePaneV.getButtonRip().setOnAction(a -> ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.set(!ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.get()));
+
+                splitPane.getItems().addAll(closePaneV, downloadGuiController);
+                splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER);
+                bound = true;
             }
-            splitPane.getItems().clear();
+
+        } else {
             splitPane.getItems().addAll(downloadGuiController);
         }
     }

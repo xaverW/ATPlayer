@@ -17,7 +17,6 @@
 package de.p2tools.atplayer;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
-import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.worker.Busy;
@@ -136,7 +135,7 @@ public class ATPlayerController extends StackPane {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                ProgConfig.AUDIO_GUI_INFO_ON.setValue(!ProgConfig.AUDIO_GUI_INFO_ON.getValue());
+                ATPlayerFactory.setInfos();
             }
         });
         btnDownload.setOnMouseClicked(mouseEvent -> {
@@ -144,7 +143,7 @@ public class ATPlayerController extends StackPane {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                ProgConfig.DOWNLOAD_GUI_INFO_ON.setValue(!ProgConfig.DOWNLOAD_GUI_INFO_ON.getValue());
+                ATPlayerFactory.setInfos();
             }
         });
     }
@@ -152,7 +151,7 @@ public class ATPlayerController extends StackPane {
     private void selPanelAudio() {
         if (paneShown == PANE_SHOWN.AUDIO) {
             // dann ist der 2. Klick
-            audioGui.closeSplit();
+            ATPlayerFactory.setFilter();
             return;
         }
 
@@ -168,7 +167,7 @@ public class ATPlayerController extends StackPane {
     private void selPanelDownload() {
         if (paneShown == PANE_SHOWN.DOWNLOAD) {
             // dann ist der 2. Klick
-            downloadGui.closeSplit();
+            ATPlayerFactory.setFilter();
             return;
         }
 

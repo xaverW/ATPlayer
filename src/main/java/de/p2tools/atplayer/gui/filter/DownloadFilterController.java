@@ -49,7 +49,6 @@ public class DownloadFilterController extends FilterController {
     private final ProgData progData;
 
     public DownloadFilterController() {
-        super(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON);
         vBoxFilter = getVBoxFilter(true);
         progData = ProgData.getInstance();
 

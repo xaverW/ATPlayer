@@ -20,91 +20,77 @@ import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import javafx.scene.Node;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class AudioInfoController extends P2ClosePaneH {
+public class AudioInfoController extends VBox {
 
-    private PaneAudioInfo paneAudioInfo;
-    private Tab tabFilmInfo;
     private final TabPane tabPane = new TabPane();
-    private final ProgData progData;
+    private PaneAudioInfo paneAudioInfo;
 
     public AudioInfoController() {
-        super(ProgConfig.AUDIO_GUI_INFO_ON, true, true);
-        progData = ProgData.getInstance();
         initInfoPane();
     }
 
     public void setAudioInfos(AudioData film) {
-        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.AUDIO,
-                getVBoxAll(), tabPane, paneAudioInfo,
-                ProgConfig.AUDIO_GUI_INFO_ON, ProgConfig.AUDIO_PANE_DIALOG_INFO_ON)) {
+        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.AUDIO, paneAudioInfo)) {
             paneAudioInfo.setAudioData(film);
         }
     }
 
-    public boolean isPaneShowing() {
-        return !ProgConfig.AUDIO_PANE_DIALOG_INFO_ON.getValue();
+    public boolean arePanesShowing() {
+        return !ProgConfig.AUDIO_PANE_INFO_IS_RIP.getValue();
     }
 
     private void initInfoPane() {
         paneAudioInfo = new PaneAudioInfo(ProgConfig.AUDIO_PANE_INFO_DIVIDER);
-        tabFilmInfo = new Tab("Beschreibung");
-        tabFilmInfo.setClosable(false);
 
-        super.getRipProperty().addListener((u, o, n) -> {
-            if (InfoPaneFactory.isSelPane(getVBoxAll(), tabPane, paneAudioInfo)) {
-                setDialogInfo();
+        if (ProgConfig.AUDIO_PANE_INFO_IS_RIP.getValue()) {
+            dialogInfo();
+        }
+        ProgConfig.AUDIO_PANE_INFO_IS_RIP.addListener((u, o, n) -> {
+            if (n) {
+                dialogInfo();
+            } else {
+                ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.set(true);
             }
+            setTabs();
         });
 
-        if (ProgConfig.AUDIO_PANE_DIALOG_INFO_ON.getValue()) {
-            setDialogInfo();
-        }
-        ProgConfig.AUDIO_PANE_DIALOG_INFO_ON.addListener((u, o, n) -> setTabs()); // kommt beim Ein- und Ausschalten der Fenster
         setTabs();
     }
 
-    private void setDialogInfo() {
-        InfoPaneFactory.setDialogInfo(tabFilmInfo, paneAudioInfo, "Infos",
-                ProgConfig.AUDIO_PANE_DIALOG_INFO_SIZE, ProgConfig.AUDIO_PANE_DIALOG_INFO_ON,
-                ProgConfig.AUDIO_GUI_INFO_ON, ProgData.AUDIO_TAB_ON);
+    private void dialogInfo() {
+        new InfoPaneDialog(paneAudioInfo, "Infos",
+                ProgConfig.AUDIO_PANE_DIALOG_INFO_SIZE,
+                ProgConfig.AUDIO_PANE_INFO_IS_RIP,
+                ProgData.AUDIO_TAB_ON);
     }
 
     private void setTabs() {
-        int i = 0;
+        tabPane.getTabs().clear();
 
-        if (ProgConfig.AUDIO_PANE_DIALOG_INFO_ON.getValue()) {
-            tabPane.getTabs().remove(tabFilmInfo);
-        } else {
-            tabFilmInfo.setContent(paneAudioInfo);
-            if (!tabPane.getTabs().contains(tabFilmInfo)) {
-                tabPane.getTabs().add(i, tabFilmInfo);
-            }
-            ++i;
+        if (!ProgConfig.AUDIO_PANE_INFO_IS_RIP.get()) {
+            tabPane.getTabs().add(
+                    InfoPaneFactory.makeTab(paneAudioInfo, "Infos", ProgConfig.AUDIO_INFO_TAB_IS_SHOWING, ProgConfig.AUDIO_PANE_INFO_IS_RIP));
         }
 
+        if (tabPane.getTabs().isEmpty()) {
+            // keine Tabs
 
-        if (i == 0) {
-            getVBoxAll().getChildren().clear();
-            ProgConfig.AUDIO_GUI_INFO_ON.set(false);
-        } else if (i == 1) {
+        } else if (tabPane.getTabs().size() == 1) {
             // dann gibts einen Tab
             final Node node = tabPane.getTabs().get(0).getContent();
             tabPane.getTabs().remove(0);
-            getVBoxAll().getChildren().setAll(node);
+            getChildren().setAll(node);
             VBox.setVgrow(node, Priority.ALWAYS);
-            ProgConfig.AUDIO_GUI_INFO_ON.set(true);
+
         } else {
             // dann gibts mehre Tabs
-            getVBoxAll().getChildren().setAll(tabPane);
+            getChildren().setAll(tabPane);
             VBox.setVgrow(tabPane, Priority.ALWAYS);
-            ProgConfig.AUDIO_GUI_INFO_ON.set(true);
         }
     }
 }

@@ -33,10 +33,10 @@ public class ATPlayerFactory {
     public static void setFilter() {
         switch (ATPlayerController.paneShown) {
             case AUDIO:
-                ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.AUDIO_GUI_FILTER_DIVIDER_ON.getValue());
+                ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.setValue(!ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.getValue());
                 break;
             case DOWNLOAD:
-                ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.setValue(!ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER_ON.getValue());
+                ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.setValue(!ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.getValue());
                 break;
         }
     }
@@ -44,10 +44,10 @@ public class ATPlayerFactory {
     public static void setInfos() {
         switch (ATPlayerController.paneShown) {
             case AUDIO:
-                ProgConfig.AUDIO_GUI_INFO_ON.setValue(!ProgConfig.AUDIO_GUI_INFO_ON.getValue());
+                ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.setValue(!ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.getValue());
                 break;
             case DOWNLOAD:
-                ProgConfig.DOWNLOAD_GUI_INFO_ON.setValue(!ProgConfig.DOWNLOAD_GUI_INFO_ON.getValue());
+                ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.setValue(!ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.getValue());
                 break;
         }
     }

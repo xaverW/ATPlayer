@@ -17,8 +17,6 @@
 package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneV;
-import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
@@ -26,20 +24,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
-public class FilterController extends P2ClosePaneV {
+public class FilterController extends VBox {
 
     public static final int FILTER_SPACING_TEXTFILTER = 10;
-    private final VBox vBoxAll;
 
-    public FilterController(BooleanProperty mlConfig) {
-        super(mlConfig, true);
-        vBoxAll = super.getVBoxAll();
-        vBoxAll.setSpacing(P2LibConst.SPACING_VBOX);
-    }
-
-    @Override
-    public VBox getVBoxAll() {
-        return vBoxAll;
+    public FilterController() {
+        setSpacing(P2LibConst.SPACING_VBOX);
     }
 
     public VBox getVBoxFilter(boolean vgrow) {
@@ -50,16 +40,16 @@ public class FilterController extends P2ClosePaneV {
             VBox.setVgrow(vbox, Priority.ALWAYS);
         }
 
-        vBoxAll.getChildren().addAll(vbox);
+        getChildren().addAll(vbox);
         return vbox;
     }
 
     public VBox getVBoxBlack() {
         VBox vBox = new VBox();
-        vBox.getStyleClass().add("filter-extra-pane");
+        vBox.getStyleClass().add("extra-pane-filter");
         vBox.setPadding(new Insets(P2LibConst.PADDING));
         vBox.setSpacing(FILTER_SPACING_TEXTFILTER);
-        vBoxAll.getChildren().addAll(vBox);
+        getChildren().addAll(vBox);
         return vBox;
     }
 

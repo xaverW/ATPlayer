@@ -19,8 +19,8 @@ package de.p2tools.atplayer.gui.infopane;
 
 
 import de.p2tools.atplayer.ATPlayerController;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneH;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.StringProperty;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.Pane;
@@ -30,27 +30,27 @@ public class InfoPaneFactory {
     private InfoPaneFactory() {
     }
 
-    public static boolean paneIsVisible(ATPlayerController.PANE_SHOWN paneShown, VBox vBoxAll, TabPane tabPane, Pane pane,
-                                        BooleanProperty dividerOn, BooleanProperty booleanProperty) {
+    public static Tab makeTab(Pane pane, String title, BooleanProperty tabProp, BooleanProperty ripProp) {
+        P2ClosePaneH closePaneH = new P2ClosePaneH();
+        closePaneH.getButtonClose().setOnAction(a -> tabProp.set(false));
+        closePaneH.getButtonRip().setOnAction(a -> ripProp.set(!ripProp.get()));
+        closePaneH.addPane(pane);
+        Tab tab = new Tab(title);
+        tab.setClosable(false);
+        tab.setContent(closePaneH);
+        return tab;
+    }
+    
+    public static boolean paneIsVisible(ATPlayerController.PANE_SHOWN paneShown, Pane pane) {
         if (ATPlayerController.paneShown != paneShown) {
             return false;
 
-        } else if (booleanProperty.getValue()) {
+        } else if (!pane.isVisible()) {
             // dann im Extrafenster
-            return true;
-        } else if (!dividerOn.getValue()) {
-            // dann wird gar nix angezeigt
             return false;
-        } else if (!vBoxAll.getChildren().isEmpty() &&
-                vBoxAll.getChildren().get(0).equals(pane)) {
-            // dann wird nur das angezeigt
-            return true;
-        } else if (tabPane.getSelectionModel().getSelectedItem() != null &&
-                tabPane.getSelectionModel().getSelectedItem().getContent().equals(pane)) {
-            // dann ist der Tab ausgewählt
-            return true;
+
         } else {
-            return false;
+            return true;
         }
     }
 
@@ -68,12 +68,5 @@ public class InfoPaneFactory {
         } else {
             return false;
         }
-    }
-
-    public static void setDialogInfo(Tab tab, Pane pane, String title,
-                                     StringProperty size, BooleanProperty paneOn,
-                                     BooleanProperty dividerOn, BooleanProperty tabOn) {
-        tab.setContent(null);
-        new InfoPaneDialog(pane, title, size, paneOn, dividerOn, tabOn);
     }
 }
