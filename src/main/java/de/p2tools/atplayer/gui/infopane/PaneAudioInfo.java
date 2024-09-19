@@ -58,6 +58,7 @@ public class PaneAudioInfo extends VBox {
 
     public PaneAudioInfo(DoubleProperty dividerProp) {
         this.sizeChangeListener = (u, o, n) -> setSize(true);
+        VBox.setVgrow(this, Priority.ALWAYS);
 
         btnReset.setOnAction(a -> resetFilmDescription());
         btnReset.setTooltip(new Tooltip("Beschreibung zurücksetzen"));

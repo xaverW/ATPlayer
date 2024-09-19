@@ -30,6 +30,7 @@ public class FilterController extends VBox {
 
     public FilterController() {
         setSpacing(P2LibConst.SPACING_VBOX);
+        VBox.setVgrow(this, Priority.ALWAYS);
     }
 
     public VBox getVBoxFilter(boolean vgrow) {

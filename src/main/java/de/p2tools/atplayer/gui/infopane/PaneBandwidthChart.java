@@ -32,6 +32,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 public class PaneBandwidthChart extends AnchorPane {
 
@@ -44,6 +45,7 @@ public class PaneBandwidthChart extends AnchorPane {
 
     public PaneBandwidthChart(ProgData progData) {
         this.progData = progData;
+        VBox.setVgrow(this, Priority.ALWAYS);
 
         initList();
         initCharts();
@@ -68,6 +70,7 @@ public class PaneBandwidthChart extends AnchorPane {
         lineChart.setAnimated(false);
         lineChart.setCreateSymbols(false);
         lineChart.setTitle("Downloads");
+        VBox.setVgrow(lineChart, Priority.ALWAYS);
 
         lineChart.setOnMouseClicked(e -> {
             if (cm != null && cm.isShowing()) {

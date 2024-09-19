@@ -241,7 +241,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static DoubleProperty AUDIO_PANE_INFO_DIVIDER = addDoubleProp("audio-pane-info-divider", 0.7);
     public static StringProperty AUDIO_GUI_FILTER_DIALOG_SIZE = addStrProp("audio-gui-filter-dialog-size", "400:500");
 
-    public static BooleanProperty AUDIO_GUI_FILTER_IS_SHOWING = addBoolProp("audio-gui-filter-is-showing", Boolean.FALSE);
+    public static BooleanProperty AUDIO_GUI_FILTER_IS_SHOWING = addBoolProp("audio-gui-filter-is-showing", Boolean.TRUE);
 
 
     public static BooleanProperty AUDIO_INFO_TAB_IS_SHOWING = addBoolProp("audio-info-tag-is-showing", Boolean.TRUE);

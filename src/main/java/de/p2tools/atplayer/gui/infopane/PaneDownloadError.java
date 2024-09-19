@@ -37,6 +37,7 @@ public class PaneDownloadError extends AnchorPane {
 
     public PaneDownloadError() {
         progData = ProgData.getInstance();
+        VBox.setVgrow(this, Priority.ALWAYS);
 
         btnClear.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
         btnClear.setTooltip(new Tooltip("Die Liste der Downloadfehler löschen"));
