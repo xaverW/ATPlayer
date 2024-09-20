@@ -40,6 +40,24 @@ public class AudioGui {
         ProgData.getInstance().audioGuiController = audioGuiController;
     }
 
+    public HBox pack() {
+        final MenuController menuController = new MenuController(MenuController.StartupMode.AUDIO);
+
+        HBox hBox = new HBox();
+        hBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        hBox.setMinSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+        hBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox.setHgrow(splitPane, Priority.ALWAYS);
+        hBox.getChildren().addAll(splitPane, menuController);
+
+        splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+
+        ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.AUDIO_GUI_FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
+        setSplit();
+        return hBox;
+    }
+
     private void setSplit() {
         if (bound) {
             splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
@@ -65,6 +83,7 @@ public class AudioGui {
                 closePaneV.addPane(audioFilterController);
                 closePaneV.getButtonClose().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.set(false));
                 closePaneV.getButtonRip().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_RIP.set(!ProgConfig.AUDIO_GUI_FILTER_IS_RIP.get()));
+                SplitPane.setResizableWithParent(closePaneV, Boolean.FALSE);
 
                 splitPane.getItems().addAll(closePaneV, audioGuiController);
                 splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
@@ -75,24 +94,5 @@ public class AudioGui {
             splitPane.getItems().addAll(audioGuiController);
         }
 
-    }
-
-    public HBox pack() {
-        final MenuController menuController = new MenuController(MenuController.StartupMode.AUDIO);
-
-        HBox hBox = new HBox();
-        hBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        hBox.setMinSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        hBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        HBox.setHgrow(splitPane, Priority.ALWAYS);
-        hBox.getChildren().addAll(splitPane, menuController);
-
-        splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        SplitPane.setResizableWithParent(audioFilterController, Boolean.FALSE);
-
-        ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
-        ProgConfig.AUDIO_GUI_FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
-        setSplit();
-        return hBox;
     }
 }

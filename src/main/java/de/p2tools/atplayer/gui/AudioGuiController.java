@@ -51,7 +51,6 @@ public class AudioGuiController extends AnchorPane {
     private final SortedList<AudioData> sortedList;
     private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
     private boolean boundSplitPaneDivPos = false;
-
     private AudioInfoController audioInfoController;
 
     public AudioGuiController() {

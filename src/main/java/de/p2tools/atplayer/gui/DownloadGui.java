@@ -47,7 +47,6 @@ public class DownloadGui {
         hBox.getChildren().addAll(splitPane, menuController);
 
         splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        SplitPane.setResizableWithParent(downloadFilterController, Boolean.FALSE);
         splitPane.getItems().addAll(downloadFilterController, downloadGuiController);
 
         ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
@@ -82,6 +81,7 @@ public class DownloadGui {
                 closePaneV.addPane(downloadFilterController);
                 closePaneV.getButtonClose().setOnAction(a -> ProgConfig.DOWNLOAD_GUI_FILTER_IS_SHOWING.set(false));
                 closePaneV.getButtonRip().setOnAction(a -> ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.set(!ProgConfig.DOWNLOAD_GUI_FILTER_IS_RIP.get()));
+                SplitPane.setResizableWithParent(closePaneV, Boolean.FALSE);
 
                 splitPane.getItems().addAll(closePaneV, downloadGuiController);
                 splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_FILTER_DIVIDER);
