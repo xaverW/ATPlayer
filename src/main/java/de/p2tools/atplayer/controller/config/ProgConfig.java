@@ -228,8 +228,6 @@ public class ProgConfig extends P2DataProgConfig {
 
     // Gui Audios
     public static BooleanProperty AUDIO_GUI_SHOW_MENU = addBoolProp("audio-gui-show-menu", Boolean.TRUE);
-    public static BooleanProperty AUDIO_PANE_INFO_IS_RIP = addBoolProp("audio-pane-dialog-info-on");
-    public static StringProperty AUDIO_PANE_DIALOG_INFO_SIZE = addStrProp("audio-pane-dialog-info-size");
     public static StringProperty AUDIO_GUI_TABLE_WIDTH = addStrProp("audio-gui-table-width");
     public static StringProperty AUDIO_GUI_TABLE_SORT = addStrProp("audio-gui-table-sort");
     public static StringProperty AUDIO_GUI_TABLE_UP_DOWN = addStrProp("audio-gui-table-up-down");
@@ -237,46 +235,46 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty AUDIO_GUI_TABLE_ORDER = addStrProp("audio-gui-table-order");
     public static StringProperty AUDIO_GUI_FILTER_DIALOG = addStrProp("audio-gui-filter-dialog", "400:500");
     public static BooleanProperty AUDIO_GUI_FILTER_DIALOG_IS_SHOWING = addBoolProp("audio-gui-filter-dialog-is-showing", Boolean.FALSE);
-    public static BooleanProperty AUDIO_GUI_FILTER_IS_RIP = addBoolProp("audio-gui-filter-is-rip", Boolean.FALSE);
-    public static DoubleProperty AUDIO_PANE_INFO_DIVIDER = addDoubleProp("audio-pane-info-divider", 0.7);
-    public static StringProperty AUDIO_GUI_FILTER_DIALOG_SIZE = addStrProp("audio-gui-filter-dialog-size", "400:500");
+    public static DoubleProperty AUDIO_PANE_AUDIO_INFO_DIVIDER = addDoubleProp("audio-pane-audio-info-divider", 0.7);
 
-    public static BooleanProperty AUDIO_GUI_FILTER_IS_SHOWING = addBoolProp("audio-gui-filter-is-showing", Boolean.TRUE);
+    // ================================
+    // Infos
+    public static BooleanProperty AUDIO__INFO_IS_SHOWING = addBoolProp("audio--info-is-showing", Boolean.TRUE);
+    public static DoubleProperty AUDIO__INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
+    public static BooleanProperty AUDIO__INFO_PANE_IS_RIP = addBoolProp("audio--info-pane-is-rip");
+    public static StringProperty AUDIO__INFO_DIALOG_SIZE = addStrProp("audio--info-dialog-size");
+
+    public static BooleanProperty AUDIO__FILTER_IS_SHOWING = addBoolProp("audio--filter-is-showing", Boolean.TRUE);
+    public static DoubleProperty AUDIO__FILTER_DIVIDER = addDoubleProp("audio---filter-divider", ProgConst.GUI_FILTER_DIVIDER_LOCATION);
+    public static BooleanProperty AUDIO__FILTER_IS_RIP = addBoolProp("audio--filter-is-rip", Boolean.FALSE);
+    public static StringProperty AUDIO__FILTER_DIALOG_SIZE = addStrProp("audio--filter-dialog-size", "400:500");
 
 
-    public static BooleanProperty AUDIO_INFO_TAB_IS_SHOWING = addBoolProp("audio-info-tag-is-showing", Boolean.TRUE);
-    public static DoubleProperty AUDIO_GUI_INFO_DIVIDER = addDoubleProp("audio-gui-info-divider", ProgConst.GUI_AUDIO_DIVIDER_LOCATION);
-
-    // Gui Download
     public static BooleanProperty DOWNLOAD_GUI_SHOW_MENU = addBoolProp("download-gui-show-menu", Boolean.TRUE);
-    public static BooleanProperty DOWNLOAD_PANE_INFO_IS_RIP = addBoolProp("download-pane-info-is-rip");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_INFO_SIZE = addStrProp("download-pane-dialog-info-size");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_CHART_SIZE = addStrProp("download-pane-dialog-chart-size");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_ERROR_SIZE = addStrProp("download-pane-dialog-error-size", "400:400");
-    public static StringProperty DOWNLOAD_PANE_DIALOG_DOWN_INFO_SIZE = addStrProp("download-pane-dialog-down-info-size", "400:400");
     public static DoubleProperty DOWNLOAD_PANE_INFO_DIVIDER = addDoubleProp("download-pane-info-divider", 0.7);
 
-    public static BooleanProperty DOWNLOAD_INFO_TAB_IS_SHOWING = addBoolProp("download-info-tab-is-showing", Boolean.TRUE);
-    public static DoubleProperty DOWNLOAD_GUI_INFO_DIVIDER = addDoubleProp("download-gui-info-divider", 0.7);
+    public static BooleanProperty DOWNLOAD__INFO_IS_SHOWING = addBoolProp("download--info-is-showing", Boolean.TRUE);
+    public static DoubleProperty DOWNLOAD__INFO_DIVIDER = addDoubleProp("download--info-divider", 0.7);
+    public static BooleanProperty DOWNLOAD__INFO_INFO_IS_RIP = addBoolProp("download--info-info-pane-is-rip");
+    public static StringProperty DOWNLOAD__INFO_INFO_DIALOG_SIZE = addStrProp("download--info-info-dialog-size", "400:400");
+    public static BooleanProperty DOWNLOAD__INFO_CHART_IS_RIP = addBoolProp("download--info-chart-is-rip");
+    public static StringProperty DOWNLOAD__INFO_CHART_DIALOG_SIZE = addStrProp("download--info-chart-dialog-size");
+    public static BooleanProperty DOWNLOAD__INFO_LIST_IS_RIP = addBoolProp("download--info-list-is-rip");
+    public static StringProperty DOWNLOAD__INFO_LIST_DIALOG_SIZE = addStrProp("download--info-list-dialog-size", "400:400");
+    public static BooleanProperty DOWNLOAD__INFO_ERROR_IS_RIP = addBoolProp("download--info-error-is-rip");
+    public static StringProperty DOWNLOAD__INFO_ERROR_DIALOG_SIZE = addStrProp("download--info-error-dialog-size", "400:400");
 
-    // Gui PaneDialog
-    public static BooleanProperty DOWNLOAD_PANE_CHART_IS_RIP = addBoolProp("download-pane-chart-is-rip");
-    public static BooleanProperty DOWNLOAD_PANE_INFO_LIST_IS_RIP = addBoolProp("download-pane-info-list-is-rip");
-    public static BooleanProperty DOWNLOAD_PANE_ERROR_IS_RIP = addBoolProp("download-pane-error-is-rip");
 
-    // DownloadChart
     public static IntegerProperty DOWNLOAD_CHART_SHOW_WHAT = addIntProp("download-chart-show-what", ChartGenerateFactory.GEN_CHART_SHOW_DOWN);
     public static BooleanProperty DOWNLOAD_CHART_ONLY_EXISTING = addBoolProp("download-chart-only-existing", Boolean.FALSE);
     public static BooleanProperty DOWNLOAD_CHART_ONLY_RUNNING = addBoolProp("download-chart-only-running", Boolean.FALSE);
     public static IntegerProperty DOWNLOAD_CHART_MAX_TIME_TO_SHOW_MIN = addIntProp("download-chart-max-time-to-show-min", 30); //MAX Minuten im Chart
 
 
-    // Gui Filter
-    public static DoubleProperty AUDIO_GUI_FILTER_DIVIDER = addDoubleProp("film-gui-filter-divider", ProgConst.GUI_FILTER_DIVIDER_LOCATION);
-    public static BooleanProperty DOWNLOAD_GUI_FILTER_IS_SHOWING = addBoolProp("download-gui-filter-is-showing", Boolean.TRUE);
-    public static BooleanProperty DOWNLOAD_GUI_FILTER_IS_RIP = addBoolProp("download-gui-filter-is-rip", Boolean.FALSE);
-    public static DoubleProperty DOWNLOAD_GUI_FILTER_DIVIDER = addDoubleProp("download-gui-filter-divider", ProgConst.GUI_DOWNLOAD_FILTER_DIVIDER_LOCATION);
-    public static StringProperty DOWNLOAD_GUI_FILTER_DIALOG_SIZE = addStrProp("download-gui-filter-dialog-size", "400:600");
+    public static BooleanProperty DOWNLOAD__FILTER_IS_SHOWING = addBoolProp("download--filter-is-showing", Boolean.TRUE);
+    public static BooleanProperty DOWNLOAD__FILTER_IS_RIP = addBoolProp("download--filter-is-rip", Boolean.FALSE);
+    public static DoubleProperty DOWNLOAD__FILTER_DIVIDER = addDoubleProp("download--filter-divider", ProgConst.GUI_DOWNLOAD_FILTER_DIVIDER_LOCATION);
+    public static StringProperty DOWNLOAD__FILTER_DIALOG_SIZE = addStrProp("download--filter-dialog-size", "400:600");
 
     // Filter
     public static StringProperty FILTER_DOWNLOAD_STATE = addStrProp("filter-download-state");

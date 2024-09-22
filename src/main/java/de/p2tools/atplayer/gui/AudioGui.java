@@ -19,80 +19,93 @@ package de.p2tools.atplayer.gui;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.filter.AudioFilterController;
-import de.p2tools.atplayer.gui.filter.FilterPaneDialog;
-import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneV;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
+
+import java.util.ArrayList;
 
 public class AudioGui {
 
     final AudioFilterController audioFilterController;
     final AudioGuiController audioGuiController;
     private final SplitPane splitPane = new SplitPane();
-    private boolean bound = false;
-    private FilterPaneDialog filterPaneDialog = null;
+    private final P2InfoController infoControllerFilter;
+    private final BooleanProperty boundFilter = new SimpleBooleanProperty(false);
 
     public AudioGui() {
         audioFilterController = new AudioFilterController();
         audioGuiController = new AudioGuiController();
         ProgData.getInstance().audioGuiController = audioGuiController;
+
+        ArrayList<P2InfoDto> list = new ArrayList<>();
+        P2InfoDto infoDto = new P2InfoDto(audioFilterController,
+                ProgConfig.AUDIO__FILTER_IS_RIP,
+                ProgConfig.AUDIO__FILTER_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
+                "Filter", "Audio", true);
+        list.add(infoDto);
+        infoControllerFilter = new P2InfoController(list, ProgConfig.AUDIO__FILTER_IS_SHOWING);
     }
 
     public HBox pack() {
         final MenuController menuController = new MenuController(MenuController.StartupMode.AUDIO);
 
         HBox hBox = new HBox();
-        hBox.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        hBox.setMinSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
-        hBox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         HBox.setHgrow(splitPane, Priority.ALWAYS);
         hBox.getChildren().addAll(splitPane, menuController);
 
         splitPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-        ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
-        ProgConfig.AUDIO_GUI_FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.AUDIO__FILTER_IS_SHOWING.addListener((observable, oldValue, newValue) -> setSplit());
+        ProgConfig.AUDIO__FILTER_IS_RIP.addListener((observable, oldValue, newValue) -> setSplit());
         setSplit();
         return hBox;
     }
 
     private void setSplit() {
-        if (bound) {
-            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
-            bound = false;
-        }
-        if (filterPaneDialog != null) {
-            filterPaneDialog.closeSetNoRip();
-            filterPaneDialog = null;
-        }
-        splitPane.getItems().clear();
+        P2ClosePaneFactory.setSplit(boundFilter, splitPane,
+                infoControllerFilter, true, audioGuiController,
+                ProgConfig.AUDIO__FILTER_DIVIDER, ProgConfig.AUDIO__FILTER_IS_SHOWING);
 
-        if (ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.get()) {
-            if (ProgConfig.AUDIO_GUI_FILTER_IS_RIP.get()) {
-
-                filterPaneDialog = new FilterPaneDialog(audioFilterController, "Audiofilter",
-                        ProgConfig.AUDIO_GUI_FILTER_DIALOG_SIZE,
-                        ProgConfig.AUDIO_GUI_FILTER_IS_RIP,
-                        ProgData.AUDIO_TAB_ON);
-                splitPane.getItems().addAll(audioGuiController);
-
-            } else {
-                P2ClosePaneV closePaneV = new P2ClosePaneV();
-                closePaneV.addPane(audioFilterController);
-                closePaneV.getButtonClose().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_SHOWING.set(false));
-                closePaneV.getButtonRip().setOnAction(a -> ProgConfig.AUDIO_GUI_FILTER_IS_RIP.set(!ProgConfig.AUDIO_GUI_FILTER_IS_RIP.get()));
-                SplitPane.setResizableWithParent(closePaneV, Boolean.FALSE);
-
-                splitPane.getItems().addAll(closePaneV, audioGuiController);
-                splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
-                bound = true;
-            }
-
-        } else {
-            splitPane.getItems().addAll(audioGuiController);
-        }
+//        if (bound) {
+//            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
+//            bound = false;
+//        }
+//        if (filterPaneDialog != null) {
+//            filterPaneDialog.closeSetNoRip();
+//            filterPaneDialog = null;
+//        }
+//        splitPane.getItems().clear();
+//
+//        if (ProgConfig.AUDIO__FILTER_IS_SHOWING.get()) {
+//            if (ProgConfig.AUDIO__FILTER_IS_RIP.get()) {
+//
+//                filterPaneDialog = new FilterPaneDialog(audioFilterController, "Audiofilter",
+//                        ProgConfig.AUDIO__FILTER_DIALOG_SIZE,
+//                        ProgConfig.AUDIO__FILTER_IS_RIP,
+//                        ProgData.AUDIO_TAB_ON);
+//                splitPane.getItems().addAll(audioGuiController);
+//
+//            } else {
+//                P2ClosePaneV closePaneV = new P2ClosePaneV();
+//                closePaneV.addPane(audioFilterController);
+//                closePaneV.getButtonClose().setOnAction(a -> ProgConfig.AUDIO__FILTER_IS_SHOWING.set(false));
+//                closePaneV.getButtonRip().setOnAction(a -> ProgConfig.AUDIO__FILTER_IS_RIP.set(!ProgConfig.AUDIO__FILTER_IS_RIP.get()));
+//                SplitPane.setResizableWithParent(closePaneV, Boolean.FALSE);
+//
+//                splitPane.getItems().addAll(closePaneV, audioGuiController);
+//                splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
+//                bound = true;
+//            }
+//
+//        } else {
+//            splitPane.getItems().addAll(audioGuiController);
+//        }
 
     }
 }

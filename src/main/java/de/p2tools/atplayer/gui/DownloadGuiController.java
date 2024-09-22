@@ -16,6 +16,7 @@
 
 package de.p2tools.atplayer.gui;
 
+import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
@@ -26,17 +27,22 @@ import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
-import de.p2tools.atplayer.gui.infopane.DownloadInfoController;
+import de.p2tools.atplayer.gui.infopane.*;
 import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableDownload;
 import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.guitools.P2TableFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.ScrollPane;
@@ -56,15 +62,17 @@ public class DownloadGuiController extends AnchorPane {
     private final ScrollPane scrollPane = new ScrollPane();
     public final TableDownload tableView;
     private final ProgData progData;
-    private boolean boundSplitPaneDivPos = false;
 
-    private DownloadInfoController downloadInfoController;
+    private final PaneAudioInfo paneFilmInfo;
+    private final PaneBandwidthChart paneBandwidthChart;
+    private final PaneDownloadError paneDownloadError;
+    private final PaneDownloadInfo paneDownloadInfoList;
+    private final P2InfoController infoController;
+    private final BooleanProperty boundInfo = new SimpleBooleanProperty(false);
 
     public DownloadGuiController() {
         progData = ProgData.getInstance();
-        downloadInfoController = new DownloadInfoController();
         tableView = new TableDownload(Table.TABLE_ENUM.DOWNLOAD, progData);
-
 
         AnchorPane.setLeftAnchor(splitPane, 0.0);
         AnchorPane.setBottomAnchor(splitPane, 0.0);
@@ -77,17 +85,63 @@ public class DownloadGuiController extends AnchorPane {
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(tableView);
 
-        ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
-        ProgConfig.DOWNLOAD_PANE_INFO_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
-        ProgConfig.DOWNLOAD_PANE_CHART_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
-        ProgConfig.DOWNLOAD_PANE_ERROR_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
-        ProgConfig.DOWNLOAD_PANE_INFO_LIST_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+        paneFilmInfo = new PaneAudioInfo(ProgConfig.DOWNLOAD_PANE_INFO_DIVIDER);
+        paneBandwidthChart = new PaneBandwidthChart(progData);
+        paneDownloadError = new PaneDownloadError();
+        paneDownloadInfoList = new PaneDownloadInfo();
+
+        ArrayList<P2InfoDto> list = new ArrayList<>();
+        P2InfoDto infoDto = new P2InfoDto(paneFilmInfo,
+                ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP,
+                ProgConfig.DOWNLOAD__INFO_INFO_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
+                "Info", "Downloads", false);
+        list.add(infoDto);
+
+        infoDto = new P2InfoDto(paneBandwidthChart,
+                ProgConfig.DOWNLOAD__INFO_CHART_IS_RIP,
+                ProgConfig.DOWNLOAD__INFO_CHART_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
+                "Info", "Bandbreite", false);
+        list.add(infoDto);
+
+        infoDto = new P2InfoDto(paneDownloadError,
+                ProgConfig.DOWNLOAD__INFO_ERROR_IS_RIP,
+                ProgConfig.DOWNLOAD__INFO_ERROR_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
+                "Info", "Fehler", false);
+        list.add(infoDto);
+
+        infoDto = new P2InfoDto(paneDownloadInfoList,
+                ProgConfig.DOWNLOAD__INFO_LIST_IS_RIP,
+                ProgConfig.DOWNLOAD__INFO_LIST_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
+                "Info", "Infos", false);
+        list.add(infoDto);
+
+        infoController = new P2InfoController(list, ProgConfig.DOWNLOAD__INFO_IS_SHOWING);
+
+        ProgConfig.DOWNLOAD__INFO_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.DOWNLOAD__INFO_CHART_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.DOWNLOAD__INFO_ERROR_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.DOWNLOAD__INFO_LIST_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
 
         setInfoPane();
         initTable();
         initListener();
         setFilterProperty();
         setFilter();
+
+        PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadGuiController.class.getSimpleName()) {
+            @Override
+            public void pingFx() {
+                // todo nur wenn sichtbar
+                paneBandwidthChart.searchInfos(InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneBandwidthChart));
+
+                if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneDownloadInfoList)) {
+                    paneDownloadInfoList.setInfoText();
+                }
+            }
+        });
+
+
     }
 
     public void isShown() {
@@ -104,7 +158,9 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void setAudioInfos(DownloadData download) {
-        downloadInfoController.setDownloadInfos(download);
+        if (InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneFilmInfo)) {
+            paneFilmInfo.setAudioData(download);
+        }
         AudioInfoDialogController.getInstance().setAudio(download != null ? download.getAudioData() : null);
     }
 
@@ -419,28 +475,8 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void setInfoPane() {
-        // hier wird das InfoPane ein- ausgeblendet
-        if (boundSplitPaneDivPos && splitPane.getItems().size() > 1) {
-            boundSplitPaneDivPos = false;
-            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.DOWNLOAD_GUI_INFO_DIVIDER);
-        }
-
-        splitPane.getItems().clear();
-        if (!downloadInfoController.arePanesShowing()) {
-            // dann wird nix angezeigt
-            splitPane.getItems().add(scrollPane);
-            ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.set(false);
-            return;
-        }
-
-        if (ProgConfig.DOWNLOAD_INFO_TAB_IS_SHOWING.getValue()) {
-            boundSplitPaneDivPos = true;
-            splitPane.getItems().addAll(scrollPane, downloadInfoController);
-            SplitPane.setResizableWithParent(downloadInfoController, false);
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.DOWNLOAD_GUI_INFO_DIVIDER);
-
-        } else {
-            splitPane.getItems().add(scrollPane);
-        }
+        P2ClosePaneFactory.setSplit(boundInfo, splitPane,
+                infoController, false, scrollPane,
+                ProgConfig.DOWNLOAD__INFO_DIVIDER, ProgConfig.DOWNLOAD__INFO_IS_SHOWING);
     }
 }

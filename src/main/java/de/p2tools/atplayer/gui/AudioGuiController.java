@@ -21,16 +21,21 @@ import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
-import de.p2tools.atplayer.gui.infopane.AudioInfoController;
+import de.p2tools.atplayer.gui.infopane.PaneAudioInfo;
 import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
+import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.transformation.SortedList;
 import javafx.geometry.Orientation;
 import javafx.scene.control.ContextMenu;
@@ -50,13 +55,13 @@ public class AudioGuiController extends AnchorPane {
     private final ProgData progData;
     private final SortedList<AudioData> sortedList;
     private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
-    private boolean boundSplitPaneDivPos = false;
-    private AudioInfoController audioInfoController;
+    private final PaneAudioInfo paneAudioInfo;
+    private final P2InfoController infoController;
+    private final BooleanProperty boundInfo = new SimpleBooleanProperty(false);
 
     public AudioGuiController() {
         progData = ProgData.getInstance();
         sortedList = progData.audioListFiltered.getSortedList();
-        audioInfoController = new AudioInfoController();
         tableView = new TableAudio(Table.TABLE_ENUM.FILM, progData);
 
         AnchorPane.setLeftAnchor(splitPane, 0.0);
@@ -70,8 +75,18 @@ public class AudioGuiController extends AnchorPane {
         scrollPaneTableFilm.setFitToWidth(true);
         scrollPaneTableFilm.setContent(tableView);
 
-        ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
-        ProgConfig.AUDIO_PANE_INFO_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
+        paneAudioInfo = new PaneAudioInfo(ProgConfig.AUDIO_PANE_AUDIO_INFO_DIVIDER);
+
+        ArrayList<P2InfoDto> list = new ArrayList<>();
+        P2InfoDto infoDto = new P2InfoDto(paneAudioInfo,
+                ProgConfig.AUDIO__INFO_PANE_IS_RIP,
+                ProgConfig.AUDIO__INFO_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
+                "Info", "Audio", false);
+        list.add(infoDto);
+        infoController = new P2InfoController(list, ProgConfig.AUDIO__INFO_IS_SHOWING);
+
+        ProgConfig.AUDIO__INFO_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
+        ProgConfig.AUDIO__INFO_PANE_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
 
         setInfoPane();
         initTable();
@@ -145,7 +160,6 @@ public class AudioGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
         PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
                 AudioGuiController.class.getSimpleName()) {
             @Override
@@ -238,33 +252,13 @@ public class AudioGuiController extends AnchorPane {
 
     private void setAudioInfos(AudioData audios) {
         // Film in FilmInfoDialog setzen
-        audioInfoController.setAudioInfos(audios);
+        paneAudioInfo.setAudioData(audios); // todo nur wenn sichtbar
         AudioInfoDialogController.getInstance().setAudio(audios);
     }
 
     private void setInfoPane() {
-        // hier wird das InfoPane ein- ausgeblendet
-        if (boundSplitPaneDivPos && splitPane.getItems().size() > 1) {
-            boundSplitPaneDivPos = false;
-            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_INFO_DIVIDER);
-        }
-
-        splitPane.getItems().clear();
-        if (!audioInfoController.arePanesShowing()) {
-            // dann wird nix angezeigt
-            splitPane.getItems().add(scrollPaneTableFilm);
-            ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.set(false);
-            return;
-        }
-
-        if (ProgConfig.AUDIO_INFO_TAB_IS_SHOWING.getValue()) {
-            boundSplitPaneDivPos = true;
-            splitPane.getItems().addAll(scrollPaneTableFilm, audioInfoController);
-            SplitPane.setResizableWithParent(audioInfoController, false);
-            splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_INFO_DIVIDER);
-
-        } else {
-            splitPane.getItems().add(scrollPaneTableFilm);
-        }
+        P2ClosePaneFactory.setSplit(boundInfo, splitPane,
+                infoController, false, scrollPaneTableFilm,
+                ProgConfig.AUDIO__INFO_DIVIDER, ProgConfig.AUDIO__INFO_IS_SHOWING);
     }
 }
