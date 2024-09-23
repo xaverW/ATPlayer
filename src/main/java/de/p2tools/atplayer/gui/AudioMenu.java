@@ -21,10 +21,7 @@ import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
-import de.p2tools.atplayer.controller.config.PShortKeyFactory;
-import de.p2tools.atplayer.controller.config.PShortcut;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
@@ -222,10 +219,12 @@ public class AudioMenu {
 
         final MenuItem miShowFilter = new MenuItem("Filter ein-/ausblenden" +
                 PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_FILTER.getActShortcut());
+        miShowFilter.disableProperty().bind(ProgConfig.AUDIO__FILTER_IS_RIP);
         miShowFilter.setOnAction(a -> ATPlayerFactory.setFilter());
 
         final MenuItem miShowInfo = new MenuItem("Infos ein-/ausblenden" +
                 PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_INFOS.getActShortcut());
+        miShowInfo.disableProperty().bind(ProgConfig.AUDIO__INFO_PANE_IS_RIP);
         miShowInfo.setOnAction(a -> ATPlayerFactory.setInfos());
 
         mb.getItems().add(new SeparatorMenuItem());

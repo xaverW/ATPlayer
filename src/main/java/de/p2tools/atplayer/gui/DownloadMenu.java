@@ -19,10 +19,7 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.ATPlayerFactory;
-import de.p2tools.atplayer.controller.config.PShortKeyFactory;
-import de.p2tools.atplayer.controller.config.PShortcut;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.beans.binding.Bindings;
@@ -208,10 +205,15 @@ public class DownloadMenu {
 
         final MenuItem miShowFilter = new MenuItem("Filter ein-/ausblenden" +
                 PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_FILTER.getActShortcut());
+        miShowFilter.disableProperty().bind(ProgConfig.DOWNLOAD__FILTER_IS_RIP);
         miShowFilter.setOnAction(a -> ATPlayerFactory.setFilter());
 
         final MenuItem miShowInfo = new MenuItem("Infos ein-/ausblenden" +
                 PShortKeyFactory.SHORT_CUT_LEER + PShortcut.SHORTCUT_SHOW_INFOS.getActShortcut());
+        miShowInfo.disableProperty().bind(ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP
+                .and(ProgConfig.DOWNLOAD__INFO_CHART_IS_RIP)
+                .and(ProgConfig.DOWNLOAD__INFO_ERROR_IS_RIP)
+                .and(ProgConfig.DOWNLOAD__INFO_LIST_IS_RIP));
         miShowInfo.setOnAction(a -> ATPlayerFactory.setInfos());
 
         mb.getItems().add(new SeparatorMenuItem());

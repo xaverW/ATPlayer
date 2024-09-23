@@ -94,25 +94,25 @@ public class DownloadGuiController extends AnchorPane {
         P2InfoDto infoDto = new P2InfoDto(paneFilmInfo,
                 ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_INFO_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
-                "Info", "Downloads", false);
+                "Beschreibung", "Beschreibung", false);
         list.add(infoDto);
 
         infoDto = new P2InfoDto(paneBandwidthChart,
                 ProgConfig.DOWNLOAD__INFO_CHART_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_CHART_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
-                "Info", "Bandbreite", false);
+                "Downloadchart", "Downloadchart", false);
         list.add(infoDto);
 
         infoDto = new P2InfoDto(paneDownloadError,
                 ProgConfig.DOWNLOAD__INFO_ERROR_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_ERROR_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
-                "Info", "Fehler", false);
+                "Fehler", "Fehler", false);
         list.add(infoDto);
 
         infoDto = new P2InfoDto(paneDownloadInfoList,
                 ProgConfig.DOWNLOAD__INFO_LIST_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_LIST_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
-                "Info", "Infos", false);
+                "Infos", "Infos", false);
         list.add(infoDto);
 
         infoController = new P2InfoController(list, ProgConfig.DOWNLOAD__INFO_IS_SHOWING);
