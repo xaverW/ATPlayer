@@ -63,7 +63,15 @@ public class ProgStartAfterGui {
 
         P2LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
         P2Log.sysLog(list);
-        ProgConfig.logAllConfigs();
+        ProgConfig.getInstance().writeConfigs();
+    }
+
+    public static void startMsgVersion() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Verzeichnisse:");
+        list.add("Programmpfad: " + ProgInfos.getPathJar());
+        list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
+        P2LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
     }
 
     private static void checkProgUpdate() {

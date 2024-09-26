@@ -17,7 +17,7 @@
 
 package de.p2tools.atplayer;
 
-import de.p2tools.atplayer.controller.ProgStartBeforeGui;
+import de.p2tools.atplayer.controller.ProgStartAfterGui;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -78,7 +78,7 @@ public class AppParameter {
 
             if (hasOption(line, ProgParameter.VERSION)) {
                 EventQueue.invokeLater(() -> {
-                    ProgStartBeforeGui.startMsg(false);
+                    ProgStartAfterGui.startMsgVersion();
                     P2LogMessage.endMsg();
                     System.exit(0);
                 });

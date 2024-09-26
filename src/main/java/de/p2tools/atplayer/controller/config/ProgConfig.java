@@ -21,75 +21,98 @@ import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterWorker;
 import de.p2tools.atplayer.gui.chart.ChartGenerateFactory;
-import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.data.P2DataProgConfig;
 import de.p2tools.p2lib.mtdownload.GetProgramStandardPath;
 import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
-import de.p2tools.p2lib.tools.P2StringUtils;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
-import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.*;
 import org.apache.commons.lang3.SystemUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ProgConfig extends P2DataProgConfig {
 
+    private static ProgConfig instance;
+
+    private ProgConfig() {
+        super("ProgConfig");
+    }
+
+    public static ProgConfig getInstance() {
+        return instance == null ? instance = new ProgConfig() : instance;
+    }
+
+    public static void addConfigData(ConfigFile configFile) {
+        ProgData progData = ProgData.getInstance();
+
+        // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
+        ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuild());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getCompileDate());
+
+        configFile.addConfigs(ProgConfig.getInstance());//Progconfig
+        configFile.addConfigs(ProgColorList.getInstance());//Color
+
+        final AudioFilter akt_sf = progData.filterWorker.getActFilterSettings();//akt-Filter
+        akt_sf.setName(FilterWorker.SELECTED_FILTER_NAME);// nur zur Info im Config-File
+        configFile.addConfigs(akt_sf);
+        configFile.addConfigs(progData.filterWorker.getFilterList());
+
+        configFile.addConfigs(progData.replaceList);
+        configFile.addConfigs(progData.downloadList);
+        configFile.addConfigs(progData.blackList);
+        configFile.addConfigs(progData.stringListsLists); // sind die Textfilter in den CBO's
+    }
+
     // Programm-Configs, änderbar nur im Konfig-File
     // ============================================
+
     // 250 Sekunden, wie bei Firefox
     public static int SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND_INIT = 250;
     public static IntegerProperty SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND = addIntProp("__system-parameter__download-timeout-second_250__", SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND_INIT);
+
     // max. Startversuche für fehlgeschlagene Downloads (insgesamt: restart * restart_http Versuche)
     public static int SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_INIT = 3;
     public static IntegerProperty SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART = addIntProp("__system-parameter__download-max-restart_5__", SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_INIT);
+
     // max. Startversuche für fehlgeschlagene Downloads, direkt beim Download
     public static int SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP_INIT = 5;
     public static IntegerProperty SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP = addIntProp("__system-parameter__download-max-restart-http_10__", SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP_INIT);
+
     // Beim Dialog "Download weiterführen" wird nach dieser Zeit der Download weitergeführt
     public static int SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS_INIT = 60;
     public static IntegerProperty SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS = addIntProp("__system-parameter__download-continue-second_60__", SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS_INIT);
+
     // Beim Dialog "Automode" wird nach dieser Zeit der das Programm beendet
     public static int SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS_INIT = 15;
     public static IntegerProperty SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS = addIntProp("__system-parameter__automode-quitt-second_60__", SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS_INIT);
+
     // Downloadfehlermeldung wird xx Sedunden lang angezeigt
     public static int SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND_INIT = 30;
     public static IntegerProperty SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND = addIntProp("__system-parameter__download-errormsg-in-second_30__", SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND_INIT);
+
     // Downloadprogress im Terminal anzeigen
     public static BooleanProperty SYSTEM_PARAMETER_DOWNLOAD_PROGRESS = addBoolProp("__system-parameter__download_progress_", Boolean.TRUE);
-    public static String PARAMETER_INFO = P2LibConst.LINE_SEPARATOR + "\t"
-            + "\"__system-parameter__xxx\" können nur im Konfigfile geändert werden" + P2LibConst.LINE_SEPARATOR
-            + "\t" + "und sind auch nicht für ständige Änderungen gedacht." + P2LibConst.LINE_SEPARATOR
-            + "\t" + "Wird eine Zeile gelöscht, wird der Parameter wieder mit dem Standardwert angelegt."
-            + P2LibConst.LINE_SEPARATOR
-            + P2LibConst.LINE_SEPARATOR
 
-            + "*" + "\t" + "Timeout für direkte Downloads, Standardwert: "
-            + SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND.getValue() + P2LibConst.LINE_SEPARATOR
+    static {
+        check(SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND, SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND_INIT, 5, 200);
+        check(SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART, SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_INIT, 0, 10);
+        check(SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP, SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP_INIT, 0, 10);
+        check(SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS, SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS_INIT, 5, 200);
+        check(SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS, SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS_INIT, 5, 200);
+        check(SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND, SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND_INIT, 5, 200);
+    }
 
-            + "*" + "\t" + "max. Startversuche für fehlgeschlagene Downloads, am Ende aller Downloads" + P2LibConst.LINE_SEPARATOR
-            + "\t" + "(Versuche insgesamt: DOWNLOAD_MAX_RESTART * DOWNLOAD_MAX_RESTART_HTTP), Standardwert: " +
-            SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART.getValue() + P2LibConst.LINE_SEPARATOR
+    private static synchronized void check(IntegerProperty mlConfigs, int init, int min, int max) {
+        final int v = mlConfigs.getValue();
+        if (v < min || v > max) {
+            mlConfigs.setValue(init);
+        }
+    }
 
-            + "*" + "\t" + "max. Startversuche für fehlgeschlagene Downloads, direkt beim Download," + P2LibConst.LINE_SEPARATOR
-            + "\t" + "(Versuche insgesamt: DOWNLOAD_MAX_RESTART * DOWNLOAD_MAX_RESTART_HTTP), Standardwert: "
-            + SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP.getValue() + P2LibConst.LINE_SEPARATOR
 
-            + "*" + "\t" + "Beim Dialog \"Download weiterführen\" wird nach dieser Zeit der Download weitergeführt, Standardwert: "
-            + SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS.getValue() + P2LibConst.LINE_SEPARATOR
-
-            + "*" + "\t" + "Beim Dialog \"Automode\" wird nach dieser Zeit der das Programm beendet, Standardwert: "
-            + SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS.getValue() + P2LibConst.LINE_SEPARATOR
-
-            + "*" + "\t" + "Downloadfehlermeldung wird xx Sedunden lang angezeigt, Standardwert: "
-            + SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND.getValue() + P2LibConst.LINE_SEPARATOR
-
-            + "*" + "\t" + "Downloadprogress im Terminal (-auto) anzeigen: "
-            + SYSTEM_PARAMETER_DOWNLOAD_PROGRESS.getValue() + P2LibConst.LINE_SEPARATOR;
     // ===========================================
     // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
     public static StringProperty SYSTEM_PROG_VERSION = addStrProp("system-prog-version", P2ToolsFactory.getProgVersion());
@@ -131,7 +154,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_PROXY_PWD = addStrProp("system-proxy-pwd", "");
 
     //Download
-    public static StringProperty DOWNLOAD_DIALOG_PATH_SAVING = addStrProp("download-dialog-path-saving"); // gesammelten Downloadpfade im Downloaddialog
     public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_BYTE = addIntProp("download-max-bandwidth-byte", MLBandwidthTokenBucket.BANDWIDTH_RUN_FREE);
     public static StringProperty DOWNLOAD_DIALOG_ERROR_SIZE = addStrProp("download-dialog-error-size", "");
     public static IntegerProperty DOWNLOAD_MAX_DOWNLOADS = addIntProp("download-max-downloads", 1);
@@ -140,7 +162,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static BooleanProperty DOWNLOAD_SHOW_NOTIFICATION = addBoolProp("download-show-notification", Boolean.TRUE);
     public static BooleanProperty DOWNLOAD_DIALOG_START_DOWNLOAD_NOW = addBoolProp("download-dialog-start-download-now", Boolean.TRUE);
     public static BooleanProperty DOWNLOAD_DIALOG_START_DOWNLOAD_NOT = addBoolProp("download-dialog-start-download-not", Boolean.FALSE);
-    public static IntegerProperty DOWNLOAD_BANDWIDTH_KBYTE = addIntProp("download-bandwidth-byte"); // da wird die genutzte Bandbreite gespeichert
     public static StringProperty DOWNLOAD_GUI_TABLE_WIDTH = addStrProp("download-gui-table-width");
     public static StringProperty DOWNLOAD_GUI_TABLE_SORT = addStrProp("download-gui-table-sort");
     public static StringProperty DOWNLOAD_GUI_TABLE_UP_DOWN = addStrProp("download-gui-table-up-down");
@@ -376,81 +397,4 @@ public class ProgConfig extends P2DataProgConfig {
 
     public static String SHORTCUT_DOWNLOAD_CLEAN_UP_INIT = "CTRL+O";
     public static StringProperty SHORTCUT_DOWNLOAD_CLEAN_UP = addStrProp("SHORTCUT_DOWNLOAD_CLEAN_UP", SHORTCUT_DOWNLOAD_CLEAN_UP_INIT);
-
-    private static ProgConfig instance;
-
-    static {
-        check(SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND, SYSTEM_PARAMETER_DOWNLOAD_TIMEOUT_SECOND_INIT, 5, 200);
-        check(SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART, SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_INIT, 0, 10);
-        check(SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP, SYSTEM_PARAMETER_DOWNLOAD_MAX_RESTART_HTTP_INIT, 0, 10);
-        check(SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS, SYSTEM_PARAMETER_DOWNLOAD_CONTINUE_IN_SECONDS_INIT, 5, 200);
-        check(SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS, SYSTEM_PARAMETER_AUTOMODE_QUITT_IN_SECONDS_INIT, 5, 200);
-        check(SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND, SYSTEM_PARAMETER_DOWNLOAD_ERRORMSG_IN_SECOND_INIT, 5, 200);
-    }
-
-    private ProgConfig() {
-        super("ProgConfig");
-    }
-
-    public static final ProgConfig getInstance() {
-        return instance == null ? instance = new ProgConfig() : instance;
-    }
-
-    public static void addConfigData(ConfigFile configFile) {
-        ProgData progData = ProgData.getInstance();
-
-        // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
-        ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuild());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getCompileDate());
-
-        configFile.addConfigs(ProgConfig.getInstance());//Progconfig
-        configFile.addConfigs(ProgColorList.getInstance());//Color
-
-        final AudioFilter akt_sf = progData.filterWorker.getActFilterSettings();//akt-Filter
-        akt_sf.setName(FilterWorker.SELECTED_FILTER_NAME);// nur zur Info im Config-File
-        configFile.addConfigs(akt_sf);
-        configFile.addConfigs(progData.filterWorker.getFilterList());
-
-        configFile.addConfigs(progData.replaceList);
-        configFile.addConfigs(progData.downloadList);
-        configFile.addConfigs(progData.blackList);
-        configFile.addConfigs(progData.stringListsLists); // sind die Textfilter in den CBO's
-    }
-
-    public static void logAllConfigs() {
-        final ArrayList<String> list = new ArrayList<>();
-
-        list.add(PARAMETER_INFO);
-
-        list.add(P2Log.LILNE2);
-        list.add("Programmeinstellungen");
-        list.add("===========================");
-        Arrays.stream(ProgConfig.getInstance().getConfigsArr()).forEach(c -> {
-            String s = c.getKey();
-            if (s.startsWith("_")) {
-                while (s.length() < 55) {
-                    s += " ";
-                }
-            } else {
-                while (s.length() < 35) {
-                    s += " ";
-                }
-            }
-
-            list.add(s + "  " + c.getActValueString());
-        });
-        list.add(P2Log.LILNE2);
-        P2StringUtils.appendString(list, "|  ", "=");
-
-        list.add(P2Log.LILNE1);
-        P2Log.debugLog(list);
-    }
-
-    private static synchronized void check(IntegerProperty mlConfigs, int init, int min, int max) {
-        final int v = mlConfigs.getValue();
-        if (v < min || v > max) {
-            mlConfigs.setValue(init);
-        }
-    }
 }

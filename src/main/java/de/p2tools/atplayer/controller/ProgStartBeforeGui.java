@@ -16,14 +16,16 @@
 
 package de.p2tools.atplayer.controller;
 
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.ProgColorList;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.gui.startdialog.StartDialogController;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
-import de.p2tools.p2lib.tools.log.P2LogMessage;
 import de.p2tools.p2lib.tools.log.P2Logger;
 import javafx.application.Platform;
 
@@ -117,17 +119,6 @@ public class ProgStartBeforeGui {
     private static void clearTheConfigs() {
         ProgData progData = ProgData.getInstance();
         progData.replaceList.clear();
-    }
-
-    public static void startMsg(boolean showAll) {
-        ArrayList<String> list = new ArrayList<>();
-        list.add("Verzeichnisse:");
-        list.add("Programmpfad: " + ProgInfos.getPathJar());
-        list.add("Verzeichnis Einstellungen: " + ProgInfos.getSettingsDirectory_String());
-        P2LogMessage.startMsg(ProgConst.PROGRAM_NAME, list);
-        if (showAll) {
-            ProgConfig.logAllConfigs();
-        }
     }
 
     private static void initAfterLoad() {
