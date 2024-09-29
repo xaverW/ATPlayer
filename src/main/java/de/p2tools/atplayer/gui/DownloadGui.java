@@ -47,7 +47,8 @@ public class DownloadGui {
         P2InfoDto infoDto = new P2InfoDto(downloadFilterController,
                 ProgConfig.DOWNLOAD__FILTER_IS_RIP,
                 ProgConfig.DOWNLOAD__FILTER_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
-                "Filter", "Download", true);
+                "Filter", "Download", true,
+                ProgData.getInstance().maskerPane.visibleProperty());
         list.add(infoDto);
         infoControllerFilter = new P2InfoController(list, ProgConfig.DOWNLOAD__FILTER_IS_SHOWING);
     }

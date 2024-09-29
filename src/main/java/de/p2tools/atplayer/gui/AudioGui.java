@@ -47,7 +47,8 @@ public class AudioGui {
         P2InfoDto infoDto = new P2InfoDto(audioFilterController,
                 ProgConfig.AUDIO__FILTER_IS_RIP,
                 ProgConfig.AUDIO__FILTER_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
-                "Filter", "Audio", true);
+                "Filter", "Audio", true,
+                ProgData.getInstance().maskerPane.visibleProperty());
         list.add(infoDto);
         infoControllerFilter = new P2InfoController(list, ProgConfig.AUDIO__FILTER_IS_SHOWING);
     }
@@ -71,41 +72,5 @@ public class AudioGui {
         P2ClosePaneFactory.setSplit(boundFilter, splitPane,
                 infoControllerFilter, true, audioGuiController,
                 ProgConfig.AUDIO__FILTER_DIVIDER, ProgConfig.AUDIO__FILTER_IS_SHOWING);
-
-//        if (bound) {
-//            splitPane.getDividers().get(0).positionProperty().unbindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
-//            bound = false;
-//        }
-//        if (filterPaneDialog != null) {
-//            filterPaneDialog.closeSetNoRip();
-//            filterPaneDialog = null;
-//        }
-//        splitPane.getItems().clear();
-//
-//        if (ProgConfig.AUDIO__FILTER_IS_SHOWING.get()) {
-//            if (ProgConfig.AUDIO__FILTER_IS_RIP.get()) {
-//
-//                filterPaneDialog = new FilterPaneDialog(audioFilterController, "Audiofilter",
-//                        ProgConfig.AUDIO__FILTER_DIALOG_SIZE,
-//                        ProgConfig.AUDIO__FILTER_IS_RIP,
-//                        ProgData.AUDIO_TAB_ON);
-//                splitPane.getItems().addAll(audioGuiController);
-//
-//            } else {
-//                P2ClosePaneV closePaneV = new P2ClosePaneV();
-//                closePaneV.addPane(audioFilterController);
-//                closePaneV.getButtonClose().setOnAction(a -> ProgConfig.AUDIO__FILTER_IS_SHOWING.set(false));
-//                closePaneV.getButtonRip().setOnAction(a -> ProgConfig.AUDIO__FILTER_IS_RIP.set(!ProgConfig.AUDIO__FILTER_IS_RIP.get()));
-//                SplitPane.setResizableWithParent(closePaneV, Boolean.FALSE);
-//
-//                splitPane.getItems().addAll(closePaneV, audioGuiController);
-//                splitPane.getDividers().get(0).positionProperty().bindBidirectional(ProgConfig.AUDIO_GUI_FILTER_DIVIDER);
-//                bound = true;
-//            }
-//
-//        } else {
-//            splitPane.getItems().addAll(audioGuiController);
-//        }
-
     }
 }

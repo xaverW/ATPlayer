@@ -24,7 +24,6 @@ import de.p2tools.atplayer.gui.AudioGui;
 import de.p2tools.atplayer.gui.DownloadGui;
 import de.p2tools.atplayer.gui.ProgMenu;
 import de.p2tools.atplayer.gui.StatusBarController;
-import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,7 +39,6 @@ public class ATPlayerController extends StackPane {
     private final Button btnFilmlist = new Button("Audioliste");
     private final Button btnAudio = new Button("Audios");
     private final Button btnDownload = new Button("Downloads");
-    private final P2MaskerPane maskerPane = new P2MaskerPane();
 
     public enum PANE_SHOWN {AUDIO, DOWNLOAD}
 
@@ -104,12 +102,11 @@ public class ATPlayerController extends StackPane {
     }
 
     private void initMaskerPane() {
-        StackPane.setAlignment(maskerPane, Pos.CENTER);
-        progData.maskerPane = maskerPane;
-        maskerPane.setPadding(new Insets(4, 1, 1, 1));
-        maskerPane.toFront();
-        Button btnStop = maskerPane.getButton();
-        maskerPane.setButtonText("");
+        StackPane.setAlignment(progData.maskerPane, Pos.CENTER);
+        progData.maskerPane.setPadding(new Insets(4, 1, 1, 1));
+        progData.maskerPane.toFront();
+        Button btnStop = progData.maskerPane.getButton();
+        progData.maskerPane.setButtonText("");
         btnStop.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
         btnStop.setOnAction(a -> LoadAudioFactory.getInstance().loadAudioList.setStop(true));
     }
@@ -131,7 +128,7 @@ public class ATPlayerController extends StackPane {
         btnDownload.setMaxWidth(Double.MAX_VALUE);
 
         btnAudio.setOnMouseClicked(mouseEvent -> {
-            if (maskerPane.isVisible() || paneShown != PANE_SHOWN.AUDIO) {
+            if (progData.maskerPane.isVisible() || paneShown != PANE_SHOWN.AUDIO) {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
@@ -139,7 +136,7 @@ public class ATPlayerController extends StackPane {
             }
         });
         btnDownload.setOnMouseClicked(mouseEvent -> {
-            if (maskerPane.isVisible() || paneShown != PANE_SHOWN.DOWNLOAD) {
+            if (progData.maskerPane.isVisible() || paneShown != PANE_SHOWN.DOWNLOAD) {
                 return;
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {

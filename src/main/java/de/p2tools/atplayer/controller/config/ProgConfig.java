@@ -227,9 +227,6 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_STYLE_SIZE = addIntProp("system-style-size", 14);
     public static StringProperty SYSTEM_LOG_DIR = addStrProp("system-log-dir", "");
     public static BooleanProperty SYSTEM_LOG_ON = addBoolProp("system-log-on", Boolean.TRUE);
-    public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", Boolean.FALSE);
-    public static BooleanProperty SYSTEM_BLACK_WHITE_ICON = addBoolProp("system-black-white-icon", Boolean.FALSE);
-    public static BooleanProperty SYSTEM_THEME_CHANGED = addBoolProp("system-theme-changed");
     public static BooleanProperty SYSTEM_SSL_ALWAYS_TRUE = addBoolProp("system-ssl-always-true");
     public static BooleanProperty TIP_OF_DAY_SHOW = addBoolProp("tip-of-day-show", Boolean.TRUE);//Tips anzeigen
     public static StringProperty TIP_OF_DAY_WAS_SHOWN = addStrProp("tip-of-day-was-shown");//bereits angezeigte Tips
@@ -237,6 +234,13 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_FILTER_WAIT_TIME = addIntProp("system-filter-wait-time", 100);
     public static BooleanProperty SYSTEM_FILTER_RETURN = addBoolProp("system-filter-return", Boolean.FALSE);
     public static StringProperty SYSTEM_DOWNLOAD_DIR_NEW_VERSION = addStrProp("system-download-dir-new-version", "");
+
+    public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", Boolean.FALSE);
+    public static BooleanProperty SYSTEM_BLACK_WHITE_ICON = addBoolProp("system-black-white-icon", Boolean.FALSE);
+    public static BooleanProperty SYSTEM_THEME_CHANGED = addBoolProp("system-theme-changed");
+    public static IntegerProperty SYSTEM_FONT_SIZE = addIntProp("system-font-size", 0);
+    public static BooleanProperty SYSTEM_FONT_SIZE_CHANGE = addBoolProp("system-font-size-change", Boolean.FALSE); // für die Schriftgröße
+
 
     // Fenstereinstellungen
     public static StringProperty SYSTEM_SIZE_GUI = addStrProp("system-size-gui", "1000:800");

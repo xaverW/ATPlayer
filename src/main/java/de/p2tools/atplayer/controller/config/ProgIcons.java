@@ -22,7 +22,6 @@ import de.p2tools.p2lib.icons.P2Image;
 public class ProgIcons {
 
     public static String ICON_PATH_LONG = "/de/p2tools/atplayer/res/program/";
-    // public static String ICON_PATH_LONG = "de/p2tools/p2lib/progicons/";
 
     public static P2Image ICON_BOOLEAN_IS_ON = new P2Image(ICON_PATH_LONG, "boolean-is-on.png", 16, 16);
     public static P2Image ICON_ATTENTION_64 = new P2Image(ICON_PATH_LONG, "attention-64.png", 64, 64);
@@ -31,11 +30,6 @@ public class ProgIcons {
     public static P2Image ICON_BUTTON_BACKWARD = new P2Image(ICON_PATH_LONG, "button-backward.png", 16, 16);
     public static P2Image ICON_BUTTON_CLEAN = new P2Image(ICON_PATH_LONG, "button-clean.png", 16, 16);
     public static P2Image ICON_BUTTON_CLEAR = new P2Image(ICON_PATH_LONG, "button-clear.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_DEL = new P2Image(ICON_PATH_LONG, "button-download-del.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_EDIT = new P2Image(ICON_PATH_LONG, "button-download-edit.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_START_ALL = new P2Image(ICON_PATH_LONG, "button-download-start-all.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_START = new P2Image(ICON_PATH_LONG, "button-download-start.png", 16, 16);
-    public static P2Image ICON_BUTTON_DOWNLOAD_STOP = new P2Image(ICON_PATH_LONG, "button-download-stop.png", 16, 16);
     public static P2Image ICON_BUTTON_EDIT = new P2Image(ICON_PATH_LONG, "button-edit.png", 16, 16);
     public static P2Image ICON_BUTTON_FILE_OPEN = new P2Image(ICON_PATH_LONG, "button-file-open.png", 16, 16);
     public static P2Image ICON_BUTTON_FORWARD = new P2Image(ICON_PATH_LONG, "button-forward.png", 16, 16);
@@ -68,8 +62,6 @@ public class ProgIcons {
     public static P2Image ICON_TOOLBAR_DEL_ALL_BOOKMARK = new P2Image(ICON_PATH_LONG, "toolbar-del-all-bookmark.png", 26, 26);
     public static P2Image ICON_TOOLBAR_REC = new P2Image(ICON_PATH_LONG, "toolbar-rec.png", 26, 26);
     public static P2Image ICON_TOOLBAR_START = new P2Image(ICON_PATH_LONG, "toolbar-start.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-filter.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_INFO = new P2Image(ICON_PATH_LONG, "toolbar-info.png", 26, 26);
     public static P2Image ICON_TOOLBAR_MENU = new P2Image(ICON_PATH_LONG, "toolbar-menu.png", 18, 15);
 
     public static P2Image ICON_TOOLBAR_DOWNLOAD_CLEAN = new P2Image(ICON_PATH_LONG, "toolbar-download-clean.png", 26, 26);
@@ -78,12 +70,10 @@ public class ProgIcons {
     public static P2Image ICON_TOOLBAR_DOWNLOAD_UNDO = new P2Image(ICON_PATH_LONG, "toolbar-download-undo.png", 26, 26);
     public static P2Image ICON_TOOLBAR_DOWNLOAD_REFRESH = new P2Image(ICON_PATH_LONG, "toolbar-download-refresh.png", 26, 26);
     public static P2Image ICON_TOOLBAR_DOWNLOAD_START_ALL = new P2Image(ICON_PATH_LONG, "toolbar-download-start-all.png", 26, 26);
-    public static P2Image ICON_TOOLBAR_DOWNLOAD_START_ALL_TIME = new P2Image(ICON_PATH_LONG, "toolbar-download-start-time.png", 26, 26);
 
     public static P2Image ICON_FILTER_LOAD = new P2Image(ICON_PATH_LONG, "filter-load.png", 22, 22);
     public static P2Image ICON_FILTER_SAVE = new P2Image(ICON_PATH_LONG, "filter-save.png", 22, 22);
     public static P2Image ICON_FILTER_NEW = new P2Image(ICON_PATH_LONG, "filter-new.png", 22, 22);
 
     public static P2Image ICON_TOOLBAR_CONFIG = new P2Image(ICON_PATH_LONG, "toolbar-config.png", 26, 26);
-
 }

@@ -20,11 +20,8 @@ import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -48,10 +45,9 @@ public class ConfigDialogController extends P2DialogExtra {
     private ControllerDownload controllerDownload;
     private final BooleanProperty blackChanged = new SimpleBooleanProperty(false);
 
-    private P2LoadListener listener;
-    private TabPane tabPane = new TabPane();
-    private Button btnOk = new Button("_Ok");
-    private BooleanProperty diacriticChanged = new SimpleBooleanProperty(false);
+    private final TabPane tabPane = new TabPane();
+    private final Button btnOk = new Button("_Ok");
+    private final BooleanProperty diacriticChanged = new SimpleBooleanProperty(false);
     private boolean blackListDialog = false;
     private final Button btnApply = new Button("_Anwenden");
     public static BooleanProperty dialogIsRunning = new SimpleBooleanProperty(false);
@@ -83,43 +79,7 @@ public class ConfigDialogController extends P2DialogExtra {
 
     @Override
     public void make() {
-        setMaskerPane();
-        progData.maskerPane.visibleProperty().addListener((u, o, n) -> {
-            setMaskerPane();
-        });
-        Button btnStop = getMaskerPane().getButton();
-        getMaskerPane().setButtonText("");
-        btnStop.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
-        btnStop.setOnAction(a -> LoadAudioFactory.getInstance().loadAudioList.setStop(true));
-        listener = new P2LoadListener() {
-            @Override
-            public void start(P2LoadEvent event) {
-                if (event.progress == P2LoadListener.PROGRESS_INDETERMINATE) {
-                    // ist dann die gespeicherte Audioliste
-                    getMaskerPane().setMaskerVisible(true, false, false);
-                } else {
-                    getMaskerPane().setMaskerVisible();
-                }
-                getMaskerPane().setMaskerProgress(event.progress, event.text);
-            }
-
-            @Override
-            public void progress(P2LoadEvent event) {
-                getMaskerPane().setMaskerProgress(event.progress, event.text);
-            }
-
-            @Override
-            public void loaded(P2LoadEvent event) {
-                getMaskerPane().setMaskerVisible(true, false, false);
-                getMaskerPane().setMaskerProgress(P2LoadListener.PROGRESS_INDETERMINATE, "Audioliste verarbeiten");
-            }
-
-            @Override
-            public void finished(P2LoadEvent event) {
-                getMaskerPane().switchOffMasker();
-            }
-        };
-        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(listener);
+        getMaskerPane().visibleProperty().bind(progData.maskerPane.visibleProperty());
 
         VBox.setVgrow(tabPane, Priority.ALWAYS);
         getVBoxCont().getChildren().add(tabPane);
@@ -135,7 +95,7 @@ public class ConfigDialogController extends P2DialogExtra {
         }
         btnOk.setOnAction(a -> close());
 
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
+//        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
         initPanel();
     }
 
@@ -173,19 +133,10 @@ public class ConfigDialogController extends P2DialogExtra {
         controllerBlackList.close();
         controllerDownload.close();
 
-        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.removeListenerLoadFilmlist(listener);
         PListener.notify(PListener.EVEMT_SETDATA_CHANGED, ConfigDialogController.class.getSimpleName());
 
         dialogIsRunning.setValue(false);
         super.close();
-    }
-
-    private void setMaskerPane() {
-        if (progData.maskerPane.isVisible()) {
-            this.setMaskerVisible(true, true);
-        } else {
-            this.setMaskerVisible(false);
-        }
     }
 
     private void initPanel() {

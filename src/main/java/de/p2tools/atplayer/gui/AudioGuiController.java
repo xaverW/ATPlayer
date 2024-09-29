@@ -81,7 +81,8 @@ public class AudioGuiController extends AnchorPane {
         P2InfoDto infoDto = new P2InfoDto(paneAudioInfo,
                 ProgConfig.AUDIO__INFO_PANE_IS_RIP,
                 ProgConfig.AUDIO__INFO_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
-                "Info", "Audio", false);
+                "Info", "Audio", false,
+                progData.maskerPane.visibleProperty());
         list.add(infoDto);
         infoController = new P2InfoController(list, ProgConfig.AUDIO__INFO_IS_SHOWING);
 

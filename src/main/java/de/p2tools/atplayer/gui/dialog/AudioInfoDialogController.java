@@ -118,13 +118,9 @@ public class AudioInfoDialogController extends P2DialogExtra {
 
     @Override
     public void make() {
-        TitledPane tpUrl;
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> updateCss());
-        addOkButton(btnOk);
-
-        getMaskerPane().setTextVisible(false);
         this.getMaskerPane().visibleProperty().bind(ProgData.getInstance().maskerPane.visibleProperty());
 
+        addOkButton(btnOk);
         btnOk.setOnAction(a -> close());
         getVBoxCont().getChildren().add(gridPane);
 
@@ -134,6 +130,7 @@ public class AudioInfoDialogController extends P2DialogExtra {
         gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
                 P2ColumnConstraints.getCcComputedSizeAndHgrow());
 
+        TitledPane tpUrl;
         int row = 0;
         for (int i = 0; i < AudioDataXml.MAX_ELEM; ++i) {
             textTitle[i] = new Text(AudioDataXml.COLUMN_NAMES[i] + ":");

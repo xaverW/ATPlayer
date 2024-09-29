@@ -44,96 +44,16 @@ public class PaneColor {
     private final Stage stage;
     private final P2ToggleSwitch tglDarkTheme = new P2ToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
     private final P2ToggleSwitch tglBlackWhiteIcon = new P2ToggleSwitch("Schwarz-Weiße Icons");
-    private Callback<TableColumn<P2ColorData, String>, TableCell<P2ColorData, String>> cellFactoryChange
-            = (final TableColumn<P2ColorData, String> param) -> new TableCell<>() {
-
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-                setText(null);
-                return;
-            }
-
-            P2ColorData pColorData = getTableView().getItems().get(getIndex());
-            final HBox hbox = new HBox(P2LibConst.DIST_BUTTON);
-            hbox.setAlignment(Pos.CENTER);
-            hbox.setPadding(new Insets(0, 2, 0, 2));
-
-            final ColorPicker colorPicker = new ColorPicker();
-            colorPicker.getStyleClass().add("split-button");
-
-            colorPicker.setValue(pColorData.getColor());
-            colorPicker.setOnAction(a -> {
-                Color color = colorPicker.getValue();
-                pColorData.setColor(color);
-            });
-            hbox.getChildren().addAll(colorPicker);
-            setGraphic(hbox);
-        }
-    };
-    private Callback<TableColumn<P2ColorData, String>, TableCell<P2ColorData, String>> cellFactoryReset
-            = (final TableColumn<P2ColorData, String> param) -> new TableCell<>() {
-
-        @Override
-        public void updateItem(String item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-                setText(null);
-                return;
-            }
-
-            P2ColorData pColorData = getTableView().getItems().get(getIndex());
-            final HBox hbox = new HBox(P2LibConst.DIST_BUTTON);
-            hbox.setAlignment(Pos.CENTER);
-            hbox.setPadding(new Insets(0, 2, 0, 2));
-
-            final Button button = new Button("Reset");
-            button.setOnAction(a -> {
-                pColorData.resetColor();
-            });
-
-            hbox.getChildren().add(button);
-            setGraphic(hbox);
-        }
-    };
-    private Callback<TableColumn<P2ColorData, Color>, TableCell<P2ColorData, Color>> cellFactoryColor
-            = (final TableColumn<P2ColorData, Color> param) -> new TableCell<>() {
-
-        @Override
-        public void updateItem(Color item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-                setText(null);
-                return;
-            }
-            P2ColorData pColorData = getTableView().getItems().get(getIndex());
-            setStyle("-fx-background-color:" + pColorData.getColorSelectedToWeb());
-        }
-
-    };
-    private Callback<TableColumn<P2ColorData, Color>, TableCell<P2ColorData, Color>> cellFactoryColorReset
-            = (final TableColumn<P2ColorData, Color> param) -> new TableCell<>() {
-
-        @Override
-        public void updateItem(Color item, boolean empty) {
-            super.updateItem(item, empty);
-            if (empty) {
-                setGraphic(null);
-                setText(null);
-                return;
-            }
-            P2ColorData pColorData = getTableView().getItems().get(getIndex());
-            setStyle("-fx-background-color:" + P2ColorFactory.getColorToWeb(pColorData.getResetColor()));
-        }
-
-    };
+    private final TableView<P2ColorData> tableViewFont = new TableView<>();
+    private final TableView<P2ColorData> tableViewBackground = new TableView<>();
 
     public PaneColor(Stage stage) {
         this.stage = stage;
+    }
+
+    public void close() {
+        tglDarkTheme.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
+        tglBlackWhiteIcon.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACK_WHITE_ICON);
     }
 
     public void make(Collection<TitledPane> result) {
@@ -144,14 +64,19 @@ public class PaneColor {
         final Button btnHelpIcon = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.BLACK_WHITE_ICON);
 
-        TableView<P2ColorData> tableViewFont = new TableView<>();
         initTableColor(tableViewFont);
         tableViewFont.setPrefHeight(ProgConst.MIN_TABLE_HEIGHT);
         tableViewFont.setItems(ProgColorList.getColorListFront());
 
-        TableView<P2ColorData> tableViewBackground = new TableView<>();
         initTableColor(tableViewBackground);
+        tableViewBackground.setPrefHeight(ProgConst.MIN_TABLE_HEIGHT);
         tableViewBackground.setItems(ProgColorList.getColorListBackground());
+
+        ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
+            ProgColorList.setColorTheme();
+            P2TableFactory.refreshTable(tableViewFont);
+            P2TableFactory.refreshTable(tableViewBackground);
+        });
 
         Button button = new Button("Alle _Farben zurücksetzen");
         button.setOnAction(event -> {
@@ -172,13 +97,11 @@ public class PaneColor {
         gridPane.add(btnHelpIcon, 1, row);
         GridPane.setHalignment(btnHelpIcon, HPos.RIGHT);
 
-        ++row;
-        ++row;
         gridPane.add(new Label("Schriftfarben"), 0, ++row, 2, 1);
         gridPane.add(tableViewFont, 0, ++row, 2, 1);
 
         ++row;
-        gridPane.add(new Label("Hintergrundfarben"), 0, ++row, 2, 1);
+        gridPane.add(new Label("Hintergrundfarben"), 0, row, 2, 1);
         gridPane.add(tableViewBackground, 0, ++row, 2, 1);
 
         gridPane.add(button, 0, ++row, 2, 1);
@@ -189,17 +112,12 @@ public class PaneColor {
 
         TitledPane tpColor = new TitledPane("Farben", gridPane);
         result.add(tpColor);
-    }
 
-    public void close() {
-//        tglDarkTheme.selectedProperty().unbindBidirectional(propDarkTheme);
     }
 
     private void initTableColor(TableView<P2ColorData> tableView) {
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> {
-            P2TableFactory.refreshTable(tableView);
-            tableView.refresh();
-        });
+        tableView.setMinHeight(ProgConst.MIN_TABLE_HEIGHT);
+        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         final TableColumn<P2ColorData, String> textColumn = new TableColumn<>("Beschreibung");
         textColumn.setCellValueFactory(new PropertyValueFactory<>("text"));
@@ -223,9 +141,143 @@ public class PaneColor {
         colorOrgColumn.setCellFactory(cellFactoryColorReset);
         colorOrgColumn.getStyleClass().add("alignCenter");
 
-        tableView.setMinHeight(ProgConst.MIN_TABLE_HEIGHT);
-        tableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
-
         tableView.getColumns().addAll(textColumn, changeColumn, colorColumn, colorOrgColumn, resetColumn);
     }
+
+    private final Callback<TableColumn<P2ColorData, String>, TableCell<P2ColorData, String>> cellFactoryChange
+            = (final TableColumn<P2ColorData, String> param) -> {
+
+        return new TableCell<>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                P2ColorData pColorData = getTableView().getItems().get(getIndex());
+                if (pColorData == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final ColorPicker colorPicker = new ColorPicker();
+                colorPicker.getStyleClass().add("split-button");
+
+                colorPicker.setValue(pColorData.getColor());
+                colorPicker.setOnAction(a -> {
+                    Color color = colorPicker.getValue();
+                    pColorData.setColor(color);
+                });
+                hbox.getChildren().addAll(colorPicker);
+                setGraphic(hbox);
+            }
+        };
+    };
+
+    private final Callback<TableColumn<P2ColorData, String>, TableCell<P2ColorData, String>> cellFactoryReset
+            = (final TableColumn<P2ColorData, String> param) -> {
+
+        final TableCell<P2ColorData, String> cell = new TableCell<>() {
+
+            @Override
+            public void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                P2ColorData pColorData = getTableView().getItems().get(getIndex());
+                if (pColorData == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                final HBox hbox = new HBox();
+                hbox.setSpacing(5);
+                hbox.setAlignment(Pos.CENTER);
+                hbox.setPadding(new Insets(0, 2, 0, 2));
+
+                final Button button = new Button("Reset");
+                button.setOnAction(a -> {
+                    pColorData.resetColor();
+                });
+
+                hbox.getChildren().add(button);
+                setGraphic(hbox);
+            }
+        };
+        return cell;
+    };
+
+    private final Callback<TableColumn<P2ColorData, Color>, TableCell<P2ColorData, Color>> cellFactoryColor
+            = (final TableColumn<P2ColorData, Color> param) -> {
+
+        final TableCell<P2ColorData, Color> cell = new TableCell<>() {
+
+
+            @Override
+            public void updateItem(Color item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                P2ColorData pColorData = getTableView().getItems().get(getIndex());
+                if (pColorData == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                Button btn = new Button("      ");
+                btn.setStyle("-fx-background-color: " + pColorData.getColorSelectedToWeb());
+                setGraphic(btn);
+            }
+        };
+        return cell;
+    };
+
+    private final Callback<TableColumn<P2ColorData, Color>, TableCell<P2ColorData, Color>> cellFactoryColorReset
+            = (final TableColumn<P2ColorData, Color> param) -> {
+
+        final TableCell<P2ColorData, Color> cell = new TableCell<>() {
+
+            @Override
+            public void updateItem(Color item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+                P2ColorData pColorData = getTableView().getItems().get(getIndex());
+                if (pColorData == null) {
+                    setGraphic(null);
+                    setText(null);
+                    return;
+                }
+
+                Button btn = new Button("      ");
+                btn.setStyle("-fx-background-color:" + P2ColorFactory.getColorToWeb(pColorData.getResetColor()));
+                setGraphic(btn);
+            }
+        };
+        return cell;
+    };
 }
+
