@@ -13,8 +13,6 @@ Das Programm nutzt den Ordner ".p2Atplayer" unter Linux oder den versteckten Ord
 ```
 java -jar ATPlayer.jar ORDNER 
 ```
-
-https://www.p2tools.de
 <br />
 
 
@@ -28,13 +26,13 @@ Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-V
 
 Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im “Zubehör”, das Programm selbst ist in allen Paketen identisch:
 
-ATPlayer-XX.zip
+**ATPlayer-XX.zip**
 
 Das Programmpaket bringt nur das Programm und die benötigten Hilfsprogramme aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
 
 
-ATPlayer-XX__Linux+Java.zip  
-ATPlayer-XX__Windows+Java.zip
+**ATPlayer-XX__Linux+Java.zip**  
+**ATPlayer-XX__Windows+Java.zip**
 
 Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner “Java” und kommt von jdk.java.net).
 
