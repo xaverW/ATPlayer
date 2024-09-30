@@ -3,15 +3,12 @@
 # ATPlayer
 
 Das Programm ATPlayer ist eine Art Suchmaschine für Beiträge der ARD-Audiothek. Das Programm stellt eine Liste mit Links zu den Audios zur Verfügung. Es ist möglich, diese URLs an externe Programme weiterzugeben. Mit diesen Programmen können dann diese Audios angehört oder aufgezeichnet werden.
-
-Das Programm ATPlayer ist eine Weiterentwicklung von MTViewer. Auf Vorschlag von Benutzern wurde der angezeigte Inhalt auf die Beiträge der ARD-Audiothek geändert und in dem Zusammenhang wurde das Programm auch in "ATPlayer" umbenannt.
-Der MTPlayer ist weiterhin auf GitHub erhältlich und kann auch weiterhin benutzt werden (auch parallel mit ATPlayer).
 <br />
 
 
 ## Infos
 
-Das Programm nutzt den Ordner ".p2Atplayer" unter Linux oder den versteckten Ordner "p2Atplayer" unter Windows als Konfig-Ordner, es kann also parallel zu MTPlayer/MTViewer benutzt werden. Man kann dem Programm auch einen Ordner für die Einstellungen mitgeben (und es z.B. auf einem USB-Stick verwenden):
+Das Programm nutzt den Ordner ".p2Atplayer" unter Linux oder den versteckten Ordner "p2Atplayer" unter Windows als Konfig-Ordner. Man kann dem Programm auch einen Ordner für die Einstellungen mitgeben (und es z.B. auf einem USB-Stick verwenden):
 
 ```
 java -jar ATPlayer.jar ORDNER 
@@ -23,7 +20,7 @@ https://www.p2tools.de
 
 ## Systemvoraussetzungen
 
-Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird OpenJDK17 empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
+Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-VM ab Version: Java 17. Für Linux-Benutzer wird OpenJDK empfohlen. (FX-Runtime bringt das Programm bereits mit und muss nicht installiert werden).
 <br />
 
 
