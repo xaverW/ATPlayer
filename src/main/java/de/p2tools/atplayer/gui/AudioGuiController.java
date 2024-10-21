@@ -28,9 +28,9 @@ import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.guitools.P2TableFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
 import de.p2tools.p2lib.tools.P2SystemUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
@@ -56,7 +56,7 @@ public class AudioGuiController extends AnchorPane {
     private final SortedList<AudioData> sortedList;
     private final KeyCombination STRG_A = new KeyCodeCombination(KeyCode.A, KeyCombination.CONTROL_ANY);
     private final PaneAudioInfo paneAudioInfo;
-    private final P2InfoController infoController;
+    private final P2ClosePaneController infoController;
     private final BooleanProperty boundInfo = new SimpleBooleanProperty(false);
 
     public AudioGuiController() {
@@ -77,14 +77,14 @@ public class AudioGuiController extends AnchorPane {
 
         paneAudioInfo = new PaneAudioInfo(ProgConfig.AUDIO_PANE_AUDIO_INFO_DIVIDER);
 
-        ArrayList<P2InfoDto> list = new ArrayList<>();
-        P2InfoDto infoDto = new P2InfoDto(paneAudioInfo,
+        ArrayList<P2ClosePaneDto> list = new ArrayList<>();
+        P2ClosePaneDto infoDto = new P2ClosePaneDto(paneAudioInfo,
                 ProgConfig.AUDIO__INFO_PANE_IS_RIP,
                 ProgConfig.AUDIO__INFO_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
                 "Info", "Audio", false,
                 progData.maskerPane.visibleProperty());
         list.add(infoDto);
-        infoController = new P2InfoController(list, ProgConfig.AUDIO__INFO_IS_SHOWING);
+        infoController = new P2ClosePaneController(list, ProgConfig.AUDIO__INFO_IS_SHOWING);
 
         ProgConfig.AUDIO__INFO_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
         ProgConfig.AUDIO__INFO_PANE_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());

@@ -19,9 +19,9 @@ package de.p2tools.atplayer.gui;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.filter.AudioFilterController;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.SplitPane;
@@ -35,7 +35,7 @@ public class AudioGui {
     final AudioFilterController audioFilterController;
     final AudioGuiController audioGuiController;
     private final SplitPane splitPane = new SplitPane();
-    private final P2InfoController infoControllerFilter;
+    private final P2ClosePaneController infoControllerFilter;
     private final BooleanProperty boundFilter = new SimpleBooleanProperty(false);
 
     public AudioGui() {
@@ -43,14 +43,14 @@ public class AudioGui {
         audioGuiController = new AudioGuiController();
         ProgData.getInstance().audioGuiController = audioGuiController;
 
-        ArrayList<P2InfoDto> list = new ArrayList<>();
-        P2InfoDto infoDto = new P2InfoDto(audioFilterController,
+        ArrayList<P2ClosePaneDto> list = new ArrayList<>();
+        P2ClosePaneDto infoDto = new P2ClosePaneDto(audioFilterController,
                 ProgConfig.AUDIO__FILTER_IS_RIP,
                 ProgConfig.AUDIO__FILTER_DIALOG_SIZE, ProgData.AUDIO_TAB_ON,
                 "Filter", "Audio", true,
                 ProgData.getInstance().maskerPane.visibleProperty());
         list.add(infoDto);
-        infoControllerFilter = new P2InfoController(list, ProgConfig.AUDIO__FILTER_IS_SHOWING);
+        infoControllerFilter = new P2ClosePaneController(list, ProgConfig.AUDIO__FILTER_IS_SHOWING);
     }
 
     public HBox pack() {

@@ -34,9 +34,9 @@ import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.guitools.P2TableFactory;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
+import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoController;
-import de.p2tools.p2lib.guitools.pclosepane.P2InfoDto;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
 import de.p2tools.p2lib.tools.P2SystemUtils;
@@ -67,7 +67,7 @@ public class DownloadGuiController extends AnchorPane {
     private final PaneBandwidthChart paneBandwidthChart;
     private final PaneDownloadError paneDownloadError;
     private final PaneDownloadInfo paneDownloadInfoList;
-    private final P2InfoController infoController;
+    private final P2ClosePaneController infoController;
     private final BooleanProperty boundInfo = new SimpleBooleanProperty(false);
 
     public DownloadGuiController() {
@@ -90,36 +90,36 @@ public class DownloadGuiController extends AnchorPane {
         paneDownloadError = new PaneDownloadError();
         paneDownloadInfoList = new PaneDownloadInfo();
 
-        ArrayList<P2InfoDto> list = new ArrayList<>();
-        P2InfoDto infoDto = new P2InfoDto(paneFilmInfo,
+        ArrayList<P2ClosePaneDto> list = new ArrayList<>();
+        P2ClosePaneDto infoDto = new P2ClosePaneDto(paneFilmInfo,
                 ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_INFO_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
                 "Beschreibung", "Beschreibung", false,
                 progData.maskerPane.visibleProperty());
         list.add(infoDto);
 
-        infoDto = new P2InfoDto(paneBandwidthChart,
+        infoDto = new P2ClosePaneDto(paneBandwidthChart,
                 ProgConfig.DOWNLOAD__INFO_CHART_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_CHART_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
                 "Downloadchart", "Downloadchart", false,
                 progData.maskerPane.visibleProperty());
         list.add(infoDto);
 
-        infoDto = new P2InfoDto(paneDownloadError,
+        infoDto = new P2ClosePaneDto(paneDownloadError,
                 ProgConfig.DOWNLOAD__INFO_ERROR_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_ERROR_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
                 "Fehler", "Fehler", false,
                 progData.maskerPane.visibleProperty());
         list.add(infoDto);
 
-        infoDto = new P2InfoDto(paneDownloadInfoList,
+        infoDto = new P2ClosePaneDto(paneDownloadInfoList,
                 ProgConfig.DOWNLOAD__INFO_LIST_IS_RIP,
                 ProgConfig.DOWNLOAD__INFO_LIST_DIALOG_SIZE, ProgData.DOWNLOAD_TAB_ON,
                 "Infos", "Infos", false,
                 progData.maskerPane.visibleProperty());
         list.add(infoDto);
 
-        infoController = new P2InfoController(list, ProgConfig.DOWNLOAD__INFO_IS_SHOWING);
+        infoController = new P2ClosePaneController(list, ProgConfig.DOWNLOAD__INFO_IS_SHOWING);
 
         ProgConfig.DOWNLOAD__INFO_IS_SHOWING.addListener((observable, oldValue, newValue) -> setInfoPane());
         ProgConfig.DOWNLOAD__INFO_INFO_IS_RIP.addListener((observable, oldValue, newValue) -> setInfoPane());
