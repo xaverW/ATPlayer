@@ -16,12 +16,10 @@
 
 package de.p2tools.atplayer.controller;
 
-import de.p2tools.atplayer.controller.config.ProgColorList;
-import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgInfos;
+import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.gui.startdialog.StartDialogController;
+import de.p2tools.p2lib.P2LibInit;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
 import de.p2tools.p2lib.tools.duration.P2Duration;
@@ -39,7 +37,10 @@ public class ProgStartBeforeGui {
     }
 
     public static void workBeforeGui() {
-        if (!loadAll()) {
+        boolean load = loadAll();
+        initP2lib();
+
+        if (!load) {
             // dann ist der erste Start
             P2Duration.onlyPing("Erster Start");
             ProgData.firstProgramStart = true;
@@ -58,6 +59,14 @@ public class ProgStartBeforeGui {
 
         ProgData.getInstance().historyList.loadList();
         ProgData.getInstance().historyListBookmarks.loadList();
+    }
+
+    private static void initP2lib() {
+        P2LibInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAM_NAME,
+                "", ProgConfig.SYSTEM_DARK_THEME, ProgConfig.SYSTEM_BLACK_WHITE_ICON, ProgConfig.SYSTEM_THEME_CHANGED,
+                ProgConst.CSS_FILE, ProgConst.CSS_FILE_DARK_THEME, ProgConfig.SYSTEM_FONT_SIZE,
+                "", "",
+                ProgData.debug, ProgData.duration);
     }
 
     /**

@@ -28,7 +28,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.CodeSource;
-import java.util.ArrayList;
 
 public class ProgInfos {
 
@@ -135,17 +134,17 @@ public class ProgInfos {
         return getSettingsDirectory().toString();
     }
 
-    /**
-     * Return the path to "atplayer.xml_copy_" first copy exists
-     *
-     * @param xmlFilePath Path to file.
-     */
-    public void getATPlayerXmlCopyFilePath(ArrayList<Path> xmlFilePath) {
-        for (int i = 1; i <= ProgConst.MAX_COPY_OF_BACKUPFILE; ++i) {
-            final Path path = getSettingsDirectory().resolve(ProgConst.CONFIG_FILE_COPY + i);
-            if (Files.exists(path)) {
-                xmlFilePath.add(path);
-            }
-        }
-    }
+//    /**
+//     * Return the path to "atplayer.xml_copy_" first copy exists
+//     *
+//     * @param xmlFilePath Path to file.
+//     */
+//    public void getATPlayerXmlCopyFilePath(ArrayList<Path> xmlFilePath) {
+//        for (int i = 1; i <= ProgConst.MAX_COPY_OF_BACKUPFILE; ++i) {
+//            final Path path = getSettingsDirectory().resolve(ProgConst.CONFIG_FILE_COPY + i);
+//            if (Files.exists(path)) {
+//                xmlFilePath.add(path);
+//            }
+//        }
+//    }
 }

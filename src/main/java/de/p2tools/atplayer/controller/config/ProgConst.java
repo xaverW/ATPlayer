@@ -25,7 +25,7 @@ public class ProgConst {
     // settings file
     public static final String CONFIG_FILE = "atp.xml";
     public static final String STYLE_FILE = "style.css";
-    public static final String CONFIG_FILE_COPY = "atv.xml_copy_";
+    //    public static final String CONFIG_FILE_COPY = "atp.xml_copy_";
     public static final String CONFIG_DIRECTORY = "p2Atplayer"; // im Homeverzeichnis
 
     public static final String FILE_HISTORY = "history.txt";
