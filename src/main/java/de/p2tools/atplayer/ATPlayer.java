@@ -67,25 +67,19 @@ public class ATPlayer extends Application {
                     P2GuiSize.getSceneSize(ProgConfig.SYSTEM_SIZE_GUI, true),
                     P2GuiSize.getSceneSize(ProgConfig.SYSTEM_SIZE_GUI, false));//Größe der scene!= Größe stage!!!
             primaryStage.setScene(scene);
+
             primaryStage.setOnCloseRequest(e -> {
                 //beim Beenden
                 e.consume();
                 ProgQuit.quit(false);
             });
 
+            primaryStage.setOnShowing(e -> P2GuiSize.setSizePos(ProgConfig.SYSTEM_SIZE_GUI, primaryStage, null));
+            primaryStage.setOnShown(e -> P2GuiSize.setSizePos(ProgConfig.SYSTEM_SIZE_GUI, primaryStage, null));
+            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> ProgColorList.setColorTheme());
+
             PShortKeyFactory.addShortKey(scene);
-
-            //Pos setzen
-            P2GuiSize.setSizePos(ProgConfig.SYSTEM_SIZE_GUI, primaryStage);
-            scene.heightProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, primaryStage));
-            scene.widthProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, primaryStage));
-            primaryStage.xProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, primaryStage));
-            primaryStage.yProperty().addListener((v, o, n) -> P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, primaryStage));
-
             P2LibInit.addP2CssToScene(scene); // und jetzt noch CSS einstellen
-            ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
-                ProgColorList.setColorTheme();
-            });
 
             primaryStage.show();
         } catch (final Exception e) {

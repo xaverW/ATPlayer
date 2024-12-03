@@ -16,7 +16,9 @@
 
 package de.p2tools.atplayer.controller;
 
+import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.P2ShutDown;
 import de.p2tools.p2lib.tools.log.P2LogMessage;
 import javafx.application.Platform;
@@ -56,6 +58,9 @@ public class ProgQuit {
     }
 
     private static void saveConfig() {
+        if (ProgData.getInstance().primaryStage.isShowing()) {
+            P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, ProgData.getInstance().primaryStage);
+        }
         stopAllDownloads();
         writeTabSettings();
         ProgSave.saveAll();
