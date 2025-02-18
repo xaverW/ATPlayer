@@ -46,11 +46,6 @@ public class FilterEditDialog extends P2DialogExtra {
     }
 
     @Override
-    public void close() {
-        super.close();
-    }
-
-    @Override
     public void make() {
         init();
 
