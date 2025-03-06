@@ -18,14 +18,12 @@
 package de.p2tools.atplayer.controller;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
-import de.p2tools.p2lib.tools.date.P2DateConst;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class UpdateCheckFactory {
@@ -35,31 +33,31 @@ public class UpdateCheckFactory {
     public static void checkProgUpdate() {
         // Prüfen obs ein Programmupdate gibt
         P2Duration.onlyPing("checkProgUpdate");
-        if (ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.getValue() &&
-                !updateCheckTodayDone()) {
+        if (ProgConfig.SYSTEM_SEARCH_UPDATE.getValue() &&
+                !isUpdateCheckTodayDone()) {
             // nach Updates suchen
-            runUpdateCheck(false);
+            runUpdateCheck();
 
         } else {
             // will der User nicht --oder-- wurde heute schon gemacht
-            List list = new ArrayList(5);
+            List<String> list = new ArrayList<>(5);
             list.add("Kein Update-Check:");
-            if (!ProgConfig.SYSTEM_UPDATE_SEARCH_ACT.getValue()) {
+            if (!ProgConfig.SYSTEM_SEARCH_UPDATE.getValue()) {
                 list.add("  der User will nicht");
             }
-            if (updateCheckTodayDone()) {
+            if (isUpdateCheckTodayDone()) {
                 list.add("  heute schon gemacht");
             }
             P2Log.sysLog(list);
         }
     }
 
-    private static boolean updateCheckTodayDone() {
-        return ProgConfig.SYSTEM_UPDATE_DATE.get().equals(P2DateConst.F_FORMAT_yyyy_MM_dd.format(new Date()));
+    private static boolean isUpdateCheckTodayDone() {
+        return ProgConfig.SYSTEM_SEARCH_UPDATE_TODAY_DONE.get().equals(P2LDateFactory.getNowStringR());
     }
 
-    private static void runUpdateCheck(boolean showAlways) {
-        ProgConfig.SYSTEM_UPDATE_DATE.setValue(P2DateConst.F_FORMAT_yyyy_MM_dd.format(new Date()));
-        new SearchProgramUpdate(ProgData.getInstance()).searchNewProgramVersion(showAlways);
+    private static void runUpdateCheck() {
+        ProgConfig.SYSTEM_SEARCH_UPDATE_TODAY_DONE.setValue(P2LDateFactory.getNowStringR());
+        new SearchProgramUpdate().searchNewProgramVersion(false);
     }
 }

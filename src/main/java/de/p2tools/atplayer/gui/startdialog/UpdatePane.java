@@ -22,7 +22,6 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
-import javafx.beans.property.BooleanProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TitledPane;
@@ -32,14 +31,13 @@ import javafx.stage.Stage;
 public class UpdatePane {
     private final Stage stage;
     private final P2ToggleSwitch tglSearch = new P2ToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
-    BooleanProperty updateProp = ProgConfig.SYSTEM_UPDATE_SEARCH_ACT;
 
     public UpdatePane(Stage stage) {
         this.stage = stage;
     }
 
     public void close() {
-        tglSearch.selectedProperty().unbindBidirectional(updateProp);
+        tglSearch.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_SEARCH_UPDATE);
     }
 
     public TitledPane makeStart() {
@@ -49,7 +47,7 @@ public class UpdatePane {
         gridPane.setPadding(new Insets(P2LibConst.PADDING));
 
         //einmal am Tag Update suchen
-        tglSearch.selectedProperty().bindBidirectional(updateProp);
+        tglSearch.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_SEARCH_UPDATE);
 
 
         final Button btnHelp = P2Button.helpButton(stage, "Programmupdate suchen",

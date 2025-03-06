@@ -27,7 +27,6 @@ import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
-import javafx.beans.property.BooleanProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -51,9 +50,6 @@ public class PaneUpdate {
     private final CheckBox chkDaily = new CheckBox("Zwischenschritte (Dailys) mit einbeziehen");
     private final Button btnNow = new Button("_Jetzt suchen");
     private final Stage stage;
-    BooleanProperty propUpdateSearch = ProgConfig.SYSTEM_UPDATE_SEARCH_ACT;
-    BooleanProperty propUpdateBetaSearch = ProgConfig.SYSTEM_UPDATE_SEARCH_BETA;
-    BooleanProperty propUpdateDailySearch = ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY;
     private Button btnHelpBeta;
 
     public PaneUpdate(Stage stage) {
@@ -62,8 +58,9 @@ public class PaneUpdate {
     }
 
     public void close() {
-        tglSearch.selectedProperty().unbindBidirectional(propUpdateSearch);
-        tglSearchBeta.selectedProperty().unbindBidirectional(propUpdateBetaSearch);
+        tglSearch.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_SEARCH_UPDATE);
+        tglSearchBeta.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH_BETA);
+        chkDaily.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY);
     }
 
     public TitledPane make(Collection<TitledPane> result) {
@@ -76,11 +73,11 @@ public class PaneUpdate {
         gridPane.setPadding(new Insets(0));
 
         //einmal am Tag Update suchen
-        tglSearch.selectedProperty().bindBidirectional(propUpdateSearch);
+        tglSearch.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_SEARCH_UPDATE);
         final Button btnHelp = P2Button.helpButton(stage, "Programmupdate suchen", HelpText.CONFIG_SEARCH_UPDATE);
 
-        tglSearchBeta.selectedProperty().bindBidirectional(propUpdateBetaSearch);
-        chkDaily.selectedProperty().bindBidirectional(propUpdateDailySearch);
+        tglSearchBeta.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH_BETA);
+        chkDaily.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_UPDATE_SEARCH_DAILY);
         btnHelpBeta = P2Button.helpButton(stage, "Vorabversionen suchen", HelpText.CONFIG_SEARCH_UPDATE_DAILY);
 
         //jetzt suchen
@@ -88,7 +85,7 @@ public class PaneUpdate {
         tglSearch.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
         tglSearchBeta.selectedProperty().addListener((ob, ol, ne) -> checkBeta());
 
-        btnNow.setOnAction(event -> new SearchProgramUpdate(progData, stage).searchNewProgramVersion(true));
+        btnNow.setOnAction(event -> new SearchProgramUpdate().searchNewProgramVersion(stage, true, false));
         P2Hyperlink hyperlink = new P2Hyperlink(ProgConst.URL_WEBSITE_ATPLAYER,
                 ProgConfig.SYSTEM_PROG_OPEN_URL);
 

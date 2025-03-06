@@ -32,23 +32,26 @@ public class SearchProgramUpdate {
     private static final String TITLE_TEXT_PROGRAM_VERSION_IS_UPTODATE = "Programmversion ist aktuell";
     private static final String TITLE_TEXT_PROGRAMMUPDATE_EXISTS = "Ein Programmupdate ist verfügbar";
     private final ProgData progData;
-    private final Stage stage;
     private String title = "";
 
-    public SearchProgramUpdate(final ProgData progData) {
-        this.progData = progData;
-        this.stage = progData.primaryStage;
+    public SearchProgramUpdate() {
+        this.progData = ProgData.getInstance();
     }
 
-    public SearchProgramUpdate(final ProgData progData, final Stage stage) {
-        this.progData = progData;
-        this.stage = stage;
+    public void searchNewProgramVersion(final boolean showDialogAlways) {
+        // Menü: true, Programmstart: false
+        searchNewProgramVersion(progData.primaryStage, showDialogAlways, false);
+    }
+
+    public void searchNewProgramVersion() {
+        // DEBUG: immer alles anzeigen
+        searchNewProgramVersion(progData.primaryStage, true, true);
     }
 
     /**
      * @return
      */
-    public void searchNewProgramVersion(final boolean showAlways) {
+    public void searchNewProgramVersion(Stage owner, final boolean showDialogAlways, boolean showAllDownloads) {
         final String SEARCH_URL;
         final String SEARCH_URL_DOWNLOAD;
         if (ProgData.debug) {
@@ -60,7 +63,7 @@ public class SearchProgramUpdate {
         }
 
         final FoundSearchDataDTO foundSearchData = new FoundSearchDataDTO(
-                stage,
+                owner,
                 SEARCH_URL,
                 SEARCH_URL_DOWNLOAD,
 
@@ -79,9 +82,8 @@ public class SearchProgramUpdate {
 
                 new String[]{},
                 ProgConfig.SYSTEM_DOWNLOAD_DIR_NEW_VERSION,
-                showAlways,
-                false
-        );
+                showDialogAlways, // DEBUG: immer alles anzeigen
+                showAllDownloads);
 
         new Thread(() -> {
             FoundAll.foundAll(foundSearchData);

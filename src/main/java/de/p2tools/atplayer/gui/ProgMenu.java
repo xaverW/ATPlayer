@@ -17,6 +17,7 @@
 package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.ProgQuit;
+import de.p2tools.atplayer.controller.ProgSave;
 import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
@@ -72,13 +73,42 @@ public class ProgMenu extends MenuButton {
         final MenuItem miToolTip = new MenuItem("Tip des Tages");
         miToolTip.setOnAction(a -> TipOfDayFactory.showDialog(progData, true));
         final MenuItem miSearchUpdate = new MenuItem("Gibt's ein Update?");
-        miSearchUpdate.setOnAction(a -> new SearchProgramUpdate(progData, progData.primaryStage).searchNewProgramVersion(true));
+        miSearchUpdate.setOnAction(a -> new SearchProgramUpdate().searchNewProgramVersion(true));
         final MenuItem miAbout = new MenuItem("Über dieses Programm");
         miAbout.setOnAction(event -> new AboutDialogController(ProgData.getInstance()).showDialog());
 
         final Menu mHelp = new Menu("Hilfe");
         mHelp.getItems().addAll(miUrlHelp, miReset, miToolTip, miSearchUpdate, new SeparatorMenuItem(), miAbout);
         getItems().addAll(mHelp);
+
+        if (ProgData.debug) {
+            final MenuItem miSearchAllUpdate = new MenuItem("Alle Programm-Downloads anzeigen");
+            miSearchAllUpdate.setOnAction(a -> new SearchProgramUpdate()
+                    .searchNewProgramVersion());
+
+            final MenuItem miResetTodayDone = new MenuItem("<SYSTEM_SEARCH_UPDATE_TODAY_DONE> zurücksetzen");
+            miResetTodayDone.setOnAction(a -> {
+                ProgConfig.SYSTEM_SEARCH_UPDATE_TODAY_DONE.set("2020.01.01"); // heute noch nicht gemacht
+            });
+            final MenuItem miResetLastSearch = new MenuItem("<SYSTEM_SEARCH_UPDATE_LAST_DATE> zurücksetzen");
+            miResetLastSearch.setOnAction(a -> {
+                ProgConfig.SYSTEM_SEARCH_UPDATE_LAST_DATE.set("2020.01.01"); // letztes Datum, bis zu dem geprüft wurde, wenn leer wird das buildDate genommen
+            });
+            final MenuItem miResetUpdate = new MenuItem("<SYSTEM_SEARCH_UPDATE_TODAY_DONE und \n" +
+                    "SYSTEM_SEARCH_UPDATE_LAST_DATE> zurücksetzen");
+
+            miResetUpdate.setOnAction(a -> {
+                ProgConfig.SYSTEM_SEARCH_UPDATE_TODAY_DONE.set("2020.01.01"); // heute noch nicht gemacht
+                ProgConfig.SYSTEM_SEARCH_UPDATE_LAST_DATE.set("2020.01.01"); // letztes Datum, bis zu dem geprüft wurde, wenn leer wird das buildDate genommen
+            });
+
+            final MenuItem miSave = new MenuItem("Alles Speichern");
+            miSave.setOnAction(a -> ProgSave.saveAll());
+
+            mHelp.getItems().addAll(new SeparatorMenuItem(), miSearchAllUpdate,
+                    miResetTodayDone, miResetLastSearch, miResetUpdate, miSave);
+        }
+
 
         //=========================
         //Quitt
