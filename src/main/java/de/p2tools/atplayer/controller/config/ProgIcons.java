@@ -70,10 +70,10 @@ public class ProgIcons {
     public static P2Image ICON_TOOLBAR_DOWNLOAD_UNDO = new P2Image(ICON_PATH_LONG, "toolbar-download-undo.png", 26, 26);
     public static P2Image ICON_TOOLBAR_DOWNLOAD_REFRESH = new P2Image(ICON_PATH_LONG, "toolbar-download-refresh.png", 26, 26);
     public static P2Image ICON_TOOLBAR_DOWNLOAD_START_ALL = new P2Image(ICON_PATH_LONG, "toolbar-download-start-all.png", 26, 26);
+    public static P2Image ICON_TOOLBAR_CONFIG = new P2Image(ICON_PATH_LONG, "toolbar-config.png", 26, 26);
 
     public static P2Image ICON_FILTER_LOAD = new P2Image(ICON_PATH_LONG, "filter-load.png", 22, 22);
     public static P2Image ICON_FILTER_SAVE = new P2Image(ICON_PATH_LONG, "filter-save.png", 22, 22);
     public static P2Image ICON_FILTER_NEW = new P2Image(ICON_PATH_LONG, "filter-new.png", 22, 22);
 
-    public static P2Image ICON_TOOLBAR_CONFIG = new P2Image(ICON_PATH_LONG, "toolbar-config.png", 26, 26);
 }
