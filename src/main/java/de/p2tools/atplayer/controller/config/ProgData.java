@@ -72,7 +72,7 @@ public class ProgData {
     // Gui
     public Stage primaryStage = null;
     public P2MaskerPane maskerPane = new P2MaskerPane();
-    public ATPlayerController ATPlayerController = null;
+    public ATPlayerController atPlayerController = null;
     public AudioGuiController audioGuiController = null; // Tab mit den Audios
     public DownloadGuiController downloadGuiController = null; // Tab mit den Audios
     public QuitDialogController quitDialogController = null;

@@ -61,9 +61,8 @@ public class ATPlayer extends Application {
 
     private void initRootLayout() {
         try {
-            progData.ATPlayerController = new ATPlayerController();
-
-            scene = new Scene(progData.ATPlayerController,
+            progData.atPlayerController = new ATPlayerController();
+            scene = new Scene(progData.atPlayerController,
                     P2GuiSize.getSceneSize(ProgConfig.SYSTEM_SIZE_GUI, true),
                     P2GuiSize.getSceneSize(ProgConfig.SYSTEM_SIZE_GUI, false));//Größe der scene!= Größe stage!!!
             primaryStage.setScene(scene);

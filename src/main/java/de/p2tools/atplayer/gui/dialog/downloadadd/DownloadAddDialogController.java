@@ -142,7 +142,7 @@ public class DownloadAddDialogController extends P2DialogExtra {
     private void quit() {
         //damit der Focus nicht aus der Tabelle verloren geht
         addDownloadDto.initPathName.setUsedPaths();
-        progData.ATPlayerController.setFocus();
+        progData.atPlayerController.setFocus();
 
         if (!ok) {
             close();

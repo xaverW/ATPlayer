@@ -24,6 +24,8 @@ import de.p2tools.atplayer.gui.AudioGui;
 import de.p2tools.atplayer.gui.DownloadGui;
 import de.p2tools.atplayer.gui.ProgMenu;
 import de.p2tools.atplayer.gui.StatusBarController;
+import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
+import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -141,6 +143,15 @@ public class ATPlayerController extends StackPane {
             }
             if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
                 ATPlayerFactory.setInfos();
+            }
+        });
+        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
+            @Override
+            public void finished(P2LoadEvent event) {
+                if (stackPaneCont.getChildren().isEmpty()) {
+                    return;
+                }
+                setFocus();
             }
         });
     }
