@@ -26,8 +26,7 @@ import de.p2tools.p2lib.configfile.pdata.P2Data;
 import de.p2tools.p2lib.configfile.pdata.P2DataProgConfig;
 import de.p2tools.p2lib.mtdownload.GetProgramStandardPath;
 import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
-import de.p2tools.p2lib.tools.P2SystemUtils;
-import de.p2tools.p2lib.tools.P2ToolsFactory;
+import de.p2tools.p2lib.tools.P2InfoFactory;
 import javafx.beans.property.*;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -49,9 +48,9 @@ public class ProgConfig extends P2DataProgConfig {
         ProgData progData = ProgData.getInstance();
 
         // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
-        ProgConfig.SYSTEM_PROG_VERSION.set(P2ToolsFactory.getProgVersion());
-        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2ToolsFactory.getBuildNo());
-        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2ToolsFactory.getBuildDateR());
+        ProgConfig.SYSTEM_PROG_VERSION.set(P2InfoFactory.getProgVersion());
+        ProgConfig.SYSTEM_PROG_BUILD_NO.set(P2InfoFactory.getBuildNo());
+        ProgConfig.SYSTEM_PROG_BUILD_DATE.set(P2InfoFactory.getBuildDateR());
 
         configFile.addConfigs(ProgConfig.getInstance());//Progconfig
         configFile.addConfigs(ProgColorList.getInstance());//Color
@@ -116,9 +115,9 @@ public class ProgConfig extends P2DataProgConfig {
 
     // ===========================================
     // Configs der Programmversion, nur damit sie (zur Update-Suche) im Config-File stehen
-    public static StringProperty SYSTEM_PROG_VERSION = addStrProp("system-prog-version", P2ToolsFactory.getProgVersion());
-    public static StringProperty SYSTEM_PROG_BUILD_NO = addStrProp("system-prog-build-no", P2ToolsFactory.getBuildNo());
-    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date", P2ToolsFactory.getBuildDateR());//z.B.: 27.07.2
+    public static StringProperty SYSTEM_PROG_VERSION = addStrProp("system-prog-version", P2InfoFactory.getProgVersion());
+    public static StringProperty SYSTEM_PROG_BUILD_NO = addStrProp("system-prog-build-no", P2InfoFactory.getBuildNo());
+    public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date", P2InfoFactory.getBuildDateR());//z.B.: 27.07.2
 
     // Configs zum Aktualisieren beim Programmupdate
     public static BooleanProperty SYSTEM_CHANGE_LOG_DIR = addBoolProp("system-change-log-dir", Boolean.FALSE);
@@ -182,7 +181,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty DOWNLOAD_ONLY_STOP_DIALOG_SIZE = addStrProp("download-only-stop-dialog-size", "600:400");
 
     //Download-SetDate
-    public static String DOWNLOAD_FILE_PATH_INIT = P2SystemUtils.getStandardDownloadPath();
+    public static String DOWNLOAD_FILE_PATH_INIT = P2InfoFactory.getStandardDownloadPath();
     public static StringProperty DOWNLOAD_FILE_PATH = addStrProp("download-file-path", DOWNLOAD_FILE_PATH_INIT);
     public static String DOWNLOAD_FILE_NAME_INIT = "%t-%T-%Z.mp4";
     public static StringProperty DOWNLOAD_FILE_NAME = addStrProp("download-file-name", DOWNLOAD_FILE_NAME_INIT);
@@ -318,7 +317,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_CONFIG_DIALOG_BLACKLIST = new SimpleIntegerProperty(-1);
 
     // StartDialog
-    public static StringProperty START_DIALOG_DOWNLOAD_PATH = addStrProp("start-dialog-download-path", P2SystemUtils.getStandardDownloadPath());
+    public static StringProperty START_DIALOG_DOWNLOAD_PATH = addStrProp("start-dialog-download-path", P2InfoFactory.getStandardDownloadPath());
 
     // Shorcuts Hauptmenü
     public static String SHORTCUT_QUIT_PROGRAM_INIT = "Ctrl+Q";

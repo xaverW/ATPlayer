@@ -34,6 +34,8 @@ public class ProgConst {
     public static final String CSS_FILE = "de/p2tools/atplayer/atp.css";
     public static final String CSS_FILE_DARK_THEME = "de/p2tools/atplayer/atp-dark.css";
 
+    public static final String PROGRAM_ICON = "de/p2tools/atplayer/res/p2a_logo_32.png";
+
     public static final int SYSTEM_LOAD_FILMLIST_MAX_DAYS = 100; // Filter, nur Audios der letzten xx Tage laden
     public static final int SYSTEM_LOAD_FILMLIST_MIN_DURATION = 30; // Filter, nur Audios mit mind. xx Minuten länge laden
 

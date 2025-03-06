@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.controller.data.download;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.p2lib.tools.P2SystemUtils;
+import de.p2tools.p2lib.tools.P2InfoFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.file.P2FileUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -113,7 +113,7 @@ public class DownloadFactoryMakeParameter {
         // ###########################################################
         // zur Sicherheit bei Unsinn im Set
         if (path.isEmpty()) {
-            path = P2SystemUtils.getStandardDownloadPath();
+            path = P2InfoFactory.getStandardDownloadPath();
         }
         if (name.isEmpty()) {
             name = getToday_yyyyMMdd() + "_" + download.getTheme() + "-" + download.getTitle() + ".mp4";

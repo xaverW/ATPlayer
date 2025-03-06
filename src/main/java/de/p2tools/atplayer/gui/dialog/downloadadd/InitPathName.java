@@ -21,7 +21,7 @@ import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
-import de.p2tools.p2lib.tools.P2SystemUtils;
+import de.p2tools.p2lib.tools.P2InfoFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -157,7 +157,7 @@ public class InitPathName {
         }
 
         String stdPath;
-        stdPath = P2SystemUtils.getStandardDownloadPath();
+        stdPath = P2InfoFactory.getStandardDownloadPath();
 
         actPath = DownloadAddDialogFactory.getNextName(stdPath, actPath, addDownloadDto.getAct().download.getTheme());
         if (!addDownloadDto.cboPath.getItems().contains(actPath)) {

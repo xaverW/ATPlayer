@@ -20,7 +20,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.tools.table.TableDownload;
-import de.p2tools.p2lib.tools.P2SystemUtils;
+import de.p2tools.p2lib.tools.P2ToolsFactory;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -117,15 +117,15 @@ public class DownloadTableContextMenu {
 
         final MenuItem miCopyGenre = new MenuItem("Genre in die Zwischenablage kopieren");
         miCopyGenre.setOnAction(a -> {
-            P2SystemUtils.copyToClipboard(download.getGenre());
+            P2ToolsFactory.copyToClipboard(download.getGenre());
         });
         final MenuItem miCopyTheme = new MenuItem("Thema in die Zwischenablage kopieren");
         miCopyTheme.setOnAction(a -> {
-            P2SystemUtils.copyToClipboard(download.getTheme());
+            P2ToolsFactory.copyToClipboard(download.getTheme());
         });
         final MenuItem miCopyName = new MenuItem("Titel in die Zwischenablage kopieren");
         miCopyName.setOnAction(a -> {
-            P2SystemUtils.copyToClipboard(download.getTitle());
+            P2ToolsFactory.copyToClipboard(download.getTitle());
         });
         miFilmInfo.setDisable(download == null);
         miPlayUrl.setDisable(download == null);
