@@ -16,14 +16,14 @@
 
 package de.p2tools.atplayer.controller.starter;
 
-import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.atdata.AudioData;
 import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
@@ -50,15 +50,15 @@ public class StartDownload {
                 ++count;
             }
         });
-
-        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_START) {
             @Override
-            public void start(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 searchFilms.setValue(true);
             }
-
+        });
+        progData.pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_FINISHED) {
             @Override
-            public void finished(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 searchFilms.setValue(false);
             }
         });

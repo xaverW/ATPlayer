@@ -17,6 +17,7 @@
 package de.p2tools.atplayer;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.worker.Busy;
@@ -24,8 +25,8 @@ import de.p2tools.atplayer.gui.AudioGui;
 import de.p2tools.atplayer.gui.DownloadGui;
 import de.p2tools.atplayer.gui.ProgMenu;
 import de.p2tools.atplayer.gui.StatusBarController;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -145,9 +146,9 @@ public class ATPlayerController extends StackPane {
                 ATPlayerFactory.setInfos();
             }
         });
-        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_FINISHED) {
             @Override
-            public void finished(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 if (stackPaneCont.getChildren().isEmpty()) {
                     return;
                 }

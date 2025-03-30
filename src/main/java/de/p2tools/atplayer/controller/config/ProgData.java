@@ -37,6 +37,7 @@ import de.p2tools.atplayer.gui.chart.ChartData;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
 import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
+import de.p2tools.p2lib.p2event.P2EventHandler;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -94,10 +95,13 @@ public class ProgData {
     public BlackList blackList;
     public final BlackListFilter blackListFilterBlackList;
     public DownloadErrorList downloadErrorList;
+    public P2EventHandler pEventHandler;
 
     boolean oneSecond = false;
 
     private ProgData() {
+        pEventHandler = new P2EventHandler();
+
         busy = new Busy();
         pShortcut = new PShortcut();
         replaceList = new ReplaceList();

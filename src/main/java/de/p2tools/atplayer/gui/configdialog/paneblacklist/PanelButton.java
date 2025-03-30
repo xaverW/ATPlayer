@@ -17,6 +17,7 @@
 
 package de.p2tools.atplayer.gui.configdialog.paneblacklist;
 
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlackData;
@@ -29,8 +30,8 @@ import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2TableFactory;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import javafx.beans.property.BooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
@@ -43,13 +44,15 @@ import javafx.stage.Stage;
 
 public class PanelButton {
 
-    P2LoadListener listenerLoadFilmlist;
+    P2Listener listenerLoadFilmlistStart;
+    P2Listener listenerLoadFilmlistFinished;
 
     public PanelButton() {
     }
 
     void close() {
-//        LoadFilmFactory.getInstance().loadFilmlist.p2LoadNotifier.removeListenerLoadFilmlist(listenerLoadFilmlist);
+        ProgData.getInstance().pEventHandler.removeListener(listenerLoadFilmlistStart);
+        ProgData.getInstance().pEventHandler.removeListener(listenerLoadFilmlistFinished);
     }
 
     void addButton(Stage stage, VBox vBox, TableView<BlackData> tableView,
@@ -116,18 +119,20 @@ public class PanelButton {
             blackDataChanged.set(true);
             list.clearList();
         });
-        listenerLoadFilmlist = new P2LoadListener() {
+        listenerLoadFilmlistStart = new P2Listener(PEvents.LOAD_RADIO_LIST_START) {
             @Override
-            public void start(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 btnCountHits.setDisable(true);
             }
-
+        };
+        listenerLoadFilmlistFinished = new P2Listener(PEvents.LOAD_RADIO_LIST_FINISHED) {
             @Override
-            public void finished(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 btnCountHits.setDisable(false);
             }
         };
-//        LoadFilmFactory.getInstance().loadFilmlist.p2LoadNotifier.addListenerLoadFilmlist(listenerLoadFilmlist);
+        ProgData.getInstance().pEventHandler.addListener(listenerLoadFilmlistStart);
+        ProgData.getInstance().pEventHandler.addListener(listenerLoadFilmlistFinished);
 
         HBox hBoxButton = new HBox(P2LibConst.DIST_BUTTON);
         hBoxButton.getChildren().addAll(btnNew, btnDel, btnClear);

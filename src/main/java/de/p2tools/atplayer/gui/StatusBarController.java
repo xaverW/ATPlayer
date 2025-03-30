@@ -17,12 +17,12 @@
 package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
-import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -73,18 +73,20 @@ public class StatusBarController extends AnchorPane {
     private void make() {
         setInfoAudio();
         setTextForRightDisplay();
-        LoadAudioFactory.getInstance().loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_START) {
             @Override
-            public void start(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 stopTimer = true;
             }
-
+        });
+        progData.pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_FINISHED) {
             @Override
-            public void finished(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 stopTimer = false;
                 setStatusbarIndex();
             }
         });
+
         PListener.addListener(new PListener(PListener.EVENT_TIMER, StatusBarController.class.getSimpleName()) {
             @Override
             public void pingFx() {
@@ -114,25 +116,6 @@ public class StatusBarController extends AnchorPane {
         // Text rechts: alter/neuladenIn anzeigen
         String strText = "Liste erstellt: ";
         strText += ProgConfig.SYSTEM_AUDIOLIST_DATE_TIME.getValueSafe();
-
-//        final int second = progData.audioList.getAge();
-//        if (second != 0) {
-//            strText += " ||  Alter: ";
-//            final int minute = second / 60;
-//            String strSecond = String.valueOf(second % 60);
-//            String strMinute = String.valueOf(minute % 60);
-//            String strHour = String.valueOf(minute / 60);
-//            if (strSecond.length() < 2) {
-//                strSecond = '0' + strSecond;
-//            }
-//            if (strMinute.length() < 2) {
-//                strMinute = '0' + strMinute;
-//            }
-//            if (strHour.length() < 2) {
-//                strHour = '0' + strHour;
-//            }
-//            strText += strHour + ':' + strMinute + ':' + strSecond + ' ';
-//        }
 
         // Infopanel setzen
         lblRight.setText(strText);

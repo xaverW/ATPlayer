@@ -19,14 +19,15 @@ package de.p2tools.atplayer.controller.audio;
 
 import de.p2tools.atplayer.controller.ProgSave;
 import de.p2tools.atplayer.controller.UpdateCheckFactory;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
 import de.p2tools.p2lib.atdata.AudioList;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadEvent;
-import de.p2tools.p2lib.mtfilm.loadfilmlist.P2LoadListener;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.date.P2LDateTimeFactory;
 
@@ -34,43 +35,50 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class LoadAudioFactory {
+
+    public static final double PROGRESS_MIN = 0.0;
+    public static final double PROGRESS_MAX = 1.0;
+    public static final double PROGRESS_INDETERMINATE = -1.0;
+
     private static LoadAudioFactory instance;
     public LoadAudioList loadAudioList; //erledigt das Update der Audioliste
     private static boolean doneAtProgramStart = false;
 
     private LoadAudioFactory() {
         loadAudioList = new LoadAudioList();
-        loadAudioList.p2LoadNotifier.addListenerLoadFilmlist(new P2LoadListener() {
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_START) {
             @Override
-            public void start(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 ProgData.AUDIOLIST_IS_DOWNLOADING.setValue(true);
-                if (event.progress == P2LoadListener.PROGRESS_INDETERMINATE) {
+                if (event.getAct() == PROGRESS_INDETERMINATE) {
                     // ist dann die gespeicherte Audioliste
                     ProgData.getInstance().maskerPane.setMaskerVisible(true, false, false);
                 } else {
                     ProgData.getInstance().maskerPane.setMaskerVisible();
                 }
-                ProgData.getInstance().maskerPane.setMaskerProgress(event.progress, event.text);
+                ProgData.getInstance().maskerPane.setMaskerProgress(event.getAct(), event.getText());
 
                 // the channel combo will be reseted, therefore save the filter
                 ProgData.getInstance().worker.saveFilter();
             }
-
+        });
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_PROGRESS) {
             @Override
-            public void progress(P2LoadEvent event) {
-                ProgData.getInstance().maskerPane.setMaskerProgress(event.progress, event.text);
+            public void pingGui(P2Event event) {
+                ProgData.getInstance().maskerPane.setMaskerProgress(event.getAct(), event.getText());
             }
-
+        });
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_LOADED) {
             @Override
-            public void loaded(P2LoadEvent event) {
-                // todo kommt da beim Laden 2x vorbei???
+            public void pingGui(P2Event event) { // todo kommt da beim Laden 2x vorbei???
                 ProgData.getInstance().maskerPane.setMaskerVisible(true, false, false);
-                ProgData.getInstance().maskerPane.setMaskerProgress(P2LoadListener.PROGRESS_INDETERMINATE, "Audioliste verarbeiten");
+                ProgData.getInstance().maskerPane.setMaskerProgress(PROGRESS_INDETERMINATE, "Audioliste verarbeiten");
                 ProgData.AUDIOLIST_IS_DOWNLOADING.setValue(false);
             }
-
+        });
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.LOAD_RADIO_LIST_FINISHED) {
             @Override
-            public void finished(P2LoadEvent event) {
+            public void pingGui(P2Event event) {
                 if (ProgData.firstProgramStart) {
                     ProgSave.saveAll(); // damit nichts verloren geht
                 }
