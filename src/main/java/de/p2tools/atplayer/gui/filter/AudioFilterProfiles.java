@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.gui.filter;
 
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
@@ -28,6 +28,7 @@ import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2SeparatorComboBox;
+import de.p2tools.p2lib.p2event.P2Listener;
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -57,9 +58,9 @@ public class AudioFilterProfiles extends VBox {
         initRest();
 
         // ist zum Markieren, ob sich der eingestellte Filter geändert hat
-        PListener.addListener(new PListener(PListener.EVENT_FILTER_CHANGED, AudioFilterProfiles.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_FILTER_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 checkCboFilter();
             }
         });

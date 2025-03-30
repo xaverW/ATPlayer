@@ -18,7 +18,7 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
@@ -39,6 +39,7 @@ import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
 import de.p2tools.p2lib.mtfilter.Filter;
 import de.p2tools.p2lib.mtfilter.FilterCheck;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -133,9 +134,9 @@ public class DownloadGuiController extends AnchorPane {
         setFilterProperty();
         setFilter();
 
-        PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 // todo nur wenn sichtbar
                 paneBandwidthChart.searchInfos(InfoPaneFactory.paneIsVisible(ATPlayerController.PANE_SHOWN.DOWNLOAD, paneBandwidthChart));
 
@@ -331,9 +332,9 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 if (!ProgConfig.FILTER_DOWNLOAD_STATE.get().isEmpty()) {
                     // dann den Filter aktualisieren
                     // todo?? bei vielen Downloads kann das sonst die ganze Tabelle ausbremsen
@@ -341,23 +342,21 @@ public class DownloadGuiController extends AnchorPane {
                 }
             }
         });
-        PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
-                DownloadGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_GUI_HISTORY_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });
-        PListener.addListener(new PListener(new int[]{PListener.EVENT_HISTORY_CHANGED},
-                DownloadGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_HISTORY_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });
-        PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, this.getClass().getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_BLACKLIST_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });

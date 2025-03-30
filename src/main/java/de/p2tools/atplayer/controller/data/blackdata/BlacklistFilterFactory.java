@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.controller.data.blackdata;
 
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
@@ -102,7 +102,7 @@ public class BlacklistFilterFactory {
         P2Duration.counterStop("markFilmBlack");
 
         if (notify) {
-            PListener.notify(PListener.EVENT_BLACKLIST_CHANGED, BlacklistFilterFactory.class.getSimpleName());
+            ProgData.getInstance().pEventHandler.notifyListener(PEvents.EVENT_BLACKLIST_CHANGED);
         }
     }
 

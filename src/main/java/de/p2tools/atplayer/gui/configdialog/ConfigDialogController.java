@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.gui.configdialog;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
@@ -119,11 +119,11 @@ public class ConfigDialogController extends P2DialogExtra {
             //Diakritika entfernen, macht nur dann Sinn
             //zum Einfügen der Diakritika muss eine neue Audioliste geladen werden
             new Thread(() -> {
-                ProgData.getInstance().maskerPane.setMaskerText("Diakritika entfernen");
-                ProgData.getInstance().maskerPane.setMaskerVisible();
+                progData.maskerPane.setMaskerText("Diakritika entfernen");
+                progData.maskerPane.setMaskerVisible();
 //                FilmFactory.flattenDiacritic(progData.filmlist);
-                PListener.notify(PListener.EVENT_DIACRITIC_CHANGED, ConfigDialogController.class.getSimpleName());
-                ProgData.getInstance().maskerPane.switchOffMasker();
+                progData.pEventHandler.notifyListener(PEvents.EVENT_DIACRITIC_CHANGED);
+                progData.maskerPane.switchOffMasker();
             }).start();
         }
 
@@ -133,7 +133,7 @@ public class ConfigDialogController extends P2DialogExtra {
         controllerBlackList.close();
         controllerDownload.close();
 
-        PListener.notify(PListener.EVEMT_SETDATA_CHANGED, ConfigDialogController.class.getSimpleName());
+        progData.pEventHandler.notifyListener(PEvents.EVEMT_SETDATA_CHANGED);
 
         dialogIsRunning.setValue(false);
         super.close();

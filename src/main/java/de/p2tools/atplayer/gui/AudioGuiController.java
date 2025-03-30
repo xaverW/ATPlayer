@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
@@ -31,6 +31,7 @@ import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
@@ -161,23 +162,21 @@ public class AudioGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        PListener.addListener(new PListener(new int[]{PListener.EVENT_GUI_HISTORY_CHANGED},
-                AudioGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_GUI_HISTORY_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });
-        PListener.addListener(new PListener(new int[]{PListener.EVENT_HISTORY_CHANGED},
-                AudioGuiController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_HISTORY_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });
-        PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, this.getClass().getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_BLACKLIST_CHANGED) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 P2TableFactory.refreshTable(tableView);
             }
         });

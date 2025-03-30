@@ -16,7 +16,7 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
@@ -45,14 +45,14 @@ public final class AudioFilter extends AudioFilterProps {
         P2Log.debugLog("reportFilterReturn");
         pause.stop();
         ProgData.getInstance().filterWorker.addBackward();
-        PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+        ProgData.getInstance().pEventHandler.notifyListener(PEvents.EVENT_FILTER_CHANGED);
     }
 
     private void reportFilterChange() {
         // sind die anderen Filter (ändern, ein-ausschalten), wenn Pause abgelaufen ist / gestoppt ist
         if (!filterIsOff) {
             ProgData.getInstance().filterWorker.addBackward();
-            PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+            ProgData.getInstance().pEventHandler.notifyListener(PEvents.EVENT_FILTER_CHANGED);
         }
     }
 
@@ -64,7 +64,7 @@ public final class AudioFilter extends AudioFilterProps {
     private void initFilter() {
         pause.setOnFinished(event -> reportFilterChange());
         pause.setDuration(Duration.millis(ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue()));
-        pause.setOnFinished(event -> PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName()));
+        pause.setOnFinished(event -> ProgData.getInstance().pEventHandler.notifyListener(PEvents.EVENT_FILTER_CHANGED));
         ProgConfig.SYSTEM_FILTER_WAIT_TIME.addListener((observable, oldValue, newValue) -> {
             P2Log.debugLog("SYSTEM_FILTER_WAIT_TIME: " + ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue());
             pause.setDuration(Duration.millis(ProgConfig.SYSTEM_FILTER_WAIT_TIME.getValue()));
@@ -105,7 +105,7 @@ public final class AudioFilter extends AudioFilterProps {
     private void reportBlacklistChange() {
         if (!filterIsOff) { // todo ??
             BlacklistFilterFactory.makeBlackFiltered();
-            PListener.notify(PListener.EVENT_FILTER_CHANGED, AudioFilter.class.getSimpleName());
+            ProgData.getInstance().pEventHandler.notifyListener(PEvents.EVENT_FILTER_CHANGED);
         }
     }
 

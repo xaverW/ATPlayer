@@ -17,7 +17,6 @@
 package de.p2tools.atplayer.controller.starter;
 
 import de.p2tools.atplayer.controller.config.PEvents;
-import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.p2lib.atdata.AudioData;
@@ -40,9 +39,9 @@ public class StartDownload {
     public StartDownload(ProgData progData) {
         this.progData = progData;
         starterThread = new StarterThread2(progData, paused, searchFilms);
-        PListener.addListener(new PListener(PListener.EVENT_TIMER, StartDownload.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 if (count >= 5) {
                     count = 0;
                     starterThread.run();

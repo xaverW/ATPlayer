@@ -17,10 +17,11 @@
 
 package de.p2tools.atplayer.controller.data.download;
 
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.mtdownload.SizeTools;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.text.DecimalFormat;
@@ -61,9 +62,9 @@ public class DownloadInfos {
 
     public DownloadInfos(ProgData progData) {
         this.progData = progData;
-        PListener.addListener(new PListener(PListener.EVENT_TIMER, DownloadInfos.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 clean();
                 generateDownloadInfos();
                 generateBandwidthInfo();

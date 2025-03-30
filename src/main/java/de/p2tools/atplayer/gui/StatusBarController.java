@@ -18,7 +18,6 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
 import de.p2tools.atplayer.controller.config.PEvents;
-import de.p2tools.atplayer.controller.config.PListener;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.p2event.P2Event;
@@ -87,9 +86,9 @@ public class StatusBarController extends AnchorPane {
             }
         });
 
-        PListener.addListener(new PListener(PListener.EVENT_TIMER, StatusBarController.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
             @Override
-            public void pingFx() {
+            public void pingGui() {
                 try {
                     if (!stopTimer) {
                         setStatusbarIndex();

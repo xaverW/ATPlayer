@@ -17,8 +17,9 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.atplayer.controller.config.PListener;
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
@@ -39,25 +40,25 @@ public class AudioFilterRunner {
     public AudioFilterRunner(ProgData progData) {
         this.progData = progData;
         progData.filterWorker.filterChangeProperty().addListener((observable, oldValue, newValue) -> filter()); // Filmfilter (User) haben sich geändert
-        PListener.addListener(new PListener(PListener.EVENT_BLACKLIST_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_BLACKLIST_CHANGED) {
             @Override
             public void ping() {
                 filterList();
             }
         });
-        PListener.addListener(new PListener(PListener.EVENT_FILTER_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_FILTER_CHANGED) {
             @Override
             public void ping() {
                 filterList();
             }
         });
-        PListener.addListener(new PListener(PListener.EVENT_DIACRITIC_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_DIACRITIC_CHANGED) {
             @Override
             public void ping() {
                 filterList();
             }
         });
-        PListener.addListener(new PListener(PListener.EVENT_HISTORY_CHANGED, AudioFilterRunner.class.getSimpleName()) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_HISTORY_CHANGED) {
             @Override
             public void ping() {
                 AudioFilter audioFilter = progData.filterWorker.getActFilterSettings();

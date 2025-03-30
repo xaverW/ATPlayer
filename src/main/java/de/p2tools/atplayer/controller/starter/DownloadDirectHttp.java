@@ -23,6 +23,7 @@ import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
 import de.p2tools.p2lib.mtdownload.MLInputStream;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -53,9 +54,9 @@ public class DownloadDirectHttp extends Thread {
     private HttpURLConnection httpURLConn = null;
     private boolean updateDownloadInfos = false;
 
-    private final PListener listener = new PListener(PListener.EVENT_TIMER_HALF_SECOND, DownloadDirectHttp.class.getSimpleName()) {
+    private final P2Listener listener = new P2Listener(PEvents.EVENT_TIMER_HALF_SECOND) {
         @Override
-        public void pingFx() {
+        public void pingGui() {
             updateDownloadInfos = true;
         }
     };
@@ -68,7 +69,7 @@ public class DownloadDirectHttp extends Thread {
         download = d;
         setName("DIRECT DL THREAD: " + d.getTitle());
         download.setStateStartedRun();
-        PListener.addListener(listener);
+        progData.pEventHandler.addListener(listener);
     }
 
     @Override
@@ -77,7 +78,7 @@ public class DownloadDirectHttp extends Thread {
         StartDownloadFactory.makeDirAndLoadInfoSubtitle(download);
         runWhile();
         StartDownloadFactory.finalizeDownload(download);
-        PListener.removeListener(listener);
+        progData.pEventHandler.removeListener(listener);
     }
 
     private void runWhile() {

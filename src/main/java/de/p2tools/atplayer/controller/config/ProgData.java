@@ -38,14 +38,9 @@ import de.p2tools.atplayer.gui.dialog.QuitDialogController;
 import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.p2event.P2EventHandler;
-import de.p2tools.p2lib.tools.duration.P2Duration;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class ProgData {
     private static ProgData instance;
@@ -97,10 +92,8 @@ public class ProgData {
     public DownloadErrorList downloadErrorList;
     public P2EventHandler pEventHandler;
 
-    boolean oneSecond = false;
-
     private ProgData() {
-        pEventHandler = new P2EventHandler();
+        pEventHandler = new P2EventHandler(false);
 
         busy = new Busy();
         pShortcut = new PShortcut();
@@ -136,32 +129,5 @@ public class ProgData {
 
     public synchronized static final ProgData getInstance() {
         return instance == null ? instance = new ProgData() : instance;
-    }
-
-    public void startTimer() {
-        // extra starten, damit er im Einrichtungsdialog nicht dazwischen funkt
-        Timeline timeline = new Timeline(new KeyFrame(
-                Duration.millis(500), ae -> {
-
-            oneSecond = !oneSecond;
-            if (oneSecond) {
-                doTimerWorkOneSecond();
-            }
-            doTimerWorkHalfSecond();
-
-        }));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.setDelay(Duration.seconds(5));
-        timeline.play();
-        P2Duration.onlyPing("Timer gestartet");
-    }
-
-    private void doTimerWorkOneSecond() {
-        ++countRunningTimeSeconds;
-        PListener.notify(PListener.EVENT_TIMER, ProgData.class.getName());
-    }
-
-    private void doTimerWorkHalfSecond() {
-        PListener.notify(PListener.EVENT_TIMER_HALF_SECOND, ProgData.class.getName());
     }
 }

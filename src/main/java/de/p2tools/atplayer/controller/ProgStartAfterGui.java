@@ -42,7 +42,7 @@ public class ProgStartAfterGui {
         if (ProgConfig.AUDIO_GUI_FILTER_DIALOG_IS_SHOWING.getValue()) {
             new AudioFilterDialog(ProgData.getInstance()).showDialog();
         }
-        ProgData.getInstance().startTimer();
+        ProgData.getInstance().pEventHandler.startTimer();
 
         //die gespeicherte Audioliste laden
         ProgData.getInstance().filterWorker.getActFilterSettings().switchFilterOff(false);
