@@ -86,7 +86,7 @@ public class StatusBarController extends AnchorPane {
             }
         });
 
-        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER_SECOND) {
             @Override
             public void pingGui() {
                 try {

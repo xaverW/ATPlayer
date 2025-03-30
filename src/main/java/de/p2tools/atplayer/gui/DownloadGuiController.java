@@ -134,7 +134,7 @@ public class DownloadGuiController extends AnchorPane {
         setFilterProperty();
         setFilter();
 
-        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER_SECOND) {
             @Override
             public void pingGui() {
                 // todo nur wenn sichtbar
@@ -332,7 +332,7 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     private void initListener() {
-        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER_SECOND) {
             @Override
             public void pingGui() {
                 if (!ProgConfig.FILTER_DOWNLOAD_STATE.get().isEmpty()) {

@@ -28,7 +28,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public class StartDownload {
     private final ProgData progData;
-    private final StarterThread2 starterThread;
+    private final StarterThread starterThread;
     private int count = 0;
     private final BooleanProperty paused = new SimpleBooleanProperty(false);
     private final BooleanProperty searchFilms = new SimpleBooleanProperty(true); // beim Programmstart muss zuerst die Filmliste geladen werden
@@ -38,8 +38,8 @@ public class StartDownload {
     // ===================================
     public StartDownload(ProgData progData) {
         this.progData = progData;
-        starterThread = new StarterThread2(progData, paused, searchFilms);
-        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
+        starterThread = new StarterThread(progData, paused, searchFilms);
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER_SECOND) {
             @Override
             public void pingGui() {
                 if (count >= 5) {

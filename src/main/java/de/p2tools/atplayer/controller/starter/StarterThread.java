@@ -24,7 +24,7 @@ import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
-public class StarterThread2 {
+public class StarterThread {
     // ********************************************
     // Hier wird dann gestartet
     // ewige Schleife, die die Downloads startet
@@ -37,8 +37,8 @@ public class StarterThread2 {
     private final BooleanProperty checkQuitAfterDownload = new SimpleBooleanProperty(false); // Prüfen, ob autoMode aktiv ist
 
 
-    public StarterThread2(ProgData progData,
-                          BooleanProperty paused, BooleanProperty searchFilms) {
+    public StarterThread(ProgData progData,
+                         BooleanProperty paused, BooleanProperty searchFilms) {
         super();
         this.progData = progData;
         this.paused = paused;

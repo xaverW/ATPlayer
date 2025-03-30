@@ -62,7 +62,7 @@ public class DownloadInfos {
 
     public DownloadInfos(ProgData progData) {
         this.progData = progData;
-        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER) {
+        progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_TIMER_SECOND) {
             @Override
             public void pingGui() {
                 clean();
