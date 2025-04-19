@@ -54,6 +54,8 @@ public class ProgIcons {
     public static P2Image ICON_TABLE_FILM_BOOKMARK = new P2Image(ICON_PATH_LONG, "table-film-bookmark.png", 14, 14);
     public static P2Image ICON_TABLE_FILM_PLAY = new P2Image(ICON_PATH_LONG, "table-film-play.png", 14, 14);
     public static P2Image ICON_TABLE_FILM_SAVE = new P2Image(ICON_PATH_LONG, "table-film-save.png", 14, 14);
+    public static P2Image IMAGE_TABLE_BOOKMARK = new P2Image(ICON_PATH_LONG, "table-bookmark.png", 14, 14);
+    public static P2Image IMAGE_TABLE_BOOKMARK_DEL = new P2Image(ICON_PATH_LONG, "table-bookmark-del.png", 14, 14);
 
     public static P2Image ICON_TOOLBAR_START_ALL = new P2Image(ICON_PATH_LONG, "toolbar-start-all.png", 26, 26);
     public static P2Image ICON_TOOLBAR_BOOKMARK_FILTER = new P2Image(ICON_PATH_LONG, "toolbar-bookmark-filter.png", 26, 26);

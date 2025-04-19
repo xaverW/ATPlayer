@@ -144,6 +144,7 @@ public class TableAudioFactory {
                     return;
                 }
 
+                AudioData audioData = getTableView().getItems().get(getIndex());
                 final HBox hbox = new HBox();
                 hbox.setSpacing(4);
                 hbox.setAlignment(Pos.CENTER);
@@ -163,13 +164,16 @@ public class TableAudioFactory {
 
                 btnBookmark = new Button("");
                 btnBookmark.getStyleClass().addAll("btnFunction", "btnFuncTable");
-                btnBookmark.setGraphic(ProgIcons.ICON_TABLE_FILM_BOOKMARK.getImageView());
+                if (audioData.isBookmark()) {
+                    btnBookmark.setGraphic(ProgIcons.IMAGE_TABLE_BOOKMARK_DEL.getImageView());
+                } else {
+                    btnBookmark.setGraphic(ProgIcons.IMAGE_TABLE_BOOKMARK.getImageView());
+                }
 
                 btnPlay.setOnAction(e -> {
                     getTableView().getSelectionModel().clearSelection();
                     getTableView().getSelectionModel().select(getIndex());
 
-                    AudioData audioData = getTableView().getItems().get(getIndex());
                     AudioPlayFactory.playAudio(audioData);
 
                     getTableView().refresh();
@@ -179,7 +183,6 @@ public class TableAudioFactory {
                     getTableView().getSelectionModel().clearSelection();
                     getTableView().getSelectionModel().select(getIndex());
 
-                    AudioData audioData = getTableView().getItems().get(getIndex());
                     AudioSaveFactory.saveAudio(audioData);
 
                     getTableView().refresh();
@@ -189,7 +192,6 @@ public class TableAudioFactory {
                     getTableView().getSelectionModel().clearSelection();
                     getTableView().getSelectionModel().select(getIndex());
 
-                    AudioData audioData = getTableView().getItems().get(getIndex());
                     AudioToolsFactory.changeBookmarkFilm(audioData);
 
                     getTableView().refresh();
@@ -198,7 +200,6 @@ public class TableAudioFactory {
                 hbox.getChildren().addAll(btnPlay, btnSave, btnBookmark);
                 setGraphic(hbox);
 
-                AudioData audioData = getTableView().getItems().get(getIndex());
                 set(audioData, this);
             }
         });
