@@ -19,6 +19,7 @@ package de.p2tools.atplayer.controller.data.download;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.tools.P2InfoFactory;
 import de.p2tools.p2lib.tools.date.P2DateConst;
+import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.file.P2FileUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.net.PUrlTools;
@@ -141,10 +142,11 @@ public class DownloadFactoryMakeParameter {
         // Felder mit fester Länge werden immer ganz geschrieben
         replStr = replStr.replace("%D",
                 downloadData.getFilmDate().equals(LocalDate.MIN) ? getToday_yyyyMMdd()
-                        : cleanDate(turnDate(downloadData.getFilmDate().toString())));
+                        : P2LDateFactory.toStringYYYYMMdd(downloadData.getFilmDate()));
         replStr = replStr.replace("%d",
                 downloadData.getFilmTime().isEmpty() ? getNow_HHMMSS()
                         : cleanDate(downloadData.getFilmTime()));
+
         replStr = replStr.replace("%H", getToday_yyyyMMdd());
         replStr = replStr.replace("%h", getNow_HHMMSS());
 

@@ -19,9 +19,9 @@ package de.p2tools.atplayer.gui.chart;
 
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.p2lib.p2event.P2EventHandler;
 
 import java.util.Arrays;
 
@@ -60,7 +60,7 @@ public class BandwidthData {
     }
 
     public void setStartTimeNow() {
-        this.startTimeSec = ProgData.countRunningTimeSeconds;
+        this.startTimeSec = P2EventHandler.countRunningTimeSeconds;
         cleanUpData();
     }
 
