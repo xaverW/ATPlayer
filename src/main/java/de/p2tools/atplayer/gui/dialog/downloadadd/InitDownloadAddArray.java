@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.dialog.downloadadd;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 
 import java.util.List;
 

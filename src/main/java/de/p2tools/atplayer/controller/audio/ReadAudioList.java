@@ -19,11 +19,15 @@ package de.p2tools.atplayer.controller.audio;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.p2lib.atdata.*;
-import de.p2tools.p2lib.mtdownload.MLHttpClient;
-import de.p2tools.p2lib.mtfilm.tools.InputStreamProgressMonitor;
-import de.p2tools.p2lib.mtfilm.tools.LoadFactoryConst;
-import de.p2tools.p2lib.mtfilm.tools.ProgressMonitorInputStream;
+import de.p2tools.p2lib.mediathek.audio.P2AudioListFactory;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioList;
+import de.p2tools.p2lib.mediathek.audiolistload.P2ReadAudioListJson;
+import de.p2tools.p2lib.mediathek.download.MtHttpClient;
+import de.p2tools.p2lib.mediathek.filmlistload.P2LoadConst;
+import de.p2tools.p2lib.mediathek.filmlistload.P2LoadFactory;
+import de.p2tools.p2lib.mediathek.tools.P2InputStreamProgressMonitor;
+import de.p2tools.p2lib.mediathek.tools.P2ProgressMonitorInputStream;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.date.P2LDateTimeFactory;
 import de.p2tools.p2lib.tools.duration.P2Duration;
@@ -82,8 +86,8 @@ public class ReadAudioList {
                 LoadAudioFactoryDto.audioListNew.clear();
 
                 //dann aus dem Web mit der URL laden
-                logList.add("## Audioliste aus URL laden: " + AudioFactory.AUDIOLIST_URL);
-                processFromWeb(new URL(AudioFactory.AUDIOLIST_URL), LoadAudioFactoryDto.audioListNew);
+                logList.add("## Audioliste aus URL laden: " + P2LoadConst.AUDIOLIST_URL);
+                processFromWeb(new URL(P2LoadConst.AUDIOLIST_URL), LoadAudioFactoryDto.audioListNew);
 
                 if (LoadAudioFactoryDto.audioListNew.isEmpty()) {
                     // dann hats nicht geklappt
@@ -121,15 +125,15 @@ public class ReadAudioList {
 
     private void setDate() {
         // Datum setzen
-        LocalDateTime date = AudioListFactory.getDate(LoadAudioFactoryDto.audioListNew.metaData);
+        LocalDateTime date = P2AudioListFactory.getDate(LoadAudioFactoryDto.audioListNew.metaData);
         String dateStr = P2LDateTimeFactory.toString(date, P2DateConst.DT_FORMATTER_dd_MM_yyyy___HH__mm);
         ProgConfig.SYSTEM_AUDIOLIST_DATE_TIME.setValue(dateStr);
     }
 
     private void processFromFile(String source, AudioList audioList) {
-        try (InputStream in = AudioFactory.selectDecompressor(source, new FileInputStream(source));
+        try (InputStream in = P2LoadFactory.selectDecompressor(source, new FileInputStream(source));
              JsonParser jp = new JsonFactory().createParser(in)) {
-            new ReadAudioListJson().readData(jp, audioList);
+            new P2ReadAudioListJson().readData(jp, audioList);
 
         } catch (final FileNotFoundException ex) {
             logList.add("Audioliste existiert nicht: " + source + "\n" + ex.getLocalizedMessage());
@@ -145,10 +149,10 @@ public class ReadAudioList {
 
     private void processFromWeb(URL source, AudioList audioList) {
         final Request.Builder builder = new Request.Builder().url(source);
-        builder.addHeader("User-Agent", LoadFactoryConst.userAgent);
+        builder.addHeader("User-Agent", ProgConfig.SYSTEM_USERAGENT.getValue());
 
         // our progress monitor callback
-        final InputStreamProgressMonitor monitor = new InputStreamProgressMonitor() {
+        final P2InputStreamProgressMonitor monitor = new P2InputStreamProgressMonitor() {
             private int oldProgress = 0;
 
             @Override
@@ -161,14 +165,14 @@ public class ReadAudioList {
             }
         };
 
-        try (Response response = MLHttpClient.getInstance().getHttpClient().newCall(builder.build()).execute();
+        try (Response response = MtHttpClient.getInstance().getHttpClient().newCall(builder.build()).execute();
              ResponseBody body = response.body()) {
             if (body != null && response.isSuccessful()) {
 
-                try (InputStream input = new ProgressMonitorInputStream(body.byteStream(), body.contentLength(), monitor)) {
-                    try (InputStream is = AudioFactory.selectDecompressor(source.toString(), input);
+                try (InputStream input = new P2ProgressMonitorInputStream(body.byteStream(), body.contentLength(), monitor)) {
+                    try (InputStream is = P2LoadFactory.selectDecompressor(source.toString(), input);
                          JsonParser jp = new JsonFactory().createParser(is)) {
-                        new ReadAudioListJson().readData(jp, audioList);
+                        new P2ReadAudioListJson().readData(jp, audioList);
                     }
                 }
             }

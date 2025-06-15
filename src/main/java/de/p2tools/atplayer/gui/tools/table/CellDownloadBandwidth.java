@@ -18,7 +18,7 @@
 package de.p2tools.atplayer.gui.tools.table;
 
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.mtdownload.SizeTools;
+import de.p2tools.p2lib.mediathek.tools.P2SizeTools;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
@@ -43,9 +43,9 @@ public class CellDownloadBandwidth<S, T> extends TableCell<S, T> {
                     setText("");
                 } else if (item < 0) {
                     // dann ist es der Durchschnitt
-                    setText("Ø " + SizeTools.humanReadableByteCount(-1 * item, true));
+                    setText("Ø " + P2SizeTools.humanReadableByteCount(-1 * item, true));
                 } else {
-                    setText(SizeTools.humanReadableByteCount(item, true));
+                    setText(P2SizeTools.humanReadableByteCount(item, true));
                 }
             }
         };

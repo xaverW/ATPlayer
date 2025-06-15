@@ -24,8 +24,8 @@ import de.p2tools.atplayer.gui.chart.ChartGenerateFactory;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.pdata.P2Data;
 import de.p2tools.p2lib.configfile.pdata.P2DataProgConfig;
-import de.p2tools.p2lib.mtdownload.GetProgramStandardPath;
-import de.p2tools.p2lib.mtdownload.MLBandwidthTokenBucket;
+import de.p2tools.p2lib.mediathek.download.GetProgramStandardPath;
+import de.p2tools.p2lib.mediathek.download.MtBandwidthTokenBucket;
 import de.p2tools.p2lib.tools.P2InfoFactory;
 import javafx.beans.property.*;
 import org.apache.commons.lang3.SystemUtils;
@@ -151,7 +151,7 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_PROXY_PWD = addStrProp("system-proxy-pwd", "");
 
     //Download
-    public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_BYTE = addIntProp("download-max-bandwidth-byte", MLBandwidthTokenBucket.BANDWIDTH_RUN_FREE);
+    public static IntegerProperty DOWNLOAD_MAX_BANDWIDTH_BYTE = addIntProp("download-max-bandwidth-byte", MtBandwidthTokenBucket.BANDWIDTH_RUN_FREE);
     public static StringProperty DOWNLOAD_DIALOG_ERROR_SIZE = addStrProp("download-dialog-error-size", "");
     public static IntegerProperty DOWNLOAD_MAX_DOWNLOADS = addIntProp("download-max-downloads", 1);
     public static IntegerProperty DOWNLOAD_CONTINUE = addIntProp("download-contineu", ProgConfigAskBeforeDelete.DOWNLOAD_RESTART__ASK);

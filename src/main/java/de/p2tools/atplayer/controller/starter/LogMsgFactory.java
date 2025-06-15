@@ -20,7 +20,7 @@ package de.p2tools.atplayer.controller.starter;
 
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.mtdownload.SizeTools;
+import de.p2tools.p2lib.mediathek.tools.P2SizeTools;
 import de.p2tools.p2lib.tools.date.P2Date;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -143,14 +143,14 @@ public class LogMsgFactory {
 
         if (startDownloadDto.getInputStream() != null) {
             list.add("==== ==== ==== ==== ==== ==== ==== ==== ==== ");
-            list.add("Bandbreite:    " + SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumBandwidth(), true));
-            list.add("Bytes geladen (letzter Ladezyklus): " + SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumByte(), true));
+            list.add("Bandbreite:    " + P2SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumBandwidth(), true));
+            list.add("Bytes geladen (letzter Ladezyklus): " + P2SizeTools.humanReadableByteCount(startDownloadDto.getInputStream().getSumByte(), true));
             list.add("Bytes geladen (letzter Ladezyklus): " + startDownloadDto.getInputStream().getSumByte() + " Byte");
             list.add("");
-            list.add("Bytes soll (aus der URL):      " + SizeTools.humanReadableByteCount(download.getDownloadSize().getTargetSize(), true));
+            list.add("Bytes soll (aus der URL):      " + P2SizeTools.humanReadableByteCount(download.getDownloadSize().getTargetSize(), true));
             list.add("Bytes soll (aus der URL):      " + download.getDownloadSize().getTargetSize() + " Byte");
             list.add("");
-            list.add("Bytes ist (aus der Zieldatei): " + SizeTools.humanReadableByteCount(download.getDownloadSize().getActuallySize(), true));
+            list.add("Bytes ist (aus der Zieldatei): " + P2SizeTools.humanReadableByteCount(download.getDownloadSize().getActuallySize(), true));
             list.add("Bytes ist (aus der Zieldatei): " + download.getDownloadSize().getActuallySize() + " Byte");
         }
 

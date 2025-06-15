@@ -21,8 +21,8 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.DeleteAudioFileDialogController;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.mtdownload.MTInfoFile;
-import de.p2tools.p2lib.mtfilm.tools.FileNameUtils;
+import de.p2tools.p2lib.mediathek.download.P2InfoFile;
+import de.p2tools.p2lib.mediathek.tools.P2FileNameUtils;
 import de.p2tools.p2lib.tools.log.P2Log;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -60,7 +60,7 @@ public class DownloadDataFactory {
             // Infofile
             File infoFile = null;
             if (download.isInfoFile()) {
-                Path infoPath = MTInfoFile.getInfoFilePath(download.getFileNameWithoutSuffix());
+                Path infoPath = P2InfoFile.getInfoFilePath(download.getFileNameWithoutSuffix());
                 if (infoPath != null) {
                     infoFile = infoPath.toFile();
                 }
@@ -152,9 +152,9 @@ public class DownloadDataFactory {
 
         // und wenn gewünscht: "NUR Ascii-Zeichen"
         if (onlyAscii) {
-            ret = FileNameUtils.convertToASCIIEncoding(ret, isPath);
+            ret = P2FileNameUtils.convertToASCIIEncoding(ret, isPath);
         } else {
-            ret = FileNameUtils.convertToNativeEncoding(ret, isPath);
+            ret = P2FileNameUtils.convertToNativeEncoding(ret, isPath);
         }
 
         if (isWindowsPath) {

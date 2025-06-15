@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.tools.table;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
-import de.p2tools.p2lib.mtdownload.DownloadSize;
+import de.p2tools.p2lib.mediathek.download.DownloadSize;
 import de.p2tools.p2lib.tools.GermanStringIntSorter;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;

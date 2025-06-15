@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.dialog.downloadadd;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
-import de.p2tools.p2lib.mtdownload.SizeTools;
+import de.p2tools.p2lib.mediathek.tools.P2SizeTools;
 import de.p2tools.p2lib.tools.date.P2DateConst;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.scene.control.Label;
@@ -123,7 +123,7 @@ public class DownloadAddDialogFactory {
 
             long usableSpace = DownloadAddDialogFactory.getFreeDiskSpace(path);
             if (usableSpace > 0) {
-                sizeFree = SizeTools.humanReadableByteCount(usableSpace, true);
+                sizeFree = P2SizeTools.humanReadableByteCount(usableSpace, true);
             }
 
             // jetzt noch prüfen, obs auf die Platte passt

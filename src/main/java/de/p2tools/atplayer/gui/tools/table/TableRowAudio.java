@@ -18,7 +18,7 @@
 package de.p2tools.atplayer.gui.tools.table;
 
 import de.p2tools.atplayer.controller.config.ProgColorList;
-import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import javafx.scene.control.TableRow;
 
 

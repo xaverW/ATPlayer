@@ -21,7 +21,7 @@ import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
 import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
 import de.p2tools.atplayer.controller.config.ProgIcons;
-import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

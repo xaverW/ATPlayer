@@ -17,11 +17,10 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioDataProps;
-import de.p2tools.p2lib.atdata.AudioDataXml;
-import de.p2tools.p2lib.mtfilter.Filter;
-import de.p2tools.p2lib.mtfilter.FilterCheck;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioDataXml;
+import de.p2tools.p2lib.mediathek.filter.Filter;
+import de.p2tools.p2lib.mediathek.filter.FilterCheck;
 
 import java.util.function.Predicate;
 
@@ -85,11 +84,11 @@ public class PredicateFactory {
         Predicate<AudioData> predicate = audioData -> true;
 
         if (onlyNew) {
-            predicate = predicate.and(AudioDataProps::isNewAudio);
+            predicate = predicate.and(AudioData::isNewAudio);
         }
 
         if (onlyBookmark) {
-            predicate = predicate.and(AudioDataProps::isBookmark);
+            predicate = predicate.and(AudioData::isBookmark);
         }
 
         if (noHistory) {
@@ -98,7 +97,7 @@ public class PredicateFactory {
 
         if (podcastVis) {
             if (podcast == AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD) {
-                predicate = predicate.and(AudioDataProps::isPodcast);
+                predicate = predicate.and(AudioData::isPodcast);
             } else if (podcast == AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD) {
                 predicate = predicate.and(audioData -> !audioData.isPodcast());
             }

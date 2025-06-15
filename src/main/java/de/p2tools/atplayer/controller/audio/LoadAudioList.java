@@ -19,7 +19,7 @@ package de.p2tools.atplayer.controller.audio;
 import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
-import de.p2tools.p2lib.atdata.AudioListFactory;
+import de.p2tools.p2lib.mediathek.audio.P2AudioListFactory;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.tools.date.P2LDateFactory;
 import de.p2tools.p2lib.tools.duration.P2Duration;
@@ -79,7 +79,7 @@ public class LoadAudioList {
             logList.add("## Audioliste aus dem Web laden - start");
             logList.add("## Alte Liste erstellt  am: " + LoadAudioFactoryDto.audioListDate);
             logList.add("##            Anzahl Beiträge: " + LoadAudioFactoryDto.audioListAkt.size());
-            logList.add("##            Anzahl  Neue: " + AudioListFactory.countNewAudios(LoadAudioFactoryDto.audioListAkt));
+            logList.add("##            Anzahl  Neue: " + P2AudioListFactory.countNewAudios(LoadAudioFactoryDto.audioListAkt));
             logList.add("##");
 
             new ReadAudioList().readDb(false, ProgInfos.getAndMakeAudioListFile());

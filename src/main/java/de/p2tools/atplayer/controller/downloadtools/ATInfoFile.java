@@ -20,7 +20,7 @@ import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadFieldNames;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.mtfilm.film.FilmDataXml;
+import de.p2tools.p2lib.mediathek.filmdata.FilmDataXml;
 import de.p2tools.p2lib.tools.log.P2Log;
 
 import java.io.*;
@@ -29,7 +29,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class ATInfoFile {
-    
+
     public static void writeInfoFile(DownloadData download) {
         if (download.getDestPath().isEmpty()) {
             // das darf nicht sein!

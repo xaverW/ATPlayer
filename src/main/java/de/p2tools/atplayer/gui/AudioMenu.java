@@ -25,7 +25,7 @@ import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
-import de.p2tools.p2lib.atdata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

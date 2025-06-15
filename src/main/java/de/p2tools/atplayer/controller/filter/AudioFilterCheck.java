@@ -17,11 +17,12 @@
 
 package de.p2tools.atplayer.controller.filter;
 
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioDataXml;
-import de.p2tools.p2lib.mtfilm.film.FilmData;
-import de.p2tools.p2lib.mtfilter.Filter;
-import de.p2tools.p2lib.mtfilter.FilterCheck;
+
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioDataXml;
+import de.p2tools.p2lib.mediathek.filmdata.FilmData;
+import de.p2tools.p2lib.mediathek.filter.Filter;
+import de.p2tools.p2lib.mediathek.filter.FilterCheck;
 
 public class AudioFilterCheck {
 

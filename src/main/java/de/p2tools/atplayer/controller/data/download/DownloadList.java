@@ -18,8 +18,8 @@ package de.p2tools.atplayer.controller.data.download;
 
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.atdata.AudioList;
 import de.p2tools.p2lib.configfile.pdata.P2DataList;
+import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 import de.p2tools.p2lib.tools.P2GetList;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.beans.property.BooleanProperty;
@@ -167,7 +167,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
         return ret;
     }
 
-    public synchronized void addAudioInList(AudioList filmlist) {
+    public synchronized void addAudioInList(AudioList audioList) {
         // bei einmal Downloads nach einem Programmstart/Neuladen der Audioliste
         // den Film wieder eintragen
         P2Duration.counterStart("addAudioInList");
@@ -177,7 +177,7 @@ public class DownloadList extends SimpleListProperty<DownloadData> implements P2
             if (counter < 0) {
                 break;
             }
-            d.setAudioData(filmlist.getAudioByUrl(d.getUrl()));
+            d.setAudioData(audioList.getAudioByUrl(d.getUrl()));
         }
         P2Duration.counterStop("addAudioInList");
     }

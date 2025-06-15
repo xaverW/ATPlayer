@@ -18,8 +18,8 @@ package de.p2tools.atplayer.controller.audio;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.history.HistoryList;
-import de.p2tools.p2lib.atdata.AudioData;
-import de.p2tools.p2lib.atdata.AudioList;
+import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;

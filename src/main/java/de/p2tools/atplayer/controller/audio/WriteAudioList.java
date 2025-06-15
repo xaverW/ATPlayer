@@ -19,8 +19,8 @@ package de.p2tools.atplayer.controller.audio;
 import com.fasterxml.jackson.core.JsonGenerator;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.atdata.AudioList;
-import de.p2tools.p2lib.atdata.WriteAudioListJson;
+import de.p2tools.p2lib.mediathek.audiodata.AudioList;
+import de.p2tools.p2lib.mediathek.audiolistload.P2WriteAudioListJson;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.application.Platform;
 
@@ -69,8 +69,8 @@ public class WriteAudioList {
 
     private boolean write(String file, AudioList audioList, ArrayList<String> logList) {
         try (FileOutputStream fos = new FileOutputStream(file);
-             JsonGenerator jg = new WriteAudioListJson().getJsonGenerator(fos)) {
-            new WriteAudioListJson().writeJson(jg, audioList);
+             JsonGenerator jg = new P2WriteAudioListJson().getJsonGenerator(fos)) {
+            new P2WriteAudioListJson().writeJson(jg, audioList);
             return true;
         } catch (Exception ex) {
             logList.add("Schreiben der Datei fehlgeschlagen: " + ex.getLocalizedMessage());
