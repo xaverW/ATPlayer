@@ -35,7 +35,7 @@ public class HelpText {
                     "Die Filter \"Thema\" und \"Titel\" suchen im jeweiligen Feld: Thema oder Titel. " +
                     "Beim Filter \"Thema oder Titel\" muss das Audio entweder im Thema ODER Titel vorhanden " +
                     "sein. " +
-                    "Der Filter \"Irgendwo\" sucht in den Felder: Thema, Titel, Beschreibung und " +
+                    "Der Filter \"Irgendwo\" sucht in den Feldern: Thema, Titel, Beschreibung und " +
                     "Datum (z.B. nach \"20.11.\")." +
                     "\n" +
                     "\n" +
