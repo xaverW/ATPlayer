@@ -24,8 +24,8 @@ import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 import de.p2tools.p2lib.mediathek.audiolistload.P2ReadAudioListJson;
 import de.p2tools.p2lib.mediathek.download.MtHttpClient;
-import de.p2tools.p2lib.mediathek.filmlistload.P2LoadConst;
 import de.p2tools.p2lib.mediathek.filmlistload.P2LoadFactory;
+import de.p2tools.p2lib.mediathek.storedaudiolist.StoredAudioDataFactory;
 import de.p2tools.p2lib.mediathek.tools.P2InputStreamProgressMonitor;
 import de.p2tools.p2lib.mediathek.tools.P2ProgressMonitorInputStream;
 import de.p2tools.p2lib.tools.date.P2DateConst;
@@ -86,8 +86,9 @@ public class ReadAudioList {
                 LoadAudioFactoryDto.audioListNew.clear();
 
                 //dann aus dem Web mit der URL laden
-                logList.add("## Audioliste aus URL laden: " + P2LoadConst.AUDIOLIST_URL);
-                processFromWeb(new URL(P2LoadConst.AUDIOLIST_URL), LoadAudioFactoryDto.audioListNew);
+                String url = StoredAudioDataFactory.getStoredAudioList();
+                logList.add("## Audioliste aus URL laden: " + url);
+                processFromWeb(new URL(url), LoadAudioFactoryDto.audioListNew);
 
                 if (LoadAudioFactoryDto.audioListNew.isEmpty()) {
                     // dann hats nicht geklappt
