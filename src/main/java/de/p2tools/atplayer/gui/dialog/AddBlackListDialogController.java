@@ -67,7 +67,7 @@ public class AddBlackListDialogController extends P2DialogExtra {
 
     public AddBlackListDialogController(BlackData blackData) {
         super(ProgData.getInstance().primaryStage, ProgConfig.ADD_BLACK_DIALOG_SIZE,
-                "Blacklist-Eintrag erstellen", true, false);
+                "Blacklist-Eintrag erstellen");
 
         this.channel = blackData.getChannel();
         this.genre = blackData.getGenre();

@@ -45,7 +45,7 @@ public class DeleteAudioFileDialogController extends P2DialogExtra {
     private GridPane gridPane = new GridPane();
 
     public DeleteAudioFileDialogController(String downloadPath, File audoFile, File infoFile) {
-        super(ProgData.getInstance().primaryStage, null, "Datei löschen", true, false);
+        super(ProgData.getInstance().primaryStage, null, "Datei löschen");
 
         this.downloadPath = downloadPath;
         this.audoFile = audoFile;

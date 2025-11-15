@@ -54,7 +54,7 @@ public class ConfigDialogController extends P2DialogExtra {
 
     public ConfigDialogController(ProgData progData) {
         super(progData.primaryStage, ProgConfig.CONFIG_DIALOG_SIZE, "Einstellungen",
-                true, false, DECO.NO_BORDER, true);
+                true, true, true, DECO.NO_BORDER, true);
 
         this.progData = progData;
         dialogIsRunning.setValue(true);
@@ -64,7 +64,7 @@ public class ConfigDialogController extends P2DialogExtra {
 
     public ConfigDialogController(ProgData progData, boolean blackListDialog) {
         super(progData.primaryStage, ProgConfig.CONFIG_DIALOG_SIZE, "Einstellungen",
-                true, false, DECO.NO_BORDER, true);
+                true, true, true, DECO.NO_BORDER, true);
 
         this.progData = progData;
         this.blackListDialog = blackListDialog;

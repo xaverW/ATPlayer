@@ -56,7 +56,7 @@ public class AudioInfoDialogController extends P2DialogExtra {
 
     private AudioInfoDialogController() {
         super(ProgData.getInstance().primaryStage, ProgConfig.SYSTEM_SIZE_DIALOG_AUDIO_INFO,
-                "Audio-Infos", false, false, DECO.BORDER_SMALL, true);
+                "Audio-Infos", false, true, true, DECO.BORDER_SMALL, true);
 
         init(false);
     }

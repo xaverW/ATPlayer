@@ -39,7 +39,7 @@ public class FilterEditDialog extends P2DialogExtra {
     private final ProgData progData;
 
     public FilterEditDialog(ProgData progData) {
-        super(progData.primaryStage, null, "Filtereinstellungen", true, true, DECO.NO_BORDER);
+        super(progData.primaryStage, null, "Filtereinstellungen", true, false, false, DECO.NO_BORDER);
         this.progData = progData;
 
         init(true);

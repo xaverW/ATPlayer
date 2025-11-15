@@ -44,7 +44,7 @@ public class AudioFilterSortDialog extends P2DialogExtra {
     private final ProgData progData;
 
     public AudioFilterSortDialog(ProgData progData) {
-        super(ProgData.getInstance().primaryStage, null, "Filmfilter", true, true, DECO.NO_BORDER);
+        super(ProgData.getInstance().primaryStage, null, "Filmfilter", true, false, false, DECO.NO_BORDER);
         this.progData = progData;
 
         init(false);

@@ -40,7 +40,7 @@ public class FilterPaneDialog extends P2DialogExtra {
                             StringProperty sizeProperty, BooleanProperty filterIsRip,
                             BooleanProperty tabIsSelected) {
         super(ProgData.getInstance().primaryStage, sizeProperty, title,
-                false, false, DECO.NO_BORDER);
+                false, true, true, DECO.NO_BORDER);
 
         this.pane = pane;
         this.filterIsRip = filterIsRip;

@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.PShortKeyFactory;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.P2LibInit;
+import de.p2tools.p2lib.css.P2CssFactory;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import javafx.application.Application;
@@ -78,7 +78,7 @@ public class ATPlayer extends Application {
             ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> ProgColorList.setColorTheme());
 
             PShortKeyFactory.addShortKey(scene);
-            P2LibInit.addP2CssToScene(scene); // und jetzt noch CSS einstellen
+            P2CssFactory.addP2CssToScene(scene); // und jetzt noch CSS einstellen
 
             primaryStage.show();
         } catch (final Exception e) {

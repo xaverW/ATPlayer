@@ -65,7 +65,7 @@ public class StartDialogController extends P2DialogExtra {
     private PathPane pathPane;
 
     public StartDialogController() {
-        super(null, null, "Starteinstellungen", true, false);
+        super(null, null, "Starteinstellungen");
 
         this.progData = ProgData.getInstance();
         init(true);

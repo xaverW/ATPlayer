@@ -53,7 +53,7 @@ public class DownloadAddDialogController extends P2DialogExtra {
                                 ProgConfig.DOWNLOAD_DIALOG_ADD_MORE_SIZE : ProgConfig.DOWNLOAD_DIALOG_ADD_SIZE),
 
                 audiosToDownloadList != null ? "Download anlegen" : "Download ändern",
-                true, false, DECO.BORDER_SMALL);
+                true, true, true, DECO.BORDER_SMALL);
 
         // neue Downloads anlegen
         this.progData = progData;

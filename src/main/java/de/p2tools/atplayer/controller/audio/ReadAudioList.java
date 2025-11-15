@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.mediathek.audio.P2AudioListFactory;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.mediathek.audiodata.AudioList;
-import de.p2tools.p2lib.mediathek.audiolistload.P2ReadAudioListJson;
+import de.p2tools.p2lib.mediathek.audiolistload.P2ReadAudioWebToAudioList;
 import de.p2tools.p2lib.mediathek.download.MtHttpClient;
 import de.p2tools.p2lib.mediathek.filmlistload.P2LoadFactory;
 import de.p2tools.p2lib.mediathek.storedaudiolist.StoredAudioDataFactory;
@@ -134,7 +134,7 @@ public class ReadAudioList {
     private void processFromFile(String source, AudioList audioList) {
         try (InputStream in = P2LoadFactory.selectDecompressor(source, new FileInputStream(source));
              JsonParser jp = new JsonFactory().createParser(in)) {
-            new P2ReadAudioListJson().readData(jp, audioList);
+            new P2ReadAudioWebToAudioList().readData(jp, audioList);
 
         } catch (final FileNotFoundException ex) {
             logList.add("Audioliste existiert nicht: " + source + "\n" + ex.getLocalizedMessage());
@@ -173,7 +173,7 @@ public class ReadAudioList {
                 try (InputStream input = new P2ProgressMonitorInputStream(body.byteStream(), body.contentLength(), monitor)) {
                     try (InputStream is = P2LoadFactory.selectDecompressor(source.toString(), input);
                          JsonParser jp = new JsonFactory().createParser(is)) {
-                        new P2ReadAudioListJson().readData(jp, audioList);
+                        new P2ReadAudioWebToAudioList().readData(jp, audioList);
                     }
                 }
             }

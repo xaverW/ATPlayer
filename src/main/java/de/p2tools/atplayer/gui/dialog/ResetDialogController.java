@@ -40,8 +40,7 @@ public class ResetDialogController extends P2DialogExtra {
     final StackPane stackPane;
 
     public ResetDialogController(ProgData progData) {
-        super(progData.primaryStage, null, "Programm zurücksetzen",
-                true, false);
+        super(progData.primaryStage, null, "Programm zurücksetzen");
 
         this.progData = progData;
         stackPane = new StackPane();

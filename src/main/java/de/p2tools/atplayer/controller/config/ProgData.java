@@ -35,11 +35,14 @@ import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.DownloadGuiController;
 import de.p2tools.atplayer.gui.chart.ChartData;
 import de.p2tools.atplayer.gui.dialog.QuitDialogController;
+import de.p2tools.p2lib.css.P2CssFactory;
 import de.p2tools.p2lib.guitools.pmask.P2MaskerPane;
 import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 import de.p2tools.p2lib.p2event.P2EventHandler;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.stage.Stage;
 
 public class ProgData {
@@ -55,6 +58,7 @@ public class ProgData {
 
     // Infos
     public static String configDir = ""; // Verzeichnis zum Speichern der Programmeinstellungen
+    public ObjectProperty<P2CssFactory.CSS> cssProp = new SimpleObjectProperty<>(P2CssFactory.CSS.CSS_0);
 
     public PShortcut pShortcut; // verwendete Shortcuts
     public FilterWorker filterWorker; // gespeicherte Filterprofile
