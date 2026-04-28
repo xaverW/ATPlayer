@@ -30,6 +30,7 @@ public class PIconFactory {
         BTN_RESET("mdi-rotate-3d", 18),
         BTN_SEARCH("gmi-search", 20),
         BTN_EDIT("mdomz-settings", 20),
+        BTN_EDIT_SMALL("mdomz-settings", 15),
         BTN_BACK("gmi-arrow-back-ios", 20),
         BTN_FORWARD("gmi-arrow-forward-ios", 20),
         BTN_QUIT_DIALOG("mdoal-forward", 20),

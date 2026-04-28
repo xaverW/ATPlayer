@@ -22,6 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
@@ -79,7 +80,7 @@ public class AudioFilterProfiles extends VBox {
     private void initButton() {
         btnLoadFilter.setOnAction(a -> loadFilter());
         btnLoadFilter.disableProperty().bind(cboFilterProfiles.getSelectionModel().selectedItemProperty().isNull());
-        btnLoadFilter.setGraphic(ProgIcons.ICON_FILTER_LOAD.getImageView());
+        btnLoadFilter.setGraphic(PIconFactory.PICON.OWN_FILTER_LOAD.getFontIcon());
         btnLoadFilter.setTooltip(new Tooltip("Filterprofil wieder laden"));
 
         btnSaveFilter.setOnAction(a -> {
@@ -89,11 +90,11 @@ public class AudioFilterProfiles extends VBox {
                 saveFilter();
             }
         });
-        btnSaveFilter.setGraphic(ProgIcons.ICON_FILTER_SAVE.getImageView());
+        btnSaveFilter.setGraphic(PIconFactory.PICON.OWN_FILTER_SAVE.getFontIcon());
         btnSaveFilter.setTooltip(new Tooltip("Aktuelle Filtereinstellung als Filterprofil speichern"));
 
         btnNewFilter.setOnAction(a -> newFilter());
-        btnNewFilter.setGraphic(ProgIcons.ICON_FILTER_NEW.getImageView());
+        btnNewFilter.setGraphic(PIconFactory.PICON.OWN_FILTER_NEW.getFontIcon());
         btnNewFilter.setTooltip(new Tooltip("Aktuelle Filtereinstellung als neues Filterprofil anlegen"));
     }
 

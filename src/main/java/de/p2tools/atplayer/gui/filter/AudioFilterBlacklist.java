@@ -19,8 +19,8 @@ package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.PShortcut;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.Pos;
@@ -29,18 +29,18 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 
-public class AudioFilterrBlacklist extends HBox {
+public class AudioFilterBlacklist extends HBox {
 
     private final ProgData progData;
 
     private final P2ToggleSwitch tglBlacklist = new P2ToggleSwitch("Blacklist:");
 
-    public AudioFilterrBlacklist() {
+    public AudioFilterBlacklist() {
         progData = ProgData.getInstance();
 
         Button btnBlack = new Button("");
-        btnBlack.getStyleClass().add("buttonSmall");
-        btnBlack.setGraphic(ProgIcons.ICON_BUTTON_EDIT.getImageView());
+        btnBlack.getStyleClass().add("buttonVerySmall");
+        btnBlack.setGraphic(PIconFactory.PICON.BTN_EDIT_SMALL.getFontIcon());
         btnBlack.setOnAction(a -> new ConfigDialogController(ProgData.getInstance(), true));
         btnBlack.disableProperty().bind(ConfigDialogController.dialogIsRunning);
         btnBlack.setTooltip(new Tooltip("Blacklist-Einstellungen anzeigen - " +

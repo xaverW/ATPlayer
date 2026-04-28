@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
@@ -47,11 +47,11 @@ public class AudioFilterClearFilter extends VBox {
     }
 
     private void initButton() {
-        btnGoBack.setGraphic(ProgIcons.ICON_BUTTON_BACKWARD.getImageView());
+        btnGoBack.setGraphic(PIconFactory.PICON.BTN_BACK.getFontIcon());
         btnGoBack.setOnAction(a -> progData.filterWorker.goBackward());
         btnGoBack.disableProperty().bind(progData.filterWorker.backwardPossibleProperty().not());
         btnGoBack.setTooltip(new Tooltip("letzte Filtereinstellung wieder herstellen"));
-        btnGoForward.setGraphic(ProgIcons.ICON_BUTTON_FORWARD.getImageView());
+        btnGoForward.setGraphic(PIconFactory.PICON.BTN_FORWARD.getFontIcon());
         btnGoForward.setOnAction(a -> progData.filterWorker.goForward());
         btnGoForward.disableProperty().bind(progData.filterWorker.forwardPossibleProperty().not());
         progData.filterWorker.forwardPossibleProperty().addListener((v, o, n) -> System.out.println(progData.filterWorker.forwardPossibleProperty().getValue().toString()));
@@ -62,7 +62,7 @@ public class AudioFilterClearFilter extends VBox {
             progData.filterWorker.clearFilter();
         });
 
-        btnEditFilter.setGraphic(ProgIcons.ICON_BUTTON_EDIT.getImageView());
+        btnEditFilter.setGraphic(PIconFactory.PICON.BTN_EDIT.getFontIcon());
         btnEditFilter.setOnAction(a -> new FilterEditDialog(progData));
         btnEditFilter.setTooltip(new Tooltip("Filter ein/ausschalten"));
     }

@@ -84,7 +84,7 @@ public class TableAudio extends PTable<AudioData> {
         TableAudioFactory.columnFactoryString(titleColumn);
 
         final TableColumn<AudioData, String> startColumn = new TableColumn<>("");
-        startColumn.setCellFactory(new CellStartFilm<>().cellFactory);
+//        startColumn.setCellFactory(new CellStartFilm<>().cellFactory);
         startColumn.getStyleClass().add("alignCenter");
         TableAudioFactory.columnFactoryButton(startColumn);
 

@@ -25,7 +25,7 @@ public class AudioFilterController extends FilterController {
         final AudioFilterTextFilter audioFilterTextFilter = new AudioFilterTextFilter();
         final AudioFilterClearFilter audioFilterClearFilter = new AudioFilterClearFilter();
         final AudioFilterProfiles audioFilterProfiles = new AudioFilterProfiles();
-        final AudioFilterrBlacklist audioFilterrBlacklist = new AudioFilterrBlacklist();
+        final AudioFilterBlacklist audioFilterBlacklist = new AudioFilterBlacklist();
 
         VBox vBox = getVBoxFilter(true);
         vBox.getChildren().addAll(audioFilterTextFilter,
@@ -33,6 +33,6 @@ public class AudioFilterController extends FilterController {
                 audioFilterClearFilter);
 
         getVBoxBlack().getChildren().addAll(audioFilterProfiles);
-        getVBoxBlack().getChildren().addAll(audioFilterrBlacklist);
+        getVBoxBlack().getChildren().addAll(audioFilterBlacklist);
     }
 }

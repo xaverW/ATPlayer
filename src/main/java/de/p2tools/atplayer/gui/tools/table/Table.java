@@ -41,6 +41,7 @@ public class Table {
     private static StringProperty confUpDown; //Sortierung UP oder Down
     private static StringProperty confVis; //Spalte ist sichtbar
     private static StringProperty confOrder; //"Reihenfolge" der Spalten
+    public static int ROW_HEIGHT_MIN = 18;
 
     public enum TABLE_ENUM {
         FILM, DOWNLOAD, BLACKLIST

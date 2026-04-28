@@ -24,6 +24,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.guitools.P2Open;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -63,60 +64,68 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
 
             if (item <= DownloadConstants.STATE_STOPPED) {
                 btnDownStart = new Button("");
-                btnDownStart.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownStart.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownStart.setTooltip(new Tooltip("Download starten"));
-                btnDownStart.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_START.getImageView());
+                btnDownStart.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_START.getFontIcon());
                 btnDownStart.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     ProgData.getInstance().downloadList.startDownloads(download);
                 });
 
                 btnDownDel = new Button("");
-                btnDownDel.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownDel.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownDel.setTooltip(new Tooltip("Download löschen"));
-                btnDownDel.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_DEL.getImageView());
+                btnDownDel.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_DEL.getFontIcon());
                 btnDownDel.setOnAction(event -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     ProgData.getInstance().downloadList.delDownloads(download);
                 });
                 hbox.getChildren().addAll(btnDownStart, btnDownDel);
                 setGraphic(hbox);
+                btnDownStart.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownStart.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMinHeight(Table.ROW_HEIGHT_MIN);
 
             } else if (item < DownloadConstants.STATE_FINISHED) {
                 btnDownStop = new Button("");
-                btnDownStop.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownStop.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownStop.setTooltip(new Tooltip("Download stoppen"));
-                btnDownStop.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_STOP.getImageView());
+                btnDownStop.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_STOP.getFontIcon());
                 btnDownStop.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     download.stopDownload();
                 });
 
                 btnDownDel = new Button("");
-                btnDownDel.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownDel.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownDel.setTooltip(new Tooltip("Download löschen"));
-                btnDownDel.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_DEL.getImageView());
+                btnDownDel.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_DEL.getFontIcon());
                 btnDownDel.setOnAction(event -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     ProgData.getInstance().downloadList.delDownloads(download);
                 });
                 hbox.getChildren().addAll(btnDownStop, btnDownDel);
                 setGraphic(hbox);
+                btnDownStop.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownStop.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMinHeight(Table.ROW_HEIGHT_MIN);
 
             } else if (item == DownloadConstants.STATE_FINISHED) {
                 btnFilmStart = new Button("");
-                btnFilmStart.getStyleClass().addAll("btnFunction", "btnFuncTable");
-                btnFilmStart.setTooltip(new Tooltip("gespeicherten Film abspielen"));
-                btnFilmStart.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
+                btnFilmStart.getStyleClass().addAll("pFuncBtn", "btnTable");
+                btnFilmStart.setTooltip(new Tooltip("Gespeicherten Film abspielen"));
+                btnFilmStart.setGraphic(PIconFactory.PICON.TABLE_FILM_PLAY.getFontIcon());
                 btnFilmStart.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     AudioPlayFactory.playStoredAudio(download);
                 });
 
                 btnOpenDirectory = new Button();
-                btnOpenDirectory.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnOpenDirectory.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnOpenDirectory.setTooltip(new Tooltip("Ordner mit gespeichertem Film öffnen"));
-                btnOpenDirectory.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_OPEN_DIR.getImageView());
+                btnOpenDirectory.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_OPEN_DIR.getFontIcon());
                 btnOpenDirectory.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     P2Open.openDir(download.getDestPath(),
@@ -124,12 +133,16 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
                 });
                 hbox.getChildren().addAll(btnFilmStart, btnOpenDirectory);
                 setGraphic(hbox);
+                btnFilmStart.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnFilmStart.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnOpenDirectory.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnOpenDirectory.setMinHeight(Table.ROW_HEIGHT_MIN);
 
             } else if (item == DownloadConstants.STATE_ERROR) {
                 btnDownStart = new Button("");
-                btnDownStart.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownStart.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownStart.setTooltip(new Tooltip("Download wieder starten"));
-                btnDownStart.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_START.getImageView());
+                btnDownStart.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_START.getFontIcon());
                 btnDownStart.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     List<DownloadData> list = new ArrayList<>();
@@ -138,15 +151,19 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
                 });
 
                 btnDownDel = new Button("");
-                btnDownDel.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnDownDel.getStyleClass().addAll("pFuncBtn", "btnTable");
                 btnDownDel.setTooltip(new Tooltip("Download löschen"));
-                btnDownDel.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_DEL.getImageView());
+                btnDownDel.setGraphic(PIconFactory.PICON.TABLE_DOWNLOAD_DEL.getFontIcon());
                 btnDownDel.setOnAction(event -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     ProgData.getInstance().downloadList.delDownloads(download);
                 });
                 hbox.getChildren().addAll(btnDownStart, btnDownDel);
                 setGraphic(hbox);
+                btnDownStart.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownStart.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnDownDel.setMinHeight(Table.ROW_HEIGHT_MIN);
 
             } else {
                 setGraphic(null);

@@ -4,7 +4,7 @@ import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
 import de.p2tools.atplayer.controller.audio.AudioToolsFactory;
 import de.p2tools.atplayer.controller.config.ProgColorList;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.mediathek.audio.AudioSize;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.tools.date.P2Date;
@@ -155,19 +155,19 @@ public class TableAudioFactory {
                 final Button btnBookmark;
 
                 btnPlay = new Button("");
-                btnPlay.getStyleClass().addAll("btnFunction", "btnFuncTable");
-                btnPlay.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
+                btnPlay.getStyleClass().addAll("pFuncBtn", "btnTable");
+                btnPlay.setGraphic(PIconFactory.PICON.TABLE_FILM_PLAY.getFontIcon());
 
                 btnSave = new Button("");
-                btnSave.getStyleClass().addAll("btnFunction", "btnFuncTable");
-                btnSave.setGraphic(ProgIcons.ICON_TABLE_FILM_SAVE.getImageView());
+                btnSave.getStyleClass().addAll("pFuncBtn", "btnTable");
+                btnSave.setGraphic(PIconFactory.PICON.TABLE_FILM_SAVE.getFontIcon());
 
                 btnBookmark = new Button("");
-                btnBookmark.getStyleClass().addAll("btnFunction", "btnFuncTable");
+                btnBookmark.getStyleClass().addAll("pFuncBtn", "btnTable");
                 if (audioData.isBookmark()) {
-                    btnBookmark.setGraphic(ProgIcons.IMAGE_TABLE_BOOKMARK_DEL.getImageView());
+                    btnBookmark.setGraphic(PIconFactory.PICON.TABLE_BOOKMARK_DEL.getFontIcon());
                 } else {
-                    btnBookmark.setGraphic(ProgIcons.IMAGE_TABLE_BOOKMARK.getImageView());
+                    btnBookmark.setGraphic(PIconFactory.PICON.TABLE_BOOKMARK_ADD.getFontIcon());
                 }
 
                 btnPlay.setOnAction(e -> {
@@ -197,6 +197,12 @@ public class TableAudioFactory {
                     getTableView().refresh();
                     getTableView().requestFocus();
                 });
+                btnPlay.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnPlay.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnSave.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnSave.setMinHeight(Table.ROW_HEIGHT_MIN);
+                btnBookmark.setMaxHeight(Table.ROW_HEIGHT_MIN);
+                btnBookmark.setMinHeight(Table.ROW_HEIGHT_MIN);
                 hbox.getChildren().addAll(btnPlay, btnSave, btnBookmark);
                 setGraphic(hbox);
 
