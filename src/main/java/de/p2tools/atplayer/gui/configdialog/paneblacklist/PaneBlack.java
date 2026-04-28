@@ -22,7 +22,6 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
@@ -138,11 +137,11 @@ public class PaneBlack {
         GridPane.setValignment(lblSize, VPos.TOP);
         GridPane.setValignment(btnHelpSize, VPos.TOP);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-//                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcPrefSize()
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+//                P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize()
         );
 
         vBox.getChildren().add(gridPane);

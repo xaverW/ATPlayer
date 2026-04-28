@@ -23,8 +23,6 @@ import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.colordata.P2ColorData;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
-import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.tools.P2ColorFactory;
 import javafx.geometry.HPos;
@@ -74,8 +72,8 @@ public class PaneColor {
 
         ProgConfig.SYSTEM_DARK_THEME.addListener((u, o, n) -> {
             ProgColorList.setColorTheme();
-            P2TableFactory.refreshTable(tableViewFont);
-            P2TableFactory.refreshTable(tableViewBackground);
+            de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableViewFont);
+            de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableViewBackground);
         });
 
         Button button = new Button("Alle _Farben zurücksetzen");
@@ -107,8 +105,8 @@ public class PaneColor {
         gridPane.add(button, 0, ++row, 2, 1);
         GridPane.setHalignment(button, HPos.RIGHT);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize());
 
         TitledPane tpColor = new TitledPane("Farben", gridPane);
         result.add(tpColor);

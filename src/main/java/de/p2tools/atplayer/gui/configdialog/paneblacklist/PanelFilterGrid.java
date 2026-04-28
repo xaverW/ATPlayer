@@ -25,7 +25,7 @@ import de.p2tools.atplayer.controller.data.blackdata.BlackListFilter;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2ButtonClearFilterFactory;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.guitools.P2MenuButton;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.mediathek.filter.Filter;
 import de.p2tools.p2lib.mediathek.filter.FilterCheck;
@@ -42,8 +42,8 @@ import java.util.function.Predicate;
 
 public class PanelFilterGrid {
     private final BlackList list;
-    private final P2MenuButton mbFilterChannel;
-    private final P2MenuButton mbFilterGenre;
+    private final P2CboCheckBoxListString mbFilterChannel;
+    private final P2CboCheckBoxListString mbFilterGenre;
     private final StringProperty mbFilterChannelProp = new SimpleStringProperty();
     private final StringProperty mbFilterGenreProp = new SimpleStringProperty();
 
@@ -63,8 +63,8 @@ public class PanelFilterGrid {
         this.tableView = tableView;
         this.list = list;
         this.blackListFilterBlackList = blackListFilterBlackList;
-        this.mbFilterChannel = new P2MenuButton(mbFilterChannelProp, ProgData.getInstance().worker.getAllChannelList());
-        this.mbFilterGenre = new P2MenuButton(mbFilterGenreProp, ProgData.getInstance().worker.getAllGenreList());
+        this.mbFilterChannel = new P2CboCheckBoxListString(mbFilterChannelProp, ProgData.getInstance().worker.getAllChannelList());
+        this.mbFilterGenre = new P2CboCheckBoxListString(mbFilterGenreProp, ProgData.getInstance().worker.getAllGenreList());
 
         bind();
         addPredicate();

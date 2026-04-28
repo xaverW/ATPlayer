@@ -27,9 +27,8 @@ import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableBlacklist;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.guitools.P2MenuButton;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -56,8 +55,8 @@ public class PaneBlackList {
     private final RadioButton rbOff = new RadioButton("Alles anzeigen");
     private final GridPane gridPane = new GridPane();
 
-    private final P2MenuButton mbChannel;
-    private final P2MenuButton mbGenre;
+    private final P2CboCheckBoxListString mbChannel;
+    private final P2CboCheckBoxListString mbGenre;
     private final StringProperty mbChannelProp = new SimpleStringProperty();
     private final StringProperty mbGenreProp = new SimpleStringProperty();
     private final P2ToggleSwitch tgThemeExact = new P2ToggleSwitch("exakt:");
@@ -85,10 +84,10 @@ public class PaneBlackList {
         this.blackDataChanged = blackDataChanged;
         this.panelButton = new PanelButton();
 
-        mbChannel = new P2MenuButton(mbChannelProp,
+        mbChannel = new P2CboCheckBoxListString(mbChannelProp,
                 progData.worker.getAllChannelList(), true);
 
-        mbGenre = new P2MenuButton(mbGenreProp,
+        mbGenre = new P2CboCheckBoxListString(mbGenreProp,
                 progData.worker.getAllGenreList(), true);
 
         tableView = new TableBlacklist(Table.TABLE_ENUM.BLACKLIST);
@@ -231,9 +230,9 @@ public class PaneBlackList {
 
         gridPane.add(tglActive, 0, ++row, 2, 1);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize());
         gridPane.setDisable(true);
         gridPane.disableProperty().bind(tableView.getSelectionModel().selectedItemProperty().isNull());
 

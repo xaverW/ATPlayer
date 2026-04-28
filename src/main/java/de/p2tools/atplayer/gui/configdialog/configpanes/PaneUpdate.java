@@ -23,7 +23,6 @@ import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
@@ -106,8 +105,8 @@ public class PaneUpdate {
         gridPane.add(btnNow, 0, ++row, 3, 1);
         GridPane.setHalignment(btnNow, HPos.RIGHT);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize());
 
         HBox hBoxHyper = new HBox();
         hBoxHyper.setAlignment(Pos.CENTER_LEFT);

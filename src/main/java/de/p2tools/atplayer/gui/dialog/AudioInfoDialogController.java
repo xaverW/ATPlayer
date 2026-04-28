@@ -20,7 +20,6 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.mediathek.audiodata.AudioDataXml;
@@ -127,8 +126,8 @@ public class AudioInfoDialogController extends P2DialogExtra {
         gridPane.setHgap(10);
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(5));
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
         TitledPane tpUrl;
         int row = 0;

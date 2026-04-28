@@ -22,7 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
-import de.p2tools.p2lib.guitools.P2SeparatorComboBox;
+import de.p2tools.p2lib.guitools.pcbo.P2CboSeparator;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Priority;
@@ -80,7 +80,7 @@ public class AudioFilterDialog extends P2DialogExtra {
             protected void updateItem(AudioFilter item, boolean empty) {
                 super.updateItem(item, empty);
                 if (!empty) {
-                    this.setDisable(P2SeparatorComboBox.isSeparator(item.toString()));
+                    this.setDisable(P2CboSeparator.isSeparator(item.toString()));
                 }
             }
         });
@@ -127,7 +127,7 @@ public class AudioFilterDialog extends P2DialogExtra {
                     return;
                 }
 
-                if (P2SeparatorComboBox.isSeparator(item.toString())) {
+                if (P2CboSeparator.isSeparator(item.toString())) {
                     setGraphic(ProgIcons.ICON_BUTTON_SEPARATOR_WIDTH.getImageView());
                     setText(null);
                     setStyle("-fx-alignment: center;");

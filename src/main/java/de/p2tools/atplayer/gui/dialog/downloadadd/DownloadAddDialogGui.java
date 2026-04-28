@@ -18,7 +18,6 @@ package de.p2tools.atplayer.gui.dialog.downloadadd;
 
 
 import de.p2tools.p2lib.P2LibConst;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -122,10 +121,10 @@ public class DownloadAddDialogGui {
         gridPane.add(hBoxStartTime, 1, row, 2, 1);
         gridPane.add(addDownloadDto.chkStartTimeAll, 3, row);
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcPrefSizeCenter());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSizeCenter());
         vBoxCont.getChildren().add(gridPane);
     }
 

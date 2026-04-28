@@ -18,7 +18,6 @@ package de.p2tools.atplayer.gui.tools.table;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.data.blackdata.BlackData;
-import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.ptable.P2CellCheckBox;
 import de.p2tools.p2lib.guitools.ptable.P2CellLocalDate;
 import javafx.scene.control.SelectionMode;
@@ -54,7 +53,7 @@ public class TableBlacklist extends PTable<BlackData> {
         getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> P2TableFactory.refreshTable(this));
+        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(this));
 
         final TableColumn<BlackData, String> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));

@@ -22,8 +22,7 @@ import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlackData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
-import de.p2tools.p2lib.guitools.P2MenuButton;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -42,8 +41,8 @@ public class AddBlackListDialogController extends P2DialogExtra {
     private final Button btnCount = new Button("Treffer zählen");
     private final Label lblCount = new Label();
 
-    private final P2MenuButton mbChannel;
-    private final P2MenuButton mbGenre;
+    private final P2CboCheckBoxListString mbChannel;
+    private final P2CboCheckBoxListString mbGenre;
     private final TextField txtTheme = new TextField();
     private final P2ToggleSwitch tgTheme = new P2ToggleSwitch("exakt:");
     private final TextField txtTitle = new TextField();
@@ -74,9 +73,9 @@ public class AddBlackListDialogController extends P2DialogExtra {
         this.theme = blackData.getTheme();
         this.title = blackData.getTitle();
         this.blackData = blackData;
-        mbChannel = new P2MenuButton(this.blackData.channelProperty(),
+        mbChannel = new P2CboCheckBoxListString(this.blackData.channelProperty(),
                 ProgData.getInstance().worker.getAllChannelList(), true);
-        mbGenre = new P2MenuButton(this.blackData.genreProperty(),
+        mbGenre = new P2CboCheckBoxListString(this.blackData.genreProperty(),
                 ProgData.getInstance().worker.getAllGenreList(), true);
 
         init(true);
@@ -164,10 +163,10 @@ public class AddBlackListDialogController extends P2DialogExtra {
         txtTitle.textProperty().bindBidirectional(blackData.titleProperty());
         txtThemeTitle.textProperty().bindBidirectional(blackData.themeTitleProperty());
 
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow(),
-                P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcPrefSize());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize());
 
         gridPane.setHgap(10);
         gridPane.setVgap(10);

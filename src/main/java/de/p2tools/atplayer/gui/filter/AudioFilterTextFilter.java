@@ -20,8 +20,8 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
 import de.p2tools.p2lib.guitools.P2GuiTools;
-import de.p2tools.p2lib.guitools.P2MenuButton;
-import de.p2tools.p2lib.guitools.pcheckcombobox.P2CheckComboBox;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxBool;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.prange.P2RangeBox;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.mediathek.filter.FilterCheck;
@@ -42,8 +42,8 @@ public class AudioFilterTextFilter extends VBox {
 
     public static final int FILTER_SPACING_TEXTFILTER = 10;
 
-    private final P2MenuButton mbChannel;
-    private final P2MenuButton mbGenre;
+    private final P2CboCheckBoxListString mbChannel;
+    private final P2CboCheckBoxListString mbGenre;
     private final PCboString cboTheme;
     private final PCboString cboThemeTitle;
     private final PCboString cboTitle;
@@ -55,15 +55,15 @@ public class AudioFilterTextFilter extends VBox {
 
     private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast:");
     private final Label lblOnly = new Label("Anzeigen:");
-    private final P2CheckComboBox checkOnly = new P2CheckComboBox();
+    private final P2CboCheckBoxBool checkOnly = new P2CboCheckBoxBool();
 
     private final ProgData progData;
 
     public AudioFilterTextFilter() {
         this.progData = ProgData.getInstance();
-        this.mbChannel = new P2MenuButton(progData.filterWorker.getActFilterSettings().channelProperty(),
+        this.mbChannel = new P2CboCheckBoxListString(progData.filterWorker.getActFilterSettings().channelProperty(),
                 progData.worker.getAllChannelList());
-        this.mbGenre = new P2MenuButton(progData.filterWorker.getActFilterSettings().genreProperty(),
+        this.mbGenre = new P2CboCheckBoxListString(progData.filterWorker.getActFilterSettings().genreProperty(),
                 progData.worker.getAllGenreList());
 
         final BooleanSupplier supplierReportReturn = () -> {

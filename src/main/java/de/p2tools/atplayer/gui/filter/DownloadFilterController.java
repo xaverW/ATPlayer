@@ -23,7 +23,7 @@ import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.P2ButtonClearFilterFactory;
-import de.p2tools.p2lib.guitools.P2MenuButton;
+import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -36,8 +36,8 @@ import javafx.scene.layout.VBox;
 
 public class DownloadFilterController extends FilterController {
 
-    private final P2MenuButton mbChannel;
-    private final P2MenuButton mbGenre;
+    private final P2CboCheckBoxListString mbChannel;
+    private final P2CboCheckBoxListString mbGenre;
     private final PCboString cboTheme;
     private final PCboString cboTitle;
     private final ComboBox<String> cboState = new ComboBox<>();
@@ -52,9 +52,9 @@ public class DownloadFilterController extends FilterController {
         vBoxFilter = getVBoxFilter(true);
         progData = ProgData.getInstance();
 
-        this.mbChannel = new P2MenuButton(ProgConfig.FILTER_DOWNLOAD_CHANNEL,
+        this.mbChannel = new P2CboCheckBoxListString(ProgConfig.FILTER_DOWNLOAD_CHANNEL,
                 progData.worker.getAllChannelList());
-        this.mbGenre = new P2MenuButton(ProgConfig.FILTER_DOWNLOAD_GENRE,
+        this.mbGenre = new P2CboCheckBoxListString(ProgConfig.FILTER_DOWNLOAD_GENRE,
                 progData.worker.getAllGenreList());
         this.cboTheme = new PCboString(progData.stringListsLists.getFilterListDownloadTheme(),
                 ProgConfig.FILTER_DOWNLOAD_THEME);

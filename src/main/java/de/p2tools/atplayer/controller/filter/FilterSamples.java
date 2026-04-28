@@ -17,7 +17,7 @@
 package de.p2tools.atplayer.controller.filter;
 
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.p2lib.guitools.P2SeparatorComboBox;
+import de.p2tools.p2lib.guitools.pcbo.P2CboSeparator;
 
 public class FilterSamples {
 
@@ -92,7 +92,7 @@ public class FilterSamples {
         progData.filterWorker.getFilterList().add(sf);
 
         //========================================================
-        progData.filterWorker.getFilterList().add(new AudioFilter(P2SeparatorComboBox.SEPARATOR));
+        progData.filterWorker.getFilterList().add(new AudioFilter(P2CboSeparator.SEPARATOR));
 
         //========================================================
         // nur Bookmark

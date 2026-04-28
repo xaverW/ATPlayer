@@ -33,7 +33,6 @@ import de.p2tools.atplayer.gui.tools.table.TableDownload;
 import de.p2tools.atplayer.gui.tools.table.TableRowDownload;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.guitools.P2Open;
-import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
@@ -262,7 +261,7 @@ public class DownloadGuiController extends AnchorPane {
     }
 
     public void invertSelection() {
-        P2TableFactory.invertSelection(tableView);
+        de.p2tools.p2lib.guitools.ptable.P2TableFactory.invertSelection(tableView);
     }
 
     public void playUrl() {
@@ -298,7 +297,7 @@ public class DownloadGuiController extends AnchorPane {
 //    }
 
     public void refreshTable() {
-        P2TableFactory.refreshTable(tableView);
+        de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
     }
 
     public void copyFilmThemeTitle(boolean theme) {
@@ -345,19 +344,19 @@ public class DownloadGuiController extends AnchorPane {
         progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_GUI_HISTORY_CHANGED) {
             @Override
             public void pingGui() {
-                P2TableFactory.refreshTable(tableView);
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
             }
         });
         progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_HISTORY_CHANGED) {
             @Override
             public void pingGui() {
-                P2TableFactory.refreshTable(tableView);
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
             }
         });
         progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_BLACKLIST_CHANGED) {
             @Override
             public void pingGui() {
-                P2TableFactory.refreshTable(tableView);
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
             }
         });
         progData.downloadList.downloadsChangedProperty().addListener((observable, oldValue, newValue) ->
@@ -406,12 +405,12 @@ public class DownloadGuiController extends AnchorPane {
             }
         });
         tableView.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (P2TableFactory.SPACE.match(event)) {
-                P2TableFactory.scrollVisibleRangeDown(tableView);
+            if (de.p2tools.p2lib.guitools.ptable.P2TableFactory.SPACE.match(event)) {
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.scrollVisibleRangeDown(tableView);
                 event.consume();
             }
-            if (P2TableFactory.SPACE_SHIFT.match(event)) {
-                P2TableFactory.scrollVisibleRangeUp(tableView);
+            if (de.p2tools.p2lib.guitools.ptable.P2TableFactory.SPACE_SHIFT.match(event)) {
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.scrollVisibleRangeUp(tableView);
                 event.consume();
             }
         });

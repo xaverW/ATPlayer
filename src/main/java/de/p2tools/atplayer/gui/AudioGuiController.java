@@ -26,10 +26,10 @@ import de.p2tools.atplayer.gui.tools.table.Table;
 import de.p2tools.atplayer.gui.tools.table.TableAudio;
 import de.p2tools.atplayer.gui.tools.table.TableRowAudio;
 import de.p2tools.p2lib.alert.P2Alert;
-import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneController;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneDto;
 import de.p2tools.p2lib.guitools.pclosepane.P2ClosePaneFactory;
+import de.p2tools.p2lib.guitools.ptable.P2TableFactory;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.P2ToolsFactory;
@@ -171,13 +171,13 @@ public class AudioGuiController extends AnchorPane {
         progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_HISTORY_CHANGED) {
             @Override
             public void pingGui() {
-                P2TableFactory.refreshTable(tableView);
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
             }
         });
         progData.pEventHandler.addListener(new P2Listener(PEvents.EVENT_BLACKLIST_CHANGED) {
             @Override
             public void pingGui() {
-                P2TableFactory.refreshTable(tableView);
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(tableView);
             }
         });
     }
@@ -199,12 +199,12 @@ public class AudioGuiController extends AnchorPane {
         });
 
         tableView.addEventFilter(KeyEvent.KEY_PRESSED, (KeyEvent event) -> {
-            if (P2TableFactory.SPACE.match(event)) {
-                P2TableFactory.scrollVisibleRangeDown(tableView);
+            if (de.p2tools.p2lib.guitools.ptable.P2TableFactory.SPACE.match(event)) {
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.scrollVisibleRangeDown(tableView);
                 event.consume();
             }
-            if (P2TableFactory.SPACE_SHIFT.match(event)) {
-                P2TableFactory.scrollVisibleRangeUp(tableView);
+            if (de.p2tools.p2lib.guitools.ptable.P2TableFactory.SPACE_SHIFT.match(event)) {
+                de.p2tools.p2lib.guitools.ptable.P2TableFactory.scrollVisibleRangeUp(tableView);
                 event.consume();
             }
 

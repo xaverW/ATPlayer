@@ -20,7 +20,6 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.tools.log.P2Log;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -66,8 +65,8 @@ public class DeleteAudioFileDialogController extends P2DialogExtra {
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setHgap(25);
         gridPane.setVgap(10);
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
         int row = 0;
         Label lblPath = new Label("Pfad:");

@@ -25,7 +25,6 @@ import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.tools.log.P2Logger;
 import javafx.animation.KeyFrame;
@@ -139,8 +138,8 @@ public class DownloadErrorDialogController extends P2DialogExtra {
 
         gridPane.add(txtUrl, 0, ++row, 2, 1);
         gridPane.add(txtCont, 0, ++row, 2, 1);
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcPrefSize(),
-                P2ColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcPrefSize(),
+                de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
         HBox hBox = new HBox(10);
         hBox.getChildren().addAll(imageView, gridPane);

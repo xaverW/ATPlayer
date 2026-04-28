@@ -20,7 +20,6 @@ import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
-import de.p2tools.p2lib.guitools.P2TableFactory;
 import de.p2tools.p2lib.mediathek.audio.AudioSize;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.tools.date.P2Date;
@@ -56,8 +55,8 @@ public class TableAudio extends PTable<AudioData> {
         setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
 
         // bei Farbänderung der Schriftfarbe klappt es damit besser: Table.refresh_table(table)
-        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> P2TableFactory.refreshTable(this));
-        ProgColorList.AUDIO_NEW.colorProperty().addListener((a, b, c) -> P2TableFactory.refreshTable(this));
+        ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(this));
+        ProgColorList.AUDIO_NEW.colorProperty().addListener((a, b, c) -> de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(this));
 
         final TableColumn<AudioData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));

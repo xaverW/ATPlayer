@@ -20,7 +20,6 @@ package de.p2tools.atplayer.gui.startdialog;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2ColumnConstraints;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -57,7 +56,7 @@ public class UpdatePane {
 
         gridPane.add(tglSearch, 0, 0);
         gridPane.add(btnHelp, 1, 0);
-        gridPane.getColumnConstraints().addAll(P2ColumnConstraints.getCcComputedSizeAndHgrow());
+        gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
         TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
         return tpConfig;
