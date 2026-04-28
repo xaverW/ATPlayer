@@ -30,6 +30,7 @@ import de.p2tools.atplayer.controller.filter.FilterWorker;
 import de.p2tools.atplayer.controller.history.HistoryList;
 import de.p2tools.atplayer.controller.starter.StartDownload;
 import de.p2tools.atplayer.controller.worker.Busy;
+import de.p2tools.atplayer.controller.worker.ColorWorker;
 import de.p2tools.atplayer.controller.worker.Worker;
 import de.p2tools.atplayer.gui.AudioGuiController;
 import de.p2tools.atplayer.gui.DownloadGuiController;
@@ -79,6 +80,7 @@ public class ProgData {
 
     // Worker
     public Worker worker; // Liste aller Sender, Themen, ...
+    public ColorWorker colorWorker = null;
 
     // Programmdaten
     public StartDownload startDownload; // Klasse zum Ausführen der Programme (für die Downloads): VLC, ...
@@ -121,6 +123,7 @@ public class ProgData {
         downloadInfos = new DownloadInfos(this);
         audioFilterRunner = new AudioFilterRunner(this);
         worker = new Worker(this);
+        colorWorker = new ColorWorker(this);
     }
 
     public synchronized static final ProgData getInstance(String dir) {

@@ -19,6 +19,7 @@ package de.p2tools.atplayer.gui;
 import de.p2tools.atplayer.controller.ProgQuit;
 import de.p2tools.atplayer.controller.ProgSave;
 import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.atplayer.gui.dialog.AboutDialogController;
@@ -28,6 +29,7 @@ import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 
 public class ProgMenu extends MenuButton {
@@ -40,27 +42,23 @@ public class ProgMenu extends MenuButton {
         ProgData progData = ProgData.getInstance();
 
         setOnMouseClicked(mouseEvent -> {
-            if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
-                if (!ProgConfig.SYSTEM_DARK_THEME.get() && !ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
-                    ProgConfig.SYSTEM_DARK_THEME.set(true);
-
-                } else if (ProgConfig.SYSTEM_DARK_THEME.get() && !ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
-                    ProgConfig.SYSTEM_DARK_THEME.set(false);
-                    ProgConfig.SYSTEM_BLACK_WHITE_ICON.set(true);
-
-                } else if (!ProgConfig.SYSTEM_DARK_THEME.get() && ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
-                    ProgConfig.SYSTEM_DARK_THEME.set(true);
-
-                } else if (ProgConfig.SYSTEM_DARK_THEME.get() && ProgConfig.SYSTEM_BLACK_WHITE_ICON.get()) {
-                    ProgConfig.SYSTEM_DARK_THEME.set(false);
-                    ProgConfig.SYSTEM_BLACK_WHITE_ICON.set(false);
+            if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+                if (mouseEvent.getClickCount() > 1) {
+                    ProgConfig.SYSTEM_GUI_THEME_1.set(!ProgConfig.SYSTEM_GUI_THEME_1.get());
                 }
+            }
+
+            if (mouseEvent.getButton().equals(MouseButton.SECONDARY)) {
+                ProgConfig.SYSTEM_DARK_THEME.set(!ProgConfig.SYSTEM_DARK_THEME.get());
             }
         });
 
-        setTooltip(new Tooltip("Filmmenü anzeigen"));
-        setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
-        getStyleClass().addAll("btnFunction", "btnFunc-1");
+        setTooltip(new Tooltip("Programmmenü anzeigen"));
+        setText("");
+        getStyleClass().addAll("pFuncBtn", "btnProgMenu");
+        FontIcon node = PIconFactory.PICON.PROG_MENU.getFontIcon();
+        node.setScaleX(1.5);
+        setGraphic(node);
 
         //=========================
         // Info, Einstellungen
@@ -68,10 +66,13 @@ public class ProgMenu extends MenuButton {
         miConfig.setOnAction(e -> new ConfigDialogController(ProgData.getInstance()));
         miConfig.disableProperty().bind(ConfigDialogController.dialogIsRunning);
 
-        final CheckMenuItem miDarkMode = new CheckMenuItem("Dark Mode");
+        final CheckMenuItem miDarkMode = new CheckMenuItem("Dunkle Oberfläche");
         miDarkMode.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
 
-        getItems().addAll(miConfig, miDarkMode, new SeparatorMenuItem());
+        final CheckMenuItem miColorMode = new CheckMenuItem("Farb-Modus-1");
+        miColorMode.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_GUI_THEME_1);
+
+        getItems().addAll(miConfig, miDarkMode, miColorMode, new SeparatorMenuItem());
         addMenuButton();
 
         //=========================

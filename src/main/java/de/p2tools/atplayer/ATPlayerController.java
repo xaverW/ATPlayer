@@ -19,7 +19,7 @@ package de.p2tools.atplayer;
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
 import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.controller.worker.Busy;
 import de.p2tools.atplayer.gui.AudioGui;
 import de.p2tools.atplayer.gui.DownloadGui;
@@ -28,6 +28,7 @@ import de.p2tools.atplayer.gui.StatusBarController;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.log.P2Log;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -46,7 +47,6 @@ public class ATPlayerController extends StackPane {
     public enum PANE_SHOWN {AUDIO, DOWNLOAD}
 
     public static PANE_SHOWN paneShown = null;
-
     private final AudioGui audioGui = new AudioGui();
     private final DownloadGui downloadGui = new DownloadGui();
     private HBox splitPaneAudio;
@@ -62,23 +62,40 @@ public class ATPlayerController extends StackPane {
     private void init() {
         try {
             // Toolbar
-            TilePane tilePane = new TilePane();
-            tilePane.setPrefColumns(2);
-            tilePane.setHgap(15);
-            tilePane.setPadding(new Insets(0));
-            tilePane.setAlignment(Pos.CENTER);
-            tilePane.getChildren().addAll(btnAudio, btnDownload);
+            HBox hBoxBtn = new HBox(5);
+//            hBoxBtn.setPadding(new Insets(10, 10, 0, 10));
+            hBoxBtn.setAlignment(Pos.BOTTOM_CENTER);
+            hBoxBtn.getChildren().addAll(btnAudio, btnDownload);
+
+            final Button btnSize = new Button("Downloads");
+            btnSize.setVisible(false);
+            btnSize.getStyleClass().add("btnSize");
+            Platform.runLater(() -> {
+                double sizeW = btnSize.getWidth();
+                btnAudio.setMinWidth(sizeW);
+                btnDownload.setMinWidth(sizeW);
+            });
+
+            StackPane stackPaneTitleButton = new StackPane();
+            stackPaneTitleButton.setAlignment(Pos.BOTTOM_CENTER);
+            stackPaneTitleButton.setPadding(new Insets(0));
+            stackPaneTitleButton.getChildren().addAll(btnSize, hBoxBtn);
+            HBox.setHgrow(stackPaneTitleButton, Priority.ALWAYS);
+
 
             HBox hBoxTop = new HBox();
-            hBoxTop.setPadding(new Insets(4, 10, 4, 10));
+            hBoxTop.setPadding(new Insets(5, 10, 0, 10));
             hBoxTop.setSpacing(10);
             hBoxTop.setAlignment(Pos.CENTER);
-            HBox.setHgrow(tilePane, Priority.ALWAYS);
-            hBoxTop.getChildren().addAll(btnFilmlist, tilePane, new ProgMenu());
+            hBoxTop.getChildren().addAll(btnFilmlist, stackPaneTitleButton, new ProgMenu());
+            HBox.setHgrow(stackPaneTitleButton, Priority.ALWAYS);
+
 
             // Center
             splitPaneAudio = audioGui.pack();
+            splitPaneAudio.getStyleClass().add("splitPaneTab");
             splitPaneDownload = downloadGui.pack();
+            splitPaneDownload.getStyleClass().add("splitPaneTab");
             stackPaneCont.getChildren().addAll(splitPaneAudio, splitPaneDownload);
 
             VBox vBox = new VBox();
@@ -110,13 +127,13 @@ public class ATPlayerController extends StackPane {
         progData.maskerPane.toFront();
         Button btnStop = progData.maskerPane.getButton();
         progData.maskerPane.setButtonText("");
-        btnStop.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnStop.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
         btnStop.setOnAction(a -> LoadAudioFactory.getInstance().loadAudioList.setStop(true));
     }
 
     private void initButton() {
         btnFilmlist.setMinWidth(Region.USE_PREF_SIZE);
-        btnFilmlist.getStyleClass().addAll("btnFunction", "btnFunc-4");
+        btnFilmlist.getStyleClass().setAll("pFuncBtn", "btnFilmlist");
         btnFilmlist.setTooltip(new Tooltip("Eine neue Audioliste laden."));
         btnFilmlist.setOnAction(e -> {
             LoadAudioFactory.getInstance().loadListButton();
@@ -124,11 +141,11 @@ public class ATPlayerController extends StackPane {
 
         btnAudio.setTooltip(new Tooltip("Filme anzeigen"));
         btnAudio.setOnAction(e -> selPanelAudio());
-        btnAudio.setMaxWidth(Double.MAX_VALUE);
+        btnAudio.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar");
 
         btnDownload.setTooltip(new Tooltip("Downloads anzeigen"));
         btnDownload.setOnAction(e -> selPanelDownload());
-        btnDownload.setMaxWidth(Double.MAX_VALUE);
+        btnDownload.getStyleClass().setAll("pFuncBtn", "pFuncBtnTitleBar");
 
         btnAudio.setOnMouseClicked(mouseEvent -> {
             if (progData.maskerPane.isVisible() || paneShown != PANE_SHOWN.AUDIO) {
@@ -190,19 +207,16 @@ public class ATPlayerController extends StackPane {
     }
 
     private void setButtonStyle() {
-        btnAudio.getStyleClass().clear();
-        btnDownload.getStyleClass().clear();
-
         if (paneShown == PANE_SHOWN.AUDIO) {
-            btnAudio.getStyleClass().add("btnTabTop-sel");
+            btnAudio.getStyleClass().add("pFuncBtnTitleBarSel");
         } else {
-            btnAudio.getStyleClass().add("btnTabTop");
+            btnAudio.getStyleClass().removeAll("pFuncBtnTitleBarSel");
         }
 
         if (paneShown == PANE_SHOWN.DOWNLOAD) {
-            btnDownload.getStyleClass().add("btnTabTop-sel");
+            btnDownload.getStyleClass().add("pFuncBtnTitleBarSel");
         } else {
-            btnDownload.getStyleClass().add("btnTabTop");
+            btnDownload.getStyleClass().removeAll("pFuncBtnTitleBarSel");
         }
     }
 

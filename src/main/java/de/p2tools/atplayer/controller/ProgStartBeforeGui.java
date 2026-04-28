@@ -70,20 +70,18 @@ public class ProgStartBeforeGui {
                 ProgConfig.SYSTEM_CSS_ADDER,
 
                 new String[]{
-                        "de/p2tools/p2radio/css/mtfx.css",
-                        "de/p2tools/p2radio/css/pFuncBtn.css",
-                        "de/p2tools/p2radio/css/pFuncMenu.css",
-                        "de/p2tools/p2radio/css/pFuncTitleBar.css",
-                        "de/p2tools/p2radio/css/pFuncTable.css",
-                        "de/p2tools/p2radio/css/pFuncToolBar.css",
-                        "de/p2tools/p2radio/css/pFuncTips.css",
-                        "de/p2tools/p2radio/css/pFuncStartDialog.css",
-                        "de/p2tools/p2radio/css/smallGui.css"
+                        "de/p2tools/atplayer/css/mtfx.css",
+                        "de/p2tools/atplayer/css/pFuncBtn.css",
+                        "de/p2tools/atplayer/css/pFuncMenu.css",
+                        "de/p2tools/atplayer/css/pFuncTitleBar.css",
+                        "de/p2tools/atplayer/css/pFuncTable.css",
+                        "de/p2tools/atplayer/css/pFuncToolBar.css",
+                        "de/p2tools/atplayer/css/pFuncTips.css",
+                        "de/p2tools/atplayer/css/pFuncStartDialog.css"
                 },
 
                 new String[]{
-                        "de/p2tools/p2radio/css/mtfx-dark.css",
-                        "de/p2tools/p2radio/css/smallGui-dark.css"
+                        "de/p2tools/atplayer/css/mtfx-dark.css"
                 },
 
                 ProgData.getInstance().cssProp,
