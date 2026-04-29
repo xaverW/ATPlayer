@@ -36,7 +36,7 @@ public class ToolBarButton extends Button {
         setName(name);
         this.imageIcon = imageIcon;
 
-        getStyleClass().add("btnFunction");
+        getStyleClass().addAll("pFuncBtn", "btnToolBar");
         setTooltip(new Tooltip(toolTip));
         setGraphic(this.imageIcon);
         this.vbox.getChildren().addAll(this);

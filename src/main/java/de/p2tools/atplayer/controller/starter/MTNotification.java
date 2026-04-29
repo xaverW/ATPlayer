@@ -17,8 +17,8 @@
 package de.p2tools.atplayer.controller.starter;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.guitools.pnotification.P2Notification;
@@ -39,19 +39,19 @@ public class MTNotification {
         Button btnAudioStart = new Button();
         btnAudioStart.getStyleClass().addAll("btnFunction", "btnFuncTable");
         btnAudioStart.setTooltip(new Tooltip("Gespeichertes Audio abspielen"));
-        btnAudioStart.setGraphic(ProgIcons.ICON_TABLE_FILM_PLAY.getImageView());
+        btnAudioStart.setGraphic(PIconFactory.PICON.BTN_ALERT_FILM_PLAY.getFontIcon());
         btnAudioStart.setOnAction((ActionEvent event) -> {
             P2Open.playStoredFilm(download.getDestPathFile(),
-                    ProgConfig.SYSTEM_PROG_PLAY, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                    ProgConfig.SYSTEM_PROG_PLAY, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         });
 
         Button btnOpenDirectory = new Button();
         btnOpenDirectory.getStyleClass().addAll("btnFunction", "btnFuncTable");
         btnOpenDirectory.setTooltip(new Tooltip("Ordner mit gespeichertem Audio öffnen"));
-        btnOpenDirectory.setGraphic(ProgIcons.ICON_TABLE_DOWNLOAD_OPEN_DIR.getImageView());
+        btnOpenDirectory.setGraphic(PIconFactory.PICON.BTN_ALERT_DOWNLOAD_OPEN_DIR.getFontIcon());
         btnOpenDirectory.setOnAction((ActionEvent event) -> {
             P2Open.openDir(download.getDestPath(),
-                    ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                    ProgConfig.SYSTEM_PROG_OPEN_DIR, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         });
 
         HBox hBoxBottom = new HBox();

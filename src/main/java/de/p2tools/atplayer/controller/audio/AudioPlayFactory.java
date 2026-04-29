@@ -19,9 +19,9 @@ package de.p2tools.atplayer.controller.audio;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.P2DialogFileChooser;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
@@ -160,7 +160,7 @@ public class AudioPlayFactory {
         String[] arrProgCallArray = strProgCallArray.split(DownloadConstants.TRENNER_PROG_ARRAY);
 
         P2Open.playStoredFilm(arrProgCallArray, ProgConfig.SYSTEM_PROG_PLAY,
-                file, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                file, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         startMsg(file, arrProgCallArray);
     }
 

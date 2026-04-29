@@ -16,7 +16,11 @@
 
 package de.p2tools.atplayer.gui.startdialog;
 
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.ProgColorList;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgConst;
+import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
@@ -96,7 +100,7 @@ public class PathPane {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.DirChooser(stage, txtDownloadPath);
         });
-        btnFile.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnFile.setTooltip(new Tooltip("Speicherordner auswählen"));
 
         gridPane.add(text, 0, row);
@@ -139,7 +143,7 @@ public class PathPane {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.FileChooserOpenFile(stage, txtPlayer);
         });
-        btnFile.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnFile.setTooltip(new Tooltip("Programmdatei auswählen"));
 
         HBox hBox = new HBox();

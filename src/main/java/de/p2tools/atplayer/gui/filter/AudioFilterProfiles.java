@@ -19,7 +19,6 @@ package de.p2tools.atplayer.gui.filter;
 import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.controller.picon.PIconFactory;
@@ -136,7 +135,7 @@ public class AudioFilterProfiles extends VBox {
         final MenuItem miReset = new MenuItem("Alle Filterprofile wieder herstellen");
         miReset.setOnAction(e -> resetFilter());
 
-        mbFilterTools.setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
+        mbFilterTools.setGraphic(PIconFactory.PICON.TAB_MENU.getFontIcon());
         mbFilterTools.getItems().addAll(miLoad, miRename, miDel, miDelAll, miSave, miNew,
                 new SeparatorMenuItem(), miResort, miFilterDialog, miReset);
         mbFilterTools.setTooltip(new Tooltip("Gespeicherte Filterprofile bearbeiten"));
@@ -280,7 +279,7 @@ public class AudioFilterProfiles extends VBox {
                     }
 
                     if (P2CboSeparator.isSeparator(item.toString())) {
-                        setGraphic(ProgIcons.ICON_BUTTON_SEPARATOR_WIDTH.getImageView());
+                        setGraphic(PIconFactory.PICON.BTN_SEPARATOR_WIDTH.getFontIcon());
                         setText(null);
                         setStyle("-fx-alignment: center;");
                         setDisable(true);

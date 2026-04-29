@@ -18,7 +18,10 @@ package de.p2tools.atplayer.gui;
 
 import de.p2tools.atplayer.controller.ProgQuit;
 import de.p2tools.atplayer.controller.ProgSave;
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.PShortcut;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgConst;
+import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
@@ -80,7 +83,7 @@ public class ProgMenu extends MenuButton {
         final MenuItem miUrlHelp = new MenuItem("Anleitung im Web");
         miUrlHelp.setOnAction(event -> {
             P2Open.openURL(ProgConst.URL_WEBSITE_HELP,
-                    ProgConfig.SYSTEM_PROG_OPEN_URL, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                    ProgConfig.SYSTEM_PROG_OPEN_URL, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         });
         final MenuItem miReset = new MenuItem("Alle Programmeinstellungen zurücksetzen");
         miReset.setOnAction(event -> new ResetDialogController(progData));

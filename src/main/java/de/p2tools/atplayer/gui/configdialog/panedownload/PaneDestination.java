@@ -20,7 +20,7 @@ package de.p2tools.atplayer.gui.configdialog.panedownload;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
@@ -63,17 +63,17 @@ public class PaneDestination {
         vBoxAll.setSpacing(25);
 
         final Button btnFileDest = new Button();
-        btnFileDest.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnFileDest.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnFileDest.setTooltip(new Tooltip("Einen Ordner zum Speichern der Audios auswählen"));
         btnFileDest.setOnAction(event -> P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtDestPath));
 
         final Button btnDestPathReset = new Button();
-        btnDestPathReset.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnDestPathReset.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
         btnDestPathReset.setTooltip(new Tooltip("Die Init-Parameter wieder herstellen"));
         btnDestPathReset.setOnAction(event -> txtDestPath.setText(ProgConfig.DOWNLOAD_FILE_PATH_INIT));
 
         final Button btnDestReset = new Button();
-        btnDestReset.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnDestReset.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
         btnDestReset.setTooltip(new Tooltip("Die Init-Parameter wieder herstellen"));
         btnDestReset.setOnAction(event -> txtDestName.setText(ProgConfig.DOWNLOAD_FILE_NAME_INIT));
 

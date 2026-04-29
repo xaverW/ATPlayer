@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.dialog;
 
 import de.p2tools.atplayer.controller.ProgQuit;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.alert.P2Alert;
@@ -59,7 +59,7 @@ public class ResetDialogController extends P2DialogExtra {
         headerLabel.setStyle("-fx-font-size: 1.5em;");
 
         // Set zurücksetzen
-        P2BigButton cancelButton = new P2BigButton(ProgIcons.ICON_BUTTON_QUIT.getImageView(),
+        P2BigButton cancelButton = new P2BigButton(PIconFactory.PICON.BTN_QUIT_DIALOG.getFontIcon(),
                 "Nichts ändern", "");
         cancelButton.setOnAction(e -> close());
 
@@ -67,7 +67,7 @@ public class ResetDialogController extends P2DialogExtra {
                 HelpText.RESET_DIALOG);
 
         // alle Einstellungen
-        P2BigButton allButton = new P2BigButton(ProgIcons.ICON_BUTTON_QUIT.getImageView(), "" +
+        P2BigButton allButton = new P2BigButton(PIconFactory.PICON.BTN_QUIT_DIALOG.getFontIcon(), "" +
                 "Alle Einstellungen zurücksetzen!",
                 "Alle Einstellungen gehen verloren.");
         allButton.setOnAction(e -> {
@@ -88,7 +88,7 @@ public class ResetDialogController extends P2DialogExtra {
             }
         });
 
-        gridPane.add(ProgIcons.ICON_ATTENTION_64.getImageView(), 0, 0, 1, 1);
+        gridPane.add(PIconFactory.PICON.ATTENTION.getFontIcon(), 0, 0, 1, 1);
         gridPane.add(headerLabel, 1, 0);
         gridPane.add(cancelButton, 1, 1);
         gridPane.add(btnHelp, 2, 1);

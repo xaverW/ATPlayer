@@ -21,10 +21,10 @@ import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadDataFactory;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadAddDialogController;
 import de.p2tools.atplayer.gui.infopane.*;
@@ -249,7 +249,7 @@ public class DownloadGuiController extends AnchorPane {
             return;
         }
         String s = download.get().getDestPath();
-        P2Open.openDir(s, ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        P2Open.openDir(s, ProgConfig.SYSTEM_PROG_OPEN_DIR, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
     }
 
     public void copyUrl() {

@@ -19,8 +19,8 @@ package de.p2tools.atplayer.gui.filter;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgConst;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.pcbo.P2CboSeparator;
 import javafx.scene.control.*;
@@ -128,7 +128,7 @@ public class AudioFilterDialog extends P2DialogExtra {
                 }
 
                 if (P2CboSeparator.isSeparator(item.toString())) {
-                    setGraphic(ProgIcons.ICON_BUTTON_SEPARATOR_WIDTH.getImageView());
+                    setGraphic(PIconFactory.PICON.BTN_SEPARATOR_WIDTH.getFontIcon());
                     setText(null);
                     setStyle("-fx-alignment: center;");
                     setDisable(true);

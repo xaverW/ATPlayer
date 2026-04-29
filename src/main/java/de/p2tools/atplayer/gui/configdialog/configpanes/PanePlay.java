@@ -19,7 +19,7 @@ package de.p2tools.atplayer.gui.configdialog.configpanes;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
@@ -81,16 +81,16 @@ public class PanePlay {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.FileChooserOpenFile(ProgData.getInstance().primaryStage, txtPlay);
         });
-        btnFile.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnFile.setTooltip(new Tooltip("Einen Videoplayer zum Abspielen der Beiträge auswählen"));
 
         final Button btnProgramReset = new Button();
-        btnProgramReset.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnProgramReset.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
         btnProgramReset.setTooltip(new Tooltip("Die Init-Parameter wieder herstellen"));
         btnProgramReset.setOnAction(event -> txtPlay.setText(GetProgramStandardPath.getTemplatePathVlc()));
 
         final Button btnParameterReset = new Button();
-        btnParameterReset.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnParameterReset.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
         btnParameterReset.setTooltip(new Tooltip("Die Init-Parameter wieder herstellen"));
         btnParameterReset.setOnAction(event -> txtParameter.setText(ProgConfig.SYSTEM_PROG_PLAY_PARAMETER_INIT));
 

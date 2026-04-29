@@ -20,8 +20,8 @@ package de.p2tools.atplayer.gui.dialog.downloadadd;
 import de.p2tools.atplayer.controller.ProgSave;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.alert.P2Alert;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
@@ -84,16 +84,16 @@ public class DownloadAddDialogController extends P2DialogExtra {
     }
 
     private void initButton() {
-        addDownloadDto.btnDest.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        addDownloadDto.btnDest.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         addDownloadDto.btnDest.setTooltip(new Tooltip("Einen Pfad zum Speichern auswählen."));
         addDownloadDto.btnDest.setOnAction(event -> P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, addDownloadDto.cboPath));
 
-        addDownloadDto.btnPropose.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        addDownloadDto.btnPropose.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
         addDownloadDto.btnPropose.setTooltip(new Tooltip("Einen Pfad zum Speichern vorschlagen lassen."));
         addDownloadDto.btnPropose.setOnAction(event ->
                 addDownloadDto.initPathName.proposeDestination());
 
-        addDownloadDto.btnClean.setGraphic(ProgIcons.ICON_BUTTON_CLEAN.getImageView());
+        addDownloadDto.btnClean.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
         addDownloadDto.btnClean.setTooltip(new Tooltip("Die Liste der Pfade löschen"));
         addDownloadDto.btnClean.setOnAction(a -> addDownloadDto.initPathName.clearPath());
 

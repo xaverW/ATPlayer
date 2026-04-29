@@ -16,9 +16,13 @@
 
 package de.p2tools.atplayer.gui.dialog;
 
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.ProgColorList;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgConfigAskBeforeDelete;
+import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.data.download.DownloadFactory;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.mediathek.tools.P2FileNameUtils;
@@ -154,7 +158,7 @@ public class DownloadContinueDialogController extends P2DialogExtra {
     }
 
     private void initButton() {
-        btnPath.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnPath.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
         btnPath.setTooltip(new Tooltip("Einen Pfad zum Speichern auswählen"));
         btnPath.setOnAction(event -> getDestination());
 

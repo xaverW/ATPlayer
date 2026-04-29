@@ -18,7 +18,7 @@
 package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.mediathek.filter.FilterCheckRegEx;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.StringProperty;
@@ -120,7 +120,7 @@ public class PCboString extends ComboBox<PCboString.PCboLabel> {
             final Label lblFilter = new Label();
 
             {
-                btnDel.setGraphic(ProgIcons.ICON_BUTTON_DEL_SW.getImageView());
+                btnDel.setGraphic(PIconFactory.PICON.BTN_CLEAR_CBO.getFontIcon());
                 btnDel.getStyleClass().add("buttonVerySmall");
                 btnDel.visibleProperty().bind(Bindings.size(itemList).greaterThan(1));
 

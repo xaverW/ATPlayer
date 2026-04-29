@@ -21,7 +21,6 @@ import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadConstants;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
 import de.p2tools.atplayer.controller.picon.PIconFactory;
@@ -129,7 +128,7 @@ public class CellStartDownload<S, T> extends TableCell<S, T> {
                 btnOpenDirectory.setOnAction((ActionEvent event) -> {
                     DownloadData download = getTableView().getItems().get(getIndex());
                     P2Open.openDir(download.getDestPath(),
-                            ProgConfig.SYSTEM_PROG_OPEN_DIR, ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+                            ProgConfig.SYSTEM_PROG_OPEN_DIR, PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
                 });
                 hbox.getChildren().addAll(btnFilmStart, btnOpenDirectory);
                 setGraphic(hbox);

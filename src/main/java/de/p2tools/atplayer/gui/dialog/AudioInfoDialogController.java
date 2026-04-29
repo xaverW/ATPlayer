@@ -18,7 +18,7 @@ package de.p2tools.atplayer.gui.dialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2Hyperlink;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
@@ -27,7 +27,6 @@ import de.p2tools.p2lib.mediathek.filmdata.FilmDataXml;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.ContextMenuEvent;
@@ -36,6 +35,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class AudioInfoDialogController extends P2DialogExtra {
     private static AudioInfoDialogController instance;
@@ -46,8 +46,8 @@ public class AudioInfoDialogController extends P2DialogExtra {
     private final GridPane gridPane = new GridPane();
     private final Button btnOk = new Button("_Ok");
 
-    private final ImageView ivNew = new ImageView();
-    private final ImageView ivPodcast = new ImageView();
+    private final FontIcon ivNew = PIconFactory.PICON.ICON_BOOLEAN_ON.getFontIcon();
+    private final FontIcon ivPodcast = PIconFactory.PICON.ICON_BOOLEAN_ON.getFontIcon();
     private final P2Hyperlink p2HyperlinkUrl = new P2Hyperlink("",
             ProgConfig.SYSTEM_PROG_OPEN_URL);
     private final P2Hyperlink p2HyperlinkWebsite = new P2Hyperlink("",
@@ -71,8 +71,8 @@ public class AudioInfoDialogController extends P2DialogExtra {
                 if (audioData == null) {
                     lblCont[i].setText("");
                     textArea.setText("");
-                    ivNew.setImage(null);
-                    ivPodcast.setImage(null);
+                    ivNew.setVisible(false);
+                    ivPodcast.setVisible(false);
                     p2HyperlinkUrl.setUrl("");
                     p2HyperlinkWebsite.setUrl("");
                 } else {
@@ -94,16 +94,16 @@ public class AudioInfoDialogController extends P2DialogExtra {
                             break;
                         case AudioDataXml.AUDIO_NEW:
                             if (audioData.isNewAudio()) {
-                                ivNew.setImage(ProgIcons.ICON_BOOLEAN_IS_ON.getImage());
+                                ivNew.setVisible(true);
                             } else {
-                                ivNew.setImage(null);
+                                ivNew.setVisible(false);
                             }
                             break;
                         case AudioDataXml.AUDIO_PODCAST:
                             if (audioData.isPodcast()) {
-                                ivPodcast.setImage(ProgIcons.ICON_BOOLEAN_IS_ON.getImage());
+                                ivPodcast.setVisible(true);
                             } else {
-                                ivPodcast.setImage(null);
+                                ivPodcast.setVisible(false);
                             }
                             break;
 

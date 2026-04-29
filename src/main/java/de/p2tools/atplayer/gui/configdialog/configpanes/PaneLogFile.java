@@ -18,8 +18,8 @@ package de.p2tools.atplayer.gui.configdialog.configpanes;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.config.ProgInfos;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
 import de.p2tools.p2lib.dialogs.P2DirFileChooser;
@@ -84,10 +84,10 @@ public class PaneLogFile {
         btnFile.setOnAction(event -> {
             P2DirFileChooser.DirChooser(ProgData.getInstance().primaryStage, txtLogFile);
         });
-        btnFile.setGraphic(ProgIcons.ICON_BUTTON_FILE_OPEN.getImageView());
+        btnFile.setGraphic(PIconFactory.PICON.BTN_DIR_OPEN.getFontIcon());
 
         final Button btnClear = new Button();
-        btnClear.setGraphic(ProgIcons.ICON_BUTTON_CLEAN.getImageView());
+        btnClear.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
         btnClear.setTooltip(new Tooltip("Pfad löschen"));
         btnClear.setOnAction(event -> {
             txtLogFile.setText("");

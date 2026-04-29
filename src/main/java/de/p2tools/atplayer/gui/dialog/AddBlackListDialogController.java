@@ -18,9 +18,9 @@ package de.p2tools.atplayer.gui.dialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.blackdata.BlackData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
@@ -122,41 +122,41 @@ public class AddBlackListDialogController extends P2DialogExtra {
             blackData.setChannel(channel);
         });
         btnChannel.setTooltip(new Tooltip("Daten vom Film eintragen"));
-        btnChannel.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnChannel.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
 
         btnGenre.setOnAction(a -> {
             blackData.setGenre(genre);
         });
         btnGenre.setTooltip(new Tooltip("Daten vom Film eintragen"));
-        btnGenre.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnGenre.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
 
         btnTheme.setOnAction(a -> blackData.setTheme(theme));
         btnTheme.setTooltip(new Tooltip("Daten vom Film eintragen"));
-        btnTheme.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnTheme.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
 
         btnTitel.setOnAction(a -> blackData.setTitle(title));
         btnTitel.setTooltip(new Tooltip("Daten vom Film eintragen"));
-        btnTitel.setGraphic(ProgIcons.ICON_BUTTON_RESET.getImageView());
+        btnTitel.setGraphic(PIconFactory.PICON.BTN_RESET.getFontIcon());
 
         btnClearChannel.setOnAction(a -> blackData.channelProperty().setValue(""));
         btnClearChannel.setTooltip(new Tooltip("Feld löschen"));
-        btnClearChannel.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnClearChannel.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         btnClearGenre.setOnAction(a -> blackData.genreProperty().setValue(""));
         btnClearGenre.setTooltip(new Tooltip("Feld löschen"));
-        btnClearGenre.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnClearGenre.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         btnClearTheme.setOnAction(a -> blackData.setTheme(""));
         btnClearTheme.setTooltip(new Tooltip("Feld löschen"));
-        btnClearTheme.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnClearTheme.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         btnClearTitel.setOnAction(a -> blackData.setTitle(""));
         btnClearTitel.setTooltip(new Tooltip("Feld löschen"));
-        btnClearTitel.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnClearTitel.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         btnClearThemeTitel.setOnAction(a -> blackData.setThemeTitle(""));
         btnClearThemeTitel.setTooltip(new Tooltip("Feld löschen"));
-        btnClearThemeTitel.setGraphic(ProgIcons.ICON_BUTTON_CLEAR.getImageView());
+        btnClearThemeTitel.setGraphic(PIconFactory.PICON.BTN_CLEAR.getFontIcon());
 
         txtTheme.textProperty().bindBidirectional(blackData.themeProperty());
         tgTheme.selectedProperty().bindBidirectional(blackData.themeExactProperty());

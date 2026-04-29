@@ -18,8 +18,8 @@ package de.p2tools.atplayer.gui.dialog;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgIcons;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.atplayer.gui.dialog.downloadadd.DownloadErrorStreamDialogController;
 import de.p2tools.atplayer.gui.tools.HelpText;
 import de.p2tools.p2lib.P2LibConst;
@@ -37,7 +37,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -59,7 +58,6 @@ public class DownloadErrorDialogController extends P2DialogExtra {
     private final TextArea txtUrl = new TextArea();
     private final TextArea txtCont = new TextArea();
     private final Label lblTime = new Label("");
-    private final ImageView imageView = new ImageView();
     private final GridPane gridPane = new GridPane();
 
     private final Timeline timeline = new Timeline();
@@ -106,7 +104,6 @@ public class DownloadErrorDialogController extends P2DialogExtra {
         btnErrorStream.setVisible(!download.getDownloadStartDto().getErrStreamList().isEmpty());
         btnErrorStream.setManaged(btnErrorStream.isVisible());
 
-        imageView.setImage(ProgIcons.ICON_ATTENTION_64.getImage());
         chkTime.setSelected(ProgConfig.DOWNLOAD_DIALOG_ERROR_TIME.get());
         chkTime.setOnAction(a -> {
             ProgConfig.DOWNLOAD_DIALOG_ERROR_TIME.setValue(chkTime.isSelected());
@@ -142,7 +139,7 @@ public class DownloadErrorDialogController extends P2DialogExtra {
                 de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
         HBox hBox = new HBox(10);
-        hBox.getChildren().addAll(imageView, gridPane);
+        hBox.getChildren().addAll(PIconFactory.PICON.ATTENTION.getFontIcon(), gridPane);
         HBox.setHgrow(gridPane, Priority.ALWAYS);
 
         vBoxCont.setPadding(new Insets(5));
