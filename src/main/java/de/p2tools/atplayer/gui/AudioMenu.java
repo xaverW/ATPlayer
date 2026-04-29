@@ -21,10 +21,14 @@ import de.p2tools.atplayer.ATPlayerController;
 import de.p2tools.atplayer.ATPlayerFactory;
 import de.p2tools.atplayer.controller.audio.AudioPlayFactory;
 import de.p2tools.atplayer.controller.audio.AudioSaveFactory;
-import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.config.PShortKeyFactory;
+import de.p2tools.atplayer.controller.config.PShortcut;
+import de.p2tools.atplayer.controller.config.ProgConfig;
+import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFactory;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
+import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
@@ -63,11 +67,14 @@ public class AudioMenu {
         vBox.getChildren().add(vBoxSpace);
 
         final ToolBarButton btnPlay = new ToolBarButton(vBox,
-                "Abspielen", "Markiertes Audio abspielen", ProgIcons.ICON_TOOLBAR_START.getImageView());
+                "Abspielen", "Markiertes Audio abspielen",
+                PIconFactory.PICON.TOOLBAR_BTN_PLAY.getFontIcon());
         final ToolBarButton btnPlayAll = new ToolBarButton(vBox,
-                "Abspielen", "Markierte Audios abspielen", ProgIcons.ICON_TOOLBAR_START_ALL.getImageView());
+                "Abspielen", "Markierte Audios abspielen",
+                PIconFactory.PICON.TOOLBAR_BTN_PLAY_ALL.getFontIcon());
         final ToolBarButton btnSave = new ToolBarButton(vBox,
-                "Speichern", "Markierte Audios speichern", ProgIcons.ICON_TOOLBAR_REC.getImageView());
+                "Speichern", "Markierte Audios speichern",
+                PIconFactory.PICON.TOOLBAR_BTN_RECORDE.getFontIcon());
 
         btnPlay.setOnAction(a -> AudioPlayFactory.playAudio());
         btnPlayAll.setOnAction(a -> AudioPlayFactory.playAllAudios());
@@ -80,13 +87,17 @@ public class AudioMenu {
 
 
         final ToolBarButton btBookmark = new ToolBarButton(vBox,
-                "Bookmarks anlegen", "Bookmarks für die markierten Filme anlegen", ProgIcons.ICON_TOOLBAR_BOOKMARK.getImageView());
+                "Bookmarks anlegen", "Bookmarks für die markierten Filme anlegen",
+                PIconFactory.PICON.TOOLBAR_BTN_BOOKMARK_ADD.getFontIcon());
         final ToolBarButton btDelBookmark = new ToolBarButton(vBox,
-                "Bookmarks löschen", "Bookmarks für die markierten Filme löschen", ProgIcons.ICON_TOOLBAR_DEL_BOOKMARK.getImageView());
+                "Bookmarks löschen", "Bookmarks für die markierten Filme löschen",
+                PIconFactory.PICON.TOOLBAR_BTN_BOOKMARK_DEL.getFontIcon());
         final ToolBarButton btDelAllBookmark = new ToolBarButton(vBox,
-                "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen", ProgIcons.ICON_TOOLBAR_DEL_ALL_BOOKMARK.getImageView());
+                "Alle Bookmarks löschen", "Alle angelegten Bookmarks löschen",
+                PIconFactory.PICON.TOOLBAR_BTN_BOOKMARK_DAL_ALL.getFontIcon());
         final ToolBarButton btFilterBookmark = new ToolBarButton(vBox,
-                "Bookmarks anzeigen", FILM_FILTER_BOOKMARK_TEXT, ProgIcons.ICON_TOOLBAR_BOOKMARK_FILTER.getImageView());
+                "Bookmarks anzeigen", FILM_FILTER_BOOKMARK_TEXT,
+                PIconFactory.PICON.TOOLBAR_BTN_BOOKMARK_SHOW.getFontIcon());
 
         btBookmark.setOnAction(a -> {
             progData.audioGuiController.bookmarkAudio(true);
@@ -125,9 +136,9 @@ public class AudioMenu {
 
     private void initFilmMenu() {
         final MenuButton mb = new MenuButton("");
-        mb.setTooltip(new Tooltip("Filmmenü anzeigen"));
-        mb.setGraphic(ProgIcons.ICON_TOOLBAR_MENU.getImageView());
-        mb.getStyleClass().addAll("btnFunction", "btnFunc-0");
+        mb.setTooltip(new Tooltip("Audiomenü anzeigen"));
+        mb.setGraphic(PIconFactory.PICON.TAB_MENU.getFontIcon());
+        mb.getStyleClass().addAll("pFuncBtn", "btnProgMenu", "btnProgMenuSmall");
 
         final MenuItem mbPlay = new MenuItem("Film abspielen");
         mbPlay.setOnAction(a -> {

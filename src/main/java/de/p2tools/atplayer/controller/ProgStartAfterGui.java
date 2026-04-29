@@ -17,10 +17,7 @@
 package de.p2tools.atplayer.controller;
 
 import de.p2tools.atplayer.controller.audio.LoadAudioFactory;
-import de.p2tools.atplayer.controller.config.ProgConfig;
-import de.p2tools.atplayer.controller.config.ProgConst;
-import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.config.ProgInfos;
+import de.p2tools.atplayer.controller.config.*;
 import de.p2tools.atplayer.gui.filter.AudioFilterDialog;
 import de.p2tools.p2lib.tools.P2InfoFactory;
 import de.p2tools.p2lib.tools.log.P2Log;
@@ -47,6 +44,8 @@ public class ProgStartAfterGui {
         //die gespeicherte Audioliste laden
         ProgData.getInstance().filterWorker.getActFilterSettings().switchFilterOff(false);
         LoadAudioFactory.getInstance().loadProgStart();
+        ProgColorList.setColorTheme(); // Farben einrichten
+        ProgData.getInstance().colorWorker.setColor(); // Farben einrichten
     }
 
     public static void startMsg() {

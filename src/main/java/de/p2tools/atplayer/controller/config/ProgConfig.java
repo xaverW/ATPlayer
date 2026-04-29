@@ -231,15 +231,14 @@ public class ProgConfig extends P2DataProgConfig {
     public static IntegerProperty SYSTEM_FILTER_WAIT_TIME = addIntProp("system-filter-wait-time", 100);
     public static BooleanProperty SYSTEM_FILTER_RETURN = addBoolProp("system-filter-return", Boolean.FALSE);
     public static StringProperty SYSTEM_DOWNLOAD_DIR_NEW_VERSION = addStrProp("system-download-dir-new-version", "");
+    public static BooleanProperty SYSTEM_GUI_LAST_START_WAS_MAXIMISED = addBoolProp("system-gui-last-start-was-maximised", Boolean.FALSE); // Programm wurde Maximised beendet
+    public static BooleanProperty SYSTEM_GUI_START_ALWAYS_MAXIMISED = addBoolProp("system-gui-start-always-maximised", Boolean.FALSE);
 
     public static BooleanProperty SYSTEM_DARK_THEME = addBoolProp("system-dark-theme", Boolean.FALSE);
     public static BooleanProperty SYSTEM_BLACK_WHITE_ICON = addBoolProp("system-black-white-icon", Boolean.FALSE);
     public static BooleanProperty SYSTEM_THEME_CHANGED = addBoolProp("system-theme-changed");
     public static IntegerProperty SYSTEM_FONT_SIZE = addIntProp("system-font-size", 0);
     public static BooleanProperty SYSTEM_FONT_SIZE_CHANGE = addBoolProp("system-font-size-change", Boolean.FALSE); // für die Schriftgröße
-
-    public static BooleanProperty SYSTEM_DARK_THEME_START = addBoolProp("system-dark-theme-start", Boolean.FALSE);
-    public static BooleanProperty SYSTEM_BLACK_WHITE_ICON_START = addBoolProp("system-black-white-icon-start", Boolean.FALSE);
 
     public static BooleanProperty SYSTEM_GUI_THEME_1 = addBoolProp("system-gui-theme-1", Boolean.FALSE); // Theme 1 oder 2
     public static StringProperty SYSTEM_CSS_ADDER = addStrProp("system-css-adder");

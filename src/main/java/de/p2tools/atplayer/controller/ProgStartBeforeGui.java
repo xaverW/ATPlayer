@@ -22,10 +22,12 @@ import de.p2tools.atplayer.gui.startdialog.StartDialogController;
 import de.p2tools.p2lib.P2LibInit;
 import de.p2tools.p2lib.configfile.ConfigFile;
 import de.p2tools.p2lib.configfile.ConfigReadFile;
+import de.p2tools.p2lib.css.P2CssFactory;
 import de.p2tools.p2lib.tools.duration.P2Duration;
 import de.p2tools.p2lib.tools.log.P2Log;
 import de.p2tools.p2lib.tools.log.P2Logger;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,6 +41,7 @@ public class ProgStartBeforeGui {
     public static void workBeforeGui() {
         boolean load = loadAll();
         initP2lib();
+
 
         if (!load) {
             // dann ist der erste Start
@@ -65,7 +68,7 @@ public class ProgStartBeforeGui {
         P2LibInit.initLib(ProgData.getInstance().primaryStage, ProgConst.PROGRAM_NAME, "",
                 ProgConfig.SYSTEM_THEME_CHANGED,
                 ProgConfig.SYSTEM_DARK_THEME,
-                ProgConfig.SYSTEM_BLACK_WHITE_ICON,
+                ProgConfig.SYSTEM_GUI_THEME_1,
                 ProgConfig.SYSTEM_ICON_COLOR,
                 ProgConfig.SYSTEM_CSS_ADDER,
 
@@ -84,7 +87,7 @@ public class ProgStartBeforeGui {
                         "de/p2tools/atplayer/css/mtfx-dark.css"
                 },
 
-                ProgData.getInstance().cssProp,
+                new SimpleObjectProperty<>(P2CssFactory.CSS.CSS_1),
                 ProgConfig.SYSTEM_FONT_SIZE,
                 null,
                 ProgConst.PROGRAM_ICON, "",
