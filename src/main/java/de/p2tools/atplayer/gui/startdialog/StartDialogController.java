@@ -18,17 +18,15 @@ package de.p2tools.atplayer.gui.startdialog;
 
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.picon.PIconFactory;
-import de.p2tools.atplayer.gui.configdialog.configpanes.PaneAudioFilter;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2Button;
+import de.p2tools.p2lib.guitools.P2GuiTools;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.TitledPane;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 
@@ -38,31 +36,27 @@ public class StartDialogController extends P2DialogExtra {
     private static final String STR_START_1 = "Infos";
     private static final String STR_START_2 = "Infos";
     private static final String STR_UPDATE = "Update";
+    private static final String STR_COLOR = "Farbe";
     private static final String STR_FILM = "Audios";
     private static final String STR_PATH = "Pfade";
     private final ProgData progData;
     private boolean ok = false;
-    private TilePane tilePane = new TilePane();
-    private StackPane stackpane;
     private Button btnOk, btnCancel;
     private Button btnPrev, btnNext;
     private Button btnStart1 = new Button(STR_START_1), btnStart2 = new Button(STR_START_2),
             btnUpdate = new Button(STR_UPDATE),
+            btnColor = new Button(STR_COLOR),
             btnFilm = new Button(STR_FILM),
             btnPath = new Button(STR_PATH);
     private State aktState = State.START_1;
-
-    private TitledPane tStart1;
-    private TitledPane tStart2;
-    private TitledPane tUpdate;
-    private TitledPane tFilm;
-    private TitledPane tPath;
+    private VBox vBoxCont = new VBox();
 
     private StartPane startPane1;
     private StartPane startPane2;
-    private UpdatePane updatePane;
-    private PaneAudioFilter loadFilmsPane;
-    private PathPane pathPane;
+    private StartPaneUpdate startPaneUpdate;
+    private StartPaneColor startPaneColor;
+    private StartPaneAudio startPaneAudio;
+    private StartPaneFilm startPaneFilm;
 
     public StartDialogController() {
         super(null, null, "Starteinstellungen");
@@ -73,7 +67,7 @@ public class StartDialogController extends P2DialogExtra {
 
     @Override
     public void make() {
-        initTopButton();
+        init();
         initStack();
         initButton();
         initTooltip();
@@ -84,9 +78,10 @@ public class StartDialogController extends P2DialogExtra {
         this.ok = ok;
         startPane1.close();
         startPane2.close();
-        updatePane.close();
-        loadFilmsPane.close();
-        pathPane.close();
+        startPaneUpdate.close();
+        startPaneColor.close();
+        startPaneAudio.close();
+        startPaneFilm.close();
         super.close();
     }
 
@@ -94,9 +89,13 @@ public class StartDialogController extends P2DialogExtra {
         return ok;
     }
 
-    private void initTopButton() {
-        getVBoxCont().getChildren().add(tilePane);
-        tilePane.getChildren().addAll(btnStart1, btnStart2, btnUpdate, btnFilm, btnPath);
+    private void init() {
+        final TilePane tilePane = new TilePane();
+        tilePane.setAlignment(Pos.CENTER);
+        tilePane.setHgap(10);
+        tilePane.setVgap(10);
+
+        tilePane.getChildren().addAll(btnStart1, btnStart2, btnUpdate, btnColor, btnFilm, btnPath);
         tilePane.setAlignment(Pos.CENTER);
         tilePane.setPadding(new Insets(10, 10, 20, 10));
         tilePane.setHgap(10);
@@ -105,12 +104,17 @@ public class StartDialogController extends P2DialogExtra {
         initTopButton(btnStart1, State.START_1);
         initTopButton(btnStart2, State.START_2);
         initTopButton(btnUpdate, State.UPDATE);
+        initTopButton(btnColor, State.COLOR);
         initTopButton(btnFilm, State.FILM);
         initTopButton(btnPath, State.PATH);
+
+        VBox.setVgrow(vBoxCont, Priority.ALWAYS);
+        getVBoxCont().setPadding(new Insets(5));
+        getVBoxCont().getChildren().addAll(tilePane, P2GuiTools.getHDistance(5), vBoxCont);
     }
 
     private void initTopButton(Button btn, State state) {
-        btn.getStyleClass().addAll("btnFunction", "btnFuncStartDialog");
+        btn.getStyleClass().addAll("btnStartDialog");
         btn.setAlignment(Pos.CENTER);
         btn.setMaxWidth(Double.MAX_VALUE);
         btn.setOnAction(a -> {
@@ -120,41 +124,29 @@ public class StartDialogController extends P2DialogExtra {
     }
 
     private void initStack() {
-        stackpane = new StackPane();
-        VBox.setVgrow(stackpane, Priority.ALWAYS);
-        getVBoxCont().getChildren().add(stackpane);
-
         //startPane 1
         startPane1 = new StartPane(getStage());
-        tStart1 = startPane1.makeStart1();
-        tStart1.setMaxHeight(Double.MAX_VALUE);
-        tStart1.setCollapsible(false);
+        startPane1.makeStart1();
 
         //startPane 2
         startPane2 = new StartPane(getStage());
-        tStart2 = startPane2.makeStart2();
-        tStart2.setMaxHeight(Double.MAX_VALUE);
-        tStart2.setCollapsible(false);
+        startPane2.makeStart2();
 
         //updatePane
-        updatePane = new UpdatePane(getStage());
-        tUpdate = updatePane.makeStart();
-        tUpdate.setMaxHeight(Double.MAX_VALUE);
-        tUpdate.setCollapsible(false);
+        startPaneUpdate = new StartPaneUpdate(getStage());
+        startPaneUpdate.makeStart();
+
+        //colorPane
+        startPaneColor = new StartPaneColor(getStage());
+        startPaneColor.make();
 
         //filmPane
-        loadFilmsPane = new PaneAudioFilter(getStage());
-        tFilm = loadFilmsPane.make();
-        tFilm.setMaxHeight(Double.MAX_VALUE);
-        tFilm.setCollapsible(false);
+        startPaneAudio = new StartPaneAudio(getStage());
+        startPaneAudio.make();
 
         //pathPane
-        pathPane = new PathPane(getStage());
-        tPath = pathPane.makePath();
-        tPath.setMaxHeight(Double.MAX_VALUE);
-        tPath.setCollapsible(false);
-
-        stackpane.getChildren().addAll(tStart1, tStart2, tUpdate, tFilm, tPath);
+        startPaneFilm = new StartPaneFilm(getStage());
+        startPaneFilm.makePath();
     }
 
     private void initButton() {
@@ -177,6 +169,9 @@ public class StartDialogController extends P2DialogExtra {
                     aktState = State.UPDATE;
                     break;
                 case UPDATE:
+                    aktState = State.COLOR;
+                    break;
+                case COLOR:
                     aktState = State.FILM;
                     break;
                 case FILM:
@@ -198,8 +193,11 @@ public class StartDialogController extends P2DialogExtra {
                 case UPDATE:
                     aktState = State.START_2;
                     break;
-                case FILM:
+                case COLOR:
                     aktState = State.UPDATE;
+                    break;
+                case FILM:
+                    aktState = State.COLOR;
                     break;
                 case PATH:
                     aktState = State.FILM;
@@ -221,32 +219,44 @@ public class StartDialogController extends P2DialogExtra {
             case START_1:
                 btnPrev.setDisable(true);
                 btnNext.setDisable(false);
-                tStart1.toFront();
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPane1);
                 setButtonStyle(btnStart1);
                 break;
             case START_2:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(false);
-                tStart2.toFront();
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPane2);
                 setButtonStyle(btnStart2);
                 break;
             case UPDATE:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(false);
-                tUpdate.toFront();
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPaneUpdate);
                 setButtonStyle(btnUpdate);
+                break;
+            case COLOR:
+                btnPrev.setDisable(false);
+                btnNext.setDisable(false);
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPaneColor);
+                setButtonStyle(btnColor);
                 break;
             case FILM:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(false);
-                tFilm.toFront();
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPaneFilm);
                 setButtonStyle(btnFilm);
                 break;
             case PATH:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(true);
                 btnOk.setDisable(false);
-                tPath.toFront();
+                vBoxCont.getChildren().clear();
+                vBoxCont.getChildren().add(startPaneAudio);
                 setButtonStyle(btnPath);
                 break;
             default:
@@ -255,18 +265,20 @@ public class StartDialogController extends P2DialogExtra {
     }
 
     private void setButtonStyle(Button btnSel) {
-        btnStart1.getStyleClass().setAll("btnFunction", "btnFuncStartDialog");
-        btnStart2.getStyleClass().setAll("btnFunction", "btnFuncStartDialog");
-        btnUpdate.getStyleClass().setAll("btnFunction", "btnFuncStartDialog");
-        btnFilm.getStyleClass().setAll("btnFunction", "btnFuncStartDialog");
-        btnPath.getStyleClass().setAll("btnFunction", "btnFuncStartDialog");
-        btnSel.getStyleClass().setAll("btnFunction", "btnFuncStartDialogSel");
+        btnStart1.getStyleClass().setAll("btnStartDialog");
+        btnStart2.getStyleClass().setAll("btnStartDialog");
+        btnUpdate.getStyleClass().setAll("btnStartDialog");
+        btnColor.getStyleClass().setAll("btnStartDialog");
+        btnFilm.getStyleClass().setAll("btnStartDialog");
+        btnPath.getStyleClass().setAll("btnStartDialog");
+        btnSel.getStyleClass().setAll("btnStartDialog", "btnStartDialogSel");
     }
 
     private void initTooltip() {
         btnStart1.setTooltip(new Tooltip("Infos über das Programm"));
         btnStart2.setTooltip(new Tooltip("Infos über das Programm"));
         btnUpdate.setTooltip(new Tooltip("Soll das Programm nach Updates suchen?"));
+        btnColor.setTooltip(new Tooltip("Wie soll die Programmoberfläche aussehen?"));
         btnFilm.setTooltip(new Tooltip("Damit kann man die Größe der\n" +
                 "Audioliste reduzieren und damit die Geschwindigkeit\n" +
                 "des Programms auf langsamen Rechnern verbessern"));
@@ -280,5 +292,5 @@ public class StartDialogController extends P2DialogExtra {
         btnPrev.setTooltip(new Tooltip("Vorherige Einstellmöglichkeit"));
     }
 
-    private enum State {START_1, START_2, UPDATE, FILM, PATH}
+    private enum State {START_1, START_2, UPDATE, COLOR, FILM, PATH}
 }

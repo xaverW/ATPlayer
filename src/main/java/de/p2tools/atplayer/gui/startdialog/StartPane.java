@@ -19,13 +19,13 @@ package de.p2tools.atplayer.gui.startdialog;
 import de.p2tools.p2lib.P2LibConst;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class StartPane {
+public class StartPane extends VBox {
     private final Stage stage;
 
     public StartPane(Stage stage) {
@@ -35,7 +35,7 @@ public class StartPane {
     public void close() {
     }
 
-    public TitledPane makeStart1() {
+    public void makeStart1() {
         HBox hBox = new HBox();
         hBox.setSpacing(25);
         hBox.setPadding(new Insets(20));
@@ -73,10 +73,10 @@ public class StartPane {
         hBox.getChildren().addAll(iv);
         hBox.getChildren().add(text);
 
-        return new TitledPane("Infos zur Programmoberfläche", hBox);
+        getChildren().addAll(StartFactory.getTitle("Infos zur Programmoberfläche"), hBox);
     }
 
-    public TitledPane makeStart2() {
+    public void makeStart2() {
         HBox hBox = new HBox();
         hBox.setSpacing(25);
         hBox.setPadding(new Insets(20));
@@ -109,18 +109,18 @@ public class StartPane {
                 "ein- und ausgeblendet werden.");
 
         hBox.getChildren().add(text);
-        return new TitledPane("Infos zur Programmoberfläche", hBox);
+        getChildren().addAll(StartFactory.getTitle("Infos zur Programmoberfläche"), hBox);
     }
 
     private javafx.scene.image.Image getHelpScreen1() {
-        final String path = "/de/p2tools/atplayer/res/startpage-1.png";
+        final String path = "/de/p2tools/atplayer/res/startdialog/startpage-1.png";
         return new javafx.scene.image.Image(path, 600,
                 600,
                 true, true);
     }
 
     private javafx.scene.image.Image getHelpScreen2() {
-        final String path = "/de/p2tools/atplayer/res/startpage-2.png";
+        final String path = "/de/p2tools/atplayer/res/startdialog/startpage-2.png";
         return new javafx.scene.image.Image(path, 600,
                 600,
                 true, true);

@@ -23,15 +23,15 @@ import de.p2tools.p2lib.guitools.P2Button;
 import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class UpdatePane {
+public class StartPaneUpdate extends VBox {
     private final Stage stage;
     private final P2ToggleSwitch tglSearch = new P2ToggleSwitch("einmal am Tag nach einer neuen Programmversion suchen");
 
-    public UpdatePane(Stage stage) {
+    public StartPaneUpdate(Stage stage) {
         this.stage = stage;
     }
 
@@ -39,7 +39,7 @@ public class UpdatePane {
         tglSearch.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_SEARCH_UPDATE);
     }
 
-    public TitledPane makeStart() {
+    public void makeStart() {
         final GridPane gridPane = new GridPane();
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
@@ -58,7 +58,6 @@ public class UpdatePane {
         gridPane.add(btnHelp, 1, 0);
         gridPane.getColumnConstraints().addAll(de.p2tools.p2lib.guitools.grid.P2GridConstraints.getCcComputedSizeAndHgrow());
 
-        TitledPane tpConfig = new TitledPane("Programmupdate", gridPane);
-        return tpConfig;
+        getChildren().addAll(StartFactory.getTitle("Programmupdate"), gridPane);
     }
 }

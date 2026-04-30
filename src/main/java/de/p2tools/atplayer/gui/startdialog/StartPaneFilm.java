@@ -32,9 +32,13 @@ import javafx.beans.property.StringProperty;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -42,13 +46,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PathPane {
+public class StartPaneFilm extends VBox {
     private final Stage stage;
     private GridPane gridPane = new GridPane();
     private int row = 0;
     private List<UnBind> unbindList = new ArrayList<>();
 
-    public PathPane(Stage stage) {
+    public StartPaneFilm(Stage stage) {
         this.stage = stage;
     }
 
@@ -56,7 +60,7 @@ public class PathPane {
         unbindList.stream().forEach(unBind -> unBind.unbind());
     }
 
-    public TitledPane makePath() {
+    public void makePath() {
         gridPane.setHgap(P2LibConst.DIST_GRIDPANE_HGAP);
         gridPane.setVgap(P2LibConst.DIST_GRIDPANE_VGAP);
         gridPane.setPadding(new Insets(P2LibConst.PADDING));
@@ -67,10 +71,8 @@ public class PathPane {
 
         addDownloadPath();
         addVlc();
-//        addFFmpeg();
 
-        TitledPane tpConfig = new TitledPane("Programmpfade", gridPane);
-        return tpConfig;
+        getChildren().addAll(StartFactory.getTitle("Programmpfade"), gridPane);
     }
 
     private void addDownloadPath() {
