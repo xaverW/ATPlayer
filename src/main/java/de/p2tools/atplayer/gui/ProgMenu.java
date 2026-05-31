@@ -27,7 +27,7 @@ import de.p2tools.atplayer.controller.update.SearchProgramUpdate;
 import de.p2tools.atplayer.gui.configdialog.ConfigDialogController;
 import de.p2tools.atplayer.gui.dialog.AboutDialogController;
 import de.p2tools.atplayer.gui.dialog.ResetDialogController;
-import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
+import de.p2tools.atplayer.tips.TipsDialog;
 import de.p2tools.p2lib.guitools.P2Open;
 import de.p2tools.p2lib.tools.shortcut.P2ShortcutWorker;
 import javafx.scene.control.*;
@@ -79,6 +79,9 @@ public class ProgMenu extends MenuButton {
         addMenuButton();
 
         //=========================
+        final MenuItem miTipps = new MenuItem("Hilfedialog");
+        miTipps.setOnAction(a -> new TipsDialog(progData));
+
         //Hilfe
         final MenuItem miUrlHelp = new MenuItem("Anleitung im Web");
         miUrlHelp.setOnAction(event -> {
@@ -87,15 +90,14 @@ public class ProgMenu extends MenuButton {
         });
         final MenuItem miReset = new MenuItem("Alle Programmeinstellungen zurücksetzen");
         miReset.setOnAction(event -> new ResetDialogController(progData));
-        final MenuItem miToolTip = new MenuItem("Tip des Tages");
-        miToolTip.setOnAction(a -> TipOfDayFactory.showDialog(progData, true));
         final MenuItem miSearchUpdate = new MenuItem("Gibt's ein Update?");
         miSearchUpdate.setOnAction(a -> new SearchProgramUpdate().searchNewProgramVersion(true));
         final MenuItem miAbout = new MenuItem("Über dieses Programm");
         miAbout.setOnAction(event -> new AboutDialogController(ProgData.getInstance()).showDialog());
 
         final Menu mHelp = new Menu("Hilfe");
-        mHelp.getItems().addAll(miUrlHelp, miReset, miToolTip, miSearchUpdate, new SeparatorMenuItem(), miAbout);
+        mHelp.getItems().addAll(miTipps, new SeparatorMenuItem(), miUrlHelp,
+                miReset, miSearchUpdate, new SeparatorMenuItem(), miAbout);
         getItems().addAll(mHelp);
 
         if (ProgData.debug) {

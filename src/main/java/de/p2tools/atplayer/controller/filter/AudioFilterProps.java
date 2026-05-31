@@ -49,7 +49,7 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     private final IntegerProperty minDur = new SimpleIntegerProperty(0);
     private final IntegerProperty maxDur = new SimpleIntegerProperty(AudioFilterCheck.FILTER_DURATION_MAX_MINUTE);
-    private final BooleanProperty durVis = new SimpleBooleanProperty(true);
+    private final BooleanProperty durVis = new SimpleBooleanProperty(false);
 
     private final BooleanProperty onlyVis = new SimpleBooleanProperty(true);
     private final BooleanProperty onlyNew = new SimpleBooleanProperty(false);

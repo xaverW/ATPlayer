@@ -16,8 +16,12 @@
 
 package de.p2tools.atplayer.controller.worker;
 
+import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.filter.AudioFilter;
+import de.p2tools.atplayer.tips.TipsDialog;
+import de.p2tools.p2lib.p2event.P2Events;
+import de.p2tools.p2lib.p2event.P2Listener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -32,6 +36,19 @@ public class Worker {
 
     public Worker(ProgData progData) {
         this.progData = progData;
+
+        progData.pEventHandler.addListener(new P2Listener(P2Events.EVENT_TIMER_ONE_MINUTE) {
+            @Override
+            public void pingGui() {
+                // startet alles das einmal nach dem Start laufen soll
+                if (ProgConfig.SYSTEM_SHOW_TIPS.get() && !TipsDialog.TIPS_DIALOG_OPEN) {
+                    // dann sollen Tipps angezeigt werden, und nur wenn noch nicht offen
+                    new TipsDialog(progData);
+                }
+            }
+        });
+
+
     }
 
     public void saveFilter() {

@@ -119,6 +119,9 @@ public class ProgConfig extends P2DataProgConfig {
     public static StringProperty SYSTEM_PROG_BUILD_NO = addStrProp("system-prog-build-no", P2InfoFactory.getBuildNo());
     public static StringProperty SYSTEM_PROG_BUILD_DATE = addStrProp("system-prog-build-date", P2InfoFactory.getBuildDateR());//z.B.: 27.07.2
 
+    public static BooleanProperty SYSTEM_SHOW_TIPS = addBoolProp("system-show-tips", Boolean.TRUE); // Dialog Tips wurde schon mal gezeigt
+    public static StringProperty TIPS_DIALOG_SIZE = addStrProp("tips-dialog-size", "800:600");
+
     // Configs zum Aktualisieren beim Programmupdate
     public static BooleanProperty SYSTEM_CHANGE_LOG_DIR = addBoolProp("system-change-log-dir", Boolean.FALSE);
 

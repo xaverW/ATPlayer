@@ -20,7 +20,6 @@ import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.picon.PIconFactory;
 import de.p2tools.p2lib.dialogs.dialog.P2DialogExtra;
 import de.p2tools.p2lib.guitools.P2Button;
-import de.p2tools.p2lib.guitools.P2GuiTools;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -97,7 +96,7 @@ public class StartDialogController extends P2DialogExtra {
 
         tilePane.getChildren().addAll(btnStart1, btnStart2, btnUpdate, btnColor, btnFilm, btnPath);
         tilePane.setAlignment(Pos.CENTER);
-        tilePane.setPadding(new Insets(10, 10, 20, 10));
+        tilePane.setPadding(new Insets(10, 10, 10, 10));
         tilePane.setHgap(10);
         tilePane.setVgap(10);
 
@@ -110,7 +109,7 @@ public class StartDialogController extends P2DialogExtra {
 
         VBox.setVgrow(vBoxCont, Priority.ALWAYS);
         getVBoxCont().setPadding(new Insets(5));
-        getVBoxCont().getChildren().addAll(tilePane, P2GuiTools.getHDistance(5), vBoxCont);
+        getVBoxCont().getChildren().addAll(tilePane, vBoxCont);
     }
 
     private void initTopButton(Button btn, State state) {
