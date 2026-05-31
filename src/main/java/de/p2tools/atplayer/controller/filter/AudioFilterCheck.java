@@ -116,6 +116,17 @@ public class AudioFilterCheck {
         return true;
     }
 
+    public static boolean checkMatchSomewhere(Filter somewhere, AudioData data) {
+        if (!FilterCheck.check(somewhere, data.arr[AudioDataXml.AUDIO_DATE])
+                && !FilterCheck.check(somewhere, data.arr[AudioDataXml.AUDIO_GENRE])
+                && !FilterCheck.check(somewhere, data.arr[AudioDataXml.AUDIO_THEME])
+                && !FilterCheck.check(somewhere, data.arr[AudioDataXml.AUDIO_TITLE])
+                && !FilterCheck.check(somewhere, data.arr[AudioDataXml.AUDIO_DESCRIPTION])) {
+            return false;
+        }
+        return true;
+    }
+
     public static boolean checkMatchSomewhereLowerCase(Filter somewhere, AudioData audioData) {
         if (!FilterCheck.checkLowerCase(somewhere, audioData.arr[AudioDataXml.AUDIO_DATE],
                 audioData.arr[AudioDataXml.AUDIO_DATE].toLowerCase())

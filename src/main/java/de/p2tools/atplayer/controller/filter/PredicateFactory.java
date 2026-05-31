@@ -141,7 +141,7 @@ public class PredicateFactory {
         }
 
         if (!fSomewhere.isEmpty) {
-            predicate = predicate.and(audioData -> AudioFilterCheck.checkMatchSomewhereLowerCase(fSomewhere, audioData));
+            predicate = predicate.and(audioData -> AudioFilterCheck.checkMatchSomewhere(fSomewhere, audioData));
         }
 
         return predicate;
