@@ -62,9 +62,6 @@ public class PredicateFactory {
         final boolean onlyBookmark = audioFilter.isOnlyVis() && audioFilter.isOnlyBookmark();
         final boolean noHistory = audioFilter.isOnlyVis() && audioFilter.isNoHistory();
 
-        final int podcast = audioFilter.getPodcastOnOff();
-        final boolean podcastVis = audioFilter.isPodcastVis();
-
         long days;
         try {
             if (!audioFilter.isTimeRangeVis()) {
@@ -93,14 +90,6 @@ public class PredicateFactory {
 
         if (noHistory) {
             predicate = predicate.and(audioData -> !audioData.isShown());
-        }
-
-        if (podcastVis) {
-            if (podcast == AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD) {
-                predicate = predicate.and(AudioData::isPodcast);
-            } else if (podcast == AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD) {
-                predicate = predicate.and(audioData -> !audioData.isPodcast());
-            }
         }
 
         //anz Tage Sendezeit

@@ -17,19 +17,16 @@
 package de.p2tools.atplayer.gui.filter;
 
 import de.p2tools.atplayer.controller.config.ProgData;
-import de.p2tools.atplayer.controller.filter.AudioFilter;
 import de.p2tools.atplayer.controller.filter.AudioFilterCheck;
 import de.p2tools.p2lib.guitools.P2GuiTools;
 import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxBool;
 import de.p2tools.p2lib.guitools.pcbo.P2CboCheckBoxListString;
 import de.p2tools.p2lib.guitools.prange.P2RangeBox;
-import de.p2tools.p2lib.guitools.ptoggleswitch.P2ToggleSwitch;
 import de.p2tools.p2lib.mediathek.filter.FilterCheck;
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -53,7 +50,6 @@ public class AudioFilterTextFilter extends VBox {
     private final P2RangeBox slDur = new P2RangeBox("Länge:", true, FilterCheck.FILTER_ALL_OR_MIN,
             AudioFilterCheck.FILTER_DURATION_MAX_MINUTE);
 
-    private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast:");
     private final Label lblOnly = new Label("Anzeigen:");
     private final P2CboCheckBoxBool checkOnly = new P2CboCheckBoxBool();
 
@@ -83,7 +79,6 @@ public class AudioFilterTextFilter extends VBox {
         initDaysFilter();
         initDurFilter();
         addFilter();
-        initPodcast();
     }
 
     private void initDaysFilter() {
@@ -148,12 +143,6 @@ public class AudioFilterTextFilter extends VBox {
         addTxt("Titel", cboTitle, vBoxAll, progData.filterWorker.getActFilterSettings().titleVisProperty());
         addTxt("Irgendwo", cboSomewhere, vBoxAll, progData.filterWorker.getActFilterSettings().somewhereVisProperty());
 
-        // Podcast
-        vBoxAll.getChildren().add(P2GuiTools.getVDistance(5));
-        vBoxAll.getChildren().add(tglPodcast);
-        tglPodcast.visibleProperty().bind(progData.filterWorker.getActFilterSettings().podcastVisProperty());
-        tglPodcast.managedProperty().bind(progData.filterWorker.getActFilterSettings().podcastVisProperty());
-
         // Zeit
         VBox vBox = addSlider();
         vBoxAll.getChildren().add(vBox);
@@ -169,42 +158,6 @@ public class AudioFilterTextFilter extends VBox {
         vBox.managedProperty().bind(progData.filterWorker.getActFilterSettings().durVisProperty());
 
         addShowAllFilter(vBoxAll);
-    }
-
-    private void initPodcast() {
-        tglPodcast.setAllowIndeterminate(true);
-        tglPodcast.setLabelLeft("Podcast [nur]:", "Podcast [alles]:", "Podcast [keine]:");
-        tglPodcast.setTooltip(new Tooltip("Podcast [aus]: Alle Audios werden angezeigt.\n" +
-                "Podcast [ein]: Es werden nur Podcasts angezeigt.\n" +
-                "Podcast [invers]: Es werden keine Podcasts angezeigt."));
-
-        setPodcast();
-        tglPodcast.getCheckBox().setOnAction((mouseEvent) -> {
-            if (tglPodcast.isIndeterminate()) {
-                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD);
-            } else if (tglPodcast.isSelected()) {
-                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD);
-            } else {
-                progData.filterWorker.getActFilterSettings().setPodcastOnOff(AudioFilter.PODCAST_FILTER_OFF__SHOW_ALL);
-            }
-        });
-    }
-
-    private void setPodcast() {
-        switch (progData.filterWorker.getActFilterSettings().podcastOnOffProperty().getValue()) {
-            case AudioFilter.PODCAST_FILTER_OFF__SHOW_ALL:
-                tglPodcast.setIndeterminate(false);
-                tglPodcast.setSelected(false);
-                break;
-            case AudioFilter.PODCAST_FILTER_ON__SHOW_ONLY_POD:
-                tglPodcast.setIndeterminate(false);
-                tglPodcast.setSelected(true);
-                break;
-            case AudioFilter.PODCAST_FILTER_INVERS__SHOW_NO_POD:
-                tglPodcast.setIndeterminate(true);
-                tglPodcast.setSelected(false);
-                break;
-        }
     }
 
     private VBox addSlider() {

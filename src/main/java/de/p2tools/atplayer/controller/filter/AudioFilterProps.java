@@ -56,21 +56,14 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
     private final BooleanProperty onlyBookmark = new SimpleBooleanProperty(false);
     private final BooleanProperty noHistory = new SimpleBooleanProperty(false);
 
-    public static final int PODCAST_FILTER_OFF__SHOW_ALL = 0; // alles
-    public static final int PODCAST_FILTER_ON__SHOW_ONLY_POD = 1; // nur Podcast
-    public static final int PODCAST_FILTER_INVERS__SHOW_NO_POD = 2; // keine Podcast
-    private final IntegerProperty podcastOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
-    private final BooleanProperty podcastVis = new SimpleBooleanProperty(false);
-
-
     private final IntegerProperty blacklistOnOff = new SimpleIntegerProperty(BlacklistFilterFactory.BLACKLILST_FILTER_OFF);
 
     public BooleanProperty[] sfBooleanPropArr = {channelVis, genreVis, themeVis, themeTitleVis, titleVis, somewhereVis,
             timeRangeVis, durVis, onlyVis,
-            onlyNew, onlyBookmark, noHistory, podcastVis};
+            onlyNew, onlyBookmark, noHistory};
 
     public StringProperty[] sfStringPropArr = {name, channel, genre, theme, themeTitle, title, somewhere};
-    public IntegerProperty[] sfIntegerPropArr = {timeRange, minDur, maxDur, podcastOnOff, blacklistOnOff};
+    public IntegerProperty[] sfIntegerPropArr = {timeRange, minDur, maxDur, blacklistOnOff};
 
     @Override
     public Config[] getConfigsArr() {
@@ -100,9 +93,6 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
         list.add(new Config_boolProp("onlyNew", onlyNew));
         list.add(new Config_boolProp("onlyBookmark", onlyBookmark));
         list.add(new Config_boolProp("noHistory", noHistory));
-
-        list.add(new Config_intProp("podcastOnOff", podcastOnOff));
-        list.add(new Config_boolProp("podcastVis", podcastVis));
 
         list.add(new Config_intProp("blacklistOnOff", blacklistOnOff));
 
@@ -419,30 +409,6 @@ public class AudioFilterProps extends P2DataSample<AudioFilter> implements Compa
 
     public void setNoHistory(boolean noHistory) {
         this.noHistory.set(noHistory);
-    }
-
-    public int getPodcastOnOff() {
-        return podcastOnOff.get();
-    }
-
-    public IntegerProperty podcastOnOffProperty() {
-        return podcastOnOff;
-    }
-
-    public void setPodcastOnOff(int podcastOnOff) {
-        this.podcastOnOff.set(podcastOnOff);
-    }
-
-    public boolean isPodcastVis() {
-        return podcastVis.get();
-    }
-
-    public BooleanProperty podcastVisProperty() {
-        return podcastVis;
-    }
-
-    public void setPodcastVis(boolean set) {
-        podcastVis.set(set);
     }
 
     public int getBlacklistOnOff() {

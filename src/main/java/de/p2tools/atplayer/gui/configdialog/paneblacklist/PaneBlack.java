@@ -40,7 +40,6 @@ import java.util.Collection;
 public class PaneBlack {
 
     private final ProgData progData;
-    private final P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Keine Podcasts anzeigen");
     private final P2ToggleSwitch tglDouble = new P2ToggleSwitch("Doppelte nicht anzeigen");
     private final Label lblDouble = new Label();
 
@@ -59,7 +58,6 @@ public class PaneBlack {
     }
 
     public void close() {
-        tglPodcast.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST);
         tglDouble.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_DOUBLE);
         slDays.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_MAX_FILM_DAYS);
         slSize.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACKLIST_MIN_FILM_DURATION);
@@ -99,10 +97,7 @@ public class PaneBlack {
         lblSize.setMinWidth(Region.USE_PREF_SIZE);
 
         int row = 0;
-        gridPane.add(tglPodcast, 0, ++row, 3, 1);
-        gridPane.add(btnHelpPodcast, 3, row);
-
-        gridPane.add(tglDouble, 0, ++row, 3, 1);
+        gridPane.add(tglDouble, 0, row, 3, 1);
         gridPane.add(btnHelpDouble, 3, row);
 
         Label lbl = new Label("Anzahl Doppelte:");
@@ -148,11 +143,6 @@ public class PaneBlack {
     }
 
     private void init() {
-        tglPodcast.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST);
-        tglPodcast.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            blackChanged.set(true);
-        });
-
         tglDouble.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_DOUBLE);
         tglDouble.selectedProperty().addListener((observable, oldValue, newValue) -> {
             blackChanged.set(true);

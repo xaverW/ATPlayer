@@ -89,6 +89,7 @@ public class FilterEditDialog extends P2DialogExtra {
         P2ToggleSwitch tglTheme = new P2ToggleSwitch("Thema");
         tglTheme.setMaxWidth(Double.MAX_VALUE);
         tglTheme.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().themeVisProperty());
+        vBox.getChildren().add(tglTheme);
 
         P2ToggleSwitch tglThemeTitle = new P2ToggleSwitch("Thema oder Titel");
         tglThemeTitle.setMaxWidth(Double.MAX_VALUE);
@@ -104,11 +105,6 @@ public class FilterEditDialog extends P2DialogExtra {
         tglSomewhere.setMaxWidth(Double.MAX_VALUE);
         tglSomewhere.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().somewhereVisProperty());
         vBox.getChildren().add(tglSomewhere);
-
-        P2ToggleSwitch tglPodcast = new P2ToggleSwitch("Podcast");
-        tglPodcast.setMaxWidth(Double.MAX_VALUE);
-        tglPodcast.selectedProperty().bindBidirectional(progData.filterWorker.getActFilterSettings().podcastVisProperty());
-        vBox.getChildren().add(tglPodcast);
 
         P2ToggleSwitch tglTimeRange = new P2ToggleSwitch("Zeitraum [Tage]");
         tglTimeRange.setMaxWidth(Double.MAX_VALUE);

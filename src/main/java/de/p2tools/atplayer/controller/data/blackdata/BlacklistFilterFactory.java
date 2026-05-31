@@ -34,7 +34,6 @@ public class BlacklistFilterFactory {
     public static final int BLACKLILST_FILTER_ON = 1;
     public static final int BLACKLILST_FILTER_INVERS = 2;
 
-    private static boolean dontShowPodcast;
     private static boolean dontShowDouble;
     private static long maxFilmDays = 0; // Zeit in ms ab wann erlaubt, oder 0 wenn alles
     private static long minFilmDuration = 0;
@@ -151,9 +150,6 @@ public class BlacklistFilterFactory {
         // liefert TRUE -> wenn der Film zur Blacklist passt, also geblockt werden soll (oder nicht WHITE)
         // Counter werden vorher schon gelöscht und werden gesetzt
 
-        if (dontShowPodcast && audioData.isPodcast()) {
-            return true;
-        }
         if (dontShowDouble && audioData.isDoubleUrl()) {
             return true;
         }
@@ -241,7 +237,6 @@ public class BlacklistFilterFactory {
 
     private static void loadCurrentBlacklistSettings() {
         // die aktuellen allgemeinen Blacklist-Einstellungen laden
-        dontShowPodcast = ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_PODCAST.get();
         dontShowDouble = ProgConfig.SYSTEM_BLACKLIST_SHOW_NO_DOUBLE.get();
 
         try {
