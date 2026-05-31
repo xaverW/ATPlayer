@@ -24,7 +24,6 @@ import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.config.ProgInfos;
 import de.p2tools.atplayer.controller.data.blackdata.BlacklistFilterFactory;
-import de.p2tools.atplayer.gui.tools.TipOfDayFactory;
 import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 import de.p2tools.p2lib.p2event.P2Event;
 import de.p2tools.p2lib.p2event.P2Listener;
@@ -95,7 +94,6 @@ public class LoadAudioFactory {
                 if (!doneAtProgramStart) {
                     doneAtProgramStart = true;
                     UpdateCheckFactory.checkProgUpdate();
-                    TipOfDayFactory.showDialog(ProgData.getInstance(), false);
                 }
             }
         });
