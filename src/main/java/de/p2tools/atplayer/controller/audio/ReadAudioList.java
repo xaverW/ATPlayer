@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.p2lib.mediathek.audio.P2AudioListFactory;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.mediathek.audiodata.AudioDataXml;
 import de.p2tools.p2lib.mediathek.audiodata.AudioList;
 import de.p2tools.p2lib.mediathek.audiolistload.P2ReadAudioWebToAudioList;
 import de.p2tools.p2lib.mediathek.download.MtHttpClient;
@@ -135,7 +136,6 @@ public class ReadAudioList {
         try (InputStream in = P2LoadFactory.selectDecompressor(source, new FileInputStream(source));
              JsonParser jp = new JsonFactory().createParser(in)) {
             new P2ReadAudioWebToAudioList().readData(jp, audioList);
-
         } catch (final FileNotFoundException ex) {
             logList.add("Audioliste existiert nicht: " + source + "\n" + ex.getLocalizedMessage());
             P2Log.errorLog(894512369, "Audioliste existiert nicht: " + source);
@@ -161,7 +161,6 @@ public class ReadAudioList {
                 final int iProgress = (int) (bytesRead * 100/* zum Runden */ / size);
                 if (iProgress != oldProgress) {
                     oldProgress = iProgress;
-//                    notifyProgress(1.0 * iProgress / 100);
                 }
             }
         };
@@ -174,6 +173,14 @@ public class ReadAudioList {
                     try (InputStream is = P2LoadFactory.selectDecompressor(source.toString(), input);
                          JsonParser jp = new JsonFactory().createParser(is)) {
                         new P2ReadAudioWebToAudioList().readData(jp, audioList);
+
+                        // ===============================
+                        // Genre/Theme tauschen
+                        audioList.forEach(audioData -> {
+                            String genre = audioData.getGenre();
+                            audioData.arr[AudioDataXml.AUDIO_GENRE] = audioData.arr[AudioDataXml.AUDIO_THEME];
+                            audioData.arr[AudioDataXml.AUDIO_THEME] = genre;
+                        });
                     }
                 }
             }
