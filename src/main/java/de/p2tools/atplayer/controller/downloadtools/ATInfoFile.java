@@ -33,7 +33,7 @@ public class ATInfoFile {
     public static void writeInfoFile(DownloadData download) {
         if (download.getDestPath().isEmpty()) {
             // das darf nicht sein!
-            // todo
+            // todo not FX!!!
             P2Alert.showErrorAlert("Info File anlegen", "Kann die Info-Datei nicht anlegen.");
             return;
         }

@@ -28,30 +28,8 @@ public class TipListGui {
     public static List<TipData> getTips() {
         List<TipData> pToolTipList = new ArrayList<>();
 
-        String text = "Das Programm hat auch " +
-                "eine verkleinerte Ansicht. " +
-                "Die kann hier gestartet " +
-                "werden.";
-        String image = "/de/p2tools/atplayer/res/tips/gui/gui-2.png";
-        TipData pToolTip = new TipData(text, image);
-        pToolTipList.add(pToolTip);
 
-        text = "Um das Fenster zu verschieben " +
-                "muss man auf einen freien Bereich " +
-                "klicken und dann das Fenster " +
-                "schieben." +
-                "\n\n" +
-                "Mit einem Klick auf ein Eck " +
-                "(und dann ziehen) wird die " +
-                "Größe des Fensters geändert." +
-                "\n\n" +
-                "Der Button oben links stellt " +
-                "wieder die große Ansicht ein.";
-        image = "/de/p2tools/atplayer/res/tips/gui/gui-3.png";
-        pToolTip = new TipData(text, image);
-        pToolTipList.add(pToolTip);
-
-        text = "Das Programm kann in verschiedenen " +
+        String text = "Das Programm kann in verschiedenen " +
                 "Farben angezeigt werden." +
                 "\n\n" +
                 "In den Programm-Einstellungen " +
@@ -59,8 +37,8 @@ public class TipListGui {
                 "Einstellungen dafür. " +
                 "Die Farben können frei ausgewählt " +
                 "werden.";
-        image = "/de/p2tools/atplayer/res/tips/gui/gui-1.png";
-        pToolTip = new TipData(text, image);
+        String image = "/de/p2tools/atplayer/res/tips/gui/gui-3.png";
+        TipData pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);
 
         text = "Mit einem Klick " +
