@@ -17,6 +17,7 @@
 package de.p2tools.atplayer.controller;
 
 import de.p2tools.atplayer.controller.config.*;
+import de.p2tools.atplayer.controller.data.download.DownloadFactory;
 import de.p2tools.atplayer.controller.filter.FilterSamples;
 import de.p2tools.atplayer.gui.startdialog.StartDialogController;
 import de.p2tools.p2lib.P2LibInit;
@@ -156,6 +157,7 @@ public class ProgStartBeforeGui {
     }
 
     private static void initAfterLoad() {
+        DownloadFactory.stopAllDownloads(); // damit das nicht nochmal passiert, dass er automatisch startet
         ProgConfigUpdate.update(); // falls es ein Programmupdate gab, Configs anpassen
         ProgColorList.setColorTheme(); // Farben einrichten
         ProgData.getInstance().downloadList.initDownloads();

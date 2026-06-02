@@ -35,6 +35,39 @@ public class DownloadFactory {
     private static final DecimalFormat f1 = new DecimalFormat("##");
     private static final DecimalFormat f2 = new DecimalFormat("##.0");
 
+
+    public static void stopAllDownloads() {
+        // erst mal alle Downloads stoppen
+        // STATE_INIT = 0;              noch nicht gestartet
+        // STATE_STOPPED = 1;           gestartet und wieder abgebrochen
+        // STATE_STARTED_WAITING = 2;   gestartet, warten auf das Downloaden
+        // STATE_STARTED_RUN = 3;       Download läuft
+        // STATE_FINISHED = 4;          fertig, Ok
+        // STATE_ERROR = 5;             fertig, fehlerhaft
+
+        ProgData.getInstance().downloadList.forEach(download -> {
+            if (download.isStateStartedRun()) {
+                // laufende werden nur gestoppt
+                // DownloadConstants.STATE_STARTED_RUN
+                download.stopDownload();
+            }
+            if (download.isStateStartedWaiting()) {
+                // wartende werden komplett zurückgesetzt
+                // DownloadConstants.STATE_STARTED_WAITING
+                download.resetDownload();
+            }
+
+            Process p = download.getDownloadStartDto().getProcess();
+            if (p != null) {
+                //um Downloads mit ffmpeg zu stoppen!
+                p.destroy();
+            }
+        });
+
+        // fertige löschen
+        ProgData.getInstance().downloadList.removeIf(DownloadData::isStateFinished);
+    }
+
     /**
      * Calculate free disk space on volume and check if the movies can be safely downloaded.
      */

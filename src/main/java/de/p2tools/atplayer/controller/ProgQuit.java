@@ -18,6 +18,7 @@ package de.p2tools.atplayer.controller;
 
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
+import de.p2tools.atplayer.controller.data.download.DownloadFactory;
 import de.p2tools.p2lib.guitools.P2GuiSize;
 import de.p2tools.p2lib.tools.P2ShutDown;
 import de.p2tools.p2lib.tools.log.P2LogMessage;
@@ -61,7 +62,7 @@ public class ProgQuit {
         if (ProgData.getInstance().primaryStage.isShowing()) {
             P2GuiSize.getSize(ProgConfig.SYSTEM_SIZE_GUI, ProgData.getInstance().primaryStage);
         }
-        stopAllDownloads();
+        DownloadFactory.stopAllDownloads();
         writeTabSettings();
         ProgSave.saveAll();
         P2LogMessage.endMsg();
@@ -73,29 +74,6 @@ public class ProgQuit {
             Platform.exit();
             System.exit(0);
         });
-    }
-
-    private static void stopAllDownloads() {
-        //erst mal alle Downloads stoppen
-        ProgData.getInstance().downloadList.forEach(download -> {
-            if (download.isStateStartedRun()) {
-                //laufende werden nur gestoppt
-                download.stopDownload();
-            }
-            if (download.isStateStartedWaiting()) {
-                //wartende werden komplett zurückgesetzt
-                download.resetDownload();
-            }
-            Process p = download.getDownloadStartDto().getProcess();
-            if (p != null) {
-                //um Downloads mit ffmpeg zu stoppen!
-                p.destroy();
-            }
-        });
-
-        //unterbrochene werden gespeichert, dass die Info "Interrupt" erhalten bleibt
-        ProgData.getInstance().downloadList.removeIf(download ->
-                (!download.isStateStopped() && download.isStateFinished()));
     }
 
     private static void writeTabSettings() {
