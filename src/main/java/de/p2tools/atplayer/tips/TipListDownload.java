@@ -29,26 +29,26 @@ public class TipListDownload {
         List<TipData> pToolTipList = new ArrayList<>();
 
 
-        String text = "Ein Favorit ist ein Sender der in Tabelle \"Sender\" " +
-                "dazu ausgewählt wurde. Sie werden hier in der Tabelle " +
+        String text = "Downloads werden hier in der Tabelle " +
                 "angezeigt." +
                 "\n\n" +
-                "Die Sender können gestartet und aus den Favoriten gelöscht " +
-                "werden.\n" +
-                "Es können auch eigene Sender (die nicht in der Senderliste " +
-                "enthalten sind) angelegt werden.";
+                "Links sind Filter mit denen die Anzeige der Downloads gefiltert " +
+                "werden kann." +
+                "\n\n" +
+                "Unten werden Infos des ausgewählten Download angezeigt." +
+                "\n\n" +
+                "In der Tabelle und den Button rechts können die Downloads gestartet, gestoppt und geändert " +
+                "werden.";
         String image = "/de/p2tools/atplayer/res/tips/download/download-1.png";
         TipData pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);
 
-        text = "Oben wird der Sender gestartet und gestoppt\n" +
-                "Das \"Plus\" darunter legt einen eigenen Sender an." +
+        text = "Oben werden Downloads gestartet und gestoppt" +
                 "\n\n" +
-                "Das \"X\" löscht den Sender aus den Favoriten und mit dem " +
-                "\"Zahnrad\" können die Einstellungen des Favoriten geändert " +
-                "werden." +
+                "Das \"X\" löscht einen Download, mit dem \"Zahnrad\" kann er geändert werden." +
                 "\n\n" +
-                "Das \"i\" zeigt Infos zum Sender an.";
+                "Der \"Besen\" räumt die Tabelle auf, es werden fertige gelöscht. Das \"Dreieck nach rechts\" " +
+                "startet einen fertigen Download.";
         image = "/de/p2tools/atplayer/res/tips/download/download-2.png";
         pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);

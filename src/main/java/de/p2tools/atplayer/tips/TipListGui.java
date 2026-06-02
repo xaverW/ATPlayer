@@ -81,7 +81,7 @@ public class TipListGui {
                 "\n\n" +
                 "Das untere Menü ist immer " +
                 "für den jeweils angezeigten " +
-                "Tab (Sender, Favoriten, History).";
+                "Tab (Audios oder Downloads).";
         image = "/de/p2tools/atplayer/res/tips/gui/gui-7.png";
         pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);

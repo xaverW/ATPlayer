@@ -29,30 +29,33 @@ public class TipListAudios {
         List<TipData> pToolTipList = new ArrayList<>();
 
 
-        String text = "Im Tab \"Sender\" wird die Liste " +
-                "aller Sender angezeigt." +
+        String text = "Im Tab \"Audio\" wird die Liste " +
+                "aller Audios angezeigt." +
                 "\n\n" +
                 "Links neben " +
                 "der Tabelle sind die Filter, mit " +
-                "denen die Sender gefiltert werden " +
+                "denen die Audios gefiltert werden " +
                 "können." +
                 "\n\n" +
                 "In der Tabelle und rechts " +
-                "daneben, können Sender gestartet " +
-                "und als Favoriten gespeichert werden. Unter der " +
-                "Tabelle sind Infos zum " +
-                "ausgewählten Sender.";
+                "daneben, können Audios gestartet und gespeichert werden." +
+                "\n\n" +
+                "Unter der Tabelle sind Infos zum " +
+                "ausgewählten Audio.";
         String image = "/de/p2tools/atplayer/res/tips/audio/audio-1.png";
         TipData pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);
 
-        text = "Hier kann der ausgewählte " +
-                "Sender gestartet und wieder gestoppt werden.\n" +
-                "Darunter werden alle in der Tabelle ausgewählte Sender " +
-                "als Favoriten gespeichert." +
+        text = "Hier kann das ausgewählte " +
+                "Audio gestartet.\n" +
+                "Darunter werden alle in der Tabelle ausgewählte Audios " +
+                "als Download angelegt und dann gespeichert." +
                 "\n\n" +
-                "Der gedrehte Pfeil startet einen zufälligen Sender und das \"i\" " +
-                "zeigt den Info-Dialog an.";
+                "Der Doppel-Pfeil startet mehrere Audios die dann hintereinander " +
+                "abgespielt werden." +
+                "\n\n" +
+                "Darunter kann man für die ausgewählten Audios ein Bookmark setzen und " +
+                "auch wieder löschen.";
         image = "/de/p2tools/atplayer/res/tips/audio/audio-2.png";
         pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);

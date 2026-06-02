@@ -28,20 +28,20 @@ public class TipListFilter {
     public static List<TipData> getTips() {
         List<TipData> pToolTipList = new ArrayList<>();
 
-        String text = "Der Filter der Sender ist in " +
+        String text = "Der Filter der Audios ist in " +
                 "mehrere Bereiche geteilt. " +
                 "Oben sind die Textfilter " +
                 "(z.B.: Sender, Genre, ..)." +
                 "\n\n" +
                 "Danach " +
                 "kommen die Filter die nach " +
-                "Sender-Eigenschaften (z.B.: " +
-                "Bitrate, ..) suchen." +
+                "Eigenschaften (z.B.: " +
+                "nur neue, ..) suchen." +
                 "\n\n" +
                 "Unten sind die Einstellungen " +
                 "der Filter. Dort kann ausgewählt " +
                 "werden, welche Filter angezeigt " +
-                "werden sollen. Dort können auch Filtereinstellungen " +
+                "werden sollen (Zahnrad). Dort können auch Filtereinstellungen " +
                 "in Profilen gespeichert und " +
                 "wieder abgerufen werden." +
                 "\n\n" +
@@ -73,7 +73,7 @@ public class TipListFilter {
                 "\n\n" +
                 "Das beinhaltet, " +
                 "welche Filter (Sender, Genre, ..) eingeschaltet sind. Auch der Suchtext eines Filters " +
-                "(z.B. \"Rock\") wird im Profil gespeichert." +
+                "(z.B. \"Info\") wird im Profil gespeichert." +
                 "\n\n" +
                 "Mit der Auswahlbox wählt man eins aus, das " +
                 "dann auch eingestellt wird. " +
@@ -83,7 +83,8 @@ public class TipListFilter {
                 "Mit dem \"Plus\" wird ein neues Profil angelegt. Der " +
                 "\"Pfeil nach oben\" stellt das ausgewählte Profil wieder her. " +
                 "Der \"Pfeil nach unten\" speichert die aktuellen Filtereinstellungen in " +
-                "dem ausgewählten Profil. In dem Menü darunter können die Profile verwaltet (Sortiert, ..) " +
+                "dem ausgewählten Profil. " +
+                "In dem Menü darunter können die Profile verwaltet (Sortiert, ..) " +
                 "werden.";
         image = "/de/p2tools/atplayer/res/tips/filter/filter-3.png";
         pToolTip = new TipData(text, image);
