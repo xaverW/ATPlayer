@@ -46,7 +46,7 @@ public class TipListAudios {
         TipData pToolTip = new TipData(text, image);
         pToolTipList.add(pToolTip);
 
-        text = "Hier kann das ausgewählte " +
+        text = "Hier wird das ausgewählte " +
                 "Audio gestartet.\n" +
                 "Darunter werden alle in der Tabelle ausgewählte Audios " +
                 "als Download angelegt und dann gespeichert." +
