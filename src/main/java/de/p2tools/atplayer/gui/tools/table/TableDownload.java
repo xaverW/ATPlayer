@@ -16,10 +16,14 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.controller.data.download.DownloadData;
+import de.p2tools.p2lib.guitools.ptable.P2TableFactory;
 import de.p2tools.p2lib.mediathek.download.DownloadSize;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.GermanStringIntSorter;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -47,6 +51,10 @@ public class TableDownload extends PTable<DownloadData> {
         Table.resetTable(this);
     }
 
+    private void refreshTable() {
+        P2TableFactory.refreshTable(this);
+    }
+
     private void initFileRunnerColumn() {
         getColumns().clear();
 
@@ -60,6 +68,12 @@ public class TableDownload extends PTable<DownloadData> {
         ProgColorList.DOWNLOAD_RUN.colorProperty().addListener((a, b, c) -> refresh());
         ProgColorList.DOWNLOAD_FINISHED.colorProperty().addListener((a, b, c) -> refresh());
         ProgColorList.DOWNLOAD_ERROR.colorProperty().addListener((a, b, c) -> refresh());
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.REFRESH_TABLE) {
+            @Override
+            public void pingGui(P2Event runEvent) {
+                refreshTable();
+            }
+        });
 
         final TableColumn<DownloadData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));

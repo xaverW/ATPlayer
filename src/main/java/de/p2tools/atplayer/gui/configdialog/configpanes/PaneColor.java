@@ -41,7 +41,6 @@ import java.util.Collection;
 public class PaneColor {
     private final Stage stage;
     private final P2ToggleSwitch tglDarkTheme = new P2ToggleSwitch("Dunkles Erscheinungsbild der Programmoberfläche");
-    private final P2ToggleSwitch tglBlackWhiteIcon = new P2ToggleSwitch("Schwarz-Weiße Icons");
     private final TableView<P2ColorData> tableViewFont = new TableView<>();
     private final TableView<P2ColorData> tableViewBackground = new TableView<>();
 
@@ -51,14 +50,12 @@ public class PaneColor {
 
     public void close() {
         tglDarkTheme.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
-        tglBlackWhiteIcon.selectedProperty().unbindBidirectional(ProgConfig.SYSTEM_BLACK_WHITE_ICON);
     }
 
     public void make(Collection<TitledPane> result) {
         tglDarkTheme.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_DARK_THEME);
         final Button btnHelpTheme = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.DARK_THEME);
-        tglBlackWhiteIcon.selectedProperty().bindBidirectional(ProgConfig.SYSTEM_BLACK_WHITE_ICON);
         final Button btnHelpIcon = P2Button.helpButton(stage, "Erscheinungsbild der Programmoberfläche",
                 HelpText.BLACK_WHITE_ICON);
 
@@ -90,10 +87,6 @@ public class PaneColor {
         gridPane.add(tglDarkTheme, 0, row);
         gridPane.add(btnHelpTheme, 1, row);
         GridPane.setHalignment(btnHelpTheme, HPos.RIGHT);
-
-        gridPane.add(tglBlackWhiteIcon, 0, ++row);
-        gridPane.add(btnHelpIcon, 1, row);
-        GridPane.setHalignment(btnHelpIcon, HPos.RIGHT);
 
         gridPane.add(new Label("Schriftfarben"), 0, ++row, 2, 1);
         gridPane.add(tableViewFont, 0, ++row, 2, 1);

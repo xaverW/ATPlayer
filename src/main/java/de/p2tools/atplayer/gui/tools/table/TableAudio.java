@@ -16,12 +16,16 @@
 
 package de.p2tools.atplayer.gui.tools.table;
 
+import de.p2tools.atplayer.controller.config.PEvents;
 import de.p2tools.atplayer.controller.config.ProgColorList;
 import de.p2tools.atplayer.controller.config.ProgConfig;
 import de.p2tools.atplayer.controller.config.ProgData;
 import de.p2tools.atplayer.gui.dialog.AudioInfoDialogController;
+import de.p2tools.p2lib.guitools.ptable.P2TableFactory;
 import de.p2tools.p2lib.mediathek.audio.AudioSize;
 import de.p2tools.p2lib.mediathek.audiodata.AudioData;
+import de.p2tools.p2lib.p2event.P2Event;
+import de.p2tools.p2lib.p2event.P2Listener;
 import de.p2tools.p2lib.tools.date.P2Date;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -46,6 +50,10 @@ public class TableAudio extends PTable<AudioData> {
         Table.resetTable(this);
     }
 
+    private void refreshTable() {
+        P2TableFactory.refreshTable(this);
+    }
+
     private void initFileRunnerColumn() {
         getColumns().clear();
 
@@ -57,6 +65,12 @@ public class TableAudio extends PTable<AudioData> {
         // bei Farbänderung der Schriftfarbe klappt es damit besser: Table.refresh_table(table)
         ProgConfig.SYSTEM_THEME_CHANGED.addListener((u, o, n) -> de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(this));
         ProgColorList.AUDIO_NEW.colorProperty().addListener((a, b, c) -> de.p2tools.p2lib.guitools.ptable.P2TableFactory.refreshTable(this));
+        ProgData.getInstance().pEventHandler.addListener(new P2Listener(PEvents.REFRESH_TABLE) {
+            @Override
+            public void pingGui(P2Event runEvent) {
+                refreshTable();
+            }
+        });
 
         final TableColumn<AudioData, Integer> nrColumn = new TableColumn<>("Nr");
         nrColumn.setCellValueFactory(new PropertyValueFactory<>("no"));

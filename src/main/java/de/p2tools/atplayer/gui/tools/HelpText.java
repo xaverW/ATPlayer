@@ -205,6 +205,12 @@ public class HelpText {
                     + P2LibConst.LINE_SEPARATORx2 +
                     "Das Programm wird aber nicht ungefragt ersetzt." +
                     "\n";
+    
+    public static final String DARK_THEME_TABLE =
+            "Die Farben in den Tabellen Filme/Downloads für z.B. neue Filme " +
+                    "können hier eingestellt werden. Getrennt für das Dark-Theme und " +
+                    "das Light-Theme." +
+                    "\n";
 
     public static final String GUI_FILMS_EDIT_FILTER =
             "Suchbeginn verzögern: Hier kann eine Zeit eingestellt werden, die den Start der " +
