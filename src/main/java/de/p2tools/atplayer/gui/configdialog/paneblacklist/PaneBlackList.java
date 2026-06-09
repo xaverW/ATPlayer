@@ -118,7 +118,7 @@ public class PaneBlackList {
         addConfigs(vBox);
         vBox.getChildren().add(ProgData.busy.getBusyHbox(Busy.BUSY_SRC.PANE_BLACKLIST));
 
-        TitledPane tpBlack = new TitledPane(controlBlackListNotFilmFilter ? "Blacklist" : "Filme ausschließen", vBox);
+        TitledPane tpBlack = new TitledPane(controlBlackListNotFilmFilter ? "Blacklist" : "Audios ausschließen", vBox);
         result.add(tpBlack);
         tpBlack.setMaxHeight(Double.MAX_VALUE);
     }

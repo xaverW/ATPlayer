@@ -66,7 +66,7 @@ public class LogMsgFactory {
         list.add(P2Log.LILNE3);
 
         if (play) {
-            list.add("Film abspielen");
+            list.add("Audio abspielen");
         } else {
             list.add("Download mit dem LADEN STARTEN");
             list.add("Ziel: " + download.getDestPathFile());
@@ -105,7 +105,7 @@ public class LogMsgFactory {
         if (download.isStateStopped()) {
             list.add("Download wurde abgebrochen");
         } else if (download.getSource().equals(DownloadConstants.SRC_BUTTON)) {
-            list.add("Film fertig");
+            list.add("Audio fertig");
 
         } else {
             if (download.isStateFinished()) {

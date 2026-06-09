@@ -205,7 +205,7 @@ public class HelpText {
                     + P2LibConst.LINE_SEPARATORx2 +
                     "Das Programm wird aber nicht ungefragt ersetzt." +
                     "\n";
-    
+
     public static final String DARK_THEME_TABLE =
             "Die Farben in den Tabellen Filme/Downloads für z.B. neue Filme " +
                     "können hier eingestellt werden. Getrennt für das Dark-Theme und " +
@@ -273,7 +273,7 @@ public class HelpText {
     public static final String DOWNLOAD_CANCEL =
             "Wenn ein Download abgebrochen oder gelöscht wird, " +
                     "können zusätzlich auch noch bereits geladene oder " +
-                    "teilweise geladene Filmdateien " +
+                    "teilweise geladene Audiodateien " +
                     "mit gelöscht werden." +
                     "\n\n" +
                     "Wird \"Nicht mehr fragen\" angeklickt, wird die Einstellung in Zukunft " +

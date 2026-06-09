@@ -90,8 +90,8 @@ public class DownloadStopDialogController extends P2DialogExtra {
         }
 
         getHBoxTitle().getChildren().add(list.isEmpty() ?
-                new Label("Es liegen keine Filmdateien vor") :
-                new Label("Filmdateien existieren bereits"));
+                new Label("Es liegen keine Audiodateien vor") :
+                new Label("Audiodateien existieren bereits"));
 
         vBoxCont.setPadding(new Insets(P2LibConst.PADDING));
         vBoxCont.setSpacing(P2LibConst.PADDING_VBOX);
@@ -140,9 +140,9 @@ public class DownloadStopDialogController extends P2DialogExtra {
         getHBoxOverButtons().getChildren().addAll(chkAlways);
 
         btnDelDlFile.setTooltip(new Tooltip("Der Download wird abgebrochen oder gelöscht," +
-                "\ndie angefangenen Filmdateien werden auch gelöscht."));
+                "\ndie angefangenen Audiodateien werden auch gelöscht."));
         btnDelDl.setTooltip(new Tooltip("Der Download wird abgebrochen oder gelöscht," +
-                "\ndie angefangenen Filmdateien werden aber NICHT gelöscht."));
+                "\ndie angefangenen Audiodateien werden aber NICHT gelöscht."));
         btnCancel.setTooltip(new Tooltip("Es wird nichts abgebrochen oder gelöscht."));
 
         btnDelDlFile.setOnAction(event -> {
