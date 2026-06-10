@@ -55,7 +55,7 @@ public class StartDialogController extends P2DialogExtra {
     private StartPaneUpdate startPaneUpdate;
     private StartPaneColor startPaneColor;
     private StartPaneAudio startPaneAudio;
-    private StartPaneFilm startPaneFilm;
+    private StartPanePath startPanePath;
 
     public StartDialogController() {
         super(null, null, "Starteinstellungen");
@@ -80,7 +80,7 @@ public class StartDialogController extends P2DialogExtra {
         startPaneUpdate.close();
         startPaneColor.close();
         startPaneAudio.close();
-        startPaneFilm.close();
+        startPanePath.close();
         super.close();
     }
 
@@ -104,7 +104,7 @@ public class StartDialogController extends P2DialogExtra {
         initTopButton(btnStart2, State.START_2);
         initTopButton(btnUpdate, State.UPDATE);
         initTopButton(btnColor, State.COLOR);
-        initTopButton(btnFilm, State.FILM);
+        initTopButton(btnFilm, State.AUDIO);
         initTopButton(btnPath, State.PATH);
 
         VBox.setVgrow(vBoxCont, Priority.ALWAYS);
@@ -139,13 +139,13 @@ public class StartDialogController extends P2DialogExtra {
         startPaneColor = new StartPaneColor(getStage());
         startPaneColor.make();
 
-        //filmPane
+        //audioPane
         startPaneAudio = new StartPaneAudio(getStage());
         startPaneAudio.make();
 
         //pathPane
-        startPaneFilm = new StartPaneFilm(getStage());
-        startPaneFilm.makePath();
+        startPanePath = new StartPanePath(getStage());
+        startPanePath.makePath();
     }
 
     private void initButton() {
@@ -171,9 +171,9 @@ public class StartDialogController extends P2DialogExtra {
                     aktState = State.COLOR;
                     break;
                 case COLOR:
-                    aktState = State.FILM;
+                    aktState = State.AUDIO;
                     break;
-                case FILM:
+                case AUDIO:
                     aktState = State.PATH;
                     break;
                 case PATH:
@@ -195,11 +195,11 @@ public class StartDialogController extends P2DialogExtra {
                 case COLOR:
                     aktState = State.UPDATE;
                     break;
-                case FILM:
+                case AUDIO:
                     aktState = State.COLOR;
                     break;
                 case PATH:
-                    aktState = State.FILM;
+                    aktState = State.AUDIO;
                     break;
             }
             selectActPane();
@@ -243,11 +243,11 @@ public class StartDialogController extends P2DialogExtra {
                 vBoxCont.getChildren().add(startPaneColor);
                 setButtonStyle(btnColor);
                 break;
-            case FILM:
+            case AUDIO:
                 btnPrev.setDisable(false);
                 btnNext.setDisable(false);
                 vBoxCont.getChildren().clear();
-                vBoxCont.getChildren().add(startPaneFilm);
+                vBoxCont.getChildren().add(startPaneAudio);
                 setButtonStyle(btnFilm);
                 break;
             case PATH:
@@ -255,7 +255,7 @@ public class StartDialogController extends P2DialogExtra {
                 btnNext.setDisable(true);
                 btnOk.setDisable(false);
                 vBoxCont.getChildren().clear();
-                vBoxCont.getChildren().add(startPaneAudio);
+                vBoxCont.getChildren().add(startPanePath);
                 setButtonStyle(btnPath);
                 break;
             default:
@@ -291,5 +291,5 @@ public class StartDialogController extends P2DialogExtra {
         btnPrev.setTooltip(new Tooltip("Vorherige Einstellmöglichkeit"));
     }
 
-    private enum State {START_1, START_2, UPDATE, COLOR, FILM, PATH}
+    private enum State {START_1, START_2, UPDATE, COLOR, AUDIO, PATH}
 }

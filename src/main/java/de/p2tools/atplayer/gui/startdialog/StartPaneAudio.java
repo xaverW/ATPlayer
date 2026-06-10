@@ -44,11 +44,6 @@ public class StartPaneAudio extends VBox {
         this.progData = null;
     }
 
-    public StartPaneAudio(Stage stage, ProgData progData) {
-        this.stage = stage;
-        this.progData = progData;
-    }
-
     public void close() {
         slDays.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_LOAD_FILMLIST_MAX_DAYS);
         slDuration.valueProperty().unbindBidirectional(ProgConfig.SYSTEM_LOAD_FILMLIST_MIN_DURATION);

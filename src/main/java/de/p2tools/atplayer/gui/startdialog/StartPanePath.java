@@ -46,13 +46,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StartPaneFilm extends VBox {
+public class StartPanePath extends VBox {
     private final Stage stage;
     private GridPane gridPane = new GridPane();
     private int row = 0;
     private List<UnBind> unbindList = new ArrayList<>();
 
-    public StartPaneFilm(Stage stage) {
+    public StartPanePath(Stage stage) {
         this.stage = stage;
     }
 
