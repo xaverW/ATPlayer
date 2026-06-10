@@ -24,17 +24,20 @@ Unterstützt wird Windows und Linux. Das Programm benötigt eine aktuelle Java-V
 
 ## Download
 
-Das Programm wird in drei Paketen angeboten. Diese unterscheiden sich nur im “Zubehör”, das Programm selbst ist in allen Paketen identisch:
+Das Programm wird in verschiedenen Paketen angeboten. Diese unterscheiden sich nur im "Zubehör", das Programm selbst ist in allen Paketen identisch:
 
-**ATPlayer-XX.zip**
+* **ATPlayer-XX__Windows==SETUP__DATUM.exe**  
+Mit diesem Programmpaket kann das Programm auf Windows installiert werden: Doppelklick und alles wird eingerichtet, auch ein Startbutton auf dem Desktop. Es muss auch kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung ist enthalten).
 
-Das Programmpaket bringt nur das Programm und die benötigten Hilfsprogramme aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit.
+* **ATPlayer-XX__DATUM.zip**  
+Das Programmpaket bringt nur das Programm und die benötigten Hilfsprogramme aber kein Java mit. Auf dem Rechner muss eine Java-Laufzeitumgebung ab Java17 installiert sein. Dieses Programmpaket kann auf allen Betriebssystemen verwendet werden. Es bringt Startdateien für Linux und Windows mit. Zip entpacken und Programm Starten.
 
+* **ATPlayer-XX__Linux+Java__DATUM.zip**  
+**ATPlayer-XX__Win+Java__DATUM.zip**  
+Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner: "Java" und kommt von jdk.java.net). Zip entpacken und Programm starten.
 
-**ATPlayer-XX__Linux+Java.zip**  
-**ATPlayer-XX__Windows+Java.zip**
-
-Diese Programmpakete bringen die Java-Laufzeitumgebung mit und sind nur für das angegebene Betriebssystem: Linux oder Windows. Es muss kein Java auf dem System installiert sein. (Die Java-Laufzeitumgebung liegt im Ordner “Java” und kommt von jdk.java.net).
+* **ATPlayer-XX__Raspberry__DATUM.zip**  
+Das ist ein Programmpaket, das auf einem Raspberry verwendet werden kann. Java muss installiert sein und es muss ein aktueller Raspberry mit einer 64Bit CPU mit AArch64 Architektur sein. Zip entpacken und Programm Starten.
 
 Linux / Windows:  
 Der VLC-Player muss installiert sein.  

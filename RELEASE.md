@@ -1,6 +1,20 @@
 # ATPlayer
 <br />
 
+**Release 2**
+
+* Verbesserungen beim Programmstart
+* Version zum Installieren für Windows
+* Version für den Raspberry
+* Suche nach Updates überarbeitet
+* Anzeige (Tabelle Audios) an die geänderte neue Audio-Liste angepasst
+* Es gibt einen neuen Hilfe-Dialog -> Menü-Hilfe
+* Das Programm hat ein ganz neues Icon-Set bekommen. Das sind jetzt Vektorgrafiken. Diese lassen sich verlustfrei skalieren und farblich anpassen. So kann die Optik (Farbe der Icon, Programmoberfläche, ..) im Programm an vielen Stellen jetzt geändert werden (-> Einstellungen)
+* Filter "Theme" hinzugefügt
+* Filter "Irgendwo" überarbeitet
+* ...
+
+
 **Release 1**
 
 * Es gibt jetzt eine Blacklist, Audios können so ausgeblendet werden (in den Programmeinstellungen oder unter dem Filter)
